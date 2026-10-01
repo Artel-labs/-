@@ -1,6 +1,8 @@
 .dpo-sheet-handle{display:none}
 @media (pointer:coarse){.dpo-sheet-handle{display:block;width:36px;height:4px;border-radius:999px;background:rgb(33 30 27 / .18);margin:-6px auto 12px;touch-action:none}
+@layer widgets {
 html.vi-mode .dpo-sheet-handle{background:#000 !important}
+}
 }
 @media (prefers-reduced-motion:reduce){.dpo-sheet-handle{display:none !important}
 }

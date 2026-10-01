@@ -1,3 +1,5 @@
+@layer widgets, landing;
+
 @layer landing {
     body { margin: 0; background: #FBF9F5;
       font-family: 'HSE Sans', 'IBM Plex Sans', sans-serif; }

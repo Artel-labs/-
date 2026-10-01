@@ -59,8 +59,11 @@ html.vi-mode .dpo-app-next a{border:2px solid #000}
 @media (prefers-reduced-motion:reduce){.dpo-app-backdrop,.dpo-app{transition:none}
 .dpo-app-submit:active{transform:none}
 }
+@layer widgets {
 html.vi-mode .dpo-app{background:#fff !important;border:2px solid #000 !important}
 html.vi-mode .dpo-app input,html.vi-mode .dpo-app textarea,html.vi-mode .dpo-app select{background:#fff !important;border:2px solid #000 !important}
 html.vi-mode .dpo-app-done-program{background:#fff !important;border:2px solid #000 !important}
 html.vi-mode .dpo-app-backdrop{background:rgba(0,0,0,.8) !important}
-html.vi-mode .dpo-app :focus-visible{outline:3px solid #000 !important;outline-offset:2px}
+html.vi-mode .dpo-app :focus-visible{outline:3px solid #000 !important}
+}
+html.vi-mode .dpo-app :focus-visible{outline-offset:2px}
