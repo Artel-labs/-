@@ -3,6 +3,7 @@ from typing import Any
 from django import forms
 from django.contrib.auth.signals import user_login_failed
 from unfold.forms import AuthenticationForm
+from unfold.widgets import UnfoldAdminTextInputWidget
 
 from accounts.two_factor import passes
 
@@ -15,7 +16,7 @@ class TwoFactorLoginForm(AuthenticationForm):
         required=False,
         max_length=12,
         help_text="Только если включён двухфакторный вход.",
-        widget=forms.TextInput(attrs={"autocomplete": "one-time-code", "inputmode": "numeric"}),
+        widget=UnfoldAdminTextInputWidget(attrs={"autocomplete": "one-time-code", "inputmode": "numeric"}),
     )
 
     def clean(self) -> dict[str, Any]:
@@ -33,5 +34,5 @@ class CodeForm(forms.Form):
     code = forms.CharField(
         label="Код из приложения",
         max_length=12,
-        widget=forms.TextInput(attrs={"autocomplete": "one-time-code", "inputmode": "numeric"}),
+        widget=UnfoldAdminTextInputWidget(attrs={"autocomplete": "one-time-code", "inputmode": "numeric"}),
     )
