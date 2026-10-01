@@ -42,6 +42,7 @@ roll_back() {
     echo "Ошибка развёртывания. Возвращаем прошлую версию кода ($(git rev-parse --short "$1"))." >&2
     git reset --hard "$1"
     docker compose up -d --build --remove-orphans || true
+    wait_for_site || true
     echo "Прошлая версия запущена. Если миграции успели примениться и сайт работает с ошибками," >&2
     echo "восстановите базу из копии, сделанной перед миграциями: sudo ./scripts/restore.sh $(latest_backup)" >&2
     exit 1
