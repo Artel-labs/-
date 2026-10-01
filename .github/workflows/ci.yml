@@ -73,13 +73,29 @@ jobs:
     needs: [backend, frontend, scripts]
     steps:
       - uses: actions/checkout@v7
-      - run: sudo env HTTP_PORT=8080 HTTPS_PORT=8443 ./scripts/install.sh --https
+      - name: Порты 80 и 443 заняты другим сайтом
+        run: |
+          sudo nohup python3 -m http.server 80 >/dev/null 2>&1 &
+          sudo nohup python3 -m http.server 443 >/dev/null 2>&1 &
+          sleep 1
+      - name: Установка одной командой без параметров
+        run: |
+          set -o pipefail
+          sudo ./scripts/install.sh | tee install.log
+      - name: Администратор создан, порты выбраны автоматически
+        run: |
+          grep -q "^Логин:  admin" install.log
+          grep -q "^HTTPS_PORT=8443" .env
       - run: curl -fsSk https://127.0.0.1:8443/api/health
       - run: curl -fsSk https://127.0.0.1:8443/ | grep -q "Центр дополнительного профессионального образования"
       - run: curl -fsSk -o /dev/null https://127.0.0.1:8443/admin/login/
       - name: HTTP перенаправляет на HTTPS с нужным портом
         run: |
           curl -sI http://127.0.0.1:8080/ | grep -qi "^location: https://127.0.0.1:8443/"
+      - name: Адрес без https на HTTPS-порту тоже перенаправляется
+        run: |
+          curl -sI http://127.0.0.1:8443/ | grep -qi "^location: https://127.0.0.1:8443/"
+      - run: sudo ./scripts/create-admin.sh | grep -q "уже есть"
       - run: sudo ./scripts/backup.sh
       - run: sudo ./scripts/restore.sh "$(sudo find /var/backups/dpo -name 'dpo-*.sql.gz' | head -n 1)" --yes
       - run: curl -fsSk https://127.0.0.1:8443/api/health

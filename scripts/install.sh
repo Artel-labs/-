@@ -6,6 +6,7 @@ PACKAGES=(git curl openssl iproute2)
 DOCKER_PACKAGES=(docker.io docker-compose-v2)
 REQUESTED_HTTP_PORT="${HTTP_PORT:-}"
 REQUESTED_HTTPS_PORT="${HTTPS_PORT:-}"
+PORT_PAIRS=("80 443" "8080 8443" "8081 8444" "8082 8445" "8083 8446")
 
 main() {
     local root owner mode
@@ -32,14 +33,15 @@ main() {
     enable_mode "$root" "$mode" "$@"
     echo
     echo "Готово. Сайт: $(site_url "$mode")/  Админка: $(site_url "$mode")/admin/"
+    echo "Логин и пароль администратора — выше, в шаге 5."
     echo "Если группа docker добавлена только что, перезайдите по SSH, чтобы запускать скрипты без sudo."
 }
 
 choose_mode() {
     case "$1" in
-        --https) echo https ;;
-        --http | "") echo http ;;
-        *) echo "Неизвестный параметр: $1. Допустимо: --https [домен-или-IP ...] или --http" >&2; exit 1 ;;
+        --https | "") echo https ;;
+        --http) echo http ;;
+        *) echo "Неизвестный параметр: $1. Допустимо: --http или --https [домен-или-IP ...] (по умолчанию HTTPS)" >&2; exit 1 ;;
     esac
 }
 
@@ -97,9 +99,33 @@ apply_requested_ports() {
     fi
 }
 
+port_free() {
+    ! ss -ltnH "( sport = :$1 )" | grep -q .
+}
+
+free_port_pair() {
+    local pair http https
+    for pair in "${PORT_PAIRS[@]}"; do
+        read -r http https <<< "$pair"
+        if port_free "$http" && port_free "$https"; then
+            echo "$pair"
+            return 0
+        fi
+    done
+    echo "Не нашлось свободных портов из списка: ${PORT_PAIRS[*]}. Укажите свои: sudo env HTTP_PORT=… HTTPS_PORT=… ./scripts/install.sh" >&2
+    return 1
+}
+
+chosen_ports() {
+    local http https
+    read -r http https <<< "$(free_port_pair)"
+    echo "${REQUESTED_HTTP_PORT:-$http} ${REQUESTED_HTTPS_PORT:-$https}"
+}
+
 write_env() {
-    local file="$1" hosts name
+    local file="$1" hosts name http https
     shift
+    read -r http https <<< "$(chosen_ports)"
     hosts="$(server_ip),localhost,127.0.0.1"
     for name in "$@"; do
         hosts="$hosts,$name"
@@ -113,8 +139,8 @@ DB_NAME=dpo
 DB_USER=dpo
 DB_PASSWORD=$(new_secret)
 DB_ROOT_PASSWORD=$(new_secret)
-HTTP_PORT=${DEFAULT_HTTP_PORT}
-HTTPS_PORT=${DEFAULT_HTTPS_PORT}
+HTTP_PORT=${http}
+HTTPS_PORT=${https}
 TLS_DIR=/etc/dpo/tls
 BACKUP_DIR=/var/backups/dpo
 BACKUP_KEEP=30
@@ -124,6 +150,8 @@ ENV_FILE
 start_site() {
     cd "$1"
     require_free_ports
+    echo "Скачиваем образы и собираем сайт. На медленном канале это займёт 5–10 минут — не прерывайте:"
+    echo "при сбое сети скрипт сам повторит попытку."
     fetch_and_build
     docker compose up -d --wait db
     docker compose run --rm app python manage.py migrate --noinput
@@ -137,7 +165,7 @@ require_free_ports() {
         return
     fi
     for port in "$HTTP_PORT" "$HTTPS_PORT"; do
-        if ss -ltnH "( sport = :$port )" | grep -q .; then
+        if ! port_free "$port"; then
             echo "Порт $port уже занят другой программой:" >&2
             ss -ltnpH "( sport = :$port )" >&2 || true
             echo "Укажите свободные порты, например: sudo env HTTP_PORT=8080 HTTPS_PORT=8443 ./scripts/install.sh" >&2
@@ -147,11 +175,7 @@ require_free_ports() {
 }
 
 create_admin() {
-    if [[ -t 0 ]]; then
-        "$1/scripts/create-admin.sh"
-    else
-        echo "Нет терминала для ввода пароля. Создайте администратора позже: ./scripts/create-admin.sh"
-    fi
+    "$1/scripts/create-admin.sh"
 }
 
 enable_backups() {
