@@ -122,7 +122,9 @@ function buildBar(): HTMLElement {
   clear.type = "button";
   openButton.type = "button";
   clear.addEventListener("click", clearAll);
-  openButton.addEventListener("click", open);
+  openButton.addEventListener("click", () => {
+    open(openButton);
+  });
   actions.append(clear, openButton);
   node.append(count, element("span", "cmp-bar-hint"), element("ul", "cmp-bar-list"), actions);
   document.body.appendChild(node);
@@ -272,7 +274,7 @@ function buildWindow(cards: HTMLElement[]): { node: HTMLElement; heading: HTMLEl
   return { node, heading, close };
 }
 
-function open(): void {
+function open(opener: HTMLElement): void {
   const cards = selected.map(cardById).filter((card): card is HTMLElement => card !== null);
   if (cards.length < MIN_TO_COMPARE || dialog) {
     return;
@@ -283,6 +285,7 @@ function open(): void {
   dialog = openDialog({
     backdrop,
     initialFocus: heading,
+    opener,
     onClosed: () => {
       dialog = null;
     },

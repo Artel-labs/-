@@ -58,10 +58,11 @@ function trapTab(event: KeyboardEvent, container: HTMLElement): void {
     return;
   }
   const active = document.activeElement;
-  if (event.shiftKey && (active === first || !container.contains(active))) {
+  const outside = !items.some((item) => item === active);
+  if (event.shiftKey && (active === first || outside)) {
     event.preventDefault();
     last.focus();
-  } else if (!event.shiftKey && (active === last || !container.contains(active))) {
+  } else if (!event.shiftKey && (active === last || outside)) {
     event.preventDefault();
     first.focus();
   }

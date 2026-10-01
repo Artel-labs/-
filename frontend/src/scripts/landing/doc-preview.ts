@@ -41,7 +41,7 @@ function open(button: HTMLElement): void {
   );
   const backdrop = element("div", "doc-backdrop");
   backdrop.appendChild(windowNode);
-  const dialog = openDialog({ backdrop, initialFocus: title });
+  const dialog = openDialog({ backdrop, initialFocus: title, opener: button });
   close.addEventListener("click", () => {
     dialog.close();
   });

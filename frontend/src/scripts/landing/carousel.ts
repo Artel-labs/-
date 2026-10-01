@@ -10,6 +10,8 @@ const DRIFT_TOLERANCE_PX = 2;
 const EDGE_PX = 1;
 const LOOP_ATTRIBUTE = "data-dpo-loop";
 const STOPPED_ATTRIBUTE = "data-dpo-stopped";
+const RESYNC_INTERVAL_MS = 250;
+const RESYNC_TICKS = 41;
 
 interface LoopState {
   position: number | null;
@@ -159,6 +161,17 @@ function wrapLoop(event: Event): void {
   }
 }
 
+function resyncWhileLoading(sync: () => void): void {
+  let ticks = 0;
+  const timer = window.setInterval(() => {
+    sync();
+    ticks += 1;
+    if (ticks >= RESYNC_TICKS) {
+      window.clearInterval(timer);
+    }
+  }, RESYNC_INTERVAL_MS);
+}
+
 export function setupCarousels(): void {
   document.addEventListener("click", onScrollButton);
   document.addEventListener("click", onPauseButton);
@@ -177,6 +190,7 @@ export function setupCarousels(): void {
   };
   window.addEventListener("resize", syncAll);
   syncAll();
+  resyncWhileLoading(syncAll);
   const looped = [...document.querySelectorAll<HTMLElement>(`[${LOOP_ATTRIBUTE}]`)];
   watchVisibility(looped);
 }
