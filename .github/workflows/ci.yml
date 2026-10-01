@@ -101,6 +101,8 @@ jobs:
           grep -q "Повышение квалификации и переподготовка юристов" <<< "$page"
           test "$(grep -o 'class="dpo-teacher"' <<< "$page" | wc -l)" -gt 0
           grep -q 'Все 34 программ с фильтрами' <<< "$page"
+          grep -q 'id="cookieBanner"' <<< "$page"
+          grep -q 'id="channelInvite"' <<< "$page"
       - name: Страница программы собирается из базы
         run: |
           page="https://127.0.0.1:8443/programs/angliyskoe-kontraktnoe-pravo-856421092.html"
