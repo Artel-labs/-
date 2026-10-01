@@ -1,0 +1,13 @@
+{% if rows %}
+<div class="dpo-bars">
+  {% for row in rows %}
+  <div class="dpo-bar">
+    <span class="dpo-bar-name" title="{{ row.name }}">{{ row.name }}</span>
+    <span class="dpo-bar-value">{{ row.value }}</span>
+    <progress class="dpo-bar-track" max="100" value="{{ row.percent }}">{{ row.percent }}%</progress>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p class="dpo-muted">Нет данных за период.</p>
+{% endif %}

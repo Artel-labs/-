@@ -1,22 +1,16 @@
-from urllib.parse import urlsplit
-
 from django.http import HttpRequest
 from ninja import Router, Status
 
 from applications.parsing import parse
 from applications.schemas import AcceptedOut, ApplicationIn, FieldErrorOut, RejectedOut
 from applications.service import accept
+from core.origin import same_origin
 
 router = Router(tags=["Заявки"])
 
 OK = 200
 BAD_REQUEST = 400
 FORBIDDEN = 403
-
-
-def same_origin(request: HttpRequest) -> bool:
-    origin = request.headers.get("Origin")
-    return not origin or urlsplit(origin).netloc == request.get_host()
 
 
 @router.post("", response={OK: AcceptedOut, BAD_REQUEST: RejectedOut, FORBIDDEN: RejectedOut})

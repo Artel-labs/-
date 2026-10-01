@@ -1,3 +1,4 @@
+import { trackEvent } from "../analytics";
 import type { CrowMascot } from "../crow/mascot";
 import { mountDoneCrow, mountErrorCrow } from "../crow/inline";
 import { closeButton, element, openDialog, type Dialog } from "../dialog";
@@ -55,7 +56,10 @@ class ApplicationDialog {
         onDone: () => {
           this.doneCrow = mountDoneCrow(showDone(this.sheet, this.context.topic, this.chosenProgram().title));
         },
-        onFailed: () => {
+        onFailed: (status, invalidFields) => {
+          if (!invalidFields) {
+            trackEvent({ type: "form_error", label: `http ${String(status)}` });
+          }
           this.shakeCrow();
         },
       });

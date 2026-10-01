@@ -1,0 +1,83 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'analytics/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dpo-analytics">
+  <nav class="dpo-range" aria-label="Период">
+    <span>Период:</span>
+    {% for range in ranges %}
+    <a href="?days={{ range }}" class="dpo-range-link{% if range == days %} is-active{% endif %}"{% if range == days %} aria-current="page"{% endif %}>{{ range }} дней</a>
+    {% endfor %}
+    <a href="?days={{ days }}" class="dpo-range-link">Обновить</a>
+  </nav>
+  <p class="dpo-muted">Сформировано: {{ summary.generated_at|date:"d.m.Y H:i" }} · период {{ summary.days }} дн.</p>
+
+  <div class="dpo-kpis">
+    {% for kpi in kpis %}
+    <div class="dpo-card dpo-kpi"><div class="dpo-kpi-value">{{ kpi.value }}</div><div class="dpo-kpi-title">{{ kpi.title }}</div></div>
+    {% endfor %}
+  </div>
+
+  <section class="dpo-card">
+    <h2>Выводы для менеджера</h2>
+    <ul class="dpo-insights">{% for line in summary.insights %}<li>{{ line }}</li>{% endfor %}</ul>
+  </section>
+
+  <div class="dpo-grid">
+    <section class="dpo-card"><h2>Что смотрят (страницы)</h2>{% include "admin/analytics/event/bars.html" with rows=top_pages %}</section>
+    <section class="dpo-card"><h2>Интерес к программам</h2>{% include "admin/analytics/event/bars.html" with rows=top_programs %}<p class="dpo-muted">Переходы к программам на hse.ru</p></section>
+    <section class="dpo-card"><h2>Что интереснее всего</h2>{% include "admin/analytics/event/bars.html" with rows=top_interest %}<p class="dpo-muted">Сводный рейтинг: просмотры + время + клики по программам</p></section>
+    <section class="dpo-card"><h2>Куда ходят (переходы)</h2>{% include "admin/analytics/event/bars.html" with rows=top_paths %}</section>
+    <section class="dpo-card"><h2>Источники трафика</h2>{% include "admin/analytics/event/bars.html" with rows=top_referrers %}</section>
+    <section class="dpo-card">
+      <h2>Устройства</h2>{% include "admin/analytics/event/bars.html" with rows=devices %}
+      <h2>Фильтры каталога</h2>{% include "admin/analytics/event/bars.html" with rows=top_filters %}
+    </section>
+  </div>
+
+  <section class="dpo-card">
+    <h2>Активность по часам</h2>
+    <div class="dpo-hours">
+      {% for hour in hours %}
+      <div class="dpo-hour" title="{{ hour.title }}">
+        <progress class="dpo-hour-bar" max="100" value="{{ hour.percent }}">{{ hour.title }}</progress>
+        <span class="dpo-hour-label">{{ hour.label }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    <h2>Динамика просмотров</h2>
+    {% include "admin/analytics/event/bars.html" with rows=daily %}
+  </section>
+
+  <section class="dpo-card"><h2>Глубина прокрутки</h2>{% include "admin/analytics/event/bars.html" with rows=scroll_depth %}</section>
+
+  <section class="dpo-card">
+    <h2>Последние сессии</h2>
+    <div class="dpo-table-wrap">
+      <table class="dpo-table">
+        <thead><tr><th>Сессия</th><th>Устройство</th><th>Стр.</th><th>Время</th><th>Маршрут</th><th>Программы</th></tr></thead>
+        <tbody>
+          {% for session in sessions %}
+          <tr>
+            <td>{{ session.sid }}</td>
+            <td>{{ session.device }}</td>
+            <td>{{ session.pages }}</td>
+            <td>{{ session.duration }}</td>
+            <td>{% for step in session.path %}<span class="dpo-chip">{{ step }}</span>{% endfor %}</td>
+            <td>{{ session.programs|slice:":3"|join:", "|default:"–" }}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="6" class="dpo-muted">Нет сессий за период.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p class="dpo-muted">Данные собирает сам сайт: без IP-адресов и без передачи третьим лицам, только после согласия посетителя на cookies. События хранятся {{ retention_days }} дней.</p>
+  </section>
+</div>
+{% endblock %}

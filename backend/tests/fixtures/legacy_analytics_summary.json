@@ -1,0 +1,1967 @@
+{
+ "7": {
+  "rangeDays": 7,
+  "kpis": {
+   "visitors": 21,
+   "visitorsToday": 1,
+   "pageviews": 23,
+   "pageviewsToday": 1,
+   "sessions": 21,
+   "avgDurationMs": 192491,
+   "avgPages": 1,
+   "bounceRate": 95.2,
+   "programClicks": 2
+  },
+  "devices": {
+   "mobile": 4,
+   "tablet": 9,
+   "desktop": 8
+  },
+  "hours": [
+   0,
+   0,
+   2,
+   2,
+   2,
+   3,
+   1,
+   1,
+   1,
+   3,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   1,
+   1,
+   1,
+   2,
+   1,
+   0
+  ],
+  "daily": [
+   {
+    "day": "2026-09-25",
+    "pageviews": 2
+   },
+   {
+    "day": "2026-09-26",
+    "pageviews": 6
+   },
+   {
+    "day": "2026-09-27",
+    "pageviews": 3
+   },
+   {
+    "day": "2026-09-28",
+    "pageviews": 5
+   },
+   {
+    "day": "2026-09-29",
+    "pageviews": 1
+   },
+   {
+    "day": "2026-09-30",
+    "pageviews": 3
+   },
+   {
+    "day": "2026-10-01",
+    "pageviews": 1
+   }
+  ],
+  "topPages": [
+   {
+    "name": "programs/angliyskoe-kontraktnoe-pravo-856421092",
+    "count": 6,
+    "key": "/programs/angliyskoe-kontraktnoe-pravo-856421092.html"
+   },
+   {
+    "name": "ratings",
+    "count": 5,
+    "key": "/ratings"
+   },
+   {
+    "name": "Каталог программ",
+    "count": 4,
+    "key": "/%D0%9A%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC.html"
+   },
+   {
+    "name": "privacy",
+    "count": 3,
+    "key": "/privacy"
+   },
+   {
+    "name": "Главная",
+    "count": 2,
+    "key": "/"
+   },
+   {
+    "name": "Главная",
+    "count": 2,
+    "key": "/index.html"
+   },
+   {
+    "name": "catalog",
+    "count": 1,
+    "key": "/catalog"
+   }
+  ],
+  "topPrograms": [
+   {
+    "name": "Корпоративное право: основные проблемы",
+    "count": 1,
+    "key": "Корпоративное право: основные проблемы"
+   },
+   {
+    "name": "Актуальные вопросы гражданского права",
+    "count": 1,
+    "key": "Актуальные вопросы гражданского права"
+   }
+  ],
+  "topFilters": [
+   {
+    "name": "format:online",
+    "count": 1,
+    "key": "format:online"
+   },
+   {
+    "name": "sphere:digital",
+    "count": 1,
+    "key": "sphere:digital"
+   }
+  ],
+  "topReferrers": [
+   {
+    "name": "pravo.hse.ru",
+    "count": 5,
+    "key": "pravo.hse.ru"
+   },
+   {
+    "name": "www.google.com",
+    "count": 3,
+    "key": "www.google.com"
+   },
+   {
+    "name": "yandex.ru",
+    "count": 3,
+    "key": "yandex.ru"
+   }
+  ],
+  "topPaths": [
+   {
+    "name": "ratings → Главная",
+    "count": 1,
+    "key": "ratings → Главная"
+   }
+  ],
+  "topInterest": [
+   {
+    "name": "programs/angliyskoe-kontraktnoe-pravo-856421092",
+    "count": 53.296,
+    "key": "/programs/angliyskoe-kontraktnoe-pravo-856421092.html"
+   },
+   {
+    "name": "privacy",
+    "count": 15.367666666666667,
+    "key": "/privacy"
+   },
+   {
+    "name": "ratings",
+    "count": 14.196466666666666,
+    "key": "/ratings"
+   },
+   {
+    "name": "Каталог программ",
+    "count": 6.6513333333333335,
+    "key": "/%D0%9A%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC.html"
+   },
+   {
+    "name": "📘 Корпоративное право: основные проблемы",
+    "count": 5,
+    "key": "program:Корпоративное право: основные проблемы"
+   },
+   {
+    "name": "📘 Актуальные вопросы гражданского права",
+    "count": 5,
+    "key": "program:Актуальные вопросы гражданского права"
+   },
+   {
+    "name": "Главная",
+    "count": 2,
+    "key": "/"
+   },
+   {
+    "name": "Главная",
+    "count": 2,
+    "key": "/index.html"
+   },
+   {
+    "name": "catalog",
+    "count": 1,
+    "key": "/catalog"
+   }
+  ],
+  "scrollDepth": [
+   {
+    "name": "privacy",
+    "avg": 25,
+    "max": 25
+   }
+  ],
+  "recentSessions": [
+   {
+    "sid": "s0000065",
+    "device": "mobile",
+    "pages": 1,
+    "durationMs": 0,
+    "path": [
+     "catalog"
+    ],
+    "programs": [],
+    "startedAt": "2026-10-01T04:35:16.742Z"
+   },
+   {
+    "sid": "s0000112",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 558406,
+    "path": [
+     "programs/angliyskoe-kontraktnoe-pravo-856421092"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-30T17:26:33.401Z"
+   },
+   {
+    "sid": "s0000076",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 0,
+    "path": [
+     "programs/angliyskoe-kontraktnoe-pravo-856421092"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-30T02:39:54.945Z"
+   },
+   {
+    "sid": "s0000108",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 0,
+    "path": [
+     "Главная"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-30T02:21:53.569Z"
+   },
+   {
+    "sid": "s0000014",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 159080,
+    "path": [
+     "Каталог программ"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-29T03:27:59.260Z"
+   },
+   {
+    "sid": "s0000004",
+    "device": "mobile",
+    "pages": 1,
+    "durationMs": 0,
+    "path": [
+     "ratings"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-28T16:17:00.497Z"
+   },
+   {
+    "sid": "s0000037",
+    "device": "desktop",
+    "pages": 1,
+    "durationMs": 0,
+    "path": [
+     "Главная"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-28T07:01:04.080Z"
+   },
+   {
+    "sid": "s0000059",
+    "device": "desktop",
+    "pages": 1,
+    "durationMs": 0,
+    "path": [
+     "Каталог программ"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-28T06:23:33.638Z"
+   },
+   {
+    "sid": "s0000074",
+    "device": "desktop",
+    "pages": 2,
+    "durationMs": 223130,
+    "path": [
+     "ratings",
+     "Главная"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-27T23:52:40.778Z"
+   },
+   {
+    "sid": "s0000096",
+    "device": "desktop",
+    "pages": 1,
+    "durationMs": 437748,
+    "path": [
+     "privacy"
+    ],
+    "programs": [
+     "Актуальные вопросы гражданского права"
+    ],
+    "startedAt": "2026-09-27T18:46:48.263Z"
+   },
+   {
+    "sid": "s0000071",
+    "device": "desktop",
+    "pages": 1,
+    "durationMs": 304312,
+    "path": [
+     "privacy"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-27T06:26:10.642Z"
+   },
+   {
+    "sid": "s0000064",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 521788,
+    "path": [
+     "ratings"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-27T00:34:47.003Z"
+   },
+   {
+    "sid": "s0000063",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 501021,
+    "path": [
+     "programs/angliyskoe-kontraktnoe-pravo-856421092"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-26T06:35:39.529Z"
+   },
+   {
+    "sid": "s0000026",
+    "device": "mobile",
+    "pages": 1,
+    "durationMs": 0,
+    "path": [
+     "ratings"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-26T05:45:19.998Z"
+   },
+   {
+    "sid": "s0000062",
+    "device": "desktop",
+    "pages": 1,
+    "durationMs": 575695,
+    "path": [
+     "programs/angliyskoe-kontraktnoe-pravo-856421092"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-26T02:23:43.463Z"
+   },
+   {
+    "sid": "s0000104",
+    "device": "desktop",
+    "pages": 1,
+    "durationMs": 100607,
+    "path": [
+     "Каталог программ"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-26T01:40:50.011Z"
+   },
+   {
+    "sid": "s0000015",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 297989,
+    "path": [
+     "programs/angliyskoe-kontraktnoe-pravo-856421092"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-26T00:20:29.115Z"
+   },
+   {
+    "sid": "s0000006",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 0,
+    "path": [
+     "privacy"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-25T15:57:59.077Z"
+   },
+   {
+    "sid": "s0000018",
+    "device": "desktop",
+    "pages": 1,
+    "durationMs": 227604,
+    "path": [
+     "programs/angliyskoe-kontraktnoe-pravo-856421092"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-25T14:50:55.238Z"
+   },
+   {
+    "sid": "s0000009",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 66574,
+    "path": [
+     "Главная"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-24T19:28:21.131Z"
+   }
+  ],
+  "insights": [
+   "Самая интересная программа: «Корпоративное право: основные проблемы» (1 кликов).",
+   "Самая посещаемая страница: «programs/angliyskoe-kontraktnoe-pravo-856421092» (6 просмотров).",
+   "Высокий показатель отказов 95.2% — проверьте первый экран и навигацию.",
+   "Среднее время на сайте: 3 мин.",
+   "Пик активности: 05:00–05:59.",
+   "С мобильных: 19% посетителей."
+  ]
+ },
+ "30": {
+  "rangeDays": 30,
+  "kpis": {
+   "visitors": 89,
+   "visitorsToday": 1,
+   "pageviews": 105,
+   "pageviewsToday": 1,
+   "sessions": 89,
+   "avgDurationMs": 163824,
+   "avgPages": 1.1,
+   "bounceRate": 85.4,
+   "programClicks": 19
+  },
+  "devices": {
+   "mobile": 26,
+   "tablet": 23,
+   "desktop": 40
+  },
+  "hours": [
+   2,
+   2,
+   5,
+   3,
+   3,
+   6,
+   6,
+   5,
+   10,
+   6,
+   4,
+   1,
+   4,
+   7,
+   1,
+   8,
+   4,
+   7,
+   5,
+   2,
+   4,
+   2,
+   1,
+   7
+  ],
+  "daily": [
+   {
+    "day": "2026-09-02",
+    "pageviews": 3
+   },
+   {
+    "day": "2026-09-03",
+    "pageviews": 3
+   },
+   {
+    "day": "2026-09-04",
+    "pageviews": 1
+   },
+   {
+    "day": "2026-09-05",
+    "pageviews": 3
+   },
+   {
+    "day": "2026-09-06",
+    "pageviews": 3
+   },
+   {
+    "day": "2026-09-07",
+    "pageviews": 2
+   },
+   {
+    "day": "2026-09-08",
+    "pageviews": 4
+   },
+   {
+    "day": "2026-09-09",
+    "pageviews": 5
+   },
+   {
+    "day": "2026-09-10",
+    "pageviews": 4
+   },
+   {
+    "day": "2026-09-11",
+    "pageviews": 3
+   },
+   {
+    "day": "2026-09-12",
+    "pageviews": 4
+   },
+   {
+    "day": "2026-09-13",
+    "pageviews": 5
+   },
+   {
+    "day": "2026-09-14",
+    "pageviews": 2
+   },
+   {
+    "day": "2026-09-15",
+    "pageviews": 3
+   },
+   {
+    "day": "2026-09-16",
+    "pageviews": 4
+   },
+   {
+    "day": "2026-09-17",
+    "pageviews": 2
+   },
+   {
+    "day": "2026-09-18",
+    "pageviews": 4
+   },
+   {
+    "day": "2026-09-19",
+    "pageviews": 4
+   },
+   {
+    "day": "2026-09-20",
+    "pageviews": 7
+   },
+   {
+    "day": "2026-09-21",
+    "pageviews": 4
+   },
+   {
+    "day": "2026-09-22",
+    "pageviews": 3
+   },
+   {
+    "day": "2026-09-23",
+    "pageviews": 7
+   },
+   {
+    "day": "2026-09-24",
+    "pageviews": 2
+   },
+   {
+    "day": "2026-09-25",
+    "pageviews": 2
+   },
+   {
+    "day": "2026-09-26",
+    "pageviews": 6
+   },
+   {
+    "day": "2026-09-27",
+    "pageviews": 3
+   },
+   {
+    "day": "2026-09-28",
+    "pageviews": 5
+   },
+   {
+    "day": "2026-09-29",
+    "pageviews": 1
+   },
+   {
+    "day": "2026-09-30",
+    "pageviews": 3
+   },
+   {
+    "day": "2026-10-01",
+    "pageviews": 1
+   }
+  ],
+  "topPages": [
+   {
+    "name": "programs/angliyskoe-kontraktnoe-pravo-856421092",
+    "count": 21,
+    "key": "/programs/angliyskoe-kontraktnoe-pravo-856421092.html"
+   },
+   {
+    "name": "ratings",
+    "count": 19,
+    "key": "/ratings"
+   },
+   {
+    "name": "catalog",
+    "count": 15,
+    "key": "/catalog"
+   },
+   {
+    "name": "privacy",
+    "count": 14,
+    "key": "/privacy"
+   },
+   {
+    "name": "Каталог программ",
+    "count": 13,
+    "key": "/%D0%9A%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC.html"
+   },
+   {
+    "name": "Главная",
+    "count": 12,
+    "key": "/"
+   },
+   {
+    "name": "Главная",
+    "count": 11,
+    "key": "/index.html"
+   }
+  ],
+  "topPrograms": [
+   {
+    "name": "Актуальные вопросы гражданского права",
+    "count": 7,
+    "key": "Актуальные вопросы гражданского права"
+   },
+   {
+    "name": "Нейроправо",
+    "count": 5,
+    "key": "Нейроправо"
+   },
+   {
+    "name": "Цифровое право для бизнеса",
+    "count": 4,
+    "key": "Цифровое право для бизнеса"
+   },
+   {
+    "name": "Корпоративное право: основные проблемы",
+    "count": 2,
+    "key": "Корпоративное право: основные проблемы"
+   },
+   {
+    "name": "hse",
+    "count": 1,
+    "key": "hse"
+   }
+  ],
+  "topFilters": [
+   {
+    "name": "format:online",
+    "count": 6,
+    "key": "format:online"
+   },
+   {
+    "name": "type:ПК",
+    "count": 5,
+    "key": "type:ПК"
+   },
+   {
+    "name": "sphere:digital",
+    "count": 4,
+    "key": "sphere:digital"
+   }
+  ],
+  "topReferrers": [
+   {
+    "name": "yandex.ru",
+    "count": 21,
+    "key": "yandex.ru"
+   },
+   {
+    "name": "www.google.com",
+    "count": 21,
+    "key": "www.google.com"
+   },
+   {
+    "name": "pravo.hse.ru",
+    "count": 19,
+    "key": "pravo.hse.ru"
+   }
+  ],
+  "topPaths": [
+   {
+    "name": "programs/angliyskoe-kontraktnoe-pravo-856421092 → Главная",
+    "count": 3,
+    "key": "programs/angliyskoe-kontraktnoe-pravo-856421092 → Главная"
+   },
+   {
+    "name": "Каталог программ → programs/angliyskoe-kontraktnoe-pravo-856421092",
+    "count": 2,
+    "key": "Каталог программ → programs/angliyskoe-kontraktnoe-pravo-856421092"
+   },
+   {
+    "name": "privacy → Главная",
+    "count": 2,
+    "key": "privacy → Главная"
+   },
+   {
+    "name": "Главная → catalog",
+    "count": 1,
+    "key": "Главная → catalog"
+   },
+   {
+    "name": "Главная → ratings",
+    "count": 1,
+    "key": "Главная → ratings"
+   },
+   {
+    "name": "ratings → privacy",
+    "count": 1,
+    "key": "ratings → privacy"
+   },
+   {
+    "name": "Каталог программ → Главная",
+    "count": 1,
+    "key": "Каталог программ → Главная"
+   },
+   {
+    "name": "ratings → Главная",
+    "count": 1,
+    "key": "ratings → Главная"
+   },
+   {
+    "name": "Каталог программ → ratings",
+    "count": 1,
+    "key": "Каталог программ → ratings"
+   }
+  ],
+  "topInterest": [
+   {
+    "name": "programs/angliyskoe-kontraktnoe-pravo-856421092",
+    "count": 72.49895,
+    "key": "/programs/angliyskoe-kontraktnoe-pravo-856421092.html"
+   },
+   {
+    "name": "privacy",
+    "count": 45.50063333333333,
+    "key": "/privacy"
+   },
+   {
+    "name": "ratings",
+    "count": 44.03521666666667,
+    "key": "/ratings"
+   },
+   {
+    "name": "catalog",
+    "count": 41.75279999999999,
+    "key": "/catalog"
+   },
+   {
+    "name": "Каталог программ",
+    "count": 41.13138333333334,
+    "key": "/%D0%9A%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC.html"
+   },
+   {
+    "name": "📘 Актуальные вопросы гражданского права",
+    "count": 35,
+    "key": "program:Актуальные вопросы гражданского права"
+   },
+   {
+    "name": "📘 Нейроправо",
+    "count": 25,
+    "key": "program:Нейроправо"
+   },
+   {
+    "name": "Главная",
+    "count": 24.358066666666666,
+    "key": "/index.html"
+   },
+   {
+    "name": "📘 Цифровое право для бизнеса",
+    "count": 20,
+    "key": "program:Цифровое право для бизнеса"
+   },
+   {
+    "name": "Главная",
+    "count": 14.4391,
+    "key": "/"
+   },
+   {
+    "name": "📘 Корпоративное право: основные проблемы",
+    "count": 10,
+    "key": "program:Корпоративное право: основные проблемы"
+   },
+   {
+    "name": "📘 hse",
+    "count": 5,
+    "key": "program:hse"
+   }
+  ],
+  "scrollDepth": [
+   {
+    "name": "Главная",
+    "avg": 88,
+    "max": 100
+   },
+   {
+    "name": "programs/angliyskoe-kontraktnoe-pravo-856421092",
+    "avg": 67,
+    "max": 75
+   },
+   {
+    "name": "ratings",
+    "avg": 67,
+    "max": 75
+   },
+   {
+    "name": "Каталог программ",
+    "avg": 58,
+    "max": 75
+   },
+   {
+    "name": "privacy",
+    "avg": 42,
+    "max": 50
+   }
+  ],
+  "recentSessions": [
+   {
+    "sid": "s0000065",
+    "device": "mobile",
+    "pages": 1,
+    "durationMs": 0,
+    "path": [
+     "catalog"
+    ],
+    "programs": [],
+    "startedAt": "2026-10-01T04:35:16.742Z"
+   },
+   {
+    "sid": "s0000112",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 558406,
+    "path": [
+     "programs/angliyskoe-kontraktnoe-pravo-856421092"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-30T17:26:33.401Z"
+   },
+   {
+    "sid": "s0000076",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 0,
+    "path": [
+     "programs/angliyskoe-kontraktnoe-pravo-856421092"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-30T02:39:54.945Z"
+   },
+   {
+    "sid": "s0000108",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 0,
+    "path": [
+     "Главная"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-30T02:21:53.569Z"
+   },
+   {
+    "sid": "s0000014",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 159080,
+    "path": [
+     "Каталог программ"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-29T03:27:59.260Z"
+   },
+   {
+    "sid": "s0000004",
+    "device": "mobile",
+    "pages": 1,
+    "durationMs": 0,
+    "path": [
+     "ratings"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-28T16:17:00.497Z"
+   },
+   {
+    "sid": "s0000037",
+    "device": "desktop",
+    "pages": 1,
+    "durationMs": 0,
+    "path": [
+     "Главная"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-28T07:01:04.080Z"
+   },
+   {
+    "sid": "s0000059",
+    "device": "desktop",
+    "pages": 1,
+    "durationMs": 0,
+    "path": [
+     "Каталог программ"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-28T06:23:33.638Z"
+   },
+   {
+    "sid": "s0000074",
+    "device": "desktop",
+    "pages": 2,
+    "durationMs": 223130,
+    "path": [
+     "ratings",
+     "Главная"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-27T23:52:40.778Z"
+   },
+   {
+    "sid": "s0000096",
+    "device": "desktop",
+    "pages": 1,
+    "durationMs": 437748,
+    "path": [
+     "privacy"
+    ],
+    "programs": [
+     "Актуальные вопросы гражданского права"
+    ],
+    "startedAt": "2026-09-27T18:46:48.263Z"
+   },
+   {
+    "sid": "s0000071",
+    "device": "desktop",
+    "pages": 1,
+    "durationMs": 304312,
+    "path": [
+     "privacy"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-27T06:26:10.642Z"
+   },
+   {
+    "sid": "s0000064",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 521788,
+    "path": [
+     "ratings"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-27T00:34:47.003Z"
+   },
+   {
+    "sid": "s0000063",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 501021,
+    "path": [
+     "programs/angliyskoe-kontraktnoe-pravo-856421092"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-26T06:35:39.529Z"
+   },
+   {
+    "sid": "s0000026",
+    "device": "mobile",
+    "pages": 1,
+    "durationMs": 0,
+    "path": [
+     "ratings"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-26T05:45:19.998Z"
+   },
+   {
+    "sid": "s0000062",
+    "device": "desktop",
+    "pages": 1,
+    "durationMs": 575695,
+    "path": [
+     "programs/angliyskoe-kontraktnoe-pravo-856421092"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-26T02:23:43.463Z"
+   },
+   {
+    "sid": "s0000104",
+    "device": "desktop",
+    "pages": 1,
+    "durationMs": 100607,
+    "path": [
+     "Каталог программ"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-26T01:40:50.011Z"
+   },
+   {
+    "sid": "s0000015",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 297989,
+    "path": [
+     "programs/angliyskoe-kontraktnoe-pravo-856421092"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-26T00:20:29.115Z"
+   },
+   {
+    "sid": "s0000006",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 0,
+    "path": [
+     "privacy"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-25T15:57:59.077Z"
+   },
+   {
+    "sid": "s0000018",
+    "device": "desktop",
+    "pages": 1,
+    "durationMs": 227604,
+    "path": [
+     "programs/angliyskoe-kontraktnoe-pravo-856421092"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-25T14:50:55.238Z"
+   },
+   {
+    "sid": "s0000009",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 66574,
+    "path": [
+     "Главная"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-24T19:28:21.131Z"
+   }
+  ],
+  "insights": [
+   "Самая интересная программа: «Актуальные вопросы гражданского права» (7 кликов).",
+   "Самая посещаемая страница: «programs/angliyskoe-kontraktnoe-pravo-856421092» (21 просмотров).",
+   "Высокий показатель отказов 85.4% — проверьте первый экран и навигацию.",
+   "Среднее время на сайте: 3 мин.",
+   "Пик активности: 08:00–08:59.",
+   "С мобильных: 29% посетителей."
+  ]
+ },
+ "90": {
+  "rangeDays": 90,
+  "kpis": {
+   "visitors": 120,
+   "visitorsToday": 1,
+   "pageviews": 139,
+   "pageviewsToday": 1,
+   "sessions": 120,
+   "avgDurationMs": 152574,
+   "avgPages": 1.1,
+   "bounceRate": 87.5,
+   "programClicks": 27
+  },
+  "devices": {
+   "mobile": 32,
+   "tablet": 31,
+   "desktop": 57
+  },
+  "hours": [
+   2,
+   4,
+   6,
+   3,
+   5,
+   7,
+   11,
+   7,
+   11,
+   7,
+   5,
+   1,
+   6,
+   8,
+   3,
+   8,
+   5,
+   7,
+   8,
+   2,
+   9,
+   2,
+   4,
+   8
+  ],
+  "daily": [
+   {
+    "day": "2026-07-04",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-05",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-06",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-07",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-08",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-09",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-10",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-11",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-12",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-13",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-14",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-15",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-16",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-17",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-18",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-19",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-20",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-21",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-22",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-23",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-24",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-25",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-26",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-27",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-28",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-29",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-30",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-07-31",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-08-01",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-08-02",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-08-03",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-08-04",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-08-05",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-08-06",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-08-07",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-08-08",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-08-09",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-08-10",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-08-11",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-08-12",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-08-13",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-08-14",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-08-15",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-08-16",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-08-17",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-08-18",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-08-19",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-08-20",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-08-21",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-08-22",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-08-23",
+    "pageviews": 8
+   },
+   {
+    "day": "2026-08-24",
+    "pageviews": 3
+   },
+   {
+    "day": "2026-08-25",
+    "pageviews": 6
+   },
+   {
+    "day": "2026-08-26",
+    "pageviews": 5
+   },
+   {
+    "day": "2026-08-27",
+    "pageviews": 0
+   },
+   {
+    "day": "2026-08-28",
+    "pageviews": 2
+   },
+   {
+    "day": "2026-08-29",
+    "pageviews": 2
+   },
+   {
+    "day": "2026-08-30",
+    "pageviews": 4
+   },
+   {
+    "day": "2026-08-31",
+    "pageviews": 2
+   },
+   {
+    "day": "2026-09-01",
+    "pageviews": 4
+   },
+   {
+    "day": "2026-09-02",
+    "pageviews": 3
+   },
+   {
+    "day": "2026-09-03",
+    "pageviews": 3
+   },
+   {
+    "day": "2026-09-04",
+    "pageviews": 1
+   },
+   {
+    "day": "2026-09-05",
+    "pageviews": 3
+   },
+   {
+    "day": "2026-09-06",
+    "pageviews": 3
+   },
+   {
+    "day": "2026-09-07",
+    "pageviews": 2
+   },
+   {
+    "day": "2026-09-08",
+    "pageviews": 4
+   },
+   {
+    "day": "2026-09-09",
+    "pageviews": 5
+   },
+   {
+    "day": "2026-09-10",
+    "pageviews": 4
+   },
+   {
+    "day": "2026-09-11",
+    "pageviews": 3
+   },
+   {
+    "day": "2026-09-12",
+    "pageviews": 4
+   },
+   {
+    "day": "2026-09-13",
+    "pageviews": 5
+   },
+   {
+    "day": "2026-09-14",
+    "pageviews": 2
+   },
+   {
+    "day": "2026-09-15",
+    "pageviews": 3
+   },
+   {
+    "day": "2026-09-16",
+    "pageviews": 4
+   },
+   {
+    "day": "2026-09-17",
+    "pageviews": 2
+   },
+   {
+    "day": "2026-09-18",
+    "pageviews": 4
+   },
+   {
+    "day": "2026-09-19",
+    "pageviews": 4
+   },
+   {
+    "day": "2026-09-20",
+    "pageviews": 7
+   },
+   {
+    "day": "2026-09-21",
+    "pageviews": 4
+   },
+   {
+    "day": "2026-09-22",
+    "pageviews": 3
+   },
+   {
+    "day": "2026-09-23",
+    "pageviews": 7
+   },
+   {
+    "day": "2026-09-24",
+    "pageviews": 2
+   },
+   {
+    "day": "2026-09-25",
+    "pageviews": 2
+   },
+   {
+    "day": "2026-09-26",
+    "pageviews": 6
+   },
+   {
+    "day": "2026-09-27",
+    "pageviews": 3
+   },
+   {
+    "day": "2026-09-28",
+    "pageviews": 5
+   },
+   {
+    "day": "2026-09-29",
+    "pageviews": 1
+   },
+   {
+    "day": "2026-09-30",
+    "pageviews": 3
+   },
+   {
+    "day": "2026-10-01",
+    "pageviews": 1
+   }
+  ],
+  "topPages": [
+   {
+    "name": "programs/angliyskoe-kontraktnoe-pravo-856421092",
+    "count": 27,
+    "key": "/programs/angliyskoe-kontraktnoe-pravo-856421092.html"
+   },
+   {
+    "name": "ratings",
+    "count": 25,
+    "key": "/ratings"
+   },
+   {
+    "name": "privacy",
+    "count": 20,
+    "key": "/privacy"
+   },
+   {
+    "name": "catalog",
+    "count": 18,
+    "key": "/catalog"
+   },
+   {
+    "name": "Каталог программ",
+    "count": 18,
+    "key": "/%D0%9A%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC.html"
+   },
+   {
+    "name": "Главная",
+    "count": 16,
+    "key": "/"
+   },
+   {
+    "name": "Главная",
+    "count": 15,
+    "key": "/index.html"
+   }
+  ],
+  "topPrograms": [
+   {
+    "name": "Актуальные вопросы гражданского права",
+    "count": 10,
+    "key": "Актуальные вопросы гражданского права"
+   },
+   {
+    "name": "Нейроправо",
+    "count": 6,
+    "key": "Нейроправо"
+   },
+   {
+    "name": "Цифровое право для бизнеса",
+    "count": 4,
+    "key": "Цифровое право для бизнеса"
+   },
+   {
+    "name": "hse",
+    "count": 4,
+    "key": "hse"
+   },
+   {
+    "name": "Корпоративное право: основные проблемы",
+    "count": 3,
+    "key": "Корпоративное право: основные проблемы"
+   }
+  ],
+  "topFilters": [
+   {
+    "name": "format:online",
+    "count": 8,
+    "key": "format:online"
+   },
+   {
+    "name": "type:ПК",
+    "count": 6,
+    "key": "type:ПК"
+   },
+   {
+    "name": "sphere:digital",
+    "count": 6,
+    "key": "sphere:digital"
+   }
+  ],
+  "topReferrers": [
+   {
+    "name": "yandex.ru",
+    "count": 28,
+    "key": "yandex.ru"
+   },
+   {
+    "name": "pravo.hse.ru",
+    "count": 27,
+    "key": "pravo.hse.ru"
+   },
+   {
+    "name": "www.google.com",
+    "count": 26,
+    "key": "www.google.com"
+   }
+  ],
+  "topPaths": [
+   {
+    "name": "programs/angliyskoe-kontraktnoe-pravo-856421092 → Главная",
+    "count": 3,
+    "key": "programs/angliyskoe-kontraktnoe-pravo-856421092 → Главная"
+   },
+   {
+    "name": "Каталог программ → programs/angliyskoe-kontraktnoe-pravo-856421092",
+    "count": 2,
+    "key": "Каталог программ → programs/angliyskoe-kontraktnoe-pravo-856421092"
+   },
+   {
+    "name": "privacy → Главная",
+    "count": 2,
+    "key": "privacy → Главная"
+   },
+   {
+    "name": "privacy → ratings",
+    "count": 1,
+    "key": "privacy → ratings"
+   },
+   {
+    "name": "Главная → programs/angliyskoe-kontraktnoe-pravo-856421092",
+    "count": 1,
+    "key": "Главная → programs/angliyskoe-kontraktnoe-pravo-856421092"
+   },
+   {
+    "name": "Главная → catalog",
+    "count": 1,
+    "key": "Главная → catalog"
+   },
+   {
+    "name": "Главная → ratings",
+    "count": 1,
+    "key": "Главная → ratings"
+   },
+   {
+    "name": "ratings → privacy",
+    "count": 1,
+    "key": "ratings → privacy"
+   },
+   {
+    "name": "Каталог программ → Главная",
+    "count": 1,
+    "key": "Каталог программ → Главная"
+   },
+   {
+    "name": "ratings → Главная",
+    "count": 1,
+    "key": "ratings → Главная"
+   },
+   {
+    "name": "Каталог программ → ratings",
+    "count": 1,
+    "key": "Каталог программ → ratings"
+   }
+  ],
+  "topInterest": [
+   {
+    "name": "programs/angliyskoe-kontraktnoe-pravo-856421092",
+    "count": 80.5762,
+    "key": "/programs/angliyskoe-kontraktnoe-pravo-856421092.html"
+   },
+   {
+    "name": "privacy",
+    "count": 63.355983333333334,
+    "key": "/privacy"
+   },
+   {
+    "name": "ratings",
+    "count": 51.947433333333336,
+    "key": "/ratings"
+   },
+   {
+    "name": "Каталог программ",
+    "count": 50.704750000000004,
+    "key": "/%D0%9A%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC.html"
+   },
+   {
+    "name": "📘 Актуальные вопросы гражданского права",
+    "count": 50,
+    "key": "program:Актуальные вопросы гражданского права"
+   },
+   {
+    "name": "catalog",
+    "count": 46.82373333333332,
+    "key": "/catalog"
+   },
+   {
+    "name": "Главная",
+    "count": 31.31161666666667,
+    "key": "/index.html"
+   },
+   {
+    "name": "📘 Нейроправо",
+    "count": 30,
+    "key": "program:Нейроправо"
+   },
+   {
+    "name": "Главная",
+    "count": 26.00585,
+    "key": "/"
+   },
+   {
+    "name": "📘 Цифровое право для бизнеса",
+    "count": 20,
+    "key": "program:Цифровое право для бизнеса"
+   },
+   {
+    "name": "📘 hse",
+    "count": 20,
+    "key": "program:hse"
+   },
+   {
+    "name": "📘 Корпоративное право: основные проблемы",
+    "count": 15,
+    "key": "program:Корпоративное право: основные проблемы"
+   }
+  ],
+  "scrollDepth": [
+   {
+    "name": "Главная",
+    "avg": 83,
+    "max": 100
+   },
+   {
+    "name": "ratings",
+    "avg": 70,
+    "max": 75
+   },
+   {
+    "name": "programs/angliyskoe-kontraktnoe-pravo-856421092",
+    "avg": 67,
+    "max": 75
+   },
+   {
+    "name": "Каталог программ",
+    "avg": 58,
+    "max": 75
+   },
+   {
+    "name": "privacy",
+    "avg": 44,
+    "max": 50
+   }
+  ],
+  "recentSessions": [
+   {
+    "sid": "s0000065",
+    "device": "mobile",
+    "pages": 1,
+    "durationMs": 0,
+    "path": [
+     "catalog"
+    ],
+    "programs": [],
+    "startedAt": "2026-10-01T04:35:16.742Z"
+   },
+   {
+    "sid": "s0000112",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 558406,
+    "path": [
+     "programs/angliyskoe-kontraktnoe-pravo-856421092"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-30T17:26:33.401Z"
+   },
+   {
+    "sid": "s0000076",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 0,
+    "path": [
+     "programs/angliyskoe-kontraktnoe-pravo-856421092"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-30T02:39:54.945Z"
+   },
+   {
+    "sid": "s0000108",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 0,
+    "path": [
+     "Главная"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-30T02:21:53.569Z"
+   },
+   {
+    "sid": "s0000014",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 159080,
+    "path": [
+     "Каталог программ"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-29T03:27:59.260Z"
+   },
+   {
+    "sid": "s0000004",
+    "device": "mobile",
+    "pages": 1,
+    "durationMs": 0,
+    "path": [
+     "ratings"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-28T16:17:00.497Z"
+   },
+   {
+    "sid": "s0000037",
+    "device": "desktop",
+    "pages": 1,
+    "durationMs": 0,
+    "path": [
+     "Главная"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-28T07:01:04.080Z"
+   },
+   {
+    "sid": "s0000059",
+    "device": "desktop",
+    "pages": 1,
+    "durationMs": 0,
+    "path": [
+     "Каталог программ"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-28T06:23:33.638Z"
+   },
+   {
+    "sid": "s0000074",
+    "device": "desktop",
+    "pages": 2,
+    "durationMs": 223130,
+    "path": [
+     "ratings",
+     "Главная"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-27T23:52:40.778Z"
+   },
+   {
+    "sid": "s0000096",
+    "device": "desktop",
+    "pages": 1,
+    "durationMs": 437748,
+    "path": [
+     "privacy"
+    ],
+    "programs": [
+     "Актуальные вопросы гражданского права"
+    ],
+    "startedAt": "2026-09-27T18:46:48.263Z"
+   },
+   {
+    "sid": "s0000071",
+    "device": "desktop",
+    "pages": 1,
+    "durationMs": 304312,
+    "path": [
+     "privacy"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-27T06:26:10.642Z"
+   },
+   {
+    "sid": "s0000064",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 521788,
+    "path": [
+     "ratings"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-27T00:34:47.003Z"
+   },
+   {
+    "sid": "s0000063",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 501021,
+    "path": [
+     "programs/angliyskoe-kontraktnoe-pravo-856421092"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-26T06:35:39.529Z"
+   },
+   {
+    "sid": "s0000026",
+    "device": "mobile",
+    "pages": 1,
+    "durationMs": 0,
+    "path": [
+     "ratings"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-26T05:45:19.998Z"
+   },
+   {
+    "sid": "s0000062",
+    "device": "desktop",
+    "pages": 1,
+    "durationMs": 575695,
+    "path": [
+     "programs/angliyskoe-kontraktnoe-pravo-856421092"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-26T02:23:43.463Z"
+   },
+   {
+    "sid": "s0000104",
+    "device": "desktop",
+    "pages": 1,
+    "durationMs": 100607,
+    "path": [
+     "Каталог программ"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-26T01:40:50.011Z"
+   },
+   {
+    "sid": "s0000015",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 297989,
+    "path": [
+     "programs/angliyskoe-kontraktnoe-pravo-856421092"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-26T00:20:29.115Z"
+   },
+   {
+    "sid": "s0000006",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 0,
+    "path": [
+     "privacy"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-25T15:57:59.077Z"
+   },
+   {
+    "sid": "s0000018",
+    "device": "desktop",
+    "pages": 1,
+    "durationMs": 227604,
+    "path": [
+     "programs/angliyskoe-kontraktnoe-pravo-856421092"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-25T14:50:55.238Z"
+   },
+   {
+    "sid": "s0000009",
+    "device": "tablet",
+    "pages": 1,
+    "durationMs": 66574,
+    "path": [
+     "Главная"
+    ],
+    "programs": [],
+    "startedAt": "2026-09-24T19:28:21.131Z"
+   }
+  ],
+  "insights": [
+   "Самая интересная программа: «Актуальные вопросы гражданского права» (10 кликов).",
+   "Самая посещаемая страница: «programs/angliyskoe-kontraktnoe-pravo-856421092» (27 просмотров).",
+   "Высокий показатель отказов 87.5% — проверьте первый экран и навигацию.",
+   "Среднее время на сайте: 3 мин.",
+   "Пик активности: 06:00–06:59.",
+   "С мобильных: 27% посетителей."
+  ]
+ }
+}

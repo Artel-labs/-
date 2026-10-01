@@ -128,6 +128,12 @@ jobs:
         run: |
           count="$(curl -fsSk https://127.0.0.1:8443/api/catalog/bot | python3 -c 'import json, sys; print(len(json.load(sys.stdin)))')"
           test "$count" = "34"
+      - name: События посещаемости принимаются
+        run: |
+          code="$(curl -sSk -o /dev/null -w '%{http_code}' -H 'Content-Type: application/json' -d '{"events":[{"type":"pageview","sid":"ci-session-1","path":"/","device":"desktop"}]}' https://127.0.0.1:8443/api/collect)"
+          test "$code" = "204"
+          count="$(sudo docker compose exec -T app python manage.py shell -c 'from analytics.models import Event; print(Event.objects.count())' | tail -n 1)"
+          test "$count" = "1"
       - name: Заявка принимается и видна в базе
         run: |
           code="$(curl -sSk -o /dev/null -w '%{http_code}' -H 'Content-Type: application/json' -d '{"firstName":"Проверка","lastName":"CI","phone":"+7 495 000 00 00","email":"ci@example.ru","consent":true}' https://127.0.0.1:8443/api/applications)"

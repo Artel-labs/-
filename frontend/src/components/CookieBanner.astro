@@ -16,7 +16,9 @@ import "../styles/consent.css";
 </div>
 
 <script>
+  import { setupAnalytics } from "../scripts/analytics";
   import { setupCookieBanner } from "../scripts/consent";
 
+  setupAnalytics();
   setupCookieBanner();
 </script>

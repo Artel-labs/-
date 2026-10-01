@@ -32,6 +32,18 @@ export function forgetConsent(): void {
   }
 }
 
+export function consentAccepted(): boolean {
+  return storedConsent() === ACCEPTED;
+}
+
+export function onConsentAccepted(callback: () => void): void {
+  window.addEventListener(CONSENT_EVENT, (event) => {
+    if (event instanceof CustomEvent && event.detail === ACCEPTED) {
+      callback();
+    }
+  });
+}
+
 export function consentAnswered(): boolean {
   const stored = storedConsent();
   return stored === ACCEPTED || stored === DECLINED;
