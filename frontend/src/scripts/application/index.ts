@@ -1,5 +1,5 @@
 import type { CrowMascot } from "../crow/mascot";
-import { mountDoneCrow } from "../crow/inline";
+import { mountDoneCrow, mountErrorCrow } from "../crow/inline";
 import { closeButton, element, openDialog, type Dialog } from "../dialog";
 import { attachSheet } from "../sheet-gesture";
 import { CORPORATE, PERSONAL, PROGRAM_TOPIC, TOPIC_HINTS, TOPIC_TITLES } from "./constants";
@@ -36,6 +36,7 @@ class ApplicationDialog {
   private readonly form: HTMLFormElement;
   private readonly dialog: Dialog;
   private doneCrow: CrowMascot | null = null;
+  private errorCrow: CrowMascot | null = null;
 
   constructor(private readonly context: Context, opener: HTMLElement) {
     this.form = buildForm({ onTopic: (topic) => this.applyTopic(topic), onKind: (kind) => this.applyKind(kind, true) });
@@ -50,8 +51,13 @@ class ApplicationDialog {
     backdrop.appendChild(this.sheet);
     this.form.addEventListener("submit", (event) => {
       event.preventDefault();
-      void submit(this.form, this.chosenProgram(), () => {
-        this.doneCrow = mountDoneCrow(showDone(this.sheet, this.context.topic, this.chosenProgram().title));
+      void submit(this.form, this.chosenProgram(), {
+        onDone: () => {
+          this.doneCrow = mountDoneCrow(showDone(this.sheet, this.context.topic, this.chosenProgram().title));
+        },
+        onFailed: () => {
+          this.shakeCrow();
+        },
       });
     });
     this.select<HTMLSelectElement>("#dpo-app-topic").value = context.topic;
@@ -72,6 +78,17 @@ class ApplicationDialog {
   private releaseCrow(): void {
     this.doneCrow?.destroy();
     this.doneCrow = null;
+    this.errorCrow?.destroy();
+    this.errorCrow = null;
+  }
+
+  private shakeCrow(): void {
+    const anchor = this.form.querySelector<HTMLElement>(".dpo-app-error-crow");
+    if (!anchor || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+    this.errorCrow ??= mountErrorCrow(anchor);
+    this.errorCrow.play("shake");
   }
 
   private select<T extends HTMLElement>(selector: string): T {

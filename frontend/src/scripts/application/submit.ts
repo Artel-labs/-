@@ -95,7 +95,12 @@ function failure(reply: Reply): string {
   return reply.status === TOO_MANY_STATUS ? TOO_MANY : FAILED;
 }
 
-export async function submit(form: HTMLFormElement, program: ChosenProgram, onDone: () => void): Promise<void> {
+export interface SubmitHandlers {
+  onDone: () => void;
+  onFailed: (status: number, invalidFields: boolean) => void;
+}
+
+export async function submit(form: HTMLFormElement, program: ChosenProgram, { onDone, onFailed }: SubmitHandlers): Promise<void> {
   const button = form.querySelector<HTMLButtonElement>(".dpo-app-submit");
   const status = form.querySelector(".dpo-app-status");
   if (!button || !status) {
@@ -118,9 +123,11 @@ export async function submit(form: HTMLFormElement, program: ChosenProgram, onDo
   }
   button.disabled = false;
   button.textContent = SUBMIT_LABEL;
-  if (reply.status === VALIDATION_STATUS && reply.fields.length) {
+  const invalidFields = reply.status === VALIDATION_STATUS && reply.fields.length > 0;
+  if (invalidFields) {
     showErrors(form, reply.fields);
   }
   status.classList.add("is-error");
   status.textContent = failure(reply);
+  onFailed(reply.status, invalidFields);
 }
