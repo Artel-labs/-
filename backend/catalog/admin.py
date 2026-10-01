@@ -1,11 +1,19 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.db.models import QuerySet
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponseRedirect
+from django.urls import reverse
+from django_q.tasks import async_task
 from unfold.admin import ModelAdmin, StackedInline, TabularInline
-from unfold.decorators import display
+from unfold.decorators import action, display
 
 from catalog.formatting import format_price
 from catalog.models import FaqItem, Module, Program, ProgramFile, ProgramTeacher, Review, Sphere, Teacher
+
+SYNC_FUNCTION = "catalog.tasks.sync_catalog"
+MANUAL_SYNC_NAME = "Обновление каталога с hse.ru (вручную)"
+SYNC_STARTED = (
+    "Обновление с hse.ru запущено и займёт пару минут. Итог появится в разделе «Фоновые задачи» → «Успешные задачи»."
+)
 
 
 class OrderedTabularInline(TabularInline):
@@ -62,6 +70,7 @@ class ProgramAdmin(ModelAdmin):
     list_select_related = ["sphere"]
     readonly_fields = ["source", "created_at", "updated_at"]
     inlines = [ModuleInline, ProgramTeacherInline, ProgramFileInline, FaqInline, ReviewInline]
+    actions_list = ["sync_from_hse"]
     fieldsets = [
         (
             "Основное",
@@ -114,6 +123,12 @@ class ProgramAdmin(ModelAdmin):
         ("Объявление", {"classes": ["tab"], "fields": ["notice_date", "notice_text", "notice_url"]}),
         ("Служебное", {"classes": ["tab"], "fields": ["created_at", "updated_at"]}),
     ]
+
+    @action(description="Обновить с hse.ru", url_path="sync-from-hse", icon="sync", permissions=["change"])
+    def sync_from_hse(self, request: HttpRequest) -> HttpResponseRedirect:
+        async_task(SYNC_FUNCTION, task_name=MANUAL_SYNC_NAME)
+        messages.success(request, SYNC_STARTED)
+        return HttpResponseRedirect(reverse("admin:catalog_program_changelist"))
 
     @display(description="Цена", ordering="price")
     def display_price(self, program: Program) -> str:

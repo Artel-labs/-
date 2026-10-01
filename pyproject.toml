@@ -20,18 +20,19 @@ strict = true
 plugins = ["mypy_django_plugin.main"]
 
 [[tool.mypy.overrides]]
-module = ["axes.*", "unfold.*"]
+module = ["axes.*", "unfold.*", "django_q.*", "json5"]
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
 module = ["tests.*"]
 disallow_untyped_defs = false
 disallow_untyped_calls = false
+disallow_incomplete_defs = false
 
 [[tool.mypy.overrides]]
-module = ["*.admin", "accounts.login_protection"]
+module = ["accounts.admin", "catalog.admin", "core.admin", "accounts.login_protection"]
 disallow_subclassing_any = false
-disable_error_code = ["type-arg", "untyped-decorator"]
+disable_error_code = ["type-arg", "untyped-decorator", "import-untyped"]
 
 [tool.django-stubs]
 django_settings_module = "config.settings"

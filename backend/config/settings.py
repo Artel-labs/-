@@ -17,6 +17,10 @@ LOGIN_FAILURE_LIMIT = 5
 LOGIN_COOLOFF = timedelta(minutes=15)
 PASSWORD_MIN_LENGTH = 12
 DATABASE_CONNECTION_AGE_SECONDS = 60
+BACKGROUND_TASK_TIMEOUT_SECONDS = 1800
+BACKGROUND_TASK_RETRY_SECONDS = BACKGROUND_TASK_TIMEOUT_SECONDS + 60
+BACKGROUND_TASK_HISTORY = 100
+HSE_REQUEST_DELAY_SECONDS = 0.7
 
 INSTALLED_APPS = [
     "unfold",
@@ -27,6 +31,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "accounts.login_protection.LoginProtectionConfig",
+    "django_q",
     "core",
     "accounts",
     "catalog",
@@ -166,9 +171,25 @@ UNFOLD = {
     "COLORS": {"primary": BRAND_BLUE},
 }
 
+Q_CLUSTER = {
+    "name": "dpo",
+    "label": "Фоновые задачи",
+    "orm": "default",
+    "workers": 1,
+    "timeout": BACKGROUND_TASK_TIMEOUT_SECONDS,
+    "retry": BACKGROUND_TASK_RETRY_SECONDS,
+    "max_attempts": 1,
+    "catch_up": False,
+    "save_limit": BACKGROUND_TASK_HISTORY,
+    "ack_failures": True,
+}
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "handlers": {"console": {"class": "logging.StreamHandler"}},
     "root": {"handlers": ["console"], "level": env_text("LOG_LEVEL", "INFO")},
+    "loggers": {"httpx": {"level": "WARNING"}, "httpcore": {"level": "WARNING"}},
 }
+
+SILENCED_SYSTEM_CHECKS = ["models.W037"]
