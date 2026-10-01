@@ -1,0 +1,23 @@
+@font-face {
+  font-family: "HSE Sans";
+  src: url("/fonts/HSESans-Regular.woff2") format("woff2");
+  font-weight: 400 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "HSE Sans";
+  src: url("/fonts/HSESans-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "HSE Slab";
+  src: url("/fonts/HSESlab-Regular.woff2") format("woff2");
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap;
+}

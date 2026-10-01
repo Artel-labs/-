@@ -1,0 +1,51 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow: string;
+}
+
+const { title, description, eyebrow } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <main class="notice">
+    <p class="eyebrow">{eyebrow}</p>
+    <slot />
+  </main>
+</BaseLayout>
+
+<style>
+  .notice {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: clamp(48px, 12vh, 140px) var(--gutter);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    margin: 0 0 24px;
+    padding: 6px 16px;
+    border-radius: var(--radius-pill);
+    background: var(--parchment);
+    color: var(--ink-secondary);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .notice :global(h1) {
+    margin: 0 0 24px;
+    font-family: var(--font-slab);
+    font-size: var(--text-display);
+    font-weight: 600;
+    line-height: 1.06;
+    letter-spacing: -0.015em;
+  }
+
+  .notice :global(p) {
+    max-width: 40rem;
+    color: var(--ink-secondary);
+  }
+</style>

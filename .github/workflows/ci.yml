@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    runs-on: ubuntu-24.04
+    services:
+      db:
+        image: mariadb:11.8.9
+        env:
+          MARIADB_ROOT_PASSWORD: ci-root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "healthcheck.sh --connect --innodb_initialized"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      DJANGO_SECRET_KEY: ci
+      DB_HOST: 127.0.0.1
+      DB_USER: root
+      DB_PASSWORD: ci-root
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+      - run: pip install -r requirements-dev.txt
+      - run: ruff check .
+      - run: ruff format --check .
+      - run: mypy
+      - run: python backend/manage.py makemigrations --check --dry-run
+      - run: pytest
+
+  frontend:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24.21.0"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - run: npm run lint
+      - run: npm run build
+
+  scripts:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - run: shellcheck -x -P SCRIPTDIR scripts/*.sh deploy/entrypoint.sh
+
+  install:
+    runs-on: ubuntu-24.04
+    needs: [backend, frontend, scripts]
+    steps:
+      - uses: actions/checkout@v7
+      - run: sudo ./scripts/install.sh --http
+      - run: curl -fsS http://127.0.0.1/api/health
+      - run: curl -fsS http://127.0.0.1/ | grep -q "Центр дополнительного профессионального образования"
+      - run: curl -fsS -o /dev/null http://127.0.0.1/admin/login/
+      - run: sudo ./scripts/backup.sh
+      - run: sudo ./scripts/restore.sh "$(sudo find /var/backups/dpo -name 'dpo-*.sql.gz' | head -n 1)" --yes
+      - run: curl -fsS http://127.0.0.1/api/health
+      - if: failure()
+        run: docker compose logs --tail=100
