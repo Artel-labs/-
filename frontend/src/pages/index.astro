@@ -1,14 +1,93 @@
 ---
-export const prerender = true;
+import "../styles/landing.css";
+import "../styles/landing-sections.css";
+import "../styles/sheet.css";
+import AboutSection from "../components/landing/AboutSection.astro";
+import ContactsSection from "../components/landing/ContactsSection.astro";
+import CorporateSection from "../components/landing/CorporateSection.astro";
+import DocumentSection from "../components/landing/DocumentSection.astro";
+import ExploreSection from "../components/landing/ExploreSection.astro";
+import FinalCta from "../components/landing/FinalCta.astro";
+import FormatsSection from "../components/landing/FormatsSection.astro";
+import HeroSection from "../components/landing/HeroSection.astro";
+import LandingFooter from "../components/landing/LandingFooter.astro";
+import LandingHead from "../components/landing/LandingHead.astro";
+import LandingHeader from "../components/landing/LandingHeader.astro";
+import ReviewsSection from "../components/landing/ReviewsSection.astro";
+import SpheresSection from "../components/landing/SpheresSection.astro";
+import StartsStrip from "../components/landing/StartsStrip.astro";
+import TeachersSection from "../components/landing/TeachersSection.astro";
+import TopProgramsSection from "../components/landing/TopProgramsSection.astro";
+import WhyUsSection from "../components/landing/WhyUsSection.astro";
+import SkipLink from "../components/SkipLink.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { fetchLanding } from "../lib/landing";
 
-import NoticePage from "../layouts/NoticePage.astro";
+const TITLE = "Повышение квалификации юристов – Центр ДПО НИУ ВШЭ";
+const DESCRIPTION =
+  "Центр ДПО факультета права НИУ ВШЭ: 34 программы повышения квалификации и профессиональной переподготовки для юристов. Онлайн и очно, удостоверение НИУ ВШЭ.";
+
+const landing = await fetchLanding();
+if (!landing) {
+  return new Response(null, { status: 404 });
+}
 ---
 
-<NoticePage
-  title="Центр ДПО факультета права НИУ ВШЭ"
-  description="Программы дополнительного профессионального образования факультета права НИУ ВШЭ."
-  eyebrow="Факультет права НИУ ВШЭ"
->
-  <h1>Центр дополнительного профессионального образования</h1>
-  <p>Сайт переезжает на новую платформу. Каталог программ скоро появится здесь.</p>
-</NoticePage>
+<BaseLayout title={TITLE} description={DESCRIPTION} bodyClass="dpo-has-mobile-cta">
+  <LandingHead slot="head" landing={landing} />
+  <SkipLink />
+  <div class="dpo-scope scope-theme">
+    <LandingHeader menu={landing.menu} />
+    <main id="main">
+      <HeroSection />
+      <SpheresSection cards={landing.spheres} branches={landing.branches} />
+      <StartsStrip starts={landing.starts} />
+      <AboutSection />
+      <WhyUsSection />
+      <FormatsSection formats={landing.formats} />
+      <TopProgramsSection programs={landing.top} />
+      <TeachersSection teachers={landing.teachers} />
+      <DocumentSection />
+      <ReviewsSection reviews={landing.reviews} />
+      <CorporateSection />
+      <ExploreSection />
+      <ContactsSection />
+      <FinalCta />
+    </main>
+    <LandingFooter />
+  </div>
+  <nav class="dpo-mobile-cta" aria-label="Быстрые действия">
+    <a class="secondary" href="/catalog">Программы</a>
+    <a class="primary" href="#contacts" data-application>Подать заявку</a>
+  </nav>
+</BaseLayout>
+
+<script>
+  import { setupActiveNav } from "../scripts/landing/active-nav";
+  import { setupAnchors } from "../scripts/landing/anchors";
+  import { setupCarousels } from "../scripts/landing/carousel";
+  import { setupCovers } from "../scripts/landing/covers";
+  import { setupDocPreview } from "../scripts/landing/doc-preview";
+  import { setupDocumentTabs } from "../scripts/landing/document-tabs";
+  import { revealEmails } from "../scripts/landing/email-protect";
+  import { setupGridFly } from "../scripts/landing/grid-fly";
+  import { setupHeaderState } from "../scripts/landing/header-state";
+  import { setupNavMenu } from "../scripts/landing/nav-menu";
+  import { setupQuiz } from "../scripts/landing/quiz";
+  import { setupReveal } from "../scripts/landing/reveal";
+  import { setupTeamDialog } from "../scripts/landing/team-dialog";
+
+  setupHeaderState();
+  setupAnchors();
+  setupReveal();
+  setupActiveNav();
+  setupCovers();
+  setupGridFly();
+  setupNavMenu();
+  setupCarousels();
+  setupTeamDialog();
+  setupDocPreview();
+  setupDocumentTabs();
+  setupQuiz();
+  revealEmails();
+</script>

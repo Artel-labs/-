@@ -1,0 +1,15 @@
+<button id="viToggle" type="button" title="Версия для слабовидящих" aria-label="Версия для слабовидящих" aria-pressed="false">
+  <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+    <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="2"></circle>
+    <circle cx="10" cy="10" r="3" fill="currentColor"></circle>
+  </svg>
+</button>
+
+<script>
+  import { setupViMode } from "../../scripts/vi-mode";
+
+  const button = document.getElementById("viToggle");
+  if (button) {
+    setupViMode(button);
+  }
+</script>

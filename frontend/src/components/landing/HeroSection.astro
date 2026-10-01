@@ -1,0 +1,53 @@
+---
+import slogans from "../../data/slogans.json";
+
+const DEFAULT_MOTTO = slogans.slogans[0]?.text ?? "";
+---
+
+<section data-screen-label="Hero" id="top" class="hero-screen">
+  <div class="dpo-hero-bg hero-bg-layer"></div>
+  <div class="dpo-hero-veil hero-veil-layer"></div>
+  <div class="hero-content">
+<span class="hero-eyebrow">Программы ДПО факультета права</span>
+<h1 class="hero-title">Повышение квалификации и переподготовка юристов</h1>
+<p class="hero-motto" data-dpo-motto="">{DEFAULT_MOTTO}</p>
+<p class="hero-lead">Образование для профессионалов права: практикующих юристов, in-house counsel и руководителей правовых департаментов – с преподавателями-практиками.</p>
+<div class="hero-actions">
+<a class="dpo-hero-cta hero-cta-primary" data-application="" href="#contacts">Подать заявку</a>
+<a class="dpo-hero-cta-alt hero-cta-secondary" href="/catalog">Смотреть программы</a>
+</div>
+<span class="hero-stats-eyebrow">Наши ключевые показатели</span>
+<div class="dpo-stats hero-stats">
+<div class="hero-stat">
+<div class="hero-stat-value">25 лет</div>
+<div class="hero-stat-label">в сфере высшего юридического образования</div>
+</div>
+<div class="hero-stat">
+<div class="hero-stat-value">1 место</div>
+<div class="hero-stat-label">рейтинг лучших университетов России · Forbes</div>
+</div>
+<div class="hero-stat">
+<div class="hero-stat-value">1 место</div>
+<div class="hero-stat-label">рейтинг факультетов московских вузов · hh.ru</div>
+</div>
+<div class="hero-stat">
+<div class="hero-stat-value">1 место</div>
+<div class="hero-stat-label">Национальный рейтинг по трудоустройству выпускников магистратуры</div>
+</div>
+<div class="hero-stat">
+<div class="hero-stat-value">Топ-3</div>
+<div class="hero-stat-label">рейтинг юридических вузов России · SuperJob</div>
+</div>
+<div class="hero-stat">
+<div class="hero-stat-value">Топ-150</div>
+<div class="hero-stat-label">рейтинги THE и QS по праву</div>
+</div>
+</div>
+</div>
+</section>
+
+<script>
+  import { showMotto } from "../../scripts/slogan";
+
+  showMotto();
+</script>

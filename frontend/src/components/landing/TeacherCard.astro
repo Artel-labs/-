@@ -1,0 +1,41 @@
+---
+import type { TeacherCard } from "../../lib/landing";
+
+interface Props {
+  teacher: TeacherCard;
+}
+
+const { teacher } = Astro.props;
+const { photo } = teacher;
+---
+
+<li class="dpo-teacher" data-dpo-teacher={teacher.payload}>
+  <span class="dpo-portrait teacher-portrait-box" aria-hidden="true"
+    >{teacher.initials}{
+      photo && (
+        <picture
+          ><source srcset={photo.webp} type="image/webp" /><img
+            class="teacher-portrait-img"
+            loading="lazy"
+            decoding="async"
+            alt={photo.alt}
+            src={photo.src}
+          /></picture
+        >
+      )
+    }</span
+  >
+  <h3 class="dpo-teacher-name">
+    {
+      teacher.page ? (
+        <a class="dpo-teacher-link" href={teacher.page} target="_blank" rel="noopener noreferrer">
+          {teacher.name}
+        </a>
+      ) : (
+        teacher.name
+      )
+    }
+  </h3>
+  <button type="button" class="dpo-teacher-more" aria-haspopup="dialog" aria-label={teacher.more_label}>{teacher.count}</button>
+  {teacher.about && <p class="dpo-teacher-desc teacher-desc-clamp">{teacher.about}</p>}
+</li>

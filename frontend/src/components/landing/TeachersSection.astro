@@ -1,0 +1,39 @@
+---
+import type { TeacherCard as Teacher } from "../../lib/landing";
+import TeacherCard from "./TeacherCard.astro";
+
+interface Props {
+  teachers: Teacher[];
+}
+
+const { teachers } = Astro.props;
+---
+
+<section data-screen-label="Teachers" id="teachers" class="dpo-on-dark teachers-section">
+  <div class="dpo-container">
+    <div class="dpo-split teachers-split">
+      <div>
+<span class="teachers-eyebrow">Авторы и преподаватели</span>
+<h2 class="teachers-title">Преподаватели-практики факультета права НИУ ВШЭ</h2>
+</div>
+      <div class="teachers-text">
+        <p class="teachers-paragraph">На наших программах преподают те, кто формирует правовой ландшафт сегодня: партнёры ведущих юридических фирм, судьи в отставке, ординарные профессора и заслуженные деятели науки, авторитетные юристы, чьи имена известны в профессиональном сообществе.</p>
+        <p class="teachers-paragraph">В основе обучения – реальные кейсы и актуальная судебная практика. Только то, что работает здесь и сейчас.</p>
+      </div>
+    </div>
+    <div class="dpo-carousel-head teachers-carousel-head">
+      <p class="teachers-carousel-hint">Листайте ленту. Клик по карточке открывает подробности: полную должность и список программ преподавателя.</p>
+      <div class="dpo-carousel-nav">
+<button aria-controls="teachersTrack" aria-label="Предыдущие преподаватели" class="dpo-carousel-btn" data-dpo-scroll="prev" type="button">
+<svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 16 16"><path d="M13 8H3M7 4L3 8l4 4"></path></svg>
+</button>
+<button aria-controls="teachersTrack" aria-label="Следующие преподаватели" class="dpo-carousel-btn" data-dpo-scroll="next" type="button">
+<svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"></path></svg>
+</button>
+</div>
+    </div>
+    <ul id="teachersTrack" class="dpo-track teachers-track" tabindex="0" role="list" aria-label="Преподаватели программ ДПО">
+      {teachers.map((teacher) => <TeacherCard teacher={teacher} />)}
+    </ul>
+  </div>
+</section>

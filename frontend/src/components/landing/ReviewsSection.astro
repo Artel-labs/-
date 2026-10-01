@@ -1,0 +1,40 @@
+---
+import type { ReviewCard } from "../../lib/landing";
+import ReviewFigure from "./ReviewFigure.astro";
+
+interface Props {
+  reviews: ReviewCard[];
+}
+
+const { reviews } = Astro.props;
+---
+
+{
+  reviews.length > 0 && (
+<section data-screen-label="Reviews" id="reviews" class="reviews-section">
+  <div class="dpo-container">
+    <div class="dpo-section-head dpo-reviews-head">
+<span>
+<span class="dpo-eyebrow">Слово выпускникам</span>
+<h2 class="dpo-h2">Отзывы выпускников</h2>
+</span>
+<div class="dpo-carousel-nav dpo-reviews-nav">
+<button aria-controls="reviewsTrack" aria-label="Предыдущие отзывы" class="dpo-carousel-btn" data-dpo-scroll="prev" type="button">
+<svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 16 16"><path d="M10 3 5 8l5 5"></path></svg>
+</button>
+<button aria-controls="reviewsTrack" aria-label="Следующие отзывы" class="dpo-carousel-btn" data-dpo-scroll="next" type="button">
+<svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 16 16"><path d="M6 3l5 5-5 5"></path></svg>
+</button>
+<button aria-controls="reviewsTrack" aria-label="Остановить ленту" aria-pressed="false" class="dpo-reviews-toggle" data-dpo-pause="" type="button"></button>
+</div>
+</div>
+    <div class="dpo-reviews-track" id="reviewsTrack" data-dpo-loop data-dpo-speed="14" aria-label="Отзывы выпускников">
+      {reviews.map((review) => <ReviewFigure review={review} />)}
+      <div class="dpo-reviews-dupe" aria-hidden="true">
+        {reviews.map((review) => <ReviewFigure review={review} duplicate />)}
+      </div>
+    </div>
+  </div>
+</section>
+  )
+}

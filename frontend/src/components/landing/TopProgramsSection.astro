@@ -1,0 +1,40 @@
+---
+import type { TopProgram } from "../../lib/landing";
+import TopProgramTile from "./TopProgramTile.astro";
+
+interface Props {
+  programs: TopProgram[];
+}
+
+const { programs } = Astro.props;
+---
+
+<section data-screen-label="Top 5 programs" id="top5" class="section-pad">
+  <div class="dpo-container">
+    <div class="dpo-carousel-head">
+      <div class="dpo-section-head top5-intro">
+<span class="dpo-eyebrow">Выбор слушателей</span>
+<h2 class="dpo-h2">Популярные программы повышения квалификации для юристов</h2>
+<p class="dpo-lead">Право меняется быстрее, чем когда-либо. Цифровизация, санкционные риски, трансграничные сделки, банкротства – сегодня это не просто темы для обсуждения, а повседневная реальность юриста. Мы собрали программы, которые сейчас выбирают те, кто хочет оставаться востребованным.</p>
+</div>
+      <div class="dpo-top5-aside">
+        <div class="crow-walk-row">
+          <div class="crow-walk-slot" data-crow-walk=""></div>
+        </div>
+        <div class="dpo-carousel-nav dpo-top5-nav top5-nav">
+<a class="dpo-starts-all top5-all" href="/catalog">Все программы с фильтрами</a>
+<button aria-controls="top5Track" aria-label="Предыдущие программы" class="dpo-carousel-btn" data-dpo-scroll="prev" type="button">
+<svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 16 16"><path d="M13 8H3M7 4L3 8l4 4"></path></svg>
+</button>
+<button aria-controls="top5Track" aria-label="Следующие программы" class="dpo-carousel-btn" data-dpo-scroll="next" type="button">
+<svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"></path></svg>
+</button>
+</div>
+      </div>
+    </div>
+    <div class="dpo-top5-track" id="top5Track" role="list" aria-label="Программы Центра ДПО факультета права">
+      {programs.map((program) => <TopProgramTile program={program} />)}
+    </div>
+    <p class="dpo-tag-legend">ПК – повышение квалификации, итог – удостоверение; ПП – профессиональная переподготовка, итог – диплом.</p>
+  </div>
+</section>

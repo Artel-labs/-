@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 from django.conf import settings
 from PIL import Image
@@ -99,3 +100,20 @@ def thumb(program: Program) -> Thumb | None:
     if found is None:
         return None
     return Thumb(src=media_url(found.thumb), webp=media_url(found.thumb_webp), alt=cover_alt(program))
+
+
+@dataclass(frozen=True)
+class Photo:
+    src: str
+    webp: str
+
+
+def photo_with_webp(image: Any) -> Photo | None:
+    if not image:
+        return None
+    source = Path(image.path)
+    if not source.exists():
+        return None
+    webp_name = f"{Path(image.name).with_suffix('.webp')}"
+    save_variant(source, Path(settings.MEDIA_ROOT) / webp_name, None, "WEBP", WEBP_QUALITY)
+    return Photo(src=image.url, webp=media_url(webp_name))

@@ -1,0 +1,29 @@
+---
+import type { SphereCard } from "../../lib/landing";
+import SphereCards from "./SphereCards.astro";
+
+interface Props {
+  cards: SphereCard[];
+  branches: string[];
+}
+
+const { cards, branches } = Astro.props;
+---
+
+<section data-screen-label="Programs by sphere" id="spheres" class="spheres-section">
+  <div class="dpo-container">
+    <div class="spheres-head">
+      <div class="dpo-section-head spheres-intro">
+<span class="dpo-eyebrow">Сферы права</span>
+<h2 class="dpo-h2">Направления обучения: курсы для юристов по шести сферам права</h2>
+<p class="dpo-lead">Обучение у лучших – это выбор тех, кто готов инвестировать в свой профессиональный уровень. Право – это сложная система специализированных областей, где глубина экспертизы становится вашим преимуществом. Мы собрали программы по ключевым направлениям, чтобы вы могли выбрать свою траекторию и получить доступ к знаниям, которые открывают новые карьерные возможности.</p>
+</div>
+      <aside class="quiz-card">
+<h3 class="quiz-card-title">Не можете определиться?</h3>
+<p class="quiz-card-text">Ответьте на несколько вопросов – и посмотрите программы по интересующей области права, документу и формату обучения.</p>
+<a class="dpo-quiz-open quiz-card-button" data-quiz="" data-quiz-branches={JSON.stringify(branches)} href="/catalog">Пройти опрос</a>
+</aside>
+    </div>
+    <SphereCards cards={cards} />
+  </div>
+</section>

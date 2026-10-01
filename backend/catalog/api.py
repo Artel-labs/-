@@ -3,9 +3,11 @@ from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
 from ninja import Router
 
+from catalog.landing_schemas import LandingOut
 from catalog.models import Program
 from catalog.presentation.catalog import catalog_page
 from catalog.presentation.dates import moscow_today
+from catalog.presentation.landing.page import landing_page
 from catalog.presentation.page import program_page
 from catalog.schemas import CatalogPageOut, ProgramPageOut
 
@@ -24,3 +26,8 @@ def program_detail(request: HttpRequest, hse_id: str) -> ProgramPageOut:
 @router.get("/programs", response=CatalogPageOut)
 def program_list(request: HttpRequest) -> CatalogPageOut:
     return catalog_page(published(), moscow_today())
+
+
+@router.get("/landing", response=LandingOut)
+def landing(request: HttpRequest) -> LandingOut:
+    return landing_page(published(), moscow_today())

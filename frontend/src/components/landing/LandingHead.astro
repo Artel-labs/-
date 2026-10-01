@@ -1,0 +1,44 @@
+---
+import type { Landing } from "../../lib/landing";
+
+interface Props {
+  landing: Landing;
+}
+
+const SITE_NAME = "Центр ДПО · Факультет права НИУ ВШЭ";
+const SHARE_TITLE = "Повышение квалификации юристов – Центр ДПО НИУ ВШЭ";
+const SHARE_DESCRIPTION =
+  "34 программы повышения квалификации и профессиональной переподготовки для юристов. Онлайн и очно, удостоверение НИУ ВШЭ.";
+const SHARE_IMAGE_WIDTH = "2226";
+const SHARE_IMAGE_HEIGHT = "1298";
+const SHARE_IMAGE_ALT = "Статуя Фемиды с весами на фоне здания факультета права НИУ ВШЭ";
+
+const { landing } = Astro.props;
+const organization = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  name: "Центр ДПО факультета права НИУ ВШЭ",
+  url: landing.canonical_url,
+  parentOrganization: { "@type": "CollegeOrUniversity", name: "НИУ ВШЭ", url: "https://www.hse.ru/" },
+  address: { "@type": "PostalAddress", addressLocality: "Москва", streetAddress: "Большой Трёхсвятительский переулок, д. 3" },
+  telephone: "+7 (495) 772-95-90",
+}).replace(/</g, "\\u003c");
+---
+
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href={landing.canonical_url} />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:site_name" content={SITE_NAME} />
+<meta property="og:title" content={SHARE_TITLE} />
+<meta property="og:description" content={SHARE_DESCRIPTION} />
+<meta property="og:url" content={landing.canonical_url} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content={landing.image_url} />
+<meta property="og:image:width" content={SHARE_IMAGE_WIDTH} />
+<meta property="og:image:height" content={SHARE_IMAGE_HEIGHT} />
+<meta property="og:image:alt" content={SHARE_IMAGE_ALT} />
+<meta name="twitter:image" content={landing.image_url} />
+<link rel="preload" href="/fonts/HSESans-Regular.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="/fonts/HSESans-SemiBold.woff2" as="font" type="font/woff2" crossorigin />
+<script is:inline type="application/ld+json" set:html={organization} />

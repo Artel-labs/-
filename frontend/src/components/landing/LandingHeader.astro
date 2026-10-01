@@ -1,0 +1,68 @@
+---
+import type { Menu } from "../../lib/landing";
+import MenuGrid from "./MenuGrid.astro";
+import ViModeButton from "./ViModeButton.astro";
+
+interface Props {
+  menu: Menu;
+}
+
+const { menu } = Astro.props;
+---
+
+<header data-screen-label="Header" class="dpo-header">
+  <div class="dpo-header-bar">
+<span class="dpo-brand">
+<img alt="" class="dpo-brand-mark" height="44" src="/images/logo/brand-mark-96.webp" width="44"/>
+<a class="dpo-brand-lockup" href="#top">
+<span class="dpo-brand-sub">Центр дополнительного профессионального образования факультета права<span class="dpo-brand-affil"> · НИУ ВШЭ</span></span>
+<span class="dpo-brand-short">Центр ДПО факультета права<span class="dpo-brand-affil"> · НИУ ВШЭ</span></span>
+</a>
+<span aria-hidden="true" class="dpo-brand-rule"></span>
+<a class="dpo-brand-hse-wrap" href="https://pravo.hse.ru" rel="noopener noreferrer" target="_blank">
+<img alt="Факультет права НИУ ВШЭ" class="dpo-brand-hse" decoding="async" height="40" loading="lazy" src="/images/logo-hse-round.svg" width="40"/>
+</a>
+</span>
+<nav aria-label="Основная навигация" class="dpo-capsule">
+<a href="/catalog">Программы</a>
+<a href="#formats">Форматы</a>
+<button aria-controls="navProgramsPanel" aria-expanded="false" aria-haspopup="true" class="dpo-nav-trigger" id="navProgramsBtn" type="button">Сферы права
+        <svg aria-hidden="true" fill="none" height="10" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 12 12" width="10"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg>
+</button>
+<div aria-labelledby="navProgramsBtn" class="dpo-menu-panel" id="navProgramsPanel" role="group">
+<div class="dpo-menu-inner">
+<MenuGrid spheres={menu.spheres} />
+<div class="dpo-menu-foot">
+<a class="dpo-menu-all" href="/catalog">Все {menu.total} программ с фильтрами</a>
+<a class="dpo-menu-side" href="#top5">Топ-5 программ</a>
+<a class="dpo-menu-side" href="#spheres">Обзор по сферам</a>
+</div>
+</div>
+</div>
+<a href="#teachers">Преподаватели</a>
+<a href="/ratings">Рейтинги</a>
+<a href="#contacts">Контакты</a>
+</nav>
+<span class="dpo-header-actions">
+<ViModeButton />
+<button aria-controls="mobileMenuPanel" aria-expanded="false" aria-label="Меню" class="dpo-burger" id="mobileMenuBtn" type="button">
+<span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+</button>
+<a class="dpo-nav-cta" data-application="" href="#contacts">Подать заявку</a>
+</span>
+</div>
+  <div class="dpo-menu-panel dpo-mobile-panel" id="mobileMenuPanel" role="group" aria-label="Меню">
+    <nav aria-label="Меню" class="dpo-mobile-nav">
+<a href="/catalog">Программы</a>
+<a href="#formats">Форматы</a>
+<button aria-controls="mobileDirsList" aria-expanded="false" class="dpo-mobile-acc" type="button">Сферы права
+          <svg aria-hidden="true" fill="none" height="12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 12 12" width="12"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg>
+</button>
+<div class="dpo-mobile-dirs" id="mobileDirsList"></div>
+<a href="#teachers">Преподаватели</a>
+<a href="/ratings">Рейтинги</a>
+<a href="#contacts">Контакты</a>
+<a class="dpo-mobile-apply" data-application="" href="#contacts">Подать заявку</a>
+</nav>
+  </div>
+</header>

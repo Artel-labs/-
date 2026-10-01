@@ -1,0 +1,35 @@
+---
+import type { StartStrip } from "../../lib/landing";
+import StartLink from "./StartLink.astro";
+
+interface Props {
+  starts: StartStrip[];
+}
+
+const { starts } = Astro.props;
+---
+
+{
+  starts.length > 0 && (
+    <section data-screen-label="Upcoming starts" id="starts" class="starts-section">
+      <div class="dpo-container">
+        <div class="dpo-starts-head">
+          <h2 class="dpo-starts-title">Ближайшие старты программ</h2>
+          <a class="dpo-starts-all" href="/catalog?sort=start">
+            Все даты стартов
+          </a>
+        </div>
+        <div class="dpo-starts-track" id="startsTrack" data-dpo-loop data-dpo-speed="12" aria-label="Ближайшие старты программ">
+          {starts.map((start) => (
+            <StartLink start={start} />
+          ))}
+          <div class="dpo-starts-dupe" aria-hidden="true">
+            {starts.map((start) => (
+              <StartLink start={start} duplicate />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}

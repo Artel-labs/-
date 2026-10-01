@@ -1,0 +1,73 @@
+---
+import type { Format } from "../../lib/landing";
+
+interface Props {
+  format: Format;
+}
+
+const { format } = Astro.props;
+const { doc, cta } = format;
+---
+
+<li class="dpo-format">
+  {
+    doc && (
+      <button
+        type="button"
+        class="dpo-format-doc"
+        data-doc-preview={`/images/${doc.file}`}
+        data-doc-ext={doc.ext}
+        data-doc-height={doc.height}
+        data-doc-label={doc.name}
+        aria-label={`Показать образец крупно: ${doc.name}`}
+      >
+        <span class="dpo-format-scan"><picture><source srcset={`/images/${doc.file}.webp`} type="image/webp" /><img
+              loading="lazy"
+              decoding="async"
+              width="1200"
+              height={doc.height}
+              alt=""
+              src={`/images/${doc.file}.${doc.ext}`}
+            /></picture></span>
+      </button>
+    )
+  }
+  <div class={`dpo-format-band format-step-${String(format.step)}`}>
+    <span class="dpo-format-index">{format.index}</span>
+    <h3 class="dpo-format-title">{format.title}</h3>
+  </div>
+  <div class="dpo-format-body">
+    <p class="dpo-format-desc">{format.desc}</p>
+    <p class="dpo-format-facts"><span>{format.document}</span></p>
+    {
+      format.stats.length > 0 && (
+        <ul class="dpo-format-stats">
+          {format.stats.map((stat) => (
+            <li>
+              <span class="dpo-format-stat-key">{stat.key}</span>
+              {stat.value}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+    {
+      format.start && (
+        <p class="dpo-format-start">
+          <span class="dpo-format-dot" aria-hidden="true" />
+          {format.start}
+        </p>
+      )
+    }
+    <div class="dpo-format-foot">
+      {format.count && <span class="dpo-format-count">{format.count}</span>}
+      <a
+        class="dpo-format-cta"
+        href={cta.href}
+        target={cta.external ? "_blank" : undefined}
+        rel={cta.external ? "noopener noreferrer" : undefined}
+        data-application={cta.application ? "" : undefined}>{cta.label}</a
+      >
+    </div>
+  </div>
+</li>

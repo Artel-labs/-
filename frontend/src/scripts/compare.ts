@@ -1,8 +1,9 @@
+import { closeButton, element, openDialog, type Dialog } from "./dialog";
+
 const MAX_SELECTED = 3;
 const MIN_TO_COMPARE = 2;
 const PARAM = "compare";
 const LIST_SEPARATOR = " · ";
-const CLOSE_DELAY_MS = 240;
 const ID_PATTERN = /^[\w-]{1,40}$/;
 const TYPE_FULL: Record<string, string> = { ПК: "Повышение квалификации", ПП: "Профессиональная переподготовка" };
 
@@ -42,20 +43,7 @@ const ROWS: Row[] = [
 
 let selected: string[] = [];
 let bar: HTMLElement | null = null;
-let backdrop: HTMLElement | null = null;
-let lastTrigger: Element | null = null;
-let hidden: [Element, string | null][] = [];
-
-function element<K extends keyof HTMLElementTagNameMap>(tag: K, className = "", text = ""): HTMLElementTagNameMap[K] {
-  const node = document.createElement(tag);
-  if (className) {
-    node.className = className;
-  }
-  if (text) {
-    node.textContent = text;
-  }
-  return node;
-}
+let dialog: Dialog | null = null;
 
 function cardById(id: string): HTMLElement | null {
   return ID_PATTERN.test(id) ? document.querySelector<HTMLElement>(`.card[data-id="${id}"]`) : null;
@@ -134,9 +122,7 @@ function buildBar(): HTMLElement {
   clear.type = "button";
   openButton.type = "button";
   clear.addEventListener("click", clearAll);
-  openButton.addEventListener("click", () => {
-    open(openButton);
-  });
+  openButton.addEventListener("click", open);
   actions.append(clear, openButton);
   node.append(count, element("span", "cmp-bar-hint"), element("ul", "cmp-bar-list"), actions);
   document.body.appendChild(node);
@@ -241,7 +227,7 @@ function applyButton(card: HTMLElement): HTMLButtonElement {
   button.setAttribute("data-program-url", hrefOf(card));
   button.setAttribute("aria-label", `Заявка: ${titleOf(card)}`);
   button.addEventListener("click", () => {
-    shut(true);
+    dialog?.close(false);
   });
   return button;
 }
@@ -271,7 +257,7 @@ function buildTable(cards: HTMLElement[]): HTMLTableElement {
   return table;
 }
 
-function buildWindow(cards: HTMLElement[]): { node: HTMLElement; heading: HTMLElement } {
+function buildWindow(cards: HTMLElement[]): { node: HTMLElement; heading: HTMLElement; close: HTMLButtonElement } {
   const node = element("div", "cmp-window");
   node.setAttribute("role", "dialog");
   node.setAttribute("aria-modal", "true");
@@ -279,125 +265,31 @@ function buildWindow(cards: HTMLElement[]): { node: HTMLElement; heading: HTMLEl
   const heading = element("h2", "", "Сравнение программ");
   heading.id = "cmp-title";
   heading.tabIndex = -1;
-  const close = element("button", "cmp-close", "×");
-  close.type = "button";
-  close.setAttribute("aria-label", "Закрыть сравнение");
-  close.addEventListener("click", () => {
-    shut(false);
-  });
+  const close = closeButton("cmp-close", "Закрыть сравнение");
   const scroll = element("div", "cmp-scroll");
   scroll.appendChild(buildTable(cards));
   node.append(close, heading, element("p", "cmp-sub", "Точкой отмечены строки, в которых программы различаются."), scroll);
-  return { node, heading };
+  return { node, heading, close };
 }
 
-function makeInert(except: Element): void {
-  hidden = [...document.body.children]
-    .filter((node) => node !== except)
-    .map((node) => {
-      const pair: [Element, string | null] = [node, node.getAttribute("aria-hidden")];
-      node.setAttribute("aria-hidden", "true");
-      if (node instanceof HTMLElement) {
-        node.inert = true;
-      }
-      return pair;
-    });
-}
-
-function restoreInert(): void {
-  hidden.forEach(([node, value]) => {
-    if (value === null) {
-      node.removeAttribute("aria-hidden");
-    } else {
-      node.setAttribute("aria-hidden", value);
-    }
-    if (node instanceof HTMLElement) {
-      node.inert = false;
-    }
-  });
-  hidden = [];
-}
-
-function focusables(container: HTMLElement): HTMLElement[] {
-  return [...container.querySelectorAll<HTMLElement>("a[href], button:not([disabled])")].filter(
-    (node) => node.offsetParent !== null || node === document.activeElement,
-  );
-}
-
-function trapTab(event: KeyboardEvent, container: HTMLElement): void {
-  const items = focusables(container);
-  const first = items[0];
-  const last = items.at(-1);
-  if (!first || !last) {
-    return;
-  }
-  const active = document.activeElement;
-  if (event.shiftKey && (active === first || !container.contains(active))) {
-    event.preventDefault();
-    last.focus();
-  } else if (!event.shiftKey && active === last) {
-    event.preventDefault();
-    first.focus();
-  }
-}
-
-function onKey(event: KeyboardEvent): void {
-  if (!backdrop) {
-    return;
-  }
-  if (event.key === "Escape") {
-    event.preventDefault();
-    shut(false);
-  } else if (event.key === "Tab") {
-    trapTab(event, backdrop);
-  }
-}
-
-function open(trigger: Element): void {
+function open(): void {
   const cards = selected.map(cardById).filter((card): card is HTMLElement => card !== null);
-  if (cards.length < MIN_TO_COMPARE) {
+  if (cards.length < MIN_TO_COMPARE || dialog) {
     return;
   }
-  lastTrigger = trigger;
-  const node = element("div", "cmp-backdrop");
-  const { node: windowNode, heading } = buildWindow(cards);
-  node.appendChild(windowNode);
-  document.body.appendChild(node);
-  backdrop = node;
-  makeInert(node);
-  document.documentElement.style.overflow = "hidden";
-  node.addEventListener("mousedown", (event) => {
-    if (event.target === node) {
-      shut(false);
-    }
+  const backdrop = element("div", "cmp-backdrop");
+  const { node, heading, close } = buildWindow(cards);
+  backdrop.appendChild(node);
+  dialog = openDialog({
+    backdrop,
+    initialFocus: heading,
+    onClosed: () => {
+      dialog = null;
+    },
   });
-  document.addEventListener("keydown", onKey, true);
-  requestAnimationFrame(() => {
-    node.classList.add("is-open");
-    heading.focus();
+  close.addEventListener("click", () => {
+    dialog?.close();
   });
-}
-
-function shut(keepFocus: boolean): void {
-  const node = backdrop;
-  if (!node) {
-    return;
-  }
-  backdrop = null;
-  document.removeEventListener("keydown", onKey, true);
-  restoreInert();
-  document.documentElement.style.overflow = "";
-  node.classList.remove("is-open");
-  if (keepFocus) {
-    node.remove();
-    return;
-  }
-  window.setTimeout(() => {
-    node.remove();
-  }, CLOSE_DELAY_MS);
-  if (lastTrigger instanceof HTMLElement && document.contains(lastTrigger)) {
-    lastTrigger.focus();
-  }
 }
 
 export function setupCompare(): void {

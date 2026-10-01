@@ -2,9 +2,10 @@
 interface Props {
   title: string;
   description: string;
+  bodyClass?: string | undefined;
 }
 
-const { title, description } = Astro.props;
+const { title, description, bodyClass } = Astro.props;
 ---
 
 <!doctype html>
@@ -25,7 +26,7 @@ const { title, description } = Astro.props;
     <link rel="stylesheet" href="/fonts/fonts-hse.css" />
     <link rel="stylesheet" href="/fonts/fonts-main.css" />
   </head>
-  <body>
+  <body class={bodyClass}>
     <slot />
   </body>
 </html>

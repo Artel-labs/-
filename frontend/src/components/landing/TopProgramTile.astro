@@ -1,0 +1,34 @@
+---
+import type { TopProgram } from "../../lib/landing";
+
+interface Props {
+  program: TopProgram;
+}
+
+const { program } = Astro.props;
+---
+
+<div class="dpo-tile" role="listitem">
+  <span class="dpo-tile-cover tile-cover" data-dpo-cover={program.image || undefined} data-dpo-cover-webp={program.image_webp || undefined}
+    ><span class="dpo-tile-rank">{program.rank}</span></span
+  >
+  <a class="dpo-tile-title" href={program.path}>{program.title}</a>
+  <span class="dpo-tile-tagline">{program.tagline}</span>
+  <span class="dpo-tile-start">{program.start}</span>
+  <span class="dpo-tile-tags">
+    <span class="dpo-tag" data-tip={program.format_tip}>{program.format}</span>
+    <span class="dpo-tag dpo-tag-doc" data-tip={program.doc_tip}>{program.doc}</span>
+    <span class="dpo-tag dpo-tag-dur">{program.duration}</span>
+  </span>
+  <span class="dpo-tile-foot">
+    <span class="dpo-tile-price">{program.price}</span>
+  </span>
+  <button
+    type="button"
+    class="dpo-tile-apply"
+    data-application
+    data-program-id={program.id}
+    data-program-title={program.title}
+    data-program-url={program.path}>Подать заявку</button
+  >
+</div>
