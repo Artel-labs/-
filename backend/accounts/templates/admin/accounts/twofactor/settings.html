@@ -1,0 +1,33 @@
+{% extends "admin/base_site.html" %}
+{% load unfold %}
+
+{% block content %}
+<div class="flex flex-col gap-4 max-w-2xl">
+  {% if enabled %}
+    <p>Двухфакторный вход <b>включён</b> с {{ device.confirmed_at|date:"d.m.Y H:i" }}. Для входа, кроме пароля, нужен код из приложения-аутентификатора.</p>
+    <form method="post" class="flex flex-col gap-3">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="disable">
+      {% include "unfold/helpers/field.html" with field=form.code %}
+      {% component "unfold/components/button.html" with submit=1 variant="secondary" %}Отключить двухфакторный вход{% endcomponent %}
+    </form>
+  {% elif device %}
+    <p>Добавьте ключ в приложение-аутентификатор (Яндекс Ключ, Google Authenticator, «Аутентификатор» в iOS и др.): вручную — ключом ниже, или откройте ссылку на телефоне.</p>
+    <p>Ключ: <code class="font-mono text-lg">{{ secret_grouped }}</code></p>
+    <p><a class="text-primary-600 underline" href="{{ uri }}">Открыть в приложении-аутентификаторе</a></p>
+    <form method="post" class="flex flex-col gap-3">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="confirm">
+      {% include "unfold/helpers/field.html" with field=form.code %}
+      {% component "unfold/components/button.html" with submit=1 variant="primary" %}Подтвердить и включить{% endcomponent %}
+    </form>
+  {% else %}
+    <p>Двухфакторный вход <b>выключен</b>: для входа достаточно пароля. Если включить, при входе понадобится ещё шестизначный код из приложения-аутентификатора на телефоне.</p>
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="start">
+      {% component "unfold/components/button.html" with submit=1 variant="primary" %}Включить{% endcomponent %}
+    </form>
+  {% endif %}
+</div>
+{% endblock %}
