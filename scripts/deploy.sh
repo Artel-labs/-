@@ -2,17 +2,20 @@
 set -Eeuo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
 
+SYNCED_FLAG=DEPLOY_SYNCED_FROM
+
 main() {
-    local branch="${1:-main}" root previous
+    local branch="${1:-main}" root
     root="$(project_root)"
     cd "$root"
     load_env "$root"
     upgrade_env "$root"
-    if [[ -d .git ]]; then
-        previous="$(git rev-parse HEAD)"
+    if [[ -d .git && -z "${!SYNCED_FLAG:-}" ]]; then
         step "1/6" "Получаем ветку ${branch}"
-        sync_branch "$branch"
-        trap 'roll_back "$previous"' ERR
+        restart_with_new_code "$root" "$branch"
+    fi
+    if [[ -d .git ]]; then
+        trap 'roll_back "${!SYNCED_FLAG}"' ERR
     else
         step "1/6" "Установка из архива: берём файлы из $root как есть"
         trap 'archive_failed' ERR
@@ -30,6 +33,14 @@ main() {
     wait_for_site
     trap - ERR
     echo "Готово: новая версия развёрнута."
+}
+
+restart_with_new_code() {
+    local previous
+    previous="$(git rev-parse HEAD)"
+    sync_branch "$2"
+    export "$SYNCED_FLAG=$previous"
+    exec "$1/scripts/deploy.sh" "$2"
 }
 
 sync_branch() {
