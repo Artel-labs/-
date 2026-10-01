@@ -339,3 +339,6 @@ msgstr "Дата"
 
 msgid "Select currency"
 msgstr "Выберите валюту"
+
+msgid "Filters"
+msgstr "Фильтры"

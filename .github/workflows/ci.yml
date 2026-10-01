@@ -44,6 +44,7 @@ jobs:
       - run: ruff format --check .
       - run: mypy
       - run: python backend/manage.py makemigrations --check --dry-run
+      - run: sudo apt-get install -y -q gettext && msgfmt --check -o /dev/null backend/locale/ru/LC_MESSAGES/django.po
       - run: pytest
 
   frontend:
@@ -87,6 +88,12 @@ jobs:
           grep -q "^Логин:  admin" install.log
           grep -q "^HTTPS_PORT=8443" .env
       - run: curl -fsSk https://127.0.0.1:8443/api/health
+      - name: Каталог заполнен начальными данными
+        run: |
+          count="$(sudo docker compose exec -T app python manage.py shell -c 'from catalog.models import Program; print(Program.objects.count())' | tail -n 1)"
+          test "$count" = "34"
+          curl -fsSk -o /dev/null https://127.0.0.1:8443/media/programs/816497962.jpg
+          curl -fsSk -o /dev/null https://127.0.0.1:8443/media/files/816497962-plan.pdf
       - run: curl -fsSk https://127.0.0.1:8443/ | grep -q "Центр дополнительного профессионального образования"
       - run: curl -fsSk -o /dev/null https://127.0.0.1:8443/admin/login/
       - name: HTTP перенаправляет на HTTPS с нужным портом

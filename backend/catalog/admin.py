@@ -4,6 +4,7 @@ from django.http import HttpRequest
 from unfold.admin import ModelAdmin, StackedInline, TabularInline
 from unfold.decorators import display
 
+from catalog.formatting import format_price
 from catalog.models import FaqItem, Module, Program, ProgramFile, ProgramTeacher, Review, Sphere, Teacher
 
 
@@ -116,7 +117,7 @@ class ProgramAdmin(ModelAdmin):
 
     @display(description="Цена", ordering="price")
     def display_price(self, program: Program) -> str:
-        return f"{program.price:,} ₽".replace(",", " ") if program.price else "—"
+        return format_price(program.price) if program.price else "—"
 
 
 @admin.register(Sphere)
