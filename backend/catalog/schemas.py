@@ -244,3 +244,84 @@ class BotProgramOut(Schema):
     start: str | None
     start_iso: str | None
     keywords: list[str]
+
+
+class TgModuleOut(Schema):
+    title: str
+    hours: str
+    topics: list[str]
+
+
+class TgNoticeOut(Schema):
+    date: str | None
+    text: str
+    url: str | None
+
+
+class TgFileOut(Schema):
+    title: str
+    size: str
+    path: str
+
+
+class TgTeacherOut(Schema):
+    name: str
+    about: str
+    photo: str | None
+    page: str | None
+
+
+class TgReviewOut(Schema):
+    text: str
+    author: str
+
+
+class TgFaqOut(Schema):
+    q: str
+    a: str
+
+
+class TgProgramOut(Schema):
+    id: str
+    title: str
+    sphere: str | None
+    badge: str | None
+    doc: str | None
+    format: str | None
+    duration: str | None
+    hours: str | None
+    start_label: str | None
+    price: int | None
+    old_price: int | None
+    tagline: str
+    audience: list[str]
+    results: list[str]
+    modules: list[TgModuleOut]
+    cover: str | None
+    thumb: str | None
+    pay: str | None
+    about: str
+    lead: str | None
+    about_items: list[str] | None
+    audience_intro: str | None
+    advantages: list[str]
+    language: str | None
+    schedule: str | None
+    price_terms: list[str]
+    notice: TgNoticeOut | None
+    files: list[TgFileOut]
+    teachers: list[TgTeacherOut]
+    feedback: list[TgReviewOut]
+    admission_docs: list[str]
+    faq: list[TgFaqOut]
+
+
+class TgSphereOut(Schema):
+    id: str
+    title: str
+    count: int
+
+
+class TgCatalogOut(Schema):
+    programs: list[TgProgramOut]
+    spheres: list[TgSphereOut]

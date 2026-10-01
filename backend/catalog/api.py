@@ -12,7 +12,15 @@ from catalog.presentation.landing.page import landing_page
 from catalog.presentation.options import application_options
 from catalog.presentation.page import program_page
 from catalog.presentation.sitemap import sitemap
-from catalog.schemas import BotProgramOut, CatalogPageOut, ProgramOptionOut, ProgramPageOut, SitemapEntryOut
+from catalog.presentation.tg import tg_catalog
+from catalog.schemas import (
+    BotProgramOut,
+    CatalogPageOut,
+    ProgramOptionOut,
+    ProgramPageOut,
+    SitemapEntryOut,
+    TgCatalogOut,
+)
 
 router = Router(tags=["Каталог"])
 
@@ -49,3 +57,8 @@ def sitemap_entries(request: HttpRequest) -> list[SitemapEntryOut]:
 @router.get("/bot", response=list[BotProgramOut])
 def bot_programs(request: HttpRequest) -> list[BotProgramOut]:
     return bot_catalog(published(), moscow_today())
+
+
+@router.get("/tg", response=TgCatalogOut)
+def telegram_catalog(request: HttpRequest) -> TgCatalogOut:
+    return tg_catalog(published(), moscow_today())

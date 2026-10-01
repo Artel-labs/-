@@ -1,0 +1,182 @@
+[
+ {
+  "input": {
+   "position": "",
+   "company": "",
+   "firstName": "Анна",
+   "lastName": "Соколова",
+   "phone": "+7 916 555-12-34",
+   "email": "a.sokolova@example.ru",
+   "consent": true
+  },
+  "output": {
+   "ok": true,
+   "values": {
+    "firstName": "Анна",
+    "lastName": "Соколова",
+    "phone": "+7 916 555-12-34",
+    "email": "a.sokolova@example.ru",
+    "position": "",
+    "company": ""
+   }
+  }
+ },
+ {
+  "input": {
+   "position": "",
+   "company": "",
+   "firstName": "  ",
+   "lastName": "",
+   "phone": "",
+   "email": "",
+   "consent": false
+  },
+  "output": {
+   "ok": false,
+   "errors": [
+    {
+     "field": "firstName",
+     "message": "Укажите имя."
+    },
+    {
+     "field": "lastName",
+     "message": "Укажите фамилию."
+    },
+    {
+     "field": "phone",
+     "message": "Укажите телефон."
+    },
+    {
+     "field": "email",
+     "message": "Укажите электронную почту."
+    },
+    {
+     "field": "consent",
+     "message": "Без согласия на обработку персональных данных заявку принять нельзя."
+    }
+   ]
+  }
+ },
+ {
+  "input": {
+   "position": "",
+   "company": "",
+   "firstName": "А",
+   "lastName": "Б",
+   "phone": "8 (916) 555 12 34",
+   "email": "a@b.c",
+   "consent": true
+  },
+  "output": {
+   "ok": false,
+   "errors": [
+    {
+     "field": "email",
+     "message": "Проверьте адрес почты: похоже, в нём опечатка."
+    }
+   ]
+  }
+ },
+ {
+  "input": {
+   "position": "",
+   "company": "",
+   "firstName": "А",
+   "lastName": "Б",
+   "phone": "+7 916 abc",
+   "email": "a@b.ru",
+   "consent": true
+  },
+  "output": {
+   "ok": false,
+   "errors": [
+    {
+     "field": "phone",
+     "message": "В телефоне допустимы только цифры, пробелы и знаки + ( ) -"
+    }
+   ]
+  }
+ },
+ {
+  "input": {
+   "position": "",
+   "company": "",
+   "firstName": "А",
+   "lastName": "Б",
+   "phone": "12345",
+   "email": "a@b.ru",
+   "consent": true
+  },
+  "output": {
+   "ok": false,
+   "errors": [
+    {
+     "field": "phone",
+     "message": "Проверьте телефон: нужен номер с кодом страны или города."
+    }
+   ]
+  }
+ },
+ {
+  "input": {
+   "position": "",
+   "company": "",
+   "firstName": "А",
+   "lastName": "Б",
+   "phone": "+7 916 555-12-34",
+   "email": "victim@example.org?bcc=x%40evil.example",
+   "consent": true
+  },
+  "output": {
+   "ok": false,
+   "errors": [
+    {
+     "field": "email",
+     "message": "Проверьте адрес почты: похоже, в нём опечатка."
+    }
+   ]
+  }
+ },
+ {
+  "input": {
+   "position": "",
+   "company": "",
+   "firstName": "А",
+   "lastName": "Б",
+   "phone": "+7 916 555-12-34",
+   "email": "a@b.ru",
+   "consent": false
+  },
+  "output": {
+   "ok": false,
+   "errors": [
+    {
+     "field": "consent",
+     "message": "Без согласия на обработку персональных данных заявку принять нельзя."
+    }
+   ]
+  }
+ },
+ {
+  "input": {
+   "position": "Юрист",
+   "company": "ООО «Право»",
+   "firstName": "АААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААА",
+   "lastName": "  Б   В ",
+   "phone": "+7 916 555-12-34",
+   "email": "a@b.ru",
+   "consent": true
+  },
+  "output": {
+   "ok": true,
+   "values": {
+    "firstName": "АААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААА",
+    "lastName": "Б В",
+    "phone": "+7 916 555-12-34",
+    "email": "a@b.ru",
+    "position": "Юрист",
+    "company": "ООО «Право»"
+   }
+  }
+ }
+]

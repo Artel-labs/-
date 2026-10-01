@@ -1,0 +1,36 @@
+---
+import "../../styles/tg.css";
+import { embeddedJson, fetchTgCatalog } from "../../lib/tg";
+
+const catalog = await fetchTgCatalog();
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#FBF9F5" />
+    <title>Программы Центра ДПО · мини-приложение</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/logo/favicon-32.png" />
+    <link rel="stylesheet" href="/fonts/fonts-hse.css" />
+    <script is:inline src="https://telegram.org/js/telegram-web-app.js"></script>
+  </head>
+  <body>
+    <header class="bar" hidden>
+      <button class="bar-back" type="button" hidden>‹ Назад</button>
+      <span class="bar-title">Центр ДПО факультета права</span>
+    </header>
+    <main id="app"></main>
+    <div class="main-btn" hidden><button type="button"></button></div>
+    <noscript><p class="noscript">Для витрины программ нужен JavaScript.</p></noscript>
+    <script is:inline type="application/json" id="tg-data" set:html={embeddedJson(catalog)} />
+    <script>
+      import { startTgApp } from "../../scripts/tg/app";
+
+      startTgApp();
+    </script>
+  </body>
+</html>
