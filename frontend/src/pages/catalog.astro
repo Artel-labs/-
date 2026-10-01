@@ -1,0 +1,63 @@
+---
+import "../styles/catalog.css";
+import "../styles/compare.css";
+import SiteFooter from "../components/SiteFooter.astro";
+import SkipLink from "../components/SkipLink.astro";
+import CatalogHead from "../components/catalog/CatalogHead.astro";
+import CatalogHeader from "../components/catalog/CatalogHeader.astro";
+import CatalogHero from "../components/catalog/CatalogHero.astro";
+import FilterRow from "../components/catalog/FilterRow.astro";
+import ProgramCard from "../components/catalog/ProgramCard.astro";
+import StartsBoard from "../components/catalog/StartsBoard.astro";
+import Toolbar from "../components/catalog/Toolbar.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { fetchCatalogPage } from "../lib/catalog";
+
+const TITLE = "Курсы повышения квалификации для юристов · ДПО НИУ ВШЭ";
+const DESCRIPTION =
+  "Каталог программ ДПО факультета права НИУ ВШЭ: 26 курсов повышения квалификации и переподготовки для юристов – с ценой, форматом и датой старта.";
+
+const catalog = await fetchCatalogPage();
+if (!catalog) {
+  return new Response(null, { status: 404 });
+}
+const { filters } = catalog;
+---
+
+<BaseLayout title={TITLE} description={DESCRIPTION}>
+  <CatalogHead slot="head" catalog={catalog} />
+  <SkipLink />
+  <CatalogHeader />
+  <CatalogHero />
+  <StartsBoard starts={catalog.starts} />
+  <FilterRow id="filters" group="type" chips={filters.type} />
+  <FilterRow id="filtersFormat" group="format" chips={filters.format} />
+  <FilterRow id="filtersSphere" group="sphere" chips={filters.sphere} label="Фильтр по направлению" />
+  <FilterRow id="filtersDuration" group="duration" chips={filters.duration} label="Фильтр по длительности" />
+  <Toolbar />
+  <div class="crow-walk-row"><div class="crow-walk-slot" data-crow-walk></div></div>
+  <p class="tag-legend">ПК – повышение квалификации, итог – удостоверение; ПП – профессиональная переподготовка, итог – диплом.</p>
+  <main id="main">
+    <h2 class="visually-hidden">Программы повышения квалификации и профессиональной переподготовки для юристов</h2>
+    <div class="grid" id="grid">
+      {catalog.cards.map((card) => <ProgramCard card={card} />)}
+    </div>
+    <div class="empty" id="empty">
+      <div class="empty-crow" data-crow-slot aria-hidden="true"></div>
+      <p class="empty-text">По выбранному фильтру программ не найдено.</p>
+    </div>
+  </main>
+  <SiteFooter copyright />
+  <nav class="mobile-cta" aria-label="Быстрые действия">
+    <a class="secondary" href="#filters">Фильтры</a>
+    <a class="primary" href="/#contacts" data-application>Подать заявку</a>
+  </nav>
+</BaseLayout>
+
+<script>
+  import { setupCatalogFilters } from "../scripts/catalog-filters";
+  import { setupCompare } from "../scripts/compare";
+
+  setupCatalogFilters();
+  setupCompare();
+</script>

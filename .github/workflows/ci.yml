@@ -102,6 +102,11 @@ jobs:
           curl -fsSk "$page" | grep -q "<h1>Английское контрактное право</h1>"
           curl -fsSk "$page" | grep -q 'rel="canonical" href="https://[^"]*/programs/angliyskoe-kontraktnoe-pravo-856421092.html"'
           curl -fsSk -o /dev/null https://127.0.0.1:8443/media/programs/thumbs/856421092.webp
+      - name: Каталог показывает все программы, старые адреса перенаправляются
+        run: |
+          test "$(curl -fsSk https://127.0.0.1:8443/catalog | grep -o 'class="card"' | wc -l)" = "34"
+          curl -sSkI "https://127.0.0.1:8443/%D0%9A%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC.html?sphere=digital" | grep -qi "^location: .*/catalog?sphere=digital"
+          curl -sSkI https://127.0.0.1:8443/catalog.html | grep -qi "^location: .*/catalog"
       - name: Старый адрес программы перенаправляется, неизвестная даёт 404
         run: |
           curl -sSkI https://127.0.0.1:8443/programs/old-title-856421092.html | grep -qi "^location: .*/programs/angliyskoe-kontraktnoe-pravo-856421092.html"

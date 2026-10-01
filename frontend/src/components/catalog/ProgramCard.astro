@@ -1,0 +1,77 @@
+---
+import type { Card } from "../../lib/catalog";
+import { sitePath } from "../../lib/program";
+
+interface Props {
+  card: Card;
+}
+
+const { card } = Astro.props;
+const href = sitePath(card.path);
+---
+
+<div
+  class="card"
+  data-type={card.type_short}
+  data-format={card.format}
+  data-sphere={card.sphere}
+  data-duration={card.duration}
+  data-price={card.price_sort}
+  data-start={card.start_sort}
+  data-title={card.title_sort}
+  data-search={card.search}
+  data-id={card.hse_id}
+  data-cmp-format={card.compare.format}
+  data-cmp-duration={card.compare.duration}
+  data-cmp-start={card.compare.start}
+  data-cmp-modules={card.compare.modules}
+  data-cmp-teachers={card.compare.teachers}
+  data-cmp-audience={card.compare.audience}
+>
+  <button type="button" class="card-compare" data-compare-toggle aria-pressed="false" aria-label={`Сравнить: ${card.title}`}
+    ><span class="card-compare-box" aria-hidden="true"></span>Сравнить</button
+  >
+  <a href={href} class="card-link">
+    {
+      card.thumb ? (
+        <span class="card-media" aria-hidden="true">
+          <picture>
+            <source srcset={card.thumb.webp} type="image/webp" />
+            <img class="card-thumb" loading="lazy" decoding="async" alt={card.thumb.alt} src={card.thumb.src} />
+          </picture>
+        </span>
+      ) : (
+        <span class="card-media card-media-blank" aria-hidden="true" />
+      )
+    }
+    {card.sphere_title && <div class="sphere">{card.sphere_title}</div>}
+    <h3>{card.title}</h3>
+    {
+      card.tags.length > 0 && (
+        <span class="card-tags">
+          {card.tags.map((tag) => (
+            <span class={tag.kind} data-tip={tag.tip || undefined}>
+              {tag.text}
+            </span>
+          ))}
+        </span>
+      )
+    }
+    {card.start && <div class="meta">{card.start}</div>}
+  </a>
+  <div class="foot">
+    <span class="price">{card.price}</span>
+    <span class="foot-actions">
+      <button
+        type="button"
+        class="card-apply"
+        data-application
+        data-program-id={card.hse_id}
+        data-program-title={card.title}
+        data-program-url={href}
+        aria-label={`Заявка: ${card.title}`}>Заявка</button
+      >
+      <span class="go" aria-hidden="true">Подробнее →</span>
+    </span>
+  </div>
+</div>

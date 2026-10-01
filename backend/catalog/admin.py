@@ -81,6 +81,7 @@ class ProgramAdmin(ModelAdmin):
                     "hse_id",
                     "sphere",
                     "position",
+                    "catalog_position",
                     "is_published",
                     "locked",
                     "source",

@@ -41,7 +41,27 @@ def save_variant(source: Path, target: Path, width: int | None, image_format: st
         picture.save(target, image_format, quality=quality)
 
 
-def cover(program: Program) -> Cover | None:
+@dataclass(frozen=True)
+class Variants:
+    thumb: str
+    thumb_webp: str
+    full_webp: str
+    width: int
+    height: int
+
+
+@dataclass(frozen=True)
+class Thumb:
+    src: str
+    webp: str
+    alt: str
+
+
+def cover_alt(program: Program) -> str:
+    return f"Обложка программы «{program.title}»"
+
+
+def variants(program: Program) -> Variants | None:
     if not program.image:
         return None
     source = Path(program.image.path)
@@ -57,11 +77,25 @@ def cover(program: Program) -> Cover | None:
         save_variant(source, root / full_webp, None, "WEBP", WEBP_QUALITY)
     with Image.open(root / thumb) as image:
         width, height = image.size
+    return Variants(thumb, thumb_webp, full_webp, width, height)
+
+
+def cover(program: Program) -> Cover | None:
+    found = variants(program)
+    if found is None:
+        return None
     return Cover(
-        src=media_url(thumb),
-        srcset=f"{media_url(thumb)} 1x, {program.image.url} 2x",
-        webp_srcset=f"{media_url(thumb_webp)} 1x, {media_url(full_webp)} 2x",
-        width=width,
-        height=height,
-        alt=f"Обложка программы «{program.title}»",
+        src=media_url(found.thumb),
+        srcset=f"{media_url(found.thumb)} 1x, {program.image.url} 2x",
+        webp_srcset=f"{media_url(found.thumb_webp)} 1x, {media_url(found.full_webp)} 2x",
+        width=found.width,
+        height=found.height,
+        alt=cover_alt(program),
     )
+
+
+def thumb(program: Program) -> Thumb | None:
+    found = variants(program)
+    if found is None:
+        return None
+    return Thumb(src=media_url(found.thumb), webp=media_url(found.thumb_webp), alt=cover_alt(program))

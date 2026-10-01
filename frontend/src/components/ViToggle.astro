@@ -1,0 +1,10 @@
+<button id="viToggle" class="vi-btn" type="button" aria-pressed="false" title="Версия для слабовидящих">Версия для слабовидящих</button>
+
+<script>
+  import { setupViMode } from "../scripts/vi-mode";
+
+  const button = document.getElementById("viToggle");
+  if (button) {
+    setupViMode(button);
+  }
+</script>

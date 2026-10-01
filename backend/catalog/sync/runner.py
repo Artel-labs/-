@@ -94,6 +94,11 @@ def hide_missing(report: SyncReport, listed: list[ListedProgram]) -> None:
     missing.update(is_published=False)
 
 
+def follow_listing_order(listed: list[ListedProgram]) -> None:
+    for catalog_position, item in enumerate(listed):
+        Program.objects.filter(hse_id=item.hse_id).update(catalog_position=catalog_position)
+
+
 def run_sync(client: HseClient, pause: Callable[[float], None] = time.sleep) -> SyncReport:
     report = SyncReport()
     listed = fetch_listing(client)
@@ -102,4 +107,5 @@ def run_sync(client: HseClient, pause: Callable[[float], None] = time.sleep) -> 
         sync_program(client, report, item, spheres)
         pause(settings.HSE_REQUEST_DELAY_SECONDS)
     hide_missing(report, listed)
+    follow_listing_order(listed)
     return report

@@ -1,0 +1,70 @@
+---
+import type { Starts } from "../../lib/catalog";
+import { sitePath } from "../../lib/program";
+
+interface Props {
+  starts: Starts | null;
+}
+
+const { starts } = Astro.props;
+---
+
+{
+  starts && (
+    <section class="starts" aria-label="Ближайшие старты программ">
+      <div class="starts-head">
+        <h2>Ближайшие старты</h2>
+      </div>
+      <div class="starts-months" aria-label="Месяцы">
+        {starts.months.map((month, index) => (
+          <button type="button" class="starts-chip" data-scroll={month.scroll} aria-pressed={index === 0}>
+            {month.label} <b>{month.count}</b>
+          </button>
+        ))}
+      </div>
+      <div class="tl-wrap" tabindex="0" role="region" aria-label="Ось времени ближайших стартов, прокручивается горизонтально">
+        <div class="tl" data-width={starts.width}>
+          {starts.months.map((month) => (
+            <div class="tl-month" data-left={month.left} data-width={month.width} aria-hidden="true">
+              <span class="tl-month-label">
+                {month.label} <b>{month.count}</b>
+              </span>
+            </div>
+          ))}
+          <div class="tl-axis" aria-hidden="true">
+            {starts.ticks.map((tick) => (
+              <i class:list={["tl-tick", tick.kind]} data-left={tick.left} />
+            ))}
+          </div>
+          {starts.today !== null && (
+            <div class="tl-today" data-left={starts.today} aria-hidden="true">
+              <span>Сегодня</span>
+            </div>
+          )}
+          {starts.items.map((item) => (
+            <div class={`tl-item tl-${item.lane}`} data-left={item.left} data-pin={item.pin}>
+              <a class="tl-card" href={sitePath(item.path)} title={item.hint}>
+                <span class="tl-when">{item.when}</span>
+                <span class="tl-name">{item.title}</span>
+                <span class="tl-meta">
+                  {item.sphere && <i class="tl-dot" data-sphere={item.sphere} aria-hidden="true" />}
+                  {item.meta}
+                </span>
+                <span class="tl-price">{item.price}</span>
+              </a>
+              <span class="tl-pin" aria-hidden="true" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<script>
+  import { placeTimeline } from "../../scripts/timeline";
+  import { setupStartsBoard } from "../../scripts/starts-board";
+
+  placeTimeline();
+  setupStartsBoard();
+</script>

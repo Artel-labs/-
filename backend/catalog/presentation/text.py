@@ -2,8 +2,12 @@ EM_DASH = "—"
 EN_DASH = "–"
 
 
+def en_dash(text: str) -> str:
+    return text.replace(EM_DASH, EN_DASH)
+
+
 def typography(text: str) -> str:
-    return " ".join(text.replace(EM_DASH, EN_DASH).split())
+    return " ".join(en_dash(text).split())
 
 
 def plain_lines(text: str) -> list[str]:

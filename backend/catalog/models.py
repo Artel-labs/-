@@ -48,6 +48,9 @@ class Program(models.Model):
         Sphere, verbose_name="Направление", null=True, blank=True, on_delete=models.SET_NULL, related_name="programs"
     )
     position = models.PositiveSmallIntegerField("Порядок в направлении", default=0)
+    catalog_position = models.PositiveIntegerField(
+        "Порядок в каталоге", default=0, help_text="Как в списке на hse.ru; программы, добавленные вручную, идут после"
+    )
     is_published = models.BooleanField("Показывать на сайте", default=True)
     source = models.CharField("Источник", max_length=10, choices=Source.choices, default=Source.MANUAL)
     locked = models.BooleanField(

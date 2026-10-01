@@ -115,3 +115,101 @@ class ProgramPageOut(Schema):
     pay_url: str
     hse_url: str
     credential: CredentialOut | None
+
+
+class ThumbOut(Schema):
+    src: str
+    webp: str
+    alt: str
+
+
+class TagOut(Schema):
+    kind: str
+    text: str
+    tip: str
+
+
+class CompareOut(Schema):
+    format: str
+    duration: str
+    start: str
+    modules: str
+    teachers: int
+    audience: str
+
+
+class CardOut(Schema):
+    hse_id: str
+    title: str
+    path: str
+    type_short: str
+    format: str
+    sphere: str
+    sphere_title: str
+    duration: str
+    price_sort: int
+    start_sort: int
+    title_sort: str
+    search: str
+    thumb: ThumbOut | None
+    tags: list[TagOut]
+    start: str
+    price: str
+    compare: CompareOut
+
+
+class ChipOut(Schema):
+    label: str
+    value: str
+    active: bool
+
+
+class FiltersOut(Schema):
+    type: list[ChipOut]
+    format: list[ChipOut]
+    sphere: list[ChipOut]
+    duration: list[ChipOut]
+
+
+class MonthOut(Schema):
+    label: str
+    count: int
+    left: int
+    width: int
+    scroll: int
+
+
+class TickOut(Schema):
+    left: int
+    kind: str
+
+
+class StartOut(Schema):
+    lane: str
+    left: int
+    pin: int
+    path: str
+    hint: str
+    when: str
+    title: str
+    sphere: str
+    meta: str
+    price: str
+
+
+class StartsOut(Schema):
+    width: int
+    months: list[MonthOut]
+    ticks: list[TickOut]
+    today: int | None
+    items: list[StartOut]
+
+
+class CatalogPageOut(Schema):
+    total: int
+    canonical_url: str
+    image_url: str
+    filters: FiltersOut
+    cards: list[CardOut]
+    starts: StartsOut | None
+    structured_data: str

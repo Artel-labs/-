@@ -131,8 +131,10 @@ def import_program_teachers(program: Program, record: Record, teachers: dict[str
         )
 
 
-def import_program(record: Record, root: Path, spheres: dict[str, Any], teachers: dict[str, Teacher]) -> Program:
-    program = Program(**program_fields(record))
+def import_program(
+    record: Record, root: Path, spheres: dict[str, Any], teachers: dict[str, Teacher], catalog_position: int
+) -> Program:
+    program = Program(**program_fields(record), catalog_position=catalog_position)
     place_in_sphere(program, spheres)
     attach(program.image, root, record.get("image"))
     program.save()
@@ -148,6 +150,6 @@ def import_program(record: Record, root: Path, spheres: dict[str, Any], teachers
 def import_catalog(data: Record, root: Path) -> int:
     spheres = ensure_spheres()
     teachers = import_teachers(data, root)
-    for record in data["programs"]:
-        import_program(record, root, spheres, teachers)
+    for catalog_position, record in enumerate(data["programs"]):
+        import_program(record, root, spheres, teachers, catalog_position)
     return len(data["programs"])

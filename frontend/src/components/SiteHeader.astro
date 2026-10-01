@@ -1,21 +1,14 @@
+---
+import Logo from "./Logo.astro";
+import ViToggle from "./ViToggle.astro";
+---
+
 <header>
-  <a class="logo" href="/">
-    <img class="brand-mark" src="/images/logo/brand-mark-96.webp" width="34" height="34" alt="" />
-    <span class="sub">Центр ДПО факультета права</span>
-  </a>
+  <Logo />
   <span class="header-side">
     <nav class="header-nav" aria-label="Разделы сайта">
       <a class="nav-link" href="/catalog">Программы</a>
     </nav>
-    <button id="viToggle" class="vi-btn" type="button" aria-pressed="false" title="Версия для слабовидящих">Версия для слабовидящих</button>
+    <ViToggle />
   </span>
 </header>
-
-<script>
-  import { setupViMode } from "../scripts/vi-mode";
-
-  const button = document.getElementById("viToggle");
-  if (button) {
-    setupViMode(button);
-  }
-</script>

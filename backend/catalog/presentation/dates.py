@@ -41,3 +41,38 @@ def parse_notice_date(raw: str) -> date | None:
 def notice_is_fresh(raw_date: str, today: date) -> bool:
     published = parse_notice_date(raw_date)
     return published is None or (today - published).days <= NOTICE_MAX_AGE_DAYS
+
+
+START_PREFIX = "Старт: "
+EPOCH = date(1970, 1, 1)
+MILLISECONDS = 1000
+
+
+def is_upcoming(start: date | None, month_only: bool, today: date) -> bool:
+    if start is None:
+        return False
+    if month_only:
+        return (start.year, start.month) >= (today.year, today.month)
+    return start >= today
+
+
+def start_label(start: date | None, month_only: bool, today: date) -> str:
+    if not is_upcoming(start, month_only, today):
+        return ""
+    return f"{START_PREFIX}{format_start(start, month_only)}"
+
+
+def month_title(month: int) -> str:
+    return MONTHS_NOMINATIVE[month - 1].capitalize()
+
+
+def day_and_month(day: date) -> str:
+    return f"{day.day} {MONTHS_GENITIVE[day.month - 1]}"
+
+
+def epoch_day(day: date) -> int:
+    return (day - EPOCH).days
+
+
+def moscow_millis(day: date) -> int:
+    return round(datetime.combine(day, datetime.min.time(), MOSCOW).timestamp() * MILLISECONDS)

@@ -1,0 +1,25 @@
+<div class="toolbar">
+  <div class="search-wrap">
+    <input
+      type="search"
+      id="searchInput"
+      placeholder="Поиск по названию, типу, формату…"
+      autocomplete="off"
+      enterkeyhint="search"
+      aria-label="Поиск программ"
+    />
+    <span class="search-icon" aria-hidden="true">⌕</span>
+  </div>
+  <label class="sort-wrap" for="sortSelect">
+    <span class="sort-label">Сортировка</span>
+    <select id="sortSelect" class="sort-select">
+      <option value="default">по каталогу</option>
+      <option value="start">по дате старта</option>
+      <option value="price-asc">по цене: сначала дешевле</option>
+      <option value="price-desc">по цене: сначала дороже</option>
+      <option value="title">по названию</option>
+    </select>
+  </label>
+  <button type="button" class="reset" id="resetFilters" disabled>Сбросить фильтры</button>
+  <span class="result-count" id="resultCount" aria-live="polite"></span>
+</div>

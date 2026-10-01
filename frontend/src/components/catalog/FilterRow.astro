@@ -1,0 +1,22 @@
+---
+import type { Chip } from "../../lib/catalog";
+
+interface Props {
+  id: string;
+  group: string;
+  chips: Chip[];
+  label?: string | undefined;
+}
+
+const { id, group, chips, label } = Astro.props;
+---
+
+<div class="filters" id={id} data-group={group} aria-label={label}>
+  {
+    chips.map((chip) => (
+      <button type="button" class:list={["chip", { active: chip.active }]} data-value={chip.value} aria-pressed={chip.active}>
+        {chip.label}
+      </button>
+    ))
+  }
+</div>
