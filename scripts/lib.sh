@@ -5,6 +5,9 @@ HEALTH_DELAY_SECONDS=2
 DEFAULT_HTTP_PORT=80
 DEFAULT_HTTPS_PORT=443
 SECRET_BYTES=24
+NETWORK_ATTEMPTS=5
+NETWORK_DELAY_SECONDS=10
+PULLED_SERVICES=(db)
 
 project_root() {
     cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd
@@ -118,6 +121,34 @@ wait_for_site() {
     done
     echo "Сайт не ответил за $((HEALTH_ATTEMPTS * HEALTH_DELAY_SECONDS)) секунд. Логи: docker compose logs --tail=50" >&2
     return 1
+}
+
+with_retries() {
+    local attempt
+    for attempt in $(seq 1 "$NETWORK_ATTEMPTS"); do
+        if "$@"; then
+            return 0
+        fi
+        echo "Не получилось (попытка $attempt из $NETWORK_ATTEMPTS). Похоже на сбой сети, повторяем через ${NETWORK_DELAY_SECONDS} с." >&2
+        sleep "$NETWORK_DELAY_SECONDS"
+    done
+    echo "Не удалось после $NETWORK_ATTEMPTS попыток. Проверьте, что сервер видит Docker Hub и npm." >&2
+    return 1
+}
+
+missing_images() {
+    local image
+    for image in $(docker compose config --images "${PULLED_SERVICES[@]}"); do
+        docker image inspect "$image" >/dev/null 2>&1 || echo "$image"
+    done
+}
+
+fetch_and_build() {
+    local image
+    for image in $(missing_images); do
+        with_retries docker pull "$image"
+    done
+    with_retries docker compose build
 }
 
 db_shell() {

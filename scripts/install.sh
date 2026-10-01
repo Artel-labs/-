@@ -124,7 +124,7 @@ ENV_FILE
 start_site() {
     cd "$1"
     require_free_ports
-    docker compose build
+    fetch_and_build
     docker compose up -d --wait db
     docker compose run --rm app python manage.py migrate --noinput
     docker compose up -d --remove-orphans

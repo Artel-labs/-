@@ -17,8 +17,8 @@ main() {
         step "1/6" "Установка из архива: берём файлы из $root как есть"
         trap 'archive_failed' ERR
     fi
-    step "2/6" "Собираем контейнеры"
-    docker compose build
+    step "2/6" "Скачиваем образы и собираем контейнеры"
+    fetch_and_build
     step "3/6" "Резервная копия базы перед миграциями"
     as_root "$root/scripts/backup.sh"
     step "4/6" "Применяем миграции базы"
