@@ -14,7 +14,7 @@ services:
       MARIADB_DATABASE: ${DB_NAME:?DB_NAME}
       MARIADB_USER: ${DB_USER:?DB_USER}
       MARIADB_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD}
-      MARIADB_RANDOM_ROOT_PASSWORD: "1"
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?DB_ROOT_PASSWORD}
       MARIADB_AUTO_UPGRADE: "1"
     volumes:
       - db-data:/var/lib/mysql
@@ -55,6 +55,8 @@ services:
       dockerfile: deploy/web.Dockerfile
     depends_on:
       - app
+    environment:
+      HTTPS_PORT: ${HTTPS_PORT:-443}
     ports:
       - "${HTTP_PORT:-80}:80"
       - "${HTTPS_PORT:-443}:443"

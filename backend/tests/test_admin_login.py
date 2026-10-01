@@ -9,6 +9,7 @@ LOGIN_URL = "/admin/login/"
 ATTACKER_IP = "203.0.113.10"
 OFFICE_IP = "198.51.100.20"
 LOCKED = 429
+SESSION_COOKIE = "dpo_session"
 
 
 def log_in(client, password, ip=ATTACKER_IP):
@@ -37,6 +38,7 @@ def test_admin_can_log_in(client):
     response = log_in(client, ADMIN_PASSWORD)
     assert response.status_code == 302
     assert response["Location"] == "/admin/"
+    assert SESSION_COOKIE in response.cookies
     assert client.get("/admin/").status_code == 200
 
 

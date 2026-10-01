@@ -2,8 +2,10 @@
 set -Eeuo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
 
-PACKAGES=(git curl openssl)
+PACKAGES=(git curl openssl iproute2)
 DOCKER_PACKAGES=(docker.io docker-compose-v2)
+REQUESTED_HTTP_PORT="${HTTP_PORT:-}"
+REQUESTED_HTTPS_PORT="${HTTPS_PORT:-}"
 
 main() {
     local root owner mode
@@ -12,6 +14,7 @@ main() {
     owner="${SUDO_USER:-root}"
     mode="$(choose_mode "${1:-}")"
     [[ $# -gt 0 ]] && shift
+    validate_ports
     step "1/7" "Устанавливаем пакеты"
     install_packages
     step "2/7" "Даём пользователю ${owner} право запускать Docker"
@@ -19,7 +22,7 @@ main() {
     step "3/7" "Готовим файл настроек .env"
     prepare_env "$root" "$owner" "$@"
     load_env "$root"
-    step "4/7" "Собираем и запускаем сайт"
+    step "4/7" "Собираем и запускаем сайт на портах ${HTTP_PORT} (HTTP) и ${HTTPS_PORT} (HTTPS)"
     start_site "$root"
     step "5/7" "Создаём администратора"
     create_admin "$root"
@@ -28,7 +31,7 @@ main() {
     step "7/7" "Режим работы: ${mode^^}"
     enable_mode "$root" "$mode" "$@"
     echo
-    echo "Готово. Сайт: ${mode}://$(server_ip)/  Админка: ${mode}://$(server_ip)/admin/"
+    echo "Готово. Сайт: $(site_url "$mode")/  Админка: $(site_url "$mode")/admin/"
     echo "Если группа docker добавлена только что, перезайдите по SSH, чтобы запускать скрипты без sudo."
 }
 
@@ -38,6 +41,16 @@ choose_mode() {
         --http | "") echo http ;;
         *) echo "Неизвестный параметр: $1. Допустимо: --https [домен-или-IP ...] или --http" >&2; exit 1 ;;
     esac
+}
+
+validate_ports() {
+    local port
+    for port in "$REQUESTED_HTTP_PORT" "$REQUESTED_HTTPS_PORT"; do
+        if [[ -n "$port" && ! ( "$port" =~ ^[0-9]+$ && "$port" -ge 1 && "$port" -le 65535 ) ]]; then
+            echo "Порт должен быть числом от 1 до 65535, получено: $port" >&2
+            exit 1
+        fi
+    done
 }
 
 install_packages() {
@@ -62,15 +75,26 @@ prepare_env() {
     local root="$1" owner="$2" file="$1/.env"
     shift 2
     if [[ -f "$file" ]]; then
-        echo "Файл .env уже есть — оставляем его как есть."
-        return
+        echo "Файл .env уже есть — сохраняем его настройки."
+    else
+        (
+            umask 077
+            write_env "$file" "$@"
+        )
+        chown "$owner" "$file"
+        echo "Создан $file (доступен только владельцу)."
     fi
-    (
-        umask 077
-        write_env "$file" "$@"
-    )
-    chown "$owner" "$file"
-    echo "Создан $file (доступен только владельцу)."
+    apply_requested_ports "$file"
+    upgrade_env "$root"
+}
+
+apply_requested_ports() {
+    if [[ -n "$REQUESTED_HTTP_PORT" ]]; then
+        set_env_value "$1" HTTP_PORT "$REQUESTED_HTTP_PORT"
+    fi
+    if [[ -n "$REQUESTED_HTTPS_PORT" ]]; then
+        set_env_value "$1" HTTPS_PORT "$REQUESTED_HTTPS_PORT"
+    fi
 }
 
 write_env() {
@@ -87,9 +111,10 @@ DJANGO_ALLOWED_HOSTS=${hosts}
 COOKIE_SECURE=0
 DB_NAME=dpo
 DB_USER=dpo
-DB_PASSWORD=$(openssl rand -hex 24)
-HTTP_PORT=80
-HTTPS_PORT=443
+DB_PASSWORD=$(new_secret)
+DB_ROOT_PASSWORD=$(new_secret)
+HTTP_PORT=${DEFAULT_HTTP_PORT}
+HTTPS_PORT=${DEFAULT_HTTPS_PORT}
 TLS_DIR=/etc/dpo/tls
 BACKUP_DIR=/var/backups/dpo
 BACKUP_KEEP=30
@@ -98,11 +123,27 @@ ENV_FILE
 
 start_site() {
     cd "$1"
+    require_free_ports
     docker compose build
     docker compose up -d --wait db
     docker compose run --rm app python manage.py migrate --noinput
     docker compose up -d --remove-orphans
     wait_for_site
+}
+
+require_free_ports() {
+    local port
+    if [[ -n "$(docker compose ps -q web 2>/dev/null)" ]]; then
+        return
+    fi
+    for port in "$HTTP_PORT" "$HTTPS_PORT"; do
+        if ss -ltnH "( sport = :$port )" | grep -q .; then
+            echo "Порт $port уже занят другой программой:" >&2
+            ss -ltnpH "( sport = :$port )" >&2 || true
+            echo "Укажите свободные порты, например: sudo env HTTP_PORT=8080 HTTPS_PORT=8443 ./scripts/install.sh" >&2
+            exit 1
+        fi
+    done
 }
 
 create_admin() {

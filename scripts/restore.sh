@@ -3,9 +3,10 @@ set -Eeuo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
 
 CONFIRM_WORD=ВОССТАНОВИТЬ
+WORK_FILE=""
 
 main() {
-    local root file work
+    local root file
     root="$(project_root)"
     cd "$root"
     load_env "$root"
@@ -17,9 +18,9 @@ main() {
     [[ -f "$file" ]] || { echo "Файл не найден: $file" >&2; exit 1; }
     gzip -t "$file" || { echo "Файл повреждён: $file" >&2; exit 1; }
     confirm "${2:-}"
-    work="$(mktemp)"
-    trap 'rm -f "$work"' EXIT
-    cp "$file" "$work"
+    WORK_FILE="$(mktemp)"
+    trap 'rm -f "$WORK_FILE"' EXIT
+    cp "$file" "$WORK_FILE"
     echo "[1/4] Сохраняем текущую базу на всякий случай"
     "$root/scripts/backup.sh"
     echo "[2/4] Останавливаем приложение"
@@ -27,11 +28,12 @@ main() {
     trap 'on_failure' ERR
     echo "[3/4] Восстанавливаем базу из $file"
     drop_tables
-    gunzip -c "$work" | db_shell mariadb
+    gunzip -c "$WORK_FILE" | db_shell mariadb
     trap - ERR
     echo "[4/4] Запускаем приложение и применяем миграции"
     docker compose run --rm app python manage.py migrate --noinput
     docker compose start app
+    wait_for_site
     echo "Готово: база восстановлена из $(basename "$file")."
 }
 

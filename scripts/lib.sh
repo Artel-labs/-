@@ -2,6 +2,9 @@
 
 HEALTH_ATTEMPTS=30
 HEALTH_DELAY_SECONDS=2
+DEFAULT_HTTP_PORT=80
+DEFAULT_HTTPS_PORT=443
+SECRET_BYTES=24
 
 project_root() {
     cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd
@@ -37,12 +40,44 @@ require_env_file() {
 load_env() {
     local file="$1/.env"
     require_env_file "$1"
-    HTTP_PORT="$(env_value "$file" HTTP_PORT 80)"
-    HTTPS_PORT="$(env_value "$file" HTTPS_PORT 443)"
+    HTTP_PORT="$(env_value "$file" HTTP_PORT "$DEFAULT_HTTP_PORT")"
+    HTTPS_PORT="$(env_value "$file" HTTPS_PORT "$DEFAULT_HTTPS_PORT")"
     TLS_DIR="$(env_value "$file" TLS_DIR /etc/dpo/tls)"
     BACKUP_DIR="$(env_value "$file" BACKUP_DIR /var/backups/dpo)"
     BACKUP_KEEP="$(env_value "$file" BACKUP_KEEP 30)"
-    export HTTP_PORT HTTPS_PORT TLS_DIR BACKUP_DIR BACKUP_KEEP
+    COOKIE_SECURE="$(env_value "$file" COOKIE_SECURE 0)"
+    export HTTP_PORT HTTPS_PORT TLS_DIR BACKUP_DIR BACKUP_KEEP COOKIE_SECURE
+}
+
+new_secret() {
+    openssl rand -hex "$SECRET_BYTES"
+}
+
+ensure_env_secret() {
+    if ! grep -qE "^$2=" "$1"; then
+        set_env_value "$1" "$2" "$(new_secret)"
+        echo "В .env добавлен недостающий $2."
+    fi
+}
+
+upgrade_env() {
+    ensure_env_secret "$1/.env" DB_ROOT_PASSWORD
+}
+
+port_suffix() {
+    if [[ "$1" == "$2" ]]; then
+        echo ""
+    else
+        echo ":$1"
+    fi
+}
+
+site_url() {
+    if [[ "$1" == "https" ]]; then
+        echo "https://$(server_ip)$(port_suffix "$HTTPS_PORT" "$DEFAULT_HTTPS_PORT")"
+    else
+        echo "http://$(server_ip)$(port_suffix "$HTTP_PORT" "$DEFAULT_HTTP_PORT")"
+    fi
 }
 
 as_root() {
@@ -65,8 +100,11 @@ server_ip() {
 }
 
 site_health() {
-    curl -fsSk --max-time 5 "https://127.0.0.1:${HTTPS_PORT}/api/health" 2>/dev/null \
-        || curl -fsS --max-time 5 "http://127.0.0.1:${HTTP_PORT}/api/health" 2>/dev/null
+    if [[ "$COOKIE_SECURE" == "1" ]]; then
+        curl -fsSk --max-time 5 "https://127.0.0.1:${HTTPS_PORT}/api/health" 2>/dev/null
+    else
+        curl -fsS --max-time 5 "http://127.0.0.1:${HTTP_PORT}/api/health" 2>/dev/null
+    fi
 }
 
 wait_for_site() {

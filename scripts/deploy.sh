@@ -7,6 +7,7 @@ main() {
     root="$(project_root)"
     cd "$root"
     load_env "$root"
+    upgrade_env "$root"
     if [[ -d .git ]]; then
         previous="$(git rev-parse HEAD)"
         step "1/6" "Получаем ветку ${branch}"
