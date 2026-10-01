@@ -16,7 +16,9 @@ const site = await fetchSite();
 </DocumentPage>
 
 <script>
+  import { setupConsentReset } from "../scripts/consent";
   import { revealEmails } from "../scripts/email-protect";
 
   revealEmails();
+  setupConsentReset();
 </script>
