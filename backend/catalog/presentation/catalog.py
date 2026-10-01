@@ -9,11 +9,11 @@ from catalog.presentation.filters import filters
 from catalog.presentation.item_list import item_list
 from catalog.presentation.timeline import starts_board
 from catalog.schemas import CatalogPageOut
+from core.site import SHARE_IMAGE_PATH, absolute_url
 
 HSE_FIRST = 0
 MANUAL_LAST = 1
 CATALOG_PATH = "/catalog"
-SHARE_IMAGE_PATH = "/images/hero-composite.jpg"
 
 
 def catalog_order(programs: QuerySet[Program]) -> QuerySet[Program]:
@@ -27,8 +27,8 @@ def catalog_page(programs: QuerySet[Program], today: date) -> CatalogPageOut:
     ordered = list(catalog_order(programs).select_related("sphere").prefetch_related("modules", "program_teachers"))
     return CatalogPageOut(
         total=len(ordered),
-        canonical_url=f"{settings.SITE_URL}{CATALOG_PATH}",
-        image_url=f"{settings.SITE_URL}{SHARE_IMAGE_PATH}",
+        canonical_url=absolute_url(CATALOG_PATH),
+        image_url=absolute_url(SHARE_IMAGE_PATH),
         filters=filters(ordered, list(Sphere.objects.all())),
         cards=[card(program, today) for program in ordered],
         starts=starts_board(ordered, today),

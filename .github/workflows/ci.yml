@@ -112,6 +112,16 @@ jobs:
           test "$(curl -fsSk https://127.0.0.1:8443/catalog | grep -o 'class="card"' | wc -l)" = "34"
           curl -sSkI "https://127.0.0.1:8443/%D0%9A%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC.html?sphere=digital" | grep -qi "^location: .*/catalog?sphere=digital"
           curl -sSkI https://127.0.0.1:8443/catalog.html | grep -qi "^location: .*/catalog"
+      - name: Рейтинги, политика, карта сайта и robots.txt
+        run: |
+          curl -fsSk https://127.0.0.1:8443/ratings | grep -q "<h1>Позиции НИУ ВШЭ в рейтингах</h1>"
+          curl -fsSk https://127.0.0.1:8443/privacy | grep -q "<h1>Политика обработки персональных данных</h1>"
+          test "$(curl -fsSk https://127.0.0.1:8443/sitemap.xml | grep -c '<url>')" = "38"
+          curl -fsSk https://127.0.0.1:8443/robots.txt | grep -q "^Sitemap: https://.*/sitemap.xml$"
+          curl -sSkI https://127.0.0.1:8443/ratings.html | grep -qi "^location: /ratings"
+          curl -sSkI https://127.0.0.1:8443/privacy.html | grep -qi "^location: /privacy"
+          test "$(curl -sSk -o /dev/null -w '%{http_code}' https://127.0.0.1:8443/no-such-page)" = "404"
+          curl -sSk https://127.0.0.1:8443/no-such-page | grep -q "Такой страницы нет"
       - name: Заявка принимается и видна в базе
         run: |
           code="$(curl -sSk -o /dev/null -w '%{http_code}' -H 'Content-Type: application/json' -d '{"firstName":"Проверка","lastName":"CI","phone":"+7 495 000 00 00","email":"ci@example.ru","consent":true}' https://127.0.0.1:8443/api/applications)"

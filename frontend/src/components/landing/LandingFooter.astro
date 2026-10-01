@@ -1,5 +1,5 @@
 ---
-const FOUNDED = 1993;
+import Copyright from "../Copyright.astro";
 ---
 
 <footer class="landing-footer" data-screen-label="Footer">
@@ -8,6 +8,6 @@ const FOUNDED = 1993;
 <a class="footer-link" href="#document">Выдаваемый документ</a>
 <a class="footer-link" href="/privacy">Политика обработки персональных данных</a>
 <a class="footer-link" href="https://www.hse.ru/sveden/" rel="noopener">Сведения об образовательной организации</a>
-<span class="footer-note">© НИУ ВШЭ, {FOUNDED}–{new Date().getFullYear()}</span>
+<Copyright class="footer-note" />
 </span>
 </footer>

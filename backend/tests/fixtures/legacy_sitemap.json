@@ -1,0 +1,192 @@
+[
+  {
+    "loc": "https://example.com/",
+    "changefreq": "monthly",
+    "priority": "1.0"
+  },
+  {
+    "loc": "https://example.com/catalog",
+    "changefreq": "weekly",
+    "priority": "0.9"
+  },
+  {
+    "loc": "https://example.com/privacy",
+    "changefreq": "yearly",
+    "priority": "0.2"
+  },
+  {
+    "loc": "https://example.com/ratings",
+    "changefreq": "yearly",
+    "priority": "0.4"
+  },
+  {
+    "loc": "https://example.com/programs/intellektualnaya-sobstvennost-ot-zakona-k-praktike-816497962.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/pravo-na-angliyskom-legal-english-474776084.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/tsifrovoe-pravo-dlya-biznesa-837181759.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/masterstvo-yuridicheskogo-angliyskogo-prodvinutye-navyki-dly-959312137.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/avtorskoe-pravo-v-informatsionnom-obschestve-472681893.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/aktualnye-voprosy-grazhdanskogo-prava-958734693.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/aktualnye-voprosy-nalogovogo-administrirovaniya-i-sovremenny-1129129055.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/pravovye-mehanizmy-i-strategii-effektivnogo-vzaimodeystviya-1163275658.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/biznes-mediatsiya-494685723.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/frantsuzskoe-evropeyskoe-ekonomicheskoe-pravo-droit-economiq-961021723.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/bezopasnoe-vnedrenie-tsifrovyh-instrumentov-v-kadrovuyu-rabo-1129129056.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/frantsuzskiy-yuridicheskiy-yazyk-pravo-terminologiya-i-argum-1057557281.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/mezhdunarodnoe-chastnoe-pravo-transgranichnye-operatsii-474599435.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/vvedenie-v-pravovuyu-sistemu-kitaya-894108285.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/nalogovye-proverki-i-razreshenie-nalogovyh-sporov-815005412.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/angliyskoe-kontraktnoe-pravo-856421092.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/morskoy-arbitrazh-906651510.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/korporativnoe-pravo-osnovnye-problemy-474596729.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/tehniki-effektivnogo-analiza-yuridicheskih-dokumentov-820703080.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/delovye-peregovory-pravovye-strategii-589527758.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/transportnoe-pravo-802031223.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/imuschestvennye-otnosheniya-v-seme-pravo-i-mediatsiya-934858556.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/obschie-voprosy-dogovornogo-prava-907279244.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/personalnyy-assistent-829977883.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/neyropravo-905186485.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/kontraktnoe-pravo-gonkonga-1025688553.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/pravovye-voprosy-bankrotstva-teorii-i-praktiki-1008772871.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/yuridicheskaya-otvetstvennost-vracha-i-meditsinskoy-organiza-1029651795.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/fundamentalnye-osnovy-translyatsionnoy-meditsiny-1031531700.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/trudovoe-pravo-dlya-kadrovyh-rabotnikov-1052823497.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/dostup-na-rynok-market-access-lekarstvennyh-preparatov-strat-1162952114.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/iskusstvo-sostavleniya-dogovorov-474413637.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/pravo-i-obschestvoznanie-909192654.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  },
+  {
+    "loc": "https://example.com/programs/islamskie-finansy-pravovye-osnovy-komplaens-i-biznes-praktik-814248062.html",
+    "changefreq": "weekly",
+    "priority": "0.7"
+  }
+]

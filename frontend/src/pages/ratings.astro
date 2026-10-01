@@ -1,0 +1,27 @@
+---
+import RatingsTable from "../components/ratings/RatingsTable.astro";
+import DocumentPage from "../layouts/DocumentPage.astro";
+import { fetchSite } from "../lib/site";
+import "../styles/ratings.css";
+
+const TITLE = "Позиции НИУ ВШЭ в рейтингах по праву · Центр ДПО НИУ ВШЭ";
+const DESCRIPTION =
+  "Полная таблица позиций НИУ ВШЭ в предметных рейтингах по праву за 2021-2026 годы: QS, THE, RAEX, Forbes, SuperJob, hh.ru, национальный рейтинг по трудоустройству.";
+const SHARE_DESCRIPTION = "Полная таблица позиций НИУ ВШЭ в предметных рейтингах по праву, 2021-2026.";
+
+const site = await fetchSite();
+---
+
+<DocumentPage site={site} path="/ratings" title={TITLE} description={DESCRIPTION} shareDescription={SHARE_DESCRIPTION} privacyLink>
+  <h1>Позиции НИУ ВШЭ в рейтингах</h1>
+  <p class="updated">Предметные рейтинги по праву и общеуниверситетские рейтинги, 2021-2026</p>
+  <p>
+    Таблица приводится полностью, включая годы, когда рейтинг не публиковался: отсутствие данных – это отсутствие данных, а не
+    пропуск. Каждая строка ведёт на официальную страницу соответствующего рейтинга.
+  </p>
+  <RatingsTable />
+  <p class="footnote">
+    Данные – сводка факультета права «Позиции НИУ ВШЭ в предметных рейтингах по праву, 2021-2026». В скобках у национального рейтинга
+    по трудоустройству указана позиция магистратуры.
+  </p>
+</DocumentPage>

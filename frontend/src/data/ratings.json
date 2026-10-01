@@ -1,0 +1,241 @@
+[
+  {
+    "title": "QS World University Rankings by Subject",
+    "rows": [
+      {
+        "year": "2021",
+        "field": "Law & Legal Studies",
+        "place": "101-150",
+        "url": "https://www.topuniversities.com/university-subject-rankings/law-legal-studies/2021"
+      },
+      {
+        "year": "2022",
+        "field": "Law & Legal Studies",
+        "place": "101-150",
+        "url": "https://www.topuniversities.com/university-subject-rankings/law-legal-studies/2022"
+      },
+      {
+        "year": "2023",
+        "field": "Law & Legal Studies",
+        "place": "101-150",
+        "url": "https://www.topuniversities.com/university-subject-rankings/law-legal-studies/2023"
+      },
+      {
+        "year": "2024",
+        "field": "Law & Legal Studies",
+        "place": "101-150",
+        "url": "https://www.topuniversities.com/university-subject-rankings/law-legal-studies/2024"
+      },
+      {
+        "year": "2025",
+        "field": "Law & Legal Studies",
+        "place": "151-200",
+        "url": "https://www.topuniversities.com/university-subject-rankings/law-legal-studies/2025"
+      },
+      {
+        "year": "2026",
+        "field": "Law & Legal Studies",
+        "place": "251-300",
+        "url": "https://www.topuniversities.com/university-subject-rankings/law-legal-studies"
+      }
+    ]
+  },
+  {
+    "title": "Times Higher Education by Subject",
+    "rows": [
+      {
+        "year": "2021",
+        "field": "Law",
+        "place": "85",
+        "url": "https://www.timeshighereducation.com/world-university-rankings/2021/subject-ranking/law"
+      },
+      {
+        "year": "2022",
+        "field": "Law",
+        "place": "126-150",
+        "url": "https://www.timeshighereducation.com/world-university-rankings/2022/subject-ranking/law"
+      },
+      {
+        "year": "2023",
+        "field": "Law",
+        "place": "126-150",
+        "url": "https://www.timeshighereducation.com/world-university-rankings/2023/subject-ranking/law"
+      },
+      {
+        "year": "2024",
+        "field": "Law",
+        "place": "101-125",
+        "url": "https://www.timeshighereducation.com/world-university-rankings/2024/subject-ranking/law"
+      },
+      {
+        "year": "2025",
+        "field": "Law",
+        "place": "96",
+        "url": "https://www.timeshighereducation.com/world-university-rankings/2025/subject-ranking/law"
+      }
+    ]
+  },
+  {
+    "title": "RAEX, предметный рейтинг вузов России",
+    "rows": [
+      {
+        "year": "2021",
+        "field": "Право / юриспруденция",
+        "place": null,
+        "url": null
+      },
+      {
+        "year": "2022",
+        "field": "Право",
+        "place": "2",
+        "url": "https://raex-rr.com/education/subject_ranking/law/2022/"
+      },
+      {
+        "year": "2023",
+        "field": "Право",
+        "place": "2",
+        "url": "https://raex-rr.com/education/subject_ranking/law/2023/"
+      },
+      {
+        "year": "2024",
+        "field": "Право",
+        "place": "3",
+        "url": "https://raex-rr.com/education/subject_ranking/law/2024/"
+      },
+      {
+        "year": "2025",
+        "field": "Право",
+        "place": "3",
+        "url": "https://raex-rr.com/education/subject_ranking/law/2025/"
+      },
+      {
+        "year": "2026",
+        "field": "Право",
+        "place": "3",
+        "url": "https://raex-rr.com/education/subject_ranking/law/2026/"
+      }
+    ]
+  },
+  {
+    "title": "Национальный рейтинг по трудоустройству, бакалавриат (магистратура)",
+    "rows": [
+      {
+        "year": "2025",
+        "field": "Науки об обществе",
+        "place": "4 (6)",
+        "url": "https://trudvsem.ru/ratings_education_organizations-2025/universities"
+      },
+      {
+        "year": "2026",
+        "field": "Юриспруденция",
+        "place": "5 (1)",
+        "url": "https://trudvsem.ru/ratings_education_organizations-2026"
+      }
+    ]
+  },
+  {
+    "title": "Рейтинг факультетов московских вузов hh.ru",
+    "rows": [
+      {
+        "year": "2021",
+        "field": "Юриспруденция",
+        "place": "1",
+        "url": "https://hh.ru/facultyRating"
+      },
+      {
+        "year": "2022",
+        "field": "Юриспруденция",
+        "place": "1",
+        "url": "https://hh.ru/facultyRating"
+      },
+      {
+        "year": "2023",
+        "field": "Юриспруденция",
+        "place": "1",
+        "url": "https://hh.ru/facultyRating"
+      }
+    ]
+  },
+  {
+    "title": "Forbes, лучшие университеты России",
+    "rows": [
+      {
+        "year": "2021",
+        "field": "Университет",
+        "place": "1",
+        "url": "https://www.forbes.ru/obshchestvo-photogallery/432783-luchshie-rossiyskie-vuzy-2021-reyting-forbes"
+      },
+      {
+        "year": "2022",
+        "field": "Университет",
+        "place": "1",
+        "url": "https://www.forbes.ru/society/482914-lucsie-rossijskie-vuzy-2022-rejting-forbes"
+      },
+      {
+        "year": "2023",
+        "field": "Университет",
+        "place": null,
+        "url": null
+      },
+      {
+        "year": "2024",
+        "field": "Университет",
+        "place": "2",
+        "url": "https://www.forbes.ru/education/515318-lucsie-rossijskie-vuzy-2024-rejting-forbes"
+      },
+      {
+        "year": "2025",
+        "field": "Университет",
+        "place": "2",
+        "url": "https://www.forbes.ru/education/537757-lucsie-rossijskie-vuzy-2025-rejting-forbes"
+      },
+      {
+        "year": "2026",
+        "field": "Университет",
+        "place": "1",
+        "url": "https://www.forbes.ru/education/558183-forbes-opublikoval-rejting-lucsih-universitetov-rossii-2026"
+      }
+    ]
+  },
+  {
+    "title": "SuperJob, рейтинг юридических вузов России",
+    "rows": [
+      {
+        "year": "2021",
+        "field": "Юриспруденция",
+        "place": "4",
+        "url": "https://students.superjob.ru/reiting-vuzov-2021/juridicheskie/"
+      },
+      {
+        "year": "2022",
+        "field": "Юриспруденция",
+        "place": "4",
+        "url": "https://students.superjob.ru/reiting-vuzov-2022/juridicheskie/"
+      },
+      {
+        "year": "2023",
+        "field": "Юриспруденция",
+        "place": "4",
+        "url": "https://students.superjob.ru/reiting-vuzov-2023/juridicheskie/"
+      },
+      {
+        "year": "2024",
+        "field": "Юриспруденция",
+        "place": "3",
+        "url": "https://students.superjob.ru/reiting-vuzov-2024/juridicheskie/"
+      },
+      {
+        "year": "2025",
+        "field": "Юриспруденция",
+        "place": "3",
+        "url": "https://students.superjob.ru/reiting-vuzov-2025/juridicheskie/"
+      },
+      {
+        "year": "2026",
+        "field": "Юриспруденция",
+        "place": "3",
+        "url": "https://students.superjob.ru/reiting-vuzov/juridicheskie/"
+      }
+    ]
+  }
+]

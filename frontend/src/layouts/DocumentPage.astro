@@ -1,0 +1,30 @@
+---
+import "../styles/document.css";
+import SkipLink from "../components/SkipLink.astro";
+import DocumentFooter from "../components/document/DocumentFooter.astro";
+import DocumentHead from "../components/document/DocumentHead.astro";
+import DocumentHeader from "../components/document/DocumentHeader.astro";
+import type { Site } from "../lib/site";
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  site: Site;
+  path: string;
+  title: string;
+  description: string;
+  shareDescription: string;
+  privacyLink?: boolean;
+}
+
+const { site, path, title, description, shareDescription, privacyLink = false } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <DocumentHead slot="head" site={site} path={path} title={title} shareDescription={shareDescription} />
+  <SkipLink />
+  <DocumentHeader />
+  <main id="main">
+    <slot />
+  </main>
+  <DocumentFooter privacyLink={privacyLink} />
+</BaseLayout>

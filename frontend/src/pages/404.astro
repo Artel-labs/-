@@ -1,10 +1,53 @@
 ---
 export const prerender = true;
 
-import NoticePage from "../layouts/NoticePage.astro";
+import Copyright from "../components/Copyright.astro";
+import SkipLink from "../components/SkipLink.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import "../styles/not-found.css";
+
+const TITLE = "Страница не найдена · Центр ДПО НИУ ВШЭ";
+const DESCRIPTION = "Такой страницы на сайте нет.";
 ---
 
-<NoticePage title="Страница не найдена — Центр ДПО" description="Такой страницы на сайте нет." eyebrow="Ошибка 404">
-  <h1>Страница не найдена</h1>
-  <p>Возможно, адрес набран с ошибкой или страница переехала. <a href="/">Вернуться на главную</a></p>
-</NoticePage>
+<BaseLayout title={TITLE} description={DESCRIPTION}>
+  <meta slot="head" name="robots" content="noindex, follow" />
+  <SkipLink target="#top" />
+  <header>
+    <a class="logo" href="/">
+      <img class="brand-mark" src="/images/logo/brand-mark-96.webp" width="34" height="34" alt="" />
+      <img class="mark" src="/images/logo/hse-mark.svg" width="34" height="34" alt="НИУ «Высшая школа экономики»" />
+      <span class="sub">Центр ДПО факультета права</span>
+    </a>
+    <a class="back" href="/">← На главную</a>
+  </header>
+  <main>
+    <span class="ghost-code" aria-hidden="true">404</span>
+    <div class="wrap">
+      <img class="crow-404" src="/images/crow/still.webp" width="260" height="303" alt="" />
+      <span class="badge">Ошибка 404</span>
+      <h1 id="top">Такой страницы нет</h1>
+      <p class="lead">
+        Возможно, адрес изменился или в ссылке опечатка. Каталог программ обновляется из официального каталога НИУ ВШЭ – нужная
+        программа почти наверняка там.
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="/catalog">Каталог программ</a>
+        <a class="btn ghost" href="/">На главную</a>
+      </div>
+      <div class="elsewhere">
+        <h2>Куда ещё можно зайти</h2>
+        <ul>
+          <li><a href="/#teachers">Преподаватели</a></li>
+          <li><a href="/ratings">Рейтинги</a></li>
+          <li><a href="/#document">Документ об окончании</a></li>
+          <li><a href="/#contacts">Контакты</a></li>
+        </ul>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <Copyright />
+    <a class="footer-privacy" href="/privacy">Политика обработки персональных данных</a>
+  </footer>
+</BaseLayout>

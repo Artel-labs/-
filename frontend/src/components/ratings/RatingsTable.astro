@@ -1,0 +1,34 @@
+---
+import { ratings } from "../../lib/ratings";
+import RatingRow from "./RatingRow.astro";
+---
+
+<div class="table-wrap" role="region" aria-label="Таблица позиций НИУ ВШЭ в рейтингах" tabindex="0">
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Рейтинг</th>
+        <th scope="col">Год</th>
+        <th scope="col">Направление</th>
+        <th scope="col">Место</th>
+        <th scope="col">Источник</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        ratings.map((rating) =>
+          rating.rows.map((row, index) => (
+            <tr>
+              {index === 0 && (
+                <td class="rating" rowspan={rating.rows.length}>
+                  {rating.title}
+                </td>
+              )}
+              <RatingRow row={row} />
+            </tr>
+          )),
+        )
+      }
+    </tbody>
+  </table>
+</div>

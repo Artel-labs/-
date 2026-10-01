@@ -220,3 +220,9 @@ class ProgramOptionOut(Schema):
     title: str
     url: str
     sphere: str
+
+
+class SitemapEntryOut(Schema):
+    loc: str
+    changefreq: str
+    priority: str

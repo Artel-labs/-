@@ -1,0 +1,26 @@
+main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: clamp(40px, 6vw, 72px) clamp(20px, 5vw, 40px) 80px;
+}
+
+.updated {
+  margin-bottom: 36px;
+}
+
+h2 {
+  font-family: "HSE Slab", "Source Serif 4", serif;
+  font-size: 1.3125rem;
+  margin: 36px 0 12px;
+}
+
+p,
+li {
+  font-size: 1rem;
+  color: var(--ink-soft);
+  max-width: 75ch;
+}
+
+ul {
+  padding-left: 22px;
+}

@@ -1,0 +1,26 @@
+---
+import type { RatingRow } from "../../lib/ratings";
+
+interface Props {
+  row: RatingRow;
+}
+
+const NOT_PUBLISHED = "Не публиковался";
+const NO_SOURCE = "–";
+
+const { row } = Astro.props;
+---
+
+<td>{row.year}</td><td>{row.field}</td>
+{row.place === null ? <td class="place none">{NOT_PUBLISHED}</td> : <td class="place">{row.place}</td>}
+{
+  row.url === null ? (
+    <td class="none">{NO_SOURCE}</td>
+  ) : (
+    <td>
+      <a href={row.url} target="_blank" rel="noopener noreferrer">
+        официальная страница
+      </a>
+    </td>
+  )
+}

@@ -10,7 +10,8 @@ from catalog.presentation.dates import moscow_today
 from catalog.presentation.landing.page import landing_page
 from catalog.presentation.options import application_options
 from catalog.presentation.page import program_page
-from catalog.schemas import CatalogPageOut, ProgramOptionOut, ProgramPageOut
+from catalog.presentation.sitemap import sitemap
+from catalog.schemas import CatalogPageOut, ProgramOptionOut, ProgramPageOut, SitemapEntryOut
 
 router = Router(tags=["Каталог"])
 
@@ -37,3 +38,8 @@ def landing(request: HttpRequest) -> LandingOut:
 @router.get("/program-options", response=list[ProgramOptionOut])
 def program_options(request: HttpRequest) -> list[ProgramOptionOut]:
     return application_options(published())
+
+
+@router.get("/sitemap", response=list[SitemapEntryOut])
+def sitemap_entries(request: HttpRequest) -> list[SitemapEntryOut]:
+    return sitemap(published())
