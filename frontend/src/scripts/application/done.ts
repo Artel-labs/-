@@ -13,10 +13,8 @@ function programLine(title: string): HTMLParagraphElement {
   return line;
 }
 
-function doneBody(topic: string, programTitle: string): HTMLDivElement {
+function doneBody(topic: string, programTitle: string, crow: HTMLElement): HTMLDivElement {
   const isProgram = topic === PROGRAM_TOPIC;
-  const crow = element("div", "dpo-app-done-crow");
-  crow.setAttribute("aria-hidden", "true");
   const next = element("div", "dpo-app-next");
   const catalog = element("a", "", "Посмотреть другие программы");
   catalog.href = CATALOG_URL;
@@ -32,7 +30,7 @@ function doneBody(topic: string, programTitle: string): HTMLDivElement {
   return body;
 }
 
-export function showDone(dialog: HTMLElement, topic: string, programTitle: string): void {
+export function showDone(dialog: HTMLElement, topic: string, programTitle: string): HTMLElement {
   dialog.querySelector("form")?.remove();
   dialog.querySelector(".dpo-app-program")?.remove();
   const title = dialog.querySelector("h2");
@@ -42,6 +40,9 @@ export function showDone(dialog: HTMLElement, topic: string, programTitle: strin
   if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     navigator.vibrate?.(VIBRATION_MS);
   }
-  dialog.appendChild(doneBody(topic, programTitle));
+  const crow = element("div", "dpo-app-done-crow");
+  crow.setAttribute("aria-hidden", "true");
+  dialog.appendChild(doneBody(topic, programTitle, crow));
   dialog.querySelector<HTMLElement>(".dpo-app-close")?.focus();
+  return crow;
 }

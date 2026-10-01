@@ -1,3 +1,5 @@
+import type { CrowMascot } from "../crow/mascot";
+import { mountDoneCrow } from "../crow/inline";
 import { closeButton, element, openDialog, type Dialog } from "../dialog";
 import { attachSheet } from "../sheet-gesture";
 import { CORPORATE, PERSONAL, PROGRAM_TOPIC, TOPIC_HINTS, TOPIC_TITLES } from "./constants";
@@ -33,6 +35,7 @@ class ApplicationDialog {
   private readonly caption = element("p", "dpo-app-program");
   private readonly form: HTMLFormElement;
   private readonly dialog: Dialog;
+  private doneCrow: CrowMascot | null = null;
 
   constructor(private readonly context: Context, opener: HTMLElement) {
     this.form = buildForm({ onTopic: (topic) => this.applyTopic(topic), onKind: (kind) => this.applyKind(kind, true) });
@@ -48,14 +51,14 @@ class ApplicationDialog {
     this.form.addEventListener("submit", (event) => {
       event.preventDefault();
       void submit(this.form, this.chosenProgram(), () => {
-        showDone(this.sheet, this.context.topic, this.chosenProgram().title);
+        this.doneCrow = mountDoneCrow(showDone(this.sheet, this.context.topic, this.chosenProgram().title));
       });
     });
     this.select<HTMLSelectElement>("#dpo-app-topic").value = context.topic;
     this.select<HTMLSelectElement>("#dpo-app-kind").value = context.kind;
     this.applyTopic(context.topic);
     this.applyKind(context.kind, false);
-    this.dialog = openDialog({ backdrop, initialFocus: this.title, opener });
+    this.dialog = openDialog({ backdrop, initialFocus: this.title, opener, onClosed: () => this.releaseCrow() });
     close.addEventListener("click", () => {
       this.dialog.close();
     });
@@ -64,6 +67,11 @@ class ApplicationDialog {
       fillPrograms(this.programSelect(), items);
       this.preselectProgram();
     });
+  }
+
+  private releaseCrow(): void {
+    this.doneCrow?.destroy();
+    this.doneCrow = null;
   }
 
   private select<T extends HTMLElement>(selector: string): T {

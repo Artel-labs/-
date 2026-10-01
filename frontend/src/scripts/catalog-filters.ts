@@ -1,3 +1,5 @@
+import { emptyCrowToggle } from "./crow/inline";
+
 const GROUPS = ["type", "format", "sphere", "duration"] as const;
 const ALL = "all";
 const DEFAULT_SORT = "default";
@@ -15,6 +17,7 @@ interface Elements {
   reset: HTMLButtonElement;
   count: HTMLElement;
   sort: HTMLSelectElement;
+  syncEmptyCrow: (isEmpty: boolean) => void;
 }
 
 interface State {
@@ -126,6 +129,7 @@ function applyFilters(elements: Elements, state: State): void {
   const isEmpty = shown.length === 0;
   const wasEmpty = elements.empty.classList.contains("visible");
   elements.empty.classList.toggle("visible", isEmpty);
+  elements.syncEmptyCrow(isEmpty);
   updateChrome(elements, state, shown.length);
   if (isEmpty && !wasEmpty) {
     elements.reset.scrollIntoView({ block: "nearest", behavior: reduceMotion ? "auto" : "smooth" });
@@ -253,7 +257,7 @@ function findElements(): Elements | null {
   ) {
     return null;
   }
-  return { grid, empty, search, reset, count, sort };
+  return { grid, empty, search, reset, count, sort, syncEmptyCrow: emptyCrowToggle(empty) };
 }
 
 export function setupCatalogFilters(): void {

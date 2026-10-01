@@ -22,6 +22,7 @@ import TeachersSection from "../components/landing/TeachersSection.astro";
 import TopProgramsSection from "../components/landing/TopProgramsSection.astro";
 import WhyUsSection from "../components/landing/WhyUsSection.astro";
 import CookieBanner from "../components/CookieBanner.astro";
+import CrowLauncher from "../components/CrowLauncher.astro";
 import SkipLink from "../components/SkipLink.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { fetchLanding } from "../lib/landing";
@@ -66,6 +67,7 @@ if (!landing) {
   <ApplicationForm />
   <CookieBanner />
   <ChannelInvite />
+  <CrowLauncher />
 </BaseLayout>
 
 <script>
