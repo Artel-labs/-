@@ -6,7 +6,7 @@ extend-exclude = ["backend/*/migrations"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP", "S", "SIM", "DJ", "RUF", "N", "C4", "PT"]
-ignore = ["RUF001", "RUF002", "RUF003"]
+ignore = ["RUF001", "RUF002", "RUF003", "RUF012"]
 
 [tool.ruff.lint.per-file-ignores]
 "backend/tests/**" = ["S101", "S105", "S106"]
@@ -29,9 +29,9 @@ disallow_untyped_defs = false
 disallow_untyped_calls = false
 
 [[tool.mypy.overrides]]
-module = ["accounts.admin"]
+module = ["*.admin", "accounts.login_protection"]
 disallow_subclassing_any = false
-disable_error_code = ["type-arg"]
+disable_error_code = ["type-arg", "untyped-decorator"]
 
 [tool.django-stubs]
 django_settings_module = "config.settings"

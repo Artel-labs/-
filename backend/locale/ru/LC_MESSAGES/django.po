@@ -1,0 +1,341 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: dpo-pravo-hse\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+msgid "Select record"
+msgstr "Выбрать запись"
+
+msgid "Select action"
+msgstr "Выберите действие"
+
+msgid "Collapse"
+msgstr "Свернуть"
+
+msgid "Name"
+msgstr "Название"
+
+msgid "Value"
+msgstr "Значение"
+
+msgid "Default"
+msgstr "По умолчанию"
+
+msgid "Code"
+msgstr "Код"
+
+msgid "Current file"
+msgstr "Текущий файл"
+
+msgid "Reset to default"
+msgstr "Сбросить по умолчанию"
+
+msgid "From"
+msgstr "С"
+
+msgid "To"
+msgstr "По"
+
+msgid "Date from"
+msgstr "Дата с"
+
+msgid "Date to"
+msgstr "Дата по"
+
+msgid "Not enough data."
+msgstr "Недостаточно данных."
+
+msgid "Add new item"
+msgstr "Добавить"
+
+msgid "Paragraph"
+msgstr "Абзац"
+
+msgid "Underlined"
+msgstr "Подчёркнутый"
+
+msgid "Bold"
+msgstr "Жирный"
+
+msgid "Italic"
+msgstr "Курсив"
+
+msgid "Strike"
+msgstr "Зачёркнутый"
+
+msgid "Link"
+msgstr "Ссылка"
+
+msgid "Heading"
+msgstr "Заголовок"
+
+msgid "Quote"
+msgstr "Цитата"
+
+msgid "Unordered list"
+msgstr "Маркированный список"
+
+msgid "Ordered list"
+msgstr "Нумерованный список"
+
+msgid "Indent increase"
+msgstr "Увеличить отступ"
+
+msgid "Indent decrease"
+msgstr "Уменьшить отступ"
+
+msgid "Undo"
+msgstr "Отменить"
+
+msgid "Redo"
+msgstr "Повторить"
+
+msgid "Enter an URL"
+msgstr "Введите адрес ссылки"
+
+msgid "Unlink"
+msgstr "Убрать ссылку"
+
+msgid "Object permissions"
+msgstr "Права на объект"
+
+msgid "Object"
+msgstr "Объект"
+
+msgid "Group"
+msgstr "Группа"
+
+msgid "Group permissions"
+msgstr "Права группы"
+
+msgid "Edit"
+msgstr "Изменить"
+
+msgid "Manage group"
+msgstr "Управление группой"
+
+msgid "User permissions"
+msgstr "Права пользователя"
+
+msgid "Manage user"
+msgstr "Управление пользователем"
+
+msgid "Select format"
+msgstr "Выберите формат"
+
+msgid "Export"
+msgstr "Экспорт"
+
+msgid "Import"
+msgstr "Импорт"
+
+msgid "This exporter will export the following fields"
+msgstr "Будут выгружены поля"
+
+msgid "Submit"
+msgstr "Отправить"
+
+msgid "Below is a preview of data to be imported. If you are satisfied with the results, click 'Confirm import'"
+msgstr "Ниже — предпросмотр загружаемых данных. Если всё верно, нажмите «Подтвердить импорт»"
+
+msgid "Confirm import"
+msgstr "Подтвердить импорт"
+
+msgid "Line number"
+msgstr "Номер строки"
+
+msgid "View traceback"
+msgstr "Подробности ошибки"
+
+msgid "New"
+msgstr "Новая"
+
+msgid "Skipped"
+msgstr "Пропущена"
+
+msgid "Update"
+msgstr "Обновлена"
+
+msgid "Some rows failed to validate"
+msgstr "Часть строк не прошла проверку"
+
+msgid "Please correct these errors in your data where possible, then reupload it using the form above."
+msgstr "Исправьте ошибки в данных и загрузите файл ещё раз через форму выше."
+
+msgid "Row"
+msgstr "Строка"
+
+msgid "Non field specific"
+msgstr "Общие ошибки"
+
+msgid "Choose a date from the list below to revert to a previous version of this object"
+msgstr "Выберите дату, чтобы вернуть объект к прежней версии"
+
+msgid "This object doesn't have a change history."
+msgstr "У объекта нет истории изменений."
+
+msgid "Press the 'Revert' button below to revert to this version of the object."
+msgstr "Нажмите «Вернуть», чтобы вернуть объект к этой версии."
+
+msgid "Press the 'Change History' button below to edit the history."
+msgstr "Нажмите «История изменений», чтобы изменить историю."
+
+msgid "Comment"
+msgstr "Комментарий"
+
+msgid "Changed by"
+msgstr "Кто изменил"
+
+msgid "Change reason"
+msgstr "Причина изменения"
+
+msgid "Changes"
+msgstr "Изменения"
+
+msgid "Revert"
+msgstr "Вернуть"
+
+msgid "Change History"
+msgstr "История изменений"
+
+msgid "Select action to run"
+msgstr "Выберите действие"
+
+msgid "Raw passwords are not stored, so there is no way to see this user’s password, but you can change the password using <a href=\"{}\" class=\"text-primary-600 dark:text-primary-500\">this form</a>."
+msgstr "Пароли хранятся в зашифрованном виде, посмотреть их нельзя, но можно задать новый пароль с помощью <a href=\"{}\" class=\"text-primary-600 dark:text-primary-500\">этой формы</a>."
+
+msgid "Select value"
+msgstr "Выберите значение"
+
+msgid "Dataset not found. No action performed."
+msgstr "Набор данных не найден. Ничего не изменено."
+
+msgid "You can not create nested object without parent"
+msgstr "Нельзя создать вложенный объект без родительского"
+
+msgid "Run"
+msgstr "Выполнить"
+
+msgid "After you've created a user, you’ll be able to edit more user options."
+msgstr "После создания пользователя можно будет изменить остальные настройки."
+
+msgid "Expand row"
+msgstr "Развернуть строку"
+
+msgid "Welcome back to"
+msgstr "Вход в админку"
+
+msgid "Forgotten your password or username?"
+msgstr "Забыли пароль или логин?"
+
+msgid "Type to search"
+msgstr "Поиск"
+
+msgid "You have been successfully logged out from the administration"
+msgstr "Вы вышли из админки"
+
+msgid "No data"
+msgstr "Нет данных"
+
+msgid "More actions"
+msgstr "Другие действия"
+
+msgid "All applications"
+msgstr "Все разделы"
+
+msgid "True"
+msgstr "Да"
+
+msgid "False"
+msgstr "Нет"
+
+msgid "Apply Filters"
+msgstr "Применить фильтры"
+
+msgid "Select all rows"
+msgstr "Выбрать все строки"
+
+msgid "Recent searches"
+msgstr "Недавние запросы"
+
+msgid "No recent searches"
+msgstr "Недавних запросов нет"
+
+msgid "No results matching your query"
+msgstr "Ничего не найдено"
+
+msgid "Loading more results..."
+msgstr "Загружаем ещё…"
+
+msgid "Cancel"
+msgstr "Отмена"
+
+msgid "Record picture"
+msgstr "Изображение"
+
+msgid "This item will be deleted."
+msgstr "Запись будет удалена."
+
+msgid "Click to cancel"
+msgstr "Нажмите, чтобы отменить"
+
+msgid "No results found"
+msgstr "Ничего не найдено"
+
+msgid "This page yielded into no results. Create a new item or reset your filters."
+msgstr "Здесь пока пусто. Добавьте запись или сбросьте фильтры."
+
+msgid "Reset filters"
+msgstr "Сбросить фильтры"
+
+msgid "Image preview"
+msgstr "Просмотр изображения"
+
+msgid "Click to download"
+msgstr "Нажмите, чтобы скачать"
+
+msgid "Go back"
+msgstr "Назад"
+
+msgid "Previous"
+msgstr "Назад"
+
+msgid "Next"
+msgstr "Вперёд"
+
+msgid "Search apps and models..."
+msgstr "Поиск по разделам…"
+
+msgid "General"
+msgstr "Основное"
+
+msgid "Light"
+msgstr "Светлая"
+
+msgid "Dark"
+msgstr "Тёмная"
+
+msgid "System"
+msgstr "Как в системе"
+
+msgid "Return to site"
+msgstr "На сайт"
+
+msgid "Choose file to upload"
+msgstr "Выберите файл"
+
+msgid "Toggle password visibility"
+msgstr "Показать или скрыть пароль"
+
+msgid "Add row"
+msgstr "Добавить строку"
+
+msgid "Date"
+msgstr "Дата"
+
+msgid "Select currency"
+msgstr "Выберите валюту"

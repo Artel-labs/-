@@ -8,6 +8,7 @@ SECRET_BYTES=24
 NETWORK_ATTEMPTS=5
 NETWORK_DELAY_SECONDS=10
 PULLED_SERVICES=(db)
+export MEDIA_DIR=/app/media
 
 project_root() {
     cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd
@@ -153,6 +154,10 @@ fetch_and_build() {
 
 db_shell() {
     docker compose exec -T db sh -c "MYSQL_PWD=\"\$MARIADB_PASSWORD\" $1 -u\"\$MARIADB_USER\" ${2:-} \"\$MARIADB_DATABASE\""
+}
+
+media_archive() {
+    echo "${1%.sql.gz}.media.tar.gz"
 }
 
 latest_backup() {

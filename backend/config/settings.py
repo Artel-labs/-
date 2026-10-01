@@ -1,6 +1,8 @@
 from datetime import timedelta
 from pathlib import Path
 
+from django.templatetags.static import static
+
 from config.env import env_flag, env_int, env_list, env_required, env_text
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,9 +26,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "axes",
+    "accounts.login_protection.LoginProtectionConfig",
     "core",
     "accounts",
+    "catalog",
 ]
 
 MIDDLEWARE = [
@@ -103,9 +106,12 @@ LANGUAGE_CODE = "ru-ru"
 TIME_ZONE = "Europe/Moscow"
 USE_I18N = True
 USE_TZ = True
+LOCALE_PATHS = [BASE_DIR / "locale"]
 
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+MEDIA_URL = "/media/"
+MEDIA_ROOT = Path(env_text("MEDIA_ROOT", str(BASE_DIR / "media")))
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
     "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
@@ -132,12 +138,32 @@ AXES_LOCKOUT_PARAMETERS = [["username", "ip_address"]]
 AXES_RESET_ON_SUCCESS = True
 AXES_CLIENT_IP_CALLABLE = "core.client_ip.client_ip"
 
+BRAND_BLUE = {
+    "50": "oklch(97% .015 262)",
+    "100": "oklch(93.5% .035 262)",
+    "200": "oklch(88% .065 262)",
+    "300": "oklch(80% .11 262)",
+    "400": "oklch(69% .16 262)",
+    "500": "oklch(58% .195 262)",
+    "600": "oklch(50.7% .2 262.1)",
+    "700": "oklch(42.6% .175 262)",
+    "800": "oklch(36% .14 262)",
+    "900": "oklch(30% .11 262)",
+    "950": "oklch(22% .08 262)",
+}
+
 UNFOLD = {
     "SITE_TITLE": "Центр ДПО",
-    "SITE_HEADER": "Центр ДПО · Факультет права",
-    "SITE_SYMBOL": "school",
+    "SITE_HEADER": "Центр ДПО",
+    "SITE_SUBHEADER": "Факультет права НИУ ВШЭ",
+    "SITE_URL": "/",
+    "SITE_ICON": lambda request: static("core/brand-mark.webp"),
+    "SITE_FAVICONS": [
+        {"rel": "icon", "sizes": "32x32", "type": "image/png", "href": lambda request: static("core/favicon-32.png")},
+    ],
     "SHOW_HISTORY": True,
     "SHOW_VIEW_ON_SITE": False,
+    "COLORS": {"primary": BRAND_BLUE},
 }
 
 LOGGING = {

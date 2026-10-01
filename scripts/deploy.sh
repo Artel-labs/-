@@ -23,6 +23,7 @@ main() {
     as_root "$root/scripts/backup.sh"
     step "4/6" "Применяем миграции базы"
     docker compose run --rm app python manage.py migrate --noinput
+    docker compose run --rm app python manage.py seed_catalog
     step "5/6" "Запускаем новую версию"
     docker compose up -d --remove-orphans
     step "6/6" "Проверяем, что сайт отвечает"

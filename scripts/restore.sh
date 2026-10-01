@@ -4,6 +4,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
 
 CONFIRM_WORD=ВОССТАНОВИТЬ
 WORK_FILE=""
+WORK_MEDIA=""
 
 main() {
     local root file
@@ -19,8 +20,10 @@ main() {
     gzip -t "$file" || { echo "Файл повреждён: $file" >&2; exit 1; }
     confirm "${2:-}"
     WORK_FILE="$(mktemp)"
-    trap 'rm -f "$WORK_FILE"' EXIT
+    WORK_MEDIA="$(mktemp)"
+    trap 'rm -f "$WORK_FILE" "$WORK_MEDIA"' EXIT
     cp "$file" "$WORK_FILE"
+    copy_media_archive "$file"
     echo "[1/4] Сохраняем текущую базу на всякий случай"
     "$root/scripts/backup.sh"
     echo "[2/4] Останавливаем приложение"
@@ -29,12 +32,32 @@ main() {
     echo "[3/4] Восстанавливаем базу из $file"
     drop_tables
     gunzip -c "$WORK_FILE" | db_shell mariadb
+    restore_media
     trap - ERR
     echo "[4/4] Запускаем приложение и применяем миграции"
     docker compose run --rm app python manage.py migrate --noinput
     docker compose start app
     wait_for_site
     echo "Готово: база восстановлена из $(basename "$file")."
+}
+
+copy_media_archive() {
+    local archive
+    archive="$(media_archive "$1")"
+    if [[ -f "$archive" ]]; then
+        gzip -t "$archive" || { echo "Архив файлов повреждён: $archive" >&2; exit 1; }
+        cp "$archive" "$WORK_MEDIA"
+    else
+        echo "Архива файлов сайта рядом с копией нет — восстанавливаем только базу."
+        : > "$WORK_MEDIA"
+    fi
+}
+
+restore_media() {
+    if [[ -s "$WORK_MEDIA" ]]; then
+        echo "Восстанавливаем файлы сайта (обложки, фото, документы)"
+        docker compose run --rm --no-deps -T app sh -c "find $MEDIA_DIR -mindepth 1 -delete && tar -C $MEDIA_DIR -xzf -" < "$WORK_MEDIA"
+    fi
 }
 
 show_usage() {

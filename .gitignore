@@ -9,6 +9,7 @@ __pycache__/
 .mypy_cache/
 .ruff_cache/
 backend/staticfiles/
+backend/media/
 
 node_modules/
 frontend/dist/

@@ -39,6 +39,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    volumes:
+      - media:/app/media
     restart: unless-stopped
     mem_limit: 1g
     logging: *logging
@@ -62,9 +64,11 @@ services:
       - "${HTTPS_PORT:-443}:443"
     volumes:
       - ${TLS_DIR:-/etc/dpo/tls}:/etc/nginx/tls:ro
+      - media:/usr/share/nginx/media:ro
     restart: unless-stopped
     mem_limit: 256m
     logging: *logging
 
 volumes:
   db-data:
+  media:

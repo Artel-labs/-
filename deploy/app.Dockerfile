@@ -20,7 +20,7 @@ WORKDIR /app
 COPY backend/ .
 RUN DJANGO_SECRET_KEY=collectstatic python manage.py collectstatic --noinput
 
-RUN useradd --system --no-create-home dpo
+RUN useradd --system --no-create-home dpo && mkdir -p /app/media && chown dpo /app/media
 USER dpo
 
 EXPOSE 8000

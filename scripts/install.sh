@@ -155,6 +155,7 @@ start_site() {
     fetch_and_build
     docker compose up -d --wait db
     docker compose run --rm app python manage.py migrate --noinput
+    docker compose run --rm app python manage.py seed_catalog
     docker compose up -d --remove-orphans
     wait_for_site
 }
