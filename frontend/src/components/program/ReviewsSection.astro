@@ -1,0 +1,26 @@
+---
+import type { Review } from "../../lib/program";
+import Block from "./Block.astro";
+import { HSE_SOURCE_NOTE } from "./notes";
+
+interface Props {
+  reviews: Review[];
+}
+
+const { reviews } = Astro.props;
+---
+
+{
+  reviews.length > 0 && (
+    <Block title="Отзывы выпускников" sub={HSE_SOURCE_NOTE}>
+      <ul class="reviews">
+        {reviews.map((review) => (
+          <li>
+            <blockquote>{review.text}</blockquote>
+            <p class="review-author">{review.author}</p>
+          </li>
+        ))}
+      </ul>
+    </Block>
+  )
+}

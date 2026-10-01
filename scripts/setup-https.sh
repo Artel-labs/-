@@ -14,10 +14,11 @@ main() {
     set_env_value "$root/.env" COOKIE_SECURE 1
     allow_hosts "$root/.env" "$@"
     load_env "$root"
+    set_env_value "$root/.env" SITE_URL "$(site_url https "${1:-}")"
     step "3/3" "Перезапускаем сайт"
     docker compose up -d --force-recreate app web
     wait_for_site
-    echo "Готово. HTTPS включён: $(site_url https)/"
+    echo "Готово. HTTPS включён: $(site_url https "${1:-}")/"
     echo "Сертификат самоподписанный: браузер один раз предупредит. Для домена позже подключим Let's Encrypt."
 }
 

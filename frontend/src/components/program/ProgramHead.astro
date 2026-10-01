@@ -1,0 +1,27 @@
+---
+import type { ProgramPage } from "../../lib/program";
+
+interface Props {
+  program: ProgramPage;
+}
+
+const SITE_NAME = "Центр ДПО · Факультет права НИУ ВШЭ";
+
+const { program } = Astro.props;
+const twitterCard = program.image_url ? "summary_large_image" : "summary";
+---
+
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href={program.canonical_url} />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:site_name" content={SITE_NAME} />
+<meta property="og:title" content={program.title} />
+<meta property="og:description" content={program.description} />
+<meta property="og:url" content={program.canonical_url} />
+{program.image_url && <meta property="og:image" content={program.image_url} />}
+<meta name="twitter:card" content={twitterCard} />
+<meta name="twitter:title" content={program.title} />
+<meta name="twitter:description" content={program.description} />
+{program.image_url && <meta name="twitter:image" content={program.image_url} />}
+{program.structured_data.map((json) => <script is:inline type="application/ld+json" set:html={json} />)}

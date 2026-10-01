@@ -1,0 +1,11 @@
+---
+import type { Module } from "../../lib/program";
+
+interface Props {
+  module: Module;
+}
+
+const { module } = Astro.props;
+---
+
+<span class="module-title">{module.title}</span>{module.hours && <span class="module-hours">{module.hours}</span>}

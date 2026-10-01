@@ -1,0 +1,35 @@
+---
+import type { Teacher } from "../../lib/program";
+import Block from "./Block.astro";
+
+interface Props {
+  teachers: Teacher[];
+  heading: string;
+}
+
+const { teachers, heading } = Astro.props;
+---
+
+{
+  teachers.length > 0 && (
+    <Block title={heading}>
+      <ul class="teachers">
+        {teachers.map((teacher) => (
+          <li>
+            <p class="teacher-name">
+              {teacher.page_url ? (
+                <a href={teacher.page_url} target="_blank" rel="noopener noreferrer">
+                  {teacher.name}
+                  <span aria-hidden="true"> ↗</span>
+                </a>
+              ) : (
+                teacher.name
+              )}
+            </p>
+            {teacher.about && <p class="teacher-about">{teacher.about}</p>}
+          </li>
+        ))}
+      </ul>
+    </Block>
+  )
+}

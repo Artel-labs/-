@@ -1,0 +1,50 @@
+---
+import type { ProgramPage } from "../../lib/program";
+import ApplicationButton from "./ApplicationButton.astro";
+
+interface Props {
+  program: ProgramPage;
+}
+
+const { program } = Astro.props;
+---
+
+<div class="card">
+  <div class="price">{program.price}</div>
+  {
+    program.price_terms.length > 0 && (
+      <ul class="price-terms">
+        {program.price_terms.map((term) => (
+          <li>{term}</li>
+        ))}
+      </ul>
+    )
+  }
+  <dl class="facts">
+    {
+      program.facts.map((fact) => (
+        <div class="fact">
+          <dt>{fact.label}</dt>
+          <dd>{fact.value}</dd>
+        </div>
+      ))
+    }
+  </dl>
+  <ApplicationButton program={program} />
+  {
+    program.pay_url ? (
+      <>
+        <a class="cta-pay" href={program.pay_url} target="_blank" rel="noopener">
+          Оплатить на hse.ru
+        </a>
+        <p class="cta-pay-note">Запись и оплата – в личном кабинете hse.ru</p>
+      </>
+    ) : (
+      program.hse_url && (
+        <a class="cta-alt" href={program.hse_url} target="_blank" rel="noopener noreferrer">
+          Записаться через личный кабинет на hse.ru
+        </a>
+      )
+    )
+  }
+</div>

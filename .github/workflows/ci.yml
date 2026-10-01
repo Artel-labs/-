@@ -61,6 +61,7 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci --no-audit --no-fund
       - run: npm run lint
+      - run: npm test
       - run: npm run build
 
   scripts:
@@ -95,6 +96,16 @@ jobs:
           curl -fsSk -o /dev/null https://127.0.0.1:8443/media/programs/816497962.jpg
           curl -fsSk -o /dev/null https://127.0.0.1:8443/media/files/816497962-plan.pdf
       - run: curl -fsSk https://127.0.0.1:8443/ | grep -q "Центр дополнительного профессионального образования"
+      - name: Страница программы собирается из базы
+        run: |
+          page="https://127.0.0.1:8443/programs/angliyskoe-kontraktnoe-pravo-856421092.html"
+          curl -fsSk "$page" | grep -q "<h1>Английское контрактное право</h1>"
+          curl -fsSk "$page" | grep -q 'rel="canonical" href="https://[^"]*/programs/angliyskoe-kontraktnoe-pravo-856421092.html"'
+          curl -fsSk -o /dev/null https://127.0.0.1:8443/media/programs/thumbs/856421092.webp
+      - name: Старый адрес программы перенаправляется, неизвестная даёт 404
+        run: |
+          curl -sSkI https://127.0.0.1:8443/programs/old-title-856421092.html | grep -qi "^location: .*/programs/angliyskoe-kontraktnoe-pravo-856421092.html"
+          test "$(curl -sSk -o /dev/null -w '%{http_code}' https://127.0.0.1:8443/programs/unknown-1.html)" = "404"
       - run: curl -fsSk -o /dev/null https://127.0.0.1:8443/admin/login/
       - name: HTTP перенаправляет на HTTPS с нужным портом
         run: |

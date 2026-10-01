@@ -23,6 +23,7 @@ main() {
     step "3/7" "Готовим файл настроек .env"
     prepare_env "$root" "$owner" "$@"
     load_env "$root"
+    upgrade_env "$root"
     step "4/7" "Собираем и запускаем сайт на портах ${HTTP_PORT} (HTTP) и ${HTTPS_PORT} (HTTPS)"
     start_site "$root"
     step "5/7" "Создаём администратора"
@@ -74,7 +75,7 @@ allow_docker() {
 }
 
 prepare_env() {
-    local root="$1" owner="$2" file="$1/.env"
+    local owner="$2" file="$1/.env"
     shift 2
     if [[ -f "$file" ]]; then
         echo "Файл .env уже есть — сохраняем его настройки."
@@ -87,7 +88,6 @@ prepare_env() {
         echo "Создан $file (доступен только владельцу)."
     fi
     apply_requested_ports "$file"
-    upgrade_env "$root"
 }
 
 apply_requested_ports() {

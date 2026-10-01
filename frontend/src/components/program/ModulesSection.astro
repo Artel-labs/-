@@ -1,0 +1,41 @@
+---
+import type { Module } from "../../lib/program";
+import Block from "./Block.astro";
+import ModuleHead from "./ModuleHead.astro";
+
+interface Props {
+  modules: Module[];
+  label: string;
+}
+
+const { modules, label } = Astro.props;
+---
+
+{
+  modules.length > 0 && (
+    <Block title="Программа обучения" note={label}>
+      <ol class="modules">
+        {modules.map((module) =>
+          module.topics.length > 0 ? (
+            <li class="module-open">
+              <details>
+                <summary>
+                  <ModuleHead module={module} />
+                </summary>
+                <ul class="module-topics">
+                  {module.topics.map((topic) => (
+                    <li>{topic}</li>
+                  ))}
+                </ul>
+              </details>
+            </li>
+          ) : (
+            <li>
+              <ModuleHead module={module} />
+            </li>
+          ),
+        )}
+      </ol>
+    </Block>
+  )
+}

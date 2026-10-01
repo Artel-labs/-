@@ -1,0 +1,15 @@
+---
+import type { ProgramPage } from "../../lib/program";
+import ApplicationButton from "./ApplicationButton.astro";
+
+interface Props {
+  program: ProgramPage;
+}
+
+const { program } = Astro.props;
+---
+
+<div class="buy-bar" role="region" aria-label="Цена и заявка">
+  <span class="buy-bar-price">{program.price}</span>
+  <ApplicationButton program={program} extraClass="buy-bar-cta" />
+</div>

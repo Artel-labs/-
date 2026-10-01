@@ -1,0 +1,27 @@
+---
+import type { About } from "../../lib/program";
+import Block from "./Block.astro";
+
+interface Props {
+  about: About | null;
+}
+
+const { about } = Astro.props;
+---
+
+{
+  about && (
+    <Block title="О программе">
+      {about.lead && <p class="about-lead">{about.lead}</p>}
+      {about.items.length > 0 ? (
+        <ul class="about-list">
+          {about.items.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      ) : (
+        about.body && <p class="about-body">{about.body}</p>
+      )}
+    </Block>
+  )
+}

@@ -8,17 +8,17 @@
 
 | Часть | Технологии |
 |---|---|
-| Публичный сайт | Astro (статическая сборка, без JS по умолчанию), TypeScript |
+| Публичный сайт | Astro (страницы собираются на сервере из данных Django, без JS по умолчанию), TypeScript |
 | Сервер | Django 5.2 LTS, django-ninja (API), gunicorn |
 | Админка | Django Admin с темой Unfold, защита от подбора пароля django-axes |
 | База данных | MariaDB 11.8 (в контейнере) |
-| Веб-сервер | nginx: раздаёт статику, проксирует `/api/`, `/admin/`, `/static/` |
+| Веб-сервер | nginx: раздаёт шрифты, картинки и файлы, кэширует страницы на 60 секунд, проксирует `/api/`, `/admin/`, `/static/` |
 | Развёртывание | Docker Compose, скрипты в `scripts/` |
 | Проверки | pytest, ruff, mypy (strict), ESLint, astro check, shellcheck, GitHub Actions |
 
 ```
-браузер ──► nginx (web) ──► статические страницы Astro
-                 │
+браузер ──► nginx (web) ──► страницы: Node.js + Astro (site) ──┐
+                 │                                              ▼
                  └─► /api/, /admin/, /static/ ──► gunicorn + Django (app) ──► MariaDB (db)
 ```
 
@@ -28,9 +28,9 @@
 backend/            Django: config (настройки, API), core (служебное), accounts (пользователи),
                     catalog (каталог программ, начальные данные в catalog/seed), locale (переводы), tests
 frontend/           Astro: страницы, макеты, стили и шрифты
-deploy/             Dockerfile для app и web, конфигурация nginx
+deploy/             Dockerfile для app и для site + web (общая сборка Astro), конфигурация nginx
 scripts/            установка, обновление, резервные копии, HTTPS
-docker-compose.yml  четыре контейнера: db, app, worker (фоновые задачи), web
+docker-compose.yml  пять контейнеров: db, app, worker (фоновые задачи), site (страницы), web
 ```
 
 ## Установка на сервер
@@ -96,8 +96,8 @@ docker-compose.yml  четыре контейнера: db, app, worker (фоно
 sudo ./scripts/setup-https.sh [домен-или-IP ...]
 ```
 
-Создаёт самоподписанный сертификат в `/etc/dpo/tls`, включает защищённые cookie и перезапускает
-сайт. Сертификат Let's Encrypt для настоящего домена будет добавлен отдельным шагом, когда домен
+Создаёт самоподписанный сертификат в `/etc/dpo/tls`, включает защищённые cookie, записывает
+адрес сайта в `SITE_URL` (первый указанный домен или IP сервера) и перезапускает сайт. Сертификат Let's Encrypt для настоящего домена будет добавлен отдельным шагом, когда домен
 будет известен.
 
 ## Каталог программ
@@ -126,6 +126,15 @@ sudo ./scripts/setup-https.sh [домен-или-IP ...]
 Время и история запусков — в админке, раздел «Фоновые задачи»: «Запланированные задачи»,
 «Успешные задачи» (там же итог: сколько добавлено, обновлено, скрыто, что не удалось), «Неудачные задачи».
 
+### Страницы программ
+
+Адрес страницы — `/programs/<название-латиницей>-<id>.html`, как на прежнем сайте. Если название
+программы поменялось, старый адрес постоянно (301) перенаправляет на новый.
+
+Изменения в админке появляются на сайте не позже чем через минуту: страницы собираются из базы
+при запросе, nginx держит готовую страницу 60 секунд. Если сервис страниц временно не отвечает,
+посетители видят последнюю сохранённую версию.
+
 ## Резервные копии
 
 - Каждый день в 03:00 по Москве (таймер systemd `dpo-backup`). Копия — это два файла: база
@@ -153,6 +162,7 @@ sudo ./scripts/setup-https.sh [домен-или-IP ...]
 | `DJANGO_DEBUG` | `1` только для разработки |
 | `DJANGO_ALLOWED_HOSTS` | адреса и домены сайта через запятую |
 | `COOKIE_SECURE` | `1` при работе по HTTPS |
+| `SITE_URL` | адрес сайта для канонических ссылок и разметки для поисковиков, например `https://example.com` |
 | `DB_NAME`, `DB_USER`, `DB_PASSWORD` | база MariaDB |
 | `DB_ROOT_PASSWORD` | пароль root MariaDB, создаётся при установке |
 | `HTTP_PORT`, `HTTPS_PORT` | внешние порты nginx |
@@ -173,8 +183,8 @@ export DJANGO_SECRET_KEY=dev DB_HOST=127.0.0.1 DB_USER=root DB_PASSWORD=<пар�
 
 ```bash
 cd frontend && npm ci
-npm run lint && npm run build
-npm run dev   # http://127.0.0.1:4321, запросы /api и /admin уходят на Django :8000
+npm run lint && npm test && npm run build
+npm run dev   # http://127.0.0.1:4321, данные берутся из Django :8000 (переменная API_URL)
 ```
 
 Все проверки повторяются в GitHub Actions (`.github/workflows/ci.yml`), включая полную установку

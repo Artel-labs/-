@@ -1,0 +1,27 @@
+---
+import type { ProgramFile } from "../../lib/program";
+import Block from "./Block.astro";
+
+interface Props {
+  files: ProgramFile[];
+}
+
+const { files } = Astro.props;
+---
+
+{
+  files.length > 0 && (
+    <Block title="Документы программы" sub="Официальные файлы центра, PDF">
+      <ul class="files">
+        {files.map((file) => (
+          <li>
+            <a class="file" href={file.url} download>
+              <span class="file-name">{file.label}</span>
+              {file.size && <span class="file-size">{file.size}</span>}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </Block>
+  )
+}

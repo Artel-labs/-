@@ -9,8 +9,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = env_required("DJANGO_SECRET_KEY")
 DEBUG = env_flag("DJANGO_DEBUG")
-ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1")
+ALLOWED_HOSTS = [*env_list("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1"), *env_list("DJANGO_INTERNAL_HOSTS")]
 COOKIE_SECURE = env_flag("COOKIE_SECURE")
+SITE_URL = env_text("SITE_URL", "http://localhost").rstrip("/")
 
 SESSION_LIFETIME = timedelta(hours=8)
 LOGIN_FAILURE_LIMIT = 5

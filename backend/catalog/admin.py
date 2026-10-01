@@ -6,7 +6,7 @@ from django_q.tasks import async_task
 from unfold.admin import ModelAdmin, StackedInline, TabularInline
 from unfold.decorators import action, display
 
-from catalog.formatting import format_price
+from catalog.formatting import format_price, unbreakable
 from catalog.models import FaqItem, Module, Program, ProgramFile, ProgramTeacher, Review, Sphere, Teacher
 
 SYNC_FUNCTION = "catalog.tasks.sync_catalog"
@@ -132,7 +132,7 @@ class ProgramAdmin(ModelAdmin):
 
     @display(description="Цена", ordering="price")
     def display_price(self, program: Program) -> str:
-        return format_price(program.price) if program.price else "—"
+        return unbreakable(format_price(program.price)) if program.price else "—"
 
 
 @admin.register(Sphere)

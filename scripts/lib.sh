@@ -64,8 +64,24 @@ ensure_env_secret() {
     fi
 }
 
+current_mode() {
+    if [[ "$COOKIE_SECURE" == "1" ]]; then
+        echo https
+    else
+        echo http
+    fi
+}
+
+ensure_site_url() {
+    if ! grep -qE "^SITE_URL=" "$1"; then
+        set_env_value "$1" SITE_URL "$(site_url "$(current_mode)")"
+        echo "В .env добавлен адрес сайта для ссылок в поисковиках: $(site_url "$(current_mode)")"
+    fi
+}
+
 upgrade_env() {
     ensure_env_secret "$1/.env" DB_ROOT_PASSWORD
+    ensure_site_url "$1/.env"
 }
 
 port_suffix() {
@@ -77,10 +93,11 @@ port_suffix() {
 }
 
 site_url() {
+    local host="${2:-$(server_ip)}"
     if [[ "$1" == "https" ]]; then
-        echo "https://$(server_ip)$(port_suffix "$HTTPS_PORT" "$DEFAULT_HTTPS_PORT")"
+        echo "https://${host}$(port_suffix "$HTTPS_PORT" "$DEFAULT_HTTPS_PORT")"
     else
-        echo "http://$(server_ip)$(port_suffix "$HTTP_PORT" "$DEFAULT_HTTP_PORT")"
+        echo "http://${host}$(port_suffix "$HTTP_PORT" "$DEFAULT_HTTP_PORT")"
     fi
 }
 
@@ -104,7 +121,7 @@ server_ip() {
 }
 
 site_health() {
-    if [[ "$COOKIE_SECURE" == "1" ]]; then
+    if [[ "$(current_mode)" == "https" ]]; then
         curl -fsSk --max-time 5 "https://127.0.0.1:${HTTPS_PORT}/api/health" 2>/dev/null
     else
         curl -fsS --max-time 5 "http://127.0.0.1:${HTTP_PORT}/api/health" 2>/dev/null

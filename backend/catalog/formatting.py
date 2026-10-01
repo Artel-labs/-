@@ -1,8 +1,11 @@
-NARROW_NO_BREAK_SPACE = "\u202f"
-NO_BREAK_SPACE = "\u00a0"
+NO_BREAK_SPACE = " "
 RUBLE = "₽"
 
 
 def format_price(amount: int) -> str:
-    grouped = f"{amount:,}".replace(",", NARROW_NO_BREAK_SPACE)
-    return f"{grouped}{NO_BREAK_SPACE}{RUBLE}"
+    grouped = f"{amount:,}".replace(",", NO_BREAK_SPACE)
+    return f"{grouped} {RUBLE}"
+
+
+def unbreakable(text: str) -> str:
+    return text.replace(" ", NO_BREAK_SPACE)

@@ -1,0 +1,30 @@
+---
+import type { Faq } from "../../lib/program";
+import Block from "./Block.astro";
+import { HSE_SOURCE_NOTE } from "./notes";
+
+interface Props {
+  faq: Faq[];
+}
+
+const { faq } = Astro.props;
+---
+
+{
+  faq.length > 0 && (
+    <Block title="Вопросы и ответы" sub={HSE_SOURCE_NOTE}>
+      <ul class="faq">
+        {faq.map((item) => (
+          <li>
+            <details>
+              <summary>
+                <span class="faq-q">{item.question}</span>
+              </summary>
+              <p class="faq-a">{item.answer}</p>
+            </details>
+          </li>
+        ))}
+      </ul>
+    </Block>
+  )
+}

@@ -1,0 +1,19 @@
+---
+import type { ProgramPage } from "../../lib/program";
+
+interface Props {
+  program: ProgramPage;
+  extraClass?: string;
+}
+
+const { program, extraClass } = Astro.props;
+---
+
+<button
+  type="button"
+  class:list={["cta", extraClass]}
+  data-application
+  data-program-id={program.hse_id}
+  data-program-title={program.title}
+  data-program-url={program.canonical_url}>Подать заявку</button
+>

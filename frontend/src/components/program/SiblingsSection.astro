@@ -1,0 +1,24 @@
+---
+import { sitePath, type Siblings } from "../../lib/program";
+import Block from "./Block.astro";
+
+interface Props {
+  siblings: Siblings | null;
+}
+
+const { siblings } = Astro.props;
+---
+
+{
+  siblings && (
+    <Block title={`Другие программы направления «${siblings.sphere_title}»`} sub={`${siblings.count_label} в направлении`}>
+      <ul class="siblings">
+        {siblings.items.map((item) => (
+          <li>
+            <a href={sitePath(item.path)}>{item.title}</a>
+          </li>
+        ))}
+      </ul>
+    </Block>
+  )
+}

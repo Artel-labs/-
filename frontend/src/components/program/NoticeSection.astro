@@ -1,0 +1,26 @@
+---
+import type { Notice } from "../../lib/program";
+
+interface Props {
+  notice: Notice | null;
+}
+
+const { notice } = Astro.props;
+---
+
+{
+  notice && (
+    <section class="notice">
+      <p class="notice-head">
+        <span class="notice-tag">Важно</span>
+        {notice.date && <span class="notice-date">{notice.date}</span>}
+      </p>
+      <p class="notice-text">{notice.text}</p>
+      {notice.url && (
+        <a class="notice-link" href={notice.url} target="_blank" rel="noopener noreferrer">
+          {notice.host ? `Смотреть на ${notice.host}` : "Смотреть"}
+        </a>
+      )}
+    </section>
+  )
+}

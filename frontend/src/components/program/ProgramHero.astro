@@ -1,0 +1,39 @@
+---
+import type { ProgramPage } from "../../lib/program";
+
+interface Props {
+  program: ProgramPage;
+}
+
+const { program } = Astro.props;
+const { cover } = program;
+---
+
+<section class:list={["hero", { "hero--photo": cover }]}>
+  {
+    cover && (
+      <>
+        <picture>
+          <source srcset={cover.webp_srcset} type="image/webp" />
+          <img
+            class="hero-bg"
+            src={cover.src}
+            srcset={cover.srcset}
+            width={cover.width}
+            height={cover.height}
+            alt={cover.alt}
+            decoding="async"
+          />
+        </picture>
+        <div class="hero-veil" aria-hidden="true" />
+      </>
+    )
+  }
+  <nav class="crumbs" aria-label="Навигационная цепочка">
+    <a href="/catalog">Каталог программ</a>
+    <span aria-hidden="true">/</span>
+    <span>{program.crumb}</span>
+  </nav>
+  <h1>{program.title}</h1>
+  <div class="chips">{program.chips.map((chip) => <span>{chip}</span>)}</div>
+</section>

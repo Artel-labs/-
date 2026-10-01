@@ -1,0 +1,65 @@
+---
+import "../../styles/program.css";
+import SiteFooter from "../../components/SiteFooter.astro";
+import SiteHeader from "../../components/SiteHeader.astro";
+import SkipLink from "../../components/SkipLink.astro";
+import AboutSection from "../../components/program/AboutSection.astro";
+import BuyBar from "../../components/program/BuyBar.astro";
+import CredentialCard from "../../components/program/CredentialCard.astro";
+import FaqSection from "../../components/program/FaqSection.astro";
+import FilesSection from "../../components/program/FilesSection.astro";
+import LineList from "../../components/program/LineList.astro";
+import ModulesSection from "../../components/program/ModulesSection.astro";
+import NoticeSection from "../../components/program/NoticeSection.astro";
+import PriceCard from "../../components/program/PriceCard.astro";
+import ProgramHead from "../../components/program/ProgramHead.astro";
+import ProgramHero from "../../components/program/ProgramHero.astro";
+import ReviewsSection from "../../components/program/ReviewsSection.astro";
+import SiblingsSection from "../../components/program/SiblingsSection.astro";
+import TeachersSection from "../../components/program/TeachersSection.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { programIdFromPage, sitePath } from "../../lib/program";
+import { fetchProgramPage } from "../../lib/programs";
+
+const MOVED_PERMANENTLY = 301;
+const NOT_FOUND = 404;
+
+const hseId = programIdFromPage(Astro.params.page ?? "");
+const program = hseId ? await fetchProgramPage(hseId) : null;
+if (!program) {
+  return new Response(null, { status: NOT_FOUND });
+}
+const canonicalPath = sitePath(program.path);
+if (Astro.url.pathname !== canonicalPath) {
+  return Astro.redirect(canonicalPath, MOVED_PERMANENTLY);
+}
+---
+
+<BaseLayout title={program.page_title} description={program.description}>
+  <ProgramHead slot="head" program={program} />
+  <SkipLink />
+  <SiteHeader />
+  <ProgramHero program={program} />
+  <main id="main" class="layout">
+    <div class="content">
+      <NoticeSection notice={program.notice} />
+      <AboutSection about={program.about} />
+      <LineList title="Кому подойдёт программа" items={program.audience?.items ?? []} listClass="pills" sub={program.audience?.intro} />
+      <LineList title="Чему вы научитесь" items={program.results} listClass="results" />
+      <LineList title="Преимущества программы" items={program.advantages} listClass="advantages" ordered />
+      <ModulesSection modules={program.modules} label={program.modules_label} />
+      <FilesSection files={program.files} />
+      <TeachersSection teachers={program.teachers} heading={program.teachers_heading} />
+      <ReviewsSection reviews={program.reviews} />
+      <LineList title="Документы для приёма на обучение" items={program.admission_documents} listClass="admission" />
+      <FaqSection faq={program.faq} />
+      <SiblingsSection siblings={program.siblings} />
+    </div>
+    <aside class="side">
+      <PriceCard program={program} />
+      <CredentialCard credential={program.credential} />
+    </aside>
+  </main>
+  <BuyBar program={program} />
+  <SiteFooter />
+</BaseLayout>
