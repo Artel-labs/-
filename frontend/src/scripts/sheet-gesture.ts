@@ -8,6 +8,7 @@ const EXIT_MARGIN_PX = 40;
 const EXIT_RESPONSE = 0.3;
 const RETURN_RESPONSE = 0.35;
 const MIN_OPACITY = 0.35;
+const CONTROLS = "a, button, input, select, textarea";
 
 export interface SheetOptions {
   root: HTMLElement;
@@ -55,7 +56,7 @@ export function attachSheet({ root, sheet, grip, onClose }: SheetOptions): Sheet
 
   root.addEventListener("pointerdown", (event) => {
     const target = event.target instanceof Element ? event.target : null;
-    if (!event.isPrimary || !target || (target !== handle && !target.closest(grip))) {
+    if (!event.isPrimary || !target || (target !== handle && !target.closest(grip)) || target.closest(CONTROLS)) {
       return;
     }
     dragging = true;
