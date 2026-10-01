@@ -134,6 +134,12 @@ jobs:
           test "$code" = "204"
           count="$(sudo docker compose exec -T app python manage.py shell -c 'from analytics.models import Event; print(Event.objects.count())' | tail -n 1)"
           test "$count" = "1"
+      - name: Мини-приложение Telegram
+        run: |
+          curl -fsSk https://127.0.0.1:8443/tg/ | grep -q 'id="tg-data"'
+          curl -sSkI https://127.0.0.1:8443/tg/ | grep -qi "^content-security-policy: .*script-src 'self' https://telegram.org"
+          count="$(curl -fsSk https://127.0.0.1:8443/api/catalog/tg | python3 -c 'import json, sys; print(len(json.load(sys.stdin)["programs"]))')"
+          test "$count" = "34"
       - name: Заявка принимается и видна в базе
         run: |
           code="$(curl -sSk -o /dev/null -w '%{http_code}' -H 'Content-Type: application/json' -d '{"firstName":"Проверка","lastName":"CI","phone":"+7 495 000 00 00","email":"ci@example.ru","consent":true}' https://127.0.0.1:8443/api/applications)"
