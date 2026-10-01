@@ -112,6 +112,12 @@ jobs:
           test "$(curl -fsSk https://127.0.0.1:8443/catalog | grep -o 'class="card"' | wc -l)" = "34"
           curl -sSkI "https://127.0.0.1:8443/%D0%9A%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC.html?sphere=digital" | grep -qi "^location: .*/catalog?sphere=digital"
           curl -sSkI https://127.0.0.1:8443/catalog.html | grep -qi "^location: .*/catalog"
+      - name: Заявка принимается и видна в базе
+        run: |
+          code="$(curl -sSk -o /dev/null -w '%{http_code}' -H 'Content-Type: application/json' -d '{"firstName":"Проверка","lastName":"CI","phone":"+7 495 000 00 00","email":"ci@example.ru","consent":true}' https://127.0.0.1:8443/api/applications)"
+          test "$code" = "200"
+          count="$(sudo docker compose exec -T app python manage.py shell -c 'from applications.models import Application; print(Application.objects.count())' | tail -n 1)"
+          test "$count" = "1"
       - name: Старый адрес программы перенаправляется, неизвестная даёт 404
         run: |
           curl -sSkI https://127.0.0.1:8443/programs/old-title-856421092.html | grep -qi "^location: .*/programs/angliyskoe-kontraktnoe-pravo-856421092.html"

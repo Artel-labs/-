@@ -213,3 +213,10 @@ class CatalogPageOut(Schema):
     cards: list[CardOut]
     starts: StartsOut | None
     structured_data: str
+
+
+class ProgramOptionOut(Schema):
+    id: str
+    title: str
+    url: str
+    sphere: str

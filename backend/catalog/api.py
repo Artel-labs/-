@@ -8,8 +8,9 @@ from catalog.models import Program
 from catalog.presentation.catalog import catalog_page
 from catalog.presentation.dates import moscow_today
 from catalog.presentation.landing.page import landing_page
+from catalog.presentation.options import application_options
 from catalog.presentation.page import program_page
-from catalog.schemas import CatalogPageOut, ProgramPageOut
+from catalog.schemas import CatalogPageOut, ProgramOptionOut, ProgramPageOut
 
 router = Router(tags=["Каталог"])
 
@@ -31,3 +32,8 @@ def program_list(request: HttpRequest) -> CatalogPageOut:
 @router.get("/landing", response=LandingOut)
 def landing(request: HttpRequest) -> LandingOut:
     return landing_page(published(), moscow_today())
+
+
+@router.get("/program-options", response=list[ProgramOptionOut])
+def program_options(request: HttpRequest) -> list[ProgramOptionOut]:
+    return application_options(published())

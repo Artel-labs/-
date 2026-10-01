@@ -30,7 +30,7 @@ disallow_untyped_calls = false
 disallow_incomplete_defs = false
 
 [[tool.mypy.overrides]]
-module = ["accounts.admin", "catalog.admin", "core.admin", "accounts.login_protection"]
+module = ["accounts.admin", "applications.admin", "catalog.admin", "core.admin", "accounts.login_protection"]
 disallow_subclassing_any = false
 disable_error_code = ["type-arg", "untyped-decorator", "import-untyped"]
 

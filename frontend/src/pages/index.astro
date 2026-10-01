@@ -2,6 +2,7 @@
 import "../styles/landing.css";
 import "../styles/landing-sections.css";
 import "../styles/sheet.css";
+import ApplicationForm from "../components/ApplicationForm.astro";
 import AboutSection from "../components/landing/AboutSection.astro";
 import ContactsSection from "../components/landing/ContactsSection.astro";
 import CorporateSection from "../components/landing/CorporateSection.astro";
@@ -60,6 +61,7 @@ if (!landing) {
     <a class="secondary" href="/catalog">Программы</a>
     <a class="primary" href="#contacts" data-application>Подать заявку</a>
   </nav>
+  <ApplicationForm />
 </BaseLayout>
 
 <script>

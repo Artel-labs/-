@@ -1,5 +1,6 @@
 ---
 import "../../styles/program.css";
+import ApplicationForm from "../../components/ApplicationForm.astro";
 import SiteFooter from "../../components/SiteFooter.astro";
 import SiteHeader from "../../components/SiteHeader.astro";
 import SkipLink from "../../components/SkipLink.astro";
@@ -62,4 +63,5 @@ if (Astro.url.pathname !== canonicalPath) {
   </main>
   <BuyBar program={program} />
   <SiteFooter />
+  <ApplicationForm />
 </BaseLayout>
