@@ -24,6 +24,7 @@ import WhyUsSection from "../components/landing/WhyUsSection.astro";
 import CookieBanner from "../components/CookieBanner.astro";
 import CrowLauncher from "../components/CrowLauncher.astro";
 import SkipLink from "../components/SkipLink.astro";
+import SupportBot from "../components/SupportBot.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { fetchLanding } from "../lib/landing";
 
@@ -68,6 +69,7 @@ if (!landing) {
   <CookieBanner />
   <ChannelInvite />
   <CrowLauncher />
+  <SupportBot />
 </BaseLayout>
 
 <script>

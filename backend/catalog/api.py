@@ -5,13 +5,14 @@ from ninja import Router
 
 from catalog.landing_schemas import LandingOut
 from catalog.models import Program
+from catalog.presentation.bot import bot_catalog
 from catalog.presentation.catalog import catalog_page
 from catalog.presentation.dates import moscow_today
 from catalog.presentation.landing.page import landing_page
 from catalog.presentation.options import application_options
 from catalog.presentation.page import program_page
 from catalog.presentation.sitemap import sitemap
-from catalog.schemas import CatalogPageOut, ProgramOptionOut, ProgramPageOut, SitemapEntryOut
+from catalog.schemas import BotProgramOut, CatalogPageOut, ProgramOptionOut, ProgramPageOut, SitemapEntryOut
 
 router = Router(tags=["Каталог"])
 
@@ -43,3 +44,8 @@ def program_options(request: HttpRequest) -> list[ProgramOptionOut]:
 @router.get("/sitemap", response=list[SitemapEntryOut])
 def sitemap_entries(request: HttpRequest) -> list[SitemapEntryOut]:
     return sitemap(published())
+
+
+@router.get("/bot", response=list[BotProgramOut])
+def bot_programs(request: HttpRequest) -> list[BotProgramOut]:
+    return bot_catalog(published(), moscow_today())

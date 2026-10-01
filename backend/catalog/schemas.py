@@ -226,3 +226,21 @@ class SitemapEntryOut(Schema):
     loc: str
     changefreq: str
     priority: str
+
+
+class BotProgramOut(Schema):
+    id: str
+    title: str
+    url: str
+    sphere: str
+    type: str
+    format: str
+    format_label: str
+    price: int | None
+    price_label: str
+    duration: str | None
+    hours: str | None
+    schedule: str | None
+    start: str | None
+    start_iso: str | None
+    keywords: list[str]
