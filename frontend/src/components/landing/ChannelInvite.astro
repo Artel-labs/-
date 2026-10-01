@@ -1,0 +1,29 @@
+---
+import "../../styles/channel-invite.css";
+
+const CHANNEL = {
+  url: "https://max.ru/id7714030726_gos72",
+  title: "ДПО: искусство права",
+  description: "Канал Центра ДПО факультета права НИУ ВШЭ в мессенджере MAX: новости и анонсы программ.",
+  icon: "/images/channel-logo.jpg",
+};
+---
+
+<div id="channelInvite" role="region" aria-label="Приглашение подписаться на канал факультета" hidden>
+  <span class="ci-icon" aria-hidden="true"><img src={CHANNEL.icon} alt="" /></span>
+  <div>
+    <p class="ci-title">{CHANNEL.title}</p>
+    <p class="ci-desc">{CHANNEL.description}</p>
+    <a class="ci-join" href={CHANNEL.url} target="_blank" rel="noopener noreferrer">Подписаться</a>
+  </div>
+  <button type="button" class="ci-close" aria-label="Закрыть приглашение">×</button>
+</div>
+<button type="button" id="channelInviteBadge" aria-label={`Открыть приглашение на канал «${CHANNEL.title}»`}>
+  <img src={CHANNEL.icon} alt="" />
+</button>
+
+<script>
+  import { setupChannelInvite } from "../../scripts/landing/channel-invite";
+
+  setupChannelInvite();
+</script>

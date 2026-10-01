@@ -1,0 +1,22 @@
+---
+import "../styles/consent.css";
+---
+
+<div id="cookieBanner" role="region" aria-label="Согласие на использование cookies" hidden>
+  <p>
+    Мы используем cookies и локальную аналитику посещений (страницы, время, интерес к программам) для улучшения сайта.
+    Яндекс.Метрика – только при настроенном счётчике. Вы можете принять или отказаться. Подробнее – в <a href="/privacy"
+      >Политике обработки персональных данных</a
+    >.
+  </p>
+  <div class="cb-actions">
+    <button type="button" class="cb-accept">Принять</button>
+    <button type="button" class="cb-decline">Отклонить</button>
+  </div>
+</div>
+
+<script>
+  import { setupCookieBanner } from "../scripts/consent";
+
+  setupCookieBanner();
+</script>

@@ -2,6 +2,7 @@
 import "../styles/catalog.css";
 import "../styles/compare.css";
 import ApplicationForm from "../components/ApplicationForm.astro";
+import CookieBanner from "../components/CookieBanner.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import SkipLink from "../components/SkipLink.astro";
 import CatalogHead from "../components/catalog/CatalogHead.astro";
@@ -54,6 +55,7 @@ const { filters } = catalog;
     <a class="primary" href="/#contacts" data-application>Подать заявку</a>
   </nav>
   <ApplicationForm />
+  <CookieBanner />
 </BaseLayout>
 
 <script>

@@ -1,5 +1,6 @@
 ---
 import "../styles/document.css";
+import CookieBanner from "../components/CookieBanner.astro";
 import SkipLink from "../components/SkipLink.astro";
 import DocumentFooter from "../components/document/DocumentFooter.astro";
 import DocumentHead from "../components/document/DocumentHead.astro";
@@ -27,4 +28,5 @@ const { site, path, title, description, shareDescription, privacyLink = false } 
     <slot />
   </main>
   <DocumentFooter privacyLink={privacyLink} />
+  <CookieBanner />
 </BaseLayout>
