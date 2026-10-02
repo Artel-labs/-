@@ -9,15 +9,19 @@ import pytest
 from django.core import mail
 from django.core.management import call_command
 from django.utils import timezone
+from django_q.models import Schedule
 
 from applications.mail import letter, send_application_mail, subject
-from applications.models import Application, MailStatus, Status
+from applications.models import Application, MailRecipient, MailStatus, Status, Topic
 from applications.rules import email_looks_valid, phone_problem
 from applications.service import purge_expired
+from tests.factories import make_admin
 
 pytestmark = pytest.mark.django_db
 
 URL = "/api/applications"
+CHANGELIST = "/admin/applications/application/"
+SMTP_DOWN = "django.core.mail.EmailMessage.send"
 FIXTURES = Path(__file__).parent / "fixtures"
 CASES = json.loads((Path(__file__).parents[2] / "shared" / "form-rules-cases.json").read_text(encoding="utf-8"))
 VALID = {
@@ -37,7 +41,7 @@ VALID = {
 @pytest.fixture
 def mailing(settings):
     settings.EMAIL_HOST = "smtp.example.ru"
-    settings.APPLICATION_MAIL_TO = ["office@example.ru"]
+    MailRecipient.objects.create(email="office@example.ru")
     settings.EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
 
 
@@ -62,7 +66,7 @@ def test_phone_rule(value, problem):
 
 
 def test_valid_application_is_saved_and_mail_queued(client, seeded, mailing, django_capture_on_commit_callbacks):
-    with patch("applications.service.async_task") as queued, django_capture_on_commit_callbacks(execute=True):
+    with patch("applications.delivery.async_task") as queued, django_capture_on_commit_callbacks(execute=True):
         response = post(client, VALID)
     assert response.status_code == 200
     saved = Application.objects.get(pk=response.json()["id"])
@@ -79,7 +83,9 @@ def test_without_mail_settings_application_is_still_accepted(client, settings):
     settings.EMAIL_HOST = ""
     response = post(client, {**VALID, "programId": ""})
     assert response.status_code == 200
-    assert Application.objects.get().mail_status == MailStatus.SKIPPED
+    saved = Application.objects.get()
+    assert saved.mail_status == MailStatus.SKIPPED
+    assert "SMTP_HOST" in saved.mail_error
 
 
 def test_repeat_within_ten_minutes_returns_same_application(client):
@@ -148,12 +154,13 @@ def test_mail_is_sent_and_marked(client, mailing):
 
 def test_mail_failure_is_recorded(client, mailing):
     application = Application.objects.get(pk=post(client, VALID).json()["id"])
-    failing = patch("django.core.mail.EmailMessage.send", side_effect=smtplib.SMTPException("отказ сервера"))
+    failing = patch(SMTP_DOWN, side_effect=smtplib.SMTPException("отказ сервера"))
     with failing, pytest.raises(smtplib.SMTPException):
         send_application_mail(application.pk)
     application.refresh_from_db()
     assert application.mail_status == MailStatus.FAILED
-    assert application.mail_error == "отказ сервера"
+    assert application.mail_error == "Попытка 1: отказ сервера Повтор через 5 мин."
+    assert application.mail_attempts == 1
 
 
 def test_old_applications_are_purged(client, settings):
@@ -171,3 +178,83 @@ def test_program_options_match_previous_site(client, seeded):
     assert [[item["id"], item["title"], item["sphere"]] for item in options] == [
         [item["id"], item["title"], item["sphere"]] for item in legacy
     ]
+
+
+def fail_mail(application_id):
+    with patch(SMTP_DOWN, side_effect=smtplib.SMTPException("отказ")), pytest.raises(smtplib.SMTPException):
+        send_application_mail(application_id)
+
+
+def test_failed_mail_is_retried_until_limit(client, mailing, settings):
+    application_id = post(client, VALID).json()["id"]
+    for attempt in range(1, settings.APPLICATION_MAIL_ATTEMPTS + 1):
+        fail_mail(application_id)
+        assert Application.objects.get(pk=application_id).mail_attempts == attempt
+    retries = Schedule.objects.filter(func="applications.mail.send_application_mail")
+    assert retries.count() == settings.APPLICATION_MAIL_ATTEMPTS - 1
+    assert all(list(retry.args) == [application_id] or retry.args == f"({application_id},)" for retry in retries)
+    assert "повторы закончились" in Application.objects.get(pk=application_id).mail_error
+
+
+def test_retry_after_failure_sends_mail(client, mailing):
+    application_id = post(client, VALID).json()["id"]
+    fail_mail(application_id)
+    send_application_mail(application_id)
+    application = Application.objects.get(pk=application_id)
+    assert application.mail_status == MailStatus.SENT
+    assert application.mail_error == ""
+    assert application.mail_attempts == 2
+
+
+def test_recipients_receive_only_their_topics(client, mailing):
+    MailRecipient.objects.create(email="teachers@example.ru", topics=[Topic.TEACHING])
+    MailRecipient.objects.create(email="off@example.ru", is_active=False)
+    application_id = post(client, VALID).json()["id"]
+    send_application_mail(application_id)
+    assert mail.outbox[0].to == ["office@example.ru"]
+    teaching_id = post(client, {**VALID, "topic": "teaching", "email": "t@example.ru"}).json()["id"]
+    send_application_mail(teaching_id)
+    assert sorted(mail.outbox[1].to) == ["office@example.ru", "teachers@example.ru"]
+
+
+def test_topic_without_recipients_is_skipped(client, settings):
+    settings.EMAIL_HOST = "smtp.example.ru"
+    MailRecipient.objects.create(email="teachers@example.ru", topics=[Topic.TEACHING])
+    saved = Application.objects.get(pk=post(client, VALID).json()["id"])
+    assert saved.mail_status == MailStatus.SKIPPED
+    assert "Получатели писем" in saved.mail_error
+
+
+def test_admin_resend_requeues_unsent(client, mailing, django_capture_on_commit_callbacks):
+    sent = post(client, VALID).json()["id"]
+    send_application_mail(sent)
+    failed = post(client, {**VALID, "email": "other@example.ru"}).json()["id"]
+    fail_mail(failed)
+    client.force_login(make_admin())
+    payload = {"action": "resend_mail", "_selected_action": [sent, failed]}
+    with patch("applications.delivery.async_task") as queued, django_capture_on_commit_callbacks(execute=True):
+        response = client.post(CHANGELIST, payload, follow=True)
+    assert "поставлены в очередь: 1" in response.content.decode()
+    queued.assert_called_once()
+    retried = Application.objects.get(pk=failed)
+    assert (retried.mail_status, retried.mail_attempts, retried.mail_error) == (MailStatus.QUEUED, 0, "")
+    assert Application.objects.get(pk=sent).mail_status == MailStatus.SENT
+
+
+def test_admin_warns_without_recipients(client):
+    client.force_login(make_admin())
+    assert "нет активных получателей" in client.get(CHANGELIST).content.decode()
+
+
+def test_admin_check_mail_uses_recipients(client, mailing):
+    client.force_login(make_admin())
+    response = client.get(f"{CHANGELIST}check-mail/", follow=True)
+    assert "office@example.ru" in response.content.decode()
+    assert mail.outbox[0].to == ["office@example.ru"]
+
+
+def test_admin_recipient_form_offers_topics(client):
+    client.force_login(make_admin())
+    page = client.get("/admin/applications/mailrecipient/add/").content.decode()
+    for topic in Topic:
+        assert topic.label in page

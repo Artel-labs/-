@@ -1,18 +1,16 @@
 from dataclasses import dataclass
 from datetime import timedelta
+from functools import partial
 
 from django.conf import settings
 from django.db import transaction
 from django.utils import timezone
-from django_q.tasks import async_task
 
-from applications.mail import mail_configured
+from applications.delivery import queue_mail
+from applications.mail import skip_reason
 from applications.models import Application, MailStatus
 from applications.parsing import Cleaned
 from catalog.models import Program
-
-SEND_MAIL_TASK = "applications.mail.send_application_mail"
-MAIL_TASK_NAME = "Письмо по заявке"
 
 
 @dataclass(frozen=True)
@@ -37,19 +35,30 @@ def program_for(program_id: str) -> Program | None:
 
 def create(cleaned: Cleaned, key: str) -> Application:
     program = program_for(cleaned.program_id)
+    reason = skip_reason(cleaned.topic)
     fields = {name: value for name, value in cleaned.__dict__.items() if name not in ("program_id", "program_title")}
     return Application.objects.create(
         **fields,
         program=program,
         program_title=program.title if program else cleaned.program_title,
-        mail_status=MailStatus.QUEUED if mail_configured() else MailStatus.SKIPPED,
+        mail_status=MailStatus.SKIPPED if reason else MailStatus.QUEUED,
+        mail_error=reason,
         duplicate_key=key,
     )
 
 
-def queue_mail(application: Application) -> None:
+def queue_if_ready(application: Application) -> None:
     if application.mail_status == MailStatus.QUEUED:
-        async_task(SEND_MAIL_TASK, application.pk, task_name=f"{MAIL_TASK_NAME} № {application.pk}")
+        queue_mail(application.pk)
+
+
+@transaction.atomic
+def resend(applications: list[Application]) -> int:
+    pending = [application.pk for application in applications if application.mail_status != MailStatus.SENT]
+    Application.objects.filter(pk__in=pending).update(mail_status=MailStatus.QUEUED, mail_error="", mail_attempts=0)
+    for application_id in pending:
+        transaction.on_commit(partial(queue_mail, application_id))
+    return len(pending)
 
 
 @transaction.atomic
@@ -59,7 +68,7 @@ def accept(cleaned: Cleaned) -> Accepted:
     if existing:
         return Accepted(existing.pk, duplicate=True)
     application = create(cleaned, key)
-    transaction.on_commit(lambda: queue_mail(application))
+    transaction.on_commit(lambda: queue_if_ready(application))
     return Accepted(application.pk, duplicate=False)
 
 

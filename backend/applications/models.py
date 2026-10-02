@@ -67,6 +67,7 @@ class Application(models.Model):
     status = models.CharField("Статус", max_length=20, choices=Status.choices, default=Status.NEW)
     mail_status = models.CharField("Письмо", max_length=20, choices=MailStatus.choices, default=MailStatus.QUEUED)
     mail_error = models.CharField("Ошибка письма", max_length=500, blank=True)
+    mail_attempts = models.PositiveSmallIntegerField("Попыток отправки", default=0)
     duplicate_key = models.CharField(max_length=300, db_index=True, editable=False)
 
     class Meta:
@@ -80,3 +81,22 @@ class Application(models.Model):
     @property
     def full_name(self) -> str:
         return " ".join(part for part in (self.last_name, self.first_name) if part)
+
+
+def all_topics() -> list[str]:
+    return list(Topic.values)
+
+
+class MailRecipient(models.Model):
+    email = models.EmailField("Адрес", max_length=160, unique=True)
+    topics = models.JSONField("Темы заявок", default=all_topics)
+    is_active = models.BooleanField("Получает письма", default=True)
+    note = models.CharField("Кто это", max_length=120, blank=True)
+
+    class Meta:
+        ordering = ["email"]
+        verbose_name = "получатель писем"
+        verbose_name_plural = "Получатели писем"
+
+    def __str__(self) -> str:
+        return self.email

@@ -1,16 +1,23 @@
 import smtplib
+from typing import Any
 
+from django import forms
 from django.contrib import admin, messages
 from django.db.models import QuerySet
-from django.http import HttpRequest, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from unfold.admin import ModelAdmin
 from unfold.decorators import action, display
+from unfold.widgets import UnfoldAdminCheckboxSelectMultipleWidget
 
-from applications.mail import mail_configured, send_test_mail
-from applications.models import Application, Source, Status
+from applications.mail import send_test_mail, test_mail_problem
+from applications.models import Application, MailRecipient, Source, Status, Topic, all_topics
+from applications.recipients import all_recipients
+from applications.service import resend
 
-MAIL_NOT_CONFIGURED = "Почта не настроена: укажите SMTP_HOST и APPLICATION_MAIL_TO в файле .env на сервере."
+NO_RECIPIENTS = (
+    "Письма по заявкам не отправляются: нет активных получателей. Добавьте их в «Заявки» → «Получатели писем»."
+)
 
 
 @admin.register(Application)
@@ -21,8 +28,9 @@ class ApplicationAdmin(ModelAdmin):
     list_filter = ["status", "topic", "applicant_type", "mail_status", "received_at"]
     search_fields = ["last_name", "first_name", "email", "phone", "company", "program_title"]
     date_hierarchy = "received_at"
-    actions = ["mark_in_progress", "mark_done", "mark_rejected"]
+    actions = ["mark_in_progress", "mark_done", "mark_rejected", "resend_mail"]
     actions_list = ["check_mail"]
+    actions_detail = ["resend_one"]
     readonly_fields = [
         "received_at",
         "topic",
@@ -43,13 +51,14 @@ class ApplicationAdmin(ModelAdmin):
         "program_title",
         "mail_status",
         "mail_error",
+        "mail_attempts",
     ]
     fieldsets = [
         ("Заявка", {"fields": ["status", "received_at", "topic", "program", "program_title", "comment"]}),
         ("Заявитель", {"fields": ["last_name", "first_name", "phone", "email", "position", "company"]}),
         ("Организация", {"fields": ["applicant_type", "employees_count", "timeframe"]}),
         ("Дополнительно", {"fields": ["sources_text", "source_other", "no_announcements"]}),
-        ("Письмо учебному офису", {"fields": ["mail_status", "mail_error"]}),
+        ("Письмо учебному офису", {"fields": ["mail_status", "mail_error", "mail_attempts"]}),
     ]
 
     def has_add_permission(self, request: HttpRequest) -> bool:
@@ -79,16 +88,68 @@ class ApplicationAdmin(ModelAdmin):
     def mark_rejected(self, request: HttpRequest, queryset: QuerySet[Application]) -> None:
         self.change_status(request, queryset, Status.REJECTED)
 
+    @admin.action(description="Отправить письмо ещё раз")
+    def resend_mail(self, request: HttpRequest, queryset: QuerySet[Application]) -> None:
+        self.report_resend(request, list(queryset))
+
+    @action(
+        description="Отправить письмо ещё раз", url_path="resend-mail", icon="forward_to_inbox", permissions=["change"]
+    )
+    def resend_one(self, request: HttpRequest, object_id: int) -> HttpResponseRedirect:
+        self.report_resend(request, list(Application.objects.filter(pk=object_id)))
+        return HttpResponseRedirect(reverse("admin:applications_application_change", args=[object_id]))
+
+    def report_resend(self, request: HttpRequest, applications: list[Application]) -> None:
+        queued = resend(applications)
+        skipped = len(applications) - queued
+        text = f"Письма поставлены в очередь: {queued}."
+        if skipped:
+            text += f" Уже были отправлены, пропущено: {skipped}."
+        self.message_user(request, text)
+
     @action(description="Проверить почту", url_path="check-mail", icon="mail", permissions=["change"])
     def check_mail(self, request: HttpRequest) -> HttpResponseRedirect:
         back = HttpResponseRedirect(reverse("admin:applications_application_changelist"))
-        if not mail_configured():
-            self.message_user(request, MAIL_NOT_CONFIGURED, messages.WARNING)
+        problem = test_mail_problem()
+        if problem:
+            self.message_user(request, problem, messages.WARNING)
             return back
         try:
             send_test_mail()
         except (smtplib.SMTPException, OSError) as error:
             self.message_user(request, f"Письмо не ушло: {error}", messages.ERROR)
             return back
-        self.message_user(request, "Пробное письмо отправлено. Проверьте ящик учебного офиса.")
+        self.message_user(request, f"Пробное письмо отправлено: {', '.join(all_recipients())}.")
         return back
+
+    def changelist_view(self, request: HttpRequest, extra_context: dict[str, Any] | None = None) -> HttpResponse:
+        if request.method == "GET" and not all_recipients():
+            self.message_user(request, NO_RECIPIENTS, messages.WARNING)
+        response: HttpResponse = super().changelist_view(request, extra_context)
+        return response
+
+
+class MailRecipientForm(forms.ModelForm):
+    topics = forms.MultipleChoiceField(
+        label="Темы заявок",
+        choices=Topic.choices,
+        initial=all_topics,
+        widget=UnfoldAdminCheckboxSelectMultipleWidget,
+        help_text="Письма по заявкам на отмеченные темы придут на этот адрес.",
+    )
+
+    class Meta:
+        model = MailRecipient
+        fields = ["email", "note", "topics", "is_active"]
+
+
+@admin.register(MailRecipient)
+class MailRecipientAdmin(ModelAdmin):
+    form = MailRecipientForm
+    list_display = ["email", "note", "topics_text", "is_active"]
+    list_editable = ["is_active"]
+    search_fields = ["email", "note"]
+
+    @display(description="Темы заявок")
+    def topics_text(self, recipient: MailRecipient) -> str:
+        return ", ".join(Topic(topic).label for topic in recipient.topics if topic in Topic.values)

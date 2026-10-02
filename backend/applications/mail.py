@@ -4,7 +4,9 @@ from django.conf import settings
 from django.core.mail import EmailMessage
 from django.utils import timezone
 
+from applications.delivery import schedule_retry
 from applications.models import ApplicantType, Application, MailStatus, Source, Topic
+from applications.recipients import all_recipients, recipients_for
 
 SUBJECT_TOPICS = {
     Topic.PROGRAM: "Заявка ДПО",
@@ -14,10 +16,24 @@ SUBJECT_TOPICS = {
 }
 MAX_ERROR_LENGTH = 500
 TEST_SUBJECT = "Проверка почты · Центр ДПО факультета права"
+NO_SMTP = "Почтовый сервер не настроен: укажите SMTP_HOST в файле .env на сервере."
+RECIPIENTS_PLACE = "добавьте их в админке: «Заявки» → «Получатели писем»."
 
 
-def mail_configured() -> bool:
-    return bool(settings.EMAIL_HOST and settings.APPLICATION_MAIL_TO)
+def no_recipients(topic: str) -> str:
+    return f"Нет получателей для темы «{Topic(topic).label}»: {RECIPIENTS_PLACE}"
+
+
+def skip_reason(topic: str) -> str:
+    if not settings.EMAIL_HOST:
+        return NO_SMTP
+    return "" if recipients_for(topic) else no_recipients(topic)
+
+
+def test_mail_problem() -> str:
+    if not settings.EMAIL_HOST:
+        return NO_SMTP
+    return "" if all_recipients() else f"Нет активных получателей писем: {RECIPIENTS_PLACE}"
 
 
 def moscow_time(application: Application) -> str:
@@ -95,22 +111,41 @@ def letter(application: Application) -> str:
     return "\n".join(lines)
 
 
+def failure_text(error: Exception, attempt: int) -> str:
+    retry = attempt < settings.APPLICATION_MAIL_ATTEMPTS
+    tail = (
+        f" Повтор через {settings.APPLICATION_MAIL_RETRY_MINUTES} мин."
+        if retry
+        else " Автоматические повторы закончились."
+    )
+    return f"Попытка {attempt}: {error}"[: MAX_ERROR_LENGTH - len(tail)] + tail
+
+
+def mark(application_id: int, status: MailStatus, error: str = "", **extra: int) -> None:
+    Application.objects.filter(pk=application_id).update(mail_status=status, mail_error=error, **extra)
+
+
 def send_application_mail(application_id: int) -> str:
     application = Application.objects.select_related("program").get(pk=application_id)
+    reason = skip_reason(application.topic)
+    if reason:
+        mark(application_id, MailStatus.SKIPPED, reason)
+        return reason
+    attempt = application.mail_attempts + 1
     message = EmailMessage(
         subject=subject(application),
         body=letter(application),
-        to=settings.APPLICATION_MAIL_TO,
+        to=recipients_for(application.topic),
         reply_to=[application.email],
     )
     try:
         message.send()
     except (smtplib.SMTPException, OSError) as error:
-        Application.objects.filter(pk=application_id).update(
-            mail_status=MailStatus.FAILED, mail_error=str(error)[:MAX_ERROR_LENGTH]
-        )
+        mark(application_id, MailStatus.FAILED, failure_text(error, attempt), mail_attempts=attempt)
+        if attempt < settings.APPLICATION_MAIL_ATTEMPTS:
+            schedule_retry(application_id, attempt + 1)
         raise
-    Application.objects.filter(pk=application_id).update(mail_status=MailStatus.SENT, mail_error="")
+    mark(application_id, MailStatus.SENT, mail_attempts=attempt)
     return f"Письмо по заявке № {application_id} отправлено"
 
 
@@ -122,5 +157,5 @@ def send_test_mail() -> None:
             "Если вы его видите, доставка заявок на этот адрес работает.\n\n"
             f"Отправлено: {timezone.localtime().strftime('%d.%m.%Y, %H:%M:%S')} (Москва)."
         ),
-        to=settings.APPLICATION_MAIL_TO,
+        to=all_recipients(),
     ).send()
