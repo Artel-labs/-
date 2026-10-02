@@ -56,10 +56,16 @@ export interface Filters {
 
 export interface Month {
   label: string;
+  caption: string;
   count: number;
   left: number;
   width: number;
   scroll: number;
+}
+
+export interface LegendEntry {
+  slug: string;
+  title: string;
 }
 
 export interface Tick {
@@ -83,6 +89,7 @@ export interface Start {
 export interface Starts {
   width: number;
   months: Month[];
+  legend: LegendEntry[];
   ticks: Tick[];
   today: number | null;
   items: Start[];

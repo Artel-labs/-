@@ -9,12 +9,15 @@ from django.core.management import call_command
 
 from catalog.models import Program, Source
 from catalog.presentation.catalog import catalog_page
+from catalog.presentation.timeline import DAY_PX
 from catalog.schemas import CardOut, CatalogPageOut, StartsOut
 
 pytestmark = pytest.mark.django_db
 
 LEGACY = json.loads((Path(__file__).parent / "fixtures" / "legacy_catalog.json").read_text(encoding="utf-8"))
 LEGACY_DAY = date(2026, 10, 1)
+LEGACY_AXIS_START = date(2026, 10, 1)
+SAME_AS_LEGACY = ("width", "chips", "months", "today", "items")
 LEGACY_SITE = "https://example.com"
 LEGACY_IMAGES = "images/"
 MEDIA_URL = "/media/"
@@ -113,7 +116,33 @@ def test_filters_match_previous_site(page):
 
 def test_starts_board_matches_previous_site(page):
     assert page.starts is not None
-    assert starts_record(page.starts) == LEGACY["starts"]
+    record, legacy = starts_record(page.starts), LEGACY["starts"]
+    assert {key: record[key] for key in SAME_AS_LEGACY} == {key: legacy[key] for key in SAME_AS_LEGACY}
+
+
+def test_starts_ticks_mark_mondays_and_month_starts(page):
+    assert page.starts is not None
+    legacy_lefts = {left for left, _ in LEGACY["starts"]["ticks"]}
+    assert page.starts.ticks
+    for tick in page.starts.ticks:
+        day = date.fromordinal(LEGACY_AXIS_START.toordinal() + (tick.left - DAY_PX // 2) // DAY_PX)
+        assert float(tick.left) in legacy_lefts
+        assert tick.kind == ("is-month" if day.day == 1 else "is-week")
+        assert day.day == 1 or day.weekday() == 0
+
+
+def test_starts_months_have_captions(page):
+    assert page.starts is not None
+    assert [month.caption for month in page.starts.months] == ["Октябрь · 10 стартов", "Ноябрь · 12 стартов"]
+
+
+def test_starts_legend_lists_spheres_on_board(page):
+    assert page.starts is not None
+    shown = {item.sphere for item in page.starts.items if item.sphere}
+    slugs = [sphere.slug for sphere in page.starts.legend]
+    assert set(slugs) == shown
+    assert len(slugs) == len(set(slugs))
+    assert all(sphere.title for sphere in page.starts.legend)
 
 
 def test_structured_data_matches_previous_site(page):

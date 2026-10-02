@@ -3,13 +3,13 @@ import math
 from dataclasses import dataclass, field
 from datetime import date
 
-from catalog.models import Program
+from catalog.models import Program, Sphere
 from catalog.presentation.cards import kind
 from catalog.presentation.dates import day_and_month, epoch_day, format_start, is_upcoming, month_title
 from catalog.presentation.facets import short_format
 from catalog.presentation.labels import price_label
-from catalog.presentation.text import en_dash
-from catalog.schemas import MonthOut, StartOut, StartsOut, TickOut
+from catalog.presentation.text import en_dash, plural
+from catalog.schemas import MonthOut, SphereOut, StartOut, StartsOut, TickOut
 
 DAY_PX = 32
 CARD_WIDTH = 180
@@ -18,7 +18,8 @@ PIN_PAD = 6
 PIN_EDGE = 14
 DEFAULT_PIN_OFFSET = 28
 CHIP_SCROLL_PAD = 8
-DAYS_IN_WEEK = 7
+MONDAY = 0
+CAPTION_SEPARATOR = " · "
 PIN_OFFSETS = (CARD_WIDTH - 28, 136, 116, 90, 64, 44, 28)
 LANES = ("up1", "down1", "up2", "down2")
 NEAR_LANE = {"up2": "up1", "down2": "down1"}
@@ -136,8 +137,10 @@ def month_out(board: Board, year: int, month: int, items: list[Dated]) -> MonthO
     first = epoch_day(date(year, month, 1))
     left = (first - board.axis_start) * DAY_PX
     count = sum(1 for item in items if (item.start.year, item.start.month) == (year, month))
+    label = month_title(month)
     return MonthOut(
-        label=month_title(month),
+        label=label,
+        caption=f"{label}{CAPTION_SEPARATOR}{plural(count, 'старт', 'старта', 'стартов')}",
         count=count,
         left=left,
         width=calendar.monthrange(year, month)[1] * DAY_PX,
@@ -145,15 +148,22 @@ def month_out(board: Board, year: int, month: int, items: list[Dated]) -> MonthO
     )
 
 
-def tick_kind(day: date) -> str:
+def tick_kind(day: date) -> str | None:
     if day.day == 1:
         return "is-month"
-    return "is-week" if day.day % DAYS_IN_WEEK == 0 else ""
+    return "is-week" if day.weekday() == MONDAY else None
 
 
 def ticks(board: Board, first: date, total_days: int) -> list[TickOut]:
     days = (date.fromordinal(first.toordinal() + offset) for offset in range(total_days))
-    return [TickOut(left=board.x_of(epoch_day(day)), kind=tick_kind(day)) for day in days]
+    marked = ((day, tick_kind(day)) for day in days)
+    return [TickOut(left=board.x_of(epoch_day(day)), kind=kind) for day, kind in marked if kind]
+
+
+def legend(items: list[Dated]) -> list[SphereOut]:
+    spheres: dict[int, Sphere] = {item.program.sphere.pk: item.program.sphere for item in items if item.program.sphere}
+    ordered = sorted(spheres.values(), key=lambda sphere: (sphere.position, sphere.title))
+    return [SphereOut(slug=sphere.slug, title=sphere.title) for sphere in ordered]
 
 
 def starts_board(programs: list[Program], today: date) -> StartsOut | None:
@@ -170,6 +180,7 @@ def starts_board(programs: list[Program], today: date) -> StartsOut | None:
     return StartsOut(
         width=board.width,
         months=[month_out(board, year, month, items) for year, month in month_span(first_start, last_start)],
+        legend=legend(items),
         ticks=ticks(board, axis_first, total_days),
         today=board.x_of(today_number) if board.axis_start <= today_number <= epoch_day(axis_last) else None,
         items=starts,

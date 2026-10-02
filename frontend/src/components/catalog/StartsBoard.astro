@@ -18,17 +18,25 @@ const { starts } = Astro.props;
       <div class="starts-months" aria-label="Месяцы">
         {starts.months.map((month, index) => (
           <button type="button" class="starts-chip" data-scroll={month.scroll} aria-pressed={index === 0}>
-            {month.label} <b>{month.count}</b>
+            {month.label}
           </button>
         ))}
       </div>
+      {starts.legend.length > 0 && (
+        <ul class="starts-legend" aria-label="Цвет точки – направление программы">
+          {starts.legend.map((sphere) => (
+            <li>
+              <i class="tl-dot" data-sphere={sphere.slug} aria-hidden="true" />
+              {sphere.title}
+            </li>
+          ))}
+        </ul>
+      )}
       <div class="tl-wrap" tabindex="0" role="region" aria-label="Ось времени ближайших стартов, прокручивается горизонтально">
         <div class="tl" data-width={starts.width}>
           {starts.months.map((month) => (
             <div class="tl-month" data-left={month.left} data-width={month.width} aria-hidden="true">
-              <span class="tl-month-label">
-                {month.label} <b>{month.count}</b>
-              </span>
+              <span class="tl-month-label">{month.caption}</span>
             </div>
           ))}
           <div class="tl-axis" aria-hidden="true">

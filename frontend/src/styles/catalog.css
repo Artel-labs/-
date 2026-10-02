@@ -102,9 +102,10 @@ html.vi-mode .brand-mark{ display: none; }
   border: 1px solid var(--line); background: rgb(var(--surface)); color: var(--accent-dark);
   transition: background .15s, color .15s, border-color .15s;
 }
-.starts-chip b{ font-weight: 600; opacity: .8; margin-left: 4px; }
 .starts-chip[aria-pressed="true"]{ background: rgb(var(--accent)); color: rgb(var(--surface)); border-color: rgb(var(--accent)); }
-.starts-chip[aria-pressed="true"] b{ opacity: .85; }
+.starts-legend{ display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0 clamp(20px, 5vw, 56px) 16px; padding: 0; list-style: none;
+  font-size: 0.8125rem; color: var(--ink-mute); }
+.starts-legend li{ display: inline-flex; align-items: center; }
 .tl-wrap{
   overflow-x: auto; overflow-y: hidden; padding: 0 clamp(20px, 5vw, 56px) 10px;
   scrollbar-width: thin; scrollbar-color: rgb(var(--ink) / .28) transparent;
@@ -116,29 +117,27 @@ html.vi-mode .brand-mark{ display: none; }
 .tl-wrap::-webkit-scrollbar-thumb{ background: rgb(var(--ink) / .28); border-radius: 999px; }
 .tl-wrap:focus-visible{ outline: 3px solid rgb(var(--accent)); outline-offset: 2px; }
 .tl{
-  --tl-card-h: 116px; --tl-near: 40px; --tl-far: calc(var(--tl-near) + var(--tl-card-h) + 12px);
+  --tl-label-h: 24px; --tl-card-h: 116px; --tl-near: 40px; --tl-far: calc(var(--tl-near) + var(--tl-card-h) + 12px);
   --tl-axis: calc(var(--tl-far) + var(--tl-card-h) + 32px);
   position: relative; height: calc(var(--tl-axis) * 2 + 28px); min-width: 100%;
 }
-.tl-month{ position: absolute; top: 0; bottom: 0; border-left: 1px solid rgb(var(--ink) / .14); }
-.tl-month:nth-child(even){ background: rgb(var(--surface) / .55); }
+.tl-month{ position: absolute; top: 0; bottom: 0; border-left: 1px solid rgb(var(--accent) / .3); }
 .tl-month-label{
-  position: absolute; left: 10px; top: 2px;
-  font-size: 0.8125rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; color: var(--ink-mute);
+  position: absolute; left: 10px; top: 0;
+  font-size: 0.875rem; font-weight: 600; line-height: var(--tl-label-h); color: rgb(var(--ink));
   white-space: nowrap;
 }
-.tl-month-label b{ font-weight: 600; letter-spacing: 0; margin-left: 4px; }
 .tl-axis{ position: absolute; left: 0; right: 0; top: var(--tl-axis); height: 2px; margin-top: -1px; background: rgb(var(--accent)); }
 .tl-axis::after{
   content: ''; position: absolute; right: -2px; top: 50%; margin-top: -8px;
   border-left: 18px solid rgb(var(--accent)); border-top: 8px solid transparent; border-bottom: 8px solid transparent;
 }
-.tl-tick{ position: absolute; top: -3px; width: 1px; height: 8px; margin-left: -0.5px; background: rgb(var(--accent) / .45); }
-.tl-tick.is-week{ top: -6px; height: 14px; background: rgb(var(--accent) / .7); }
+.tl-tick{ position: absolute; margin-left: -0.5px; }
+.tl-tick.is-week{ top: -5px; width: 1px; height: 12px; background: rgb(var(--accent) / .6); }
 .tl-tick.is-month{ top: -9px; height: 20px; width: 2px; background: rgb(var(--accent)); }
-.tl-today{ position: absolute; top: 0; bottom: 0; width: 0; border-left: 2px dashed rgb(var(--accent) / .6); }
+.tl-today{ position: absolute; top: var(--tl-label-h); bottom: 0; width: 0; border-left: 2px dashed rgb(var(--accent) / .6); }
 .tl-today span{
-  position: absolute; bottom: 4px; left: 6px; white-space: nowrap;
+  position: absolute; top: calc(var(--tl-axis) - var(--tl-label-h)); left: 6px; transform: translateY(-50%); white-space: nowrap;
   font-size: 0.75rem; font-weight: 600; color: rgb(var(--accent));
   background: rgb(var(--surface)); border: 1px solid var(--line); border-radius: 999px; padding: 3px 9px;
 }

@@ -173,6 +173,7 @@ class FiltersOut(Schema):
 
 class MonthOut(Schema):
     label: str
+    caption: str
     count: int
     left: int
     width: int
@@ -200,6 +201,7 @@ class StartOut(Schema):
 class StartsOut(Schema):
     width: int
     months: list[MonthOut]
+    legend: list[SphereOut]
     ticks: list[TickOut]
     today: int | None
     items: list[StartOut]
