@@ -15,6 +15,10 @@ def admin_exists() -> bool:
     return User.objects.filter(is_superuser=True).exists()
 
 
+def admin_logins() -> list[str]:
+    return list(User.objects.filter(is_superuser=True).order_by("username").values_list("username", flat=True))
+
+
 @transaction.atomic
 def create_first_admin(login: str = DEFAULT_ADMIN_LOGIN) -> str:
     user = User(username=login, is_staff=True, is_superuser=True)

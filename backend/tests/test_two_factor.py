@@ -4,6 +4,7 @@ from io import StringIO
 import pytest
 from django.conf import settings
 from django.core.management import call_command
+from django.core.management.base import CommandError
 
 from accounts import two_factor
 from accounts.models import TwoFactor
@@ -115,3 +116,18 @@ def test_command_disables_two_factor():
     call_command("disable_two_factor", ADMIN_LOGIN, stdout=out)
     assert "отключён" in out.getvalue()
     assert not two_factor.is_enabled(admin)
+
+
+def test_command_without_login_disables_the_only_protected_user():
+    admin = make_admin()
+    enable_for(admin)
+    out = StringIO()
+    call_command("disable_two_factor", stdout=out)
+    assert ADMIN_LOGIN in out.getvalue()
+    assert not two_factor.is_enabled(admin)
+
+
+def test_command_without_login_and_protection_fails():
+    make_admin()
+    with pytest.raises(CommandError, match="ни у одного"):
+        call_command("disable_two_factor")

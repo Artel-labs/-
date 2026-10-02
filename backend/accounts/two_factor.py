@@ -12,6 +12,10 @@ def device_of(user: AbstractBaseUser) -> TwoFactor | None:
     return TwoFactor.objects.filter(user_id=user.pk).first()
 
 
+def protected_logins() -> list[str]:
+    return list(TwoFactor.objects.order_by("user__username").values_list("user__username", flat=True))
+
+
 def is_enabled(user: AbstractBaseUser) -> bool:
     device = device_of(user)
     return bool(device and device.enabled)

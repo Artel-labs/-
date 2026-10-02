@@ -52,3 +52,29 @@ def test_reset_sets_new_password_and_unlocks():
 def test_reset_unknown_login_fails():
     with pytest.raises(CommandError, match="нет"):
         run("reset_admin_password", "nobody")
+
+
+def test_reset_without_login_uses_the_only_admin():
+    admin = User.objects.create_superuser("dpo", "dpo@example.com", "Старый-пароль-2026")
+    output = run("reset_admin_password")
+    admin.refresh_from_db()
+    assert "Логин:  dpo" in output
+    assert admin.check_password(shown_password(output))
+
+
+def test_reset_without_login_lists_several_admins():
+    make_admin()
+    User.objects.create_superuser("dpo", "dpo@example.com", "Старый-пароль-2026")
+    with pytest.raises(CommandError, match="admin, dpo"):
+        run("reset_admin_password")
+
+
+def test_reset_without_admins_suggests_creating_one():
+    with pytest.raises(CommandError, match="create-admin"):
+        run("reset_admin_password")
+
+
+def test_reset_unknown_login_lists_admins():
+    User.objects.create_superuser("dpo", "dpo@example.com", "Старый-пароль-2026")
+    with pytest.raises(CommandError, match="Администраторы: dpo"):
+        run("reset_admin_password", "admin")
