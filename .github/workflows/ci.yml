@@ -159,7 +159,7 @@ jobs:
           curl -sI http://127.0.0.1:8443/ | grep -qi "^location: https://127.0.0.1:8443/"
       - run: sudo ./scripts/create-admin.sh | grep -q "уже есть"
       - run: sudo ./scripts/disable-two-factor.sh admin | grep -q "не был включён"
-      - run: sudo ./scripts/reset-admin-password.sh | grep -q "^Логин:  admin$"
+      - run: 'sudo ./scripts/reset-admin-password.sh | grep -q "^Логин:  admin$"'
       - run: sudo ./scripts/backup.sh
       - run: sudo ./scripts/restore.sh "$(sudo find /var/backups/dpo -name 'dpo-*.sql.gz' | head -n 1)" --yes
       - run: curl -fsSk https://127.0.0.1:8443/api/health
