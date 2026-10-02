@@ -51,11 +51,6 @@ def confirm(user: AbstractBaseUser, code: str) -> bool:
     return True
 
 
-def passes(user: AbstractBaseUser, code: str) -> bool:
-    device = device_of(user)
-    return not (device and device.enabled) or accept_code(device, code)
-
-
 def disable(user: AbstractBaseUser, code: str) -> bool:
     device = device_of(user)
     if device is None or not device.enabled or not accept_code(device, code):

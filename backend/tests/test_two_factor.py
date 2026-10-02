@@ -1,20 +1,26 @@
 import time
 from io import StringIO
+from types import SimpleNamespace
 
 import pytest
 from django.conf import settings
 from django.core.management import call_command
 from django.core.management.base import CommandError
 
-from accounts import two_factor
+from accounts import pending_login, two_factor
 from accounts.models import TwoFactor
+from accounts.pending_login import PENDING_SECONDS
 from accounts.totp import code_at, current_step, decode, matching_step, provisioning_uri
 from tests.factories import ADMIN_LOGIN, ADMIN_PASSWORD, make_admin
 
 pytestmark = pytest.mark.django_db
 
 LOGIN_URL = "/admin/login/"
+CODE_URL = "/admin/login/code/"
+INDEX_URL = "/admin/"
 SETTINGS_URL = "/admin/accounts/twofactor/"
+IP = "203.0.113.10"
+OK = 200
 RFC_SECRET = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ"
 LOCKED = 429
 
@@ -23,10 +29,16 @@ def code_now(secret: str, shift: int = 0) -> str:
     return code_at(decode(secret), current_step(time.time()) + shift)
 
 
-def log_in(client, code: str = "", ip: str = "203.0.113.10"):
-    return client.post(
-        LOGIN_URL, {"username": ADMIN_LOGIN, "password": ADMIN_PASSWORD, "code": code}, HTTP_X_REAL_IP=ip
-    )
+def log_in(client, ip: str = IP, url: str = LOGIN_URL):
+    return client.post(url, {"username": ADMIN_LOGIN, "password": ADMIN_PASSWORD}, HTTP_X_REAL_IP=ip)
+
+
+def send_code(client, code: str, ip: str = IP):
+    return client.post(CODE_URL, {"code": code}, HTTP_X_REAL_IP=ip)
+
+
+def logged_in(client) -> bool:
+    return bool(client.get(INDEX_URL).status_code == OK)
 
 
 def enable_for(admin) -> TwoFactor:
@@ -60,32 +72,82 @@ def test_provisioning_uri_names_issuer_and_account():
     assert "issuer=" in uri
 
 
+def test_login_page_has_no_code_field(client):
+    assert "Код из приложения" not in client.get(LOGIN_URL).content.decode()
+
+
 def test_login_without_two_factor_needs_only_password(client):
     make_admin()
     response = log_in(client)
     assert response.status_code == 302
+    assert response["Location"] == INDEX_URL
+    assert logged_in(client)
 
 
-def test_enabled_two_factor_requires_code(client):
+def test_enabled_two_factor_asks_code_on_separate_page(client):
     device = enable_for(make_admin())
-    assert log_in(client).status_code == 200
-    assert "Неверный код" in log_in(client, "000000").content.decode()
-    assert log_in(client, code_now(device.secret)).status_code == 302
+    response = log_in(client)
+    assert response["Location"] == CODE_URL
+    assert not logged_in(client)
+    page = client.get(CODE_URL).content.decode()
+    assert "Код из приложения" in page
+    assert ADMIN_LOGIN in page
+    assert "Неверный код" in send_code(client, "000000").content.decode()
+    assert not logged_in(client)
+    assert send_code(client, code_now(device.secret))["Location"] == INDEX_URL
+    assert logged_in(client)
+
+
+def test_wrong_password_never_reaches_code_page(client):
+    enable_for(make_admin())
+    response = client.post(LOGIN_URL, {"username": ADMIN_LOGIN, "password": "неверный"}, HTTP_X_REAL_IP=IP)
+    assert response.status_code == OK
+    assert client.get(CODE_URL)["Location"] == LOGIN_URL
+
+
+def test_code_page_without_password_step_redirects_to_login(client):
+    assert client.get(CODE_URL)["Location"] == LOGIN_URL
+    assert send_code(client, "000000")["Location"] == LOGIN_URL
+
+
+def test_password_step_expires(client, monkeypatch):
+    device = enable_for(make_admin())
+    log_in(client)
+    late = time.time() + PENDING_SECONDS + 1
+    monkeypatch.setattr(pending_login, "time", SimpleNamespace(time=lambda: late))
+    assert send_code(client, code_now(device.secret))["Location"] == LOGIN_URL
+    assert not logged_in(client)
+
+
+def test_next_address_is_kept_through_code_step(client):
+    device = enable_for(make_admin())
+    log_in(client, url=f"{LOGIN_URL}?next={SETTINGS_URL}")
+    assert send_code(client, code_now(device.secret))["Location"] == SETTINGS_URL
 
 
 def test_code_cannot_be_reused(client):
     device = enable_for(make_admin())
     code = code_now(device.secret)
-    assert log_in(client, code).status_code == 302
+    log_in(client)
+    send_code(client, code)
     client.logout()
-    assert log_in(client, code).status_code == 200
+    log_in(client)
+    assert "Неверный код" in send_code(client, code).content.decode()
+    assert not logged_in(client)
 
 
 def test_wrong_codes_lock_the_address(client):
     enable_for(make_admin())
-    for _ in range(settings.LOGIN_FAILURE_LIMIT):
-        log_in(client, "000000")
-    assert log_in(client, "000000").status_code == LOCKED
+    log_in(client)
+    for _ in range(settings.LOGIN_FAILURE_LIMIT - 1):
+        assert send_code(client, "000000").status_code == OK
+    assert send_code(client, "000000").status_code == LOCKED
+    assert log_in(client).status_code == LOCKED
+
+
+def test_account_menu_links_to_two_factor_settings(client):
+    client.force_login(make_admin())
+    assert f'href="{SETTINGS_URL}"' in client.get(INDEX_URL).content.decode()
 
 
 def test_settings_page_enables_and_disables(client):

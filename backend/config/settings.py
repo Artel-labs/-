@@ -2,6 +2,7 @@ from datetime import timedelta
 from pathlib import Path
 
 from django.templatetags.static import static
+from django.urls import reverse
 
 from config.env import env_flag, env_int, env_list, env_required, env_text
 
@@ -39,8 +40,8 @@ EMAIL_TIMEOUT = 20
 DEFAULT_FROM_EMAIL = env_text("APPLICATION_MAIL_FROM") or EMAIL_HOST_USER
 
 INSTALLED_APPS = [
-    "unfold",
-    "django.contrib.admin",
+    "unfold.apps.BasicAppConfig",
+    "accounts.admin_config.DpoAdminConfig",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -187,6 +188,12 @@ UNFOLD = {
     "SHOW_HISTORY": True,
     "SHOW_VIEW_ON_SITE": False,
     "COLORS": {"primary": BRAND_BLUE},
+    "ACCOUNT": {
+        "navigation": [
+            {"title": "Изменить пароль", "link": lambda request: reverse("admin:password_change")},
+            {"title": "Двухфакторный вход", "link": lambda request: reverse("admin:accounts_twofactor_changelist")},
+        ],
+    },
 }
 
 Q_CLUSTER = {

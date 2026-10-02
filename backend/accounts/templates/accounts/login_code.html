@@ -1,0 +1,30 @@
+{% extends "unfold/layouts/unauthenticated.html" %}
+{% load i18n unfold %}
+
+{% block title %}{{ title }} | {{ site_title }}{% endblock %}
+
+{% block content %}
+    {% include "unfold/helpers/unauthenticated_title.html" with title=site_title subtitle=title %}
+
+    {% if form.errors %}
+        <div class="flex flex-col gap-4 mb-8 *:mb-0">
+            {% include "unfold/helpers/messages/errornote.html" with errors=form.errors %}
+        </div>
+    {% endif %}
+
+    <p class="mb-6">Для пользователя <b>{{ login_name }}</b> включён двухфакторный вход. Введите шестизначный код из приложения-аутентификатора.</p>
+
+    <form action="{{ app_path }}" method="post" id="login-form">
+        {% csrf_token %}
+        {% include "unfold/helpers/field.html" with field=form.code %}
+        <div class="flex flex-col gap-3 mt-6">
+            {% component "unfold/components/button.html" with submit=1 variant="primary" class="submit-row w-full" %}
+                Подтвердить
+            {% endcomponent %}
+            {% url "admin:login" as login_url %}
+            {% component "unfold/components/button.html" with href=login_url variant="secondary" class="w-full" %}
+                Войти под другим логином
+            {% endcomponent %}
+        </div>
+    </form>
+{% endblock %}
