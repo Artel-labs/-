@@ -166,12 +166,6 @@ footer {
   flex-wrap: wrap;
 }
 
-header a.back {
-  display: block;
-  padding: 8px 0;
-  margin: -8px 0;
-}
-
 footer a {
   display: inline-flex;
   align-items: center;

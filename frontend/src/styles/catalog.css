@@ -56,13 +56,7 @@ html.vi-mode header::after{ display: none !important; }
 html.vi-mode .brand-mark{ display: none; }
 .logo .sub{ font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.08em;
    text-transform: uppercase; color: rgb(var(--accent)); }
-header a.back{ font-size: 0.875rem; font-weight: 600; color: rgb(var(--accent)); white-space: nowrap;
-  display: block; padding: 13px 0; margin: -13px 0; }
-header a.back:hover{ text-decoration: underline; }
-header a.back .back-short{ display: none; }
 @media (max-width: 460px){
-  header a.back .back-full{ display: none; }
-  header a.back .back-short{ display: inline; }
   header .header-nav{ flex-wrap: wrap; justify-content: flex-end; row-gap: 6px; }
 }
 

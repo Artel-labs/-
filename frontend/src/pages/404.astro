@@ -2,6 +2,7 @@
 export const prerender = true;
 
 import Copyright from "../components/Copyright.astro";
+import HomeLink from "../components/HomeLink.astro";
 import SkipLink from "../components/SkipLink.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "../styles/not-found.css";
@@ -19,7 +20,7 @@ const DESCRIPTION = "Такой страницы на сайте нет.";
       <img class="mark" src="/images/logo/hse-mark.svg" width="34" height="34" alt="НИУ «Высшая школа экономики»" />
       <span class="sub">Центр ДПО факультета права</span>
     </a>
-    <a class="back" href="/">← На главную</a>
+    <HomeLink />
   </header>
   <main>
     <span class="ghost-code" aria-hidden="true">404</span>

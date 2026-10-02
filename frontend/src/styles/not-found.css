@@ -67,20 +67,6 @@ header {
   color: rgb(var(--accent));
 }
 
-.back {
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: rgb(var(--accent));
-  text-decoration: none;
-  display: block;
-  padding: 11px 0;
-  margin: -11px 0;
-}
-
-.back:hover {
-  text-decoration: underline;
-}
-
 main {
   flex: 1;
   display: flex;
