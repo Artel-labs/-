@@ -193,3 +193,14 @@ html.vi-mode :focus-visible {
 .skip-link:focus {
   left: 0;
 }
+
+@media (max-width: 360px) {
+  header {
+    padding: 0 16px;
+    gap: 12px;
+  }
+
+  .header-actions {
+    gap: 8px;
+  }
+}

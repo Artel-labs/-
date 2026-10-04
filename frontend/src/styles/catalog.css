@@ -509,3 +509,7 @@ html.vi-mode :focus-visible{ outline: 3px solid #000 !important; outline-offset:
 header .header-nav{ display: flex; align-items: center; gap: 14px; }
 .hero p.hero-gap{ margin-bottom: 10px; }
 .tl:not(.is-placed){ visibility: hidden; }
+@media (max-width: 360px){
+  header{ padding: 0 16px; gap: 12px; }
+  header .header-nav{ gap: 8px; }
+}
