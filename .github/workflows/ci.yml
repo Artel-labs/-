@@ -98,9 +98,9 @@ jobs:
       - name: Главная собирается из каталога
         run: |
           page="$(curl -fsSk https://127.0.0.1:8443/)"
-          grep -q "Повышение квалификации и переподготовка юристов" <<< "$page"
+          grep -q "Повышение квалификации и&nbsp;переподготовка юристов" <<< "$page"
           test "$(grep -o 'class="dpo-teacher"' <<< "$page" | wc -l)" -gt 0
-          grep -q 'Все 34 программ с фильтрами' <<< "$page"
+          grep -q 'Все 34 программ с&nbsp;фильтрами' <<< "$page"
           grep -q 'id="cookieBanner"' <<< "$page"
           grep -q 'id="channelInvite"' <<< "$page"
       - name: Страница программы собирается из базы
@@ -116,7 +116,7 @@ jobs:
           curl -sSkI https://127.0.0.1:8443/catalog.html | grep -qi "^location: .*/catalog"
       - name: Рейтинги, политика, карта сайта и robots.txt
         run: |
-          curl -fsSk https://127.0.0.1:8443/ratings | grep -q "<h1>Позиции НИУ ВШЭ в рейтингах</h1>"
+          curl -fsSk https://127.0.0.1:8443/ratings | grep -q "<h1>Позиции НИУ ВШЭ в&nbsp;рейтингах</h1>"
           curl -fsSk https://127.0.0.1:8443/privacy | grep -q "<h1>Политика обработки персональных данных</h1>"
           test "$(curl -fsSk https://127.0.0.1:8443/sitemap.xml | grep -c '<url>')" = "38"
           curl -fsSk https://127.0.0.1:8443/robots.txt | grep -q "^Sitemap: https://.*/sitemap.xml$"

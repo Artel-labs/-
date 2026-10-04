@@ -49,13 +49,13 @@ if (Astro.url.pathname !== canonicalPath) {
       <NoticeSection notice={program.notice} />
       <AboutSection about={program.about} />
       <LineList title="Кому подойдёт программа" items={program.audience?.items ?? []} listClass="pills" sub={program.audience?.intro} />
-      <LineList title="Чему вы&nbsp;научитесь" items={program.results} listClass="results" />
+      <LineList title="Чему вы научитесь" items={program.results} listClass="results" />
       <LineList title="Преимущества программы" items={program.advantages} listClass="advantages" ordered />
       <ModulesSection modules={program.modules} label={program.modules_label} />
       <FilesSection files={program.files} />
       <TeachersSection teachers={program.teachers} heading={program.teachers_heading} />
       <ReviewsSection reviews={program.reviews} />
-      <LineList title="Документы для приёма на&nbsp;обучение" items={program.admission_documents} listClass="admission" />
+      <LineList title="Документы для приёма на обучение" items={program.admission_documents} listClass="admission" />
       <FaqSection faq={program.faq} />
       <SiblingsSection siblings={program.siblings} />
     </div>
