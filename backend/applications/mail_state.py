@@ -36,6 +36,8 @@ class MailState:
 
 
 def encryption() -> str:
+    if not settings.EMAIL_HOST:
+        return NOT_SET
     if settings.EMAIL_USE_SSL:
         return SSL
     return STARTTLS if settings.EMAIL_USE_TLS else PLAIN
