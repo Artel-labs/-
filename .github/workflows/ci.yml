@@ -124,6 +124,13 @@ jobs:
           curl -sSkI https://127.0.0.1:8443/privacy.html | grep -qi "^location: /privacy"
           test "$(curl -sSk -o /dev/null -w '%{http_code}' https://127.0.0.1:8443/no-such-page)" = "404"
           curl -sSk https://127.0.0.1:8443/no-such-page | grep -q "Такой страницы нет"
+      - name: Знак ВШЭ в шапке каждой страницы
+        run: |
+          for page in / /catalog /programs/angliyskoe-kontraktnoe-pravo-856421092.html /ratings /privacy; do
+            curl -fsSk "https://127.0.0.1:8443$page" | grep -q 'class="hse-lockup"'
+          done
+          curl -sSk https://127.0.0.1:8443/no-such-page | grep -q 'class="hse-lockup"'
+          curl -fsSk -o /dev/null https://127.0.0.1:8443/images/logo/hse-mark.svg
       - name: Каталог для бота поддержки
         run: |
           count="$(curl -fsSk https://127.0.0.1:8443/api/catalog/bot | python3 -c 'import json, sys; print(len(json.load(sys.stdin)))')"

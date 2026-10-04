@@ -1,0 +1,19 @@
+---
+import "../styles/hse-lockup.css";
+import { HSE_MARK, HSE_MARK_ALT, HSE_URL, LOCKUP_CAPTION } from "../lib/brand";
+
+interface Props {
+  home?: string;
+}
+
+const { home = "/" } = Astro.props;
+---
+
+<span class="hse-lockup">
+  <a class="hse-lockup-mark" href={HSE_URL} rel="noopener">
+    <img src={HSE_MARK} width="44" height="44" alt={HSE_MARK_ALT} />
+  </a>
+  <a class="hse-lockup-caption" href={home}>
+    {LOCKUP_CAPTION.map((line) => <span>{line}</span>)}
+  </a>
+</span>

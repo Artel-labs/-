@@ -1,5 +1,6 @@
 ---
 import type { Menu } from "../../lib/landing";
+import HseLockup from "../HseLockup.astro";
 import MenuGrid from "./MenuGrid.astro";
 import ViModeButton from "./ViModeButton.astro";
 
@@ -13,15 +14,7 @@ const { menu } = Astro.props;
 <header data-screen-label="Header" class="dpo-header">
   <div class="dpo-header-bar">
 <span class="dpo-brand">
-<img alt="" class="dpo-brand-mark" height="44" src="/images/logo/brand-mark-96.webp" width="44"/>
-<a class="dpo-brand-lockup" href="#top">
-<span class="dpo-brand-sub">Центр дополнительного профессионального образования факультета права<span class="dpo-brand-affil"> · НИУ ВШЭ</span></span>
-<span class="dpo-brand-short">Центр ДПО факультета права<span class="dpo-brand-affil"> · НИУ ВШЭ</span></span>
-</a>
-<span aria-hidden="true" class="dpo-brand-rule"></span>
-<a class="dpo-brand-hse-wrap" href="https://pravo.hse.ru" rel="noopener noreferrer" target="_blank">
-<img alt="Факультет права НИУ ВШЭ" class="dpo-brand-hse" decoding="async" height="40" loading="lazy" src="/images/logo-hse-round.svg" width="40"/>
-</a>
+<HseLockup home="#top" />
 </span>
 <nav aria-label="Основная навигация" class="dpo-capsule">
 <a href="/catalog">Программы</a>

@@ -3,6 +3,7 @@ export const prerender = true;
 
 import Copyright from "../components/Copyright.astro";
 import HomeLink from "../components/HomeLink.astro";
+import HseLockup from "../components/HseLockup.astro";
 import SkipLink from "../components/SkipLink.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "../styles/not-found.css";
@@ -15,11 +16,7 @@ const DESCRIPTION = "Такой страницы на сайте нет.";
   <meta slot="head" name="robots" content="noindex, follow" />
   <SkipLink target="#top" />
   <header>
-    <a class="logo" href="/">
-      <img class="brand-mark" src="/images/logo/brand-mark-96.webp" width="34" height="34" alt="" />
-      <img class="mark" src="/images/logo/hse-mark.svg" width="34" height="34" alt="НИУ «Высшая школа экономики»" />
-      <span class="sub">Центр ДПО факультета права</span>
-    </a>
+    <HseLockup />
     <HomeLink />
   </header>
   <main>

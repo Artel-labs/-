@@ -22,7 +22,6 @@ img { display: block; max-width: 100% }
 .bar-title { font-weight: 600 }
 
 .screen { padding: 16px 16px 28px }
-.eyebrow { margin: 4px 0 6px; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: rgb(var(--ink-mute)) }
 .h1 { margin: 0 0 14px; font: 700 26px/1.1 var(--slab); text-wrap: balance }
 .h1--sm { font-size: 23px }
 

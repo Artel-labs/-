@@ -1,0 +1,35 @@
+.hse-lockup {
+  --mark: 44px;
+  display: flex;
+  align-items: center;
+  flex: none;
+  gap: calc(var(--mark) / 4);
+  padding-block: calc(var(--mark) / 2);
+  margin-inline-end: calc(var(--mark) / 2);
+}
+
+.hse-lockup-mark {
+  display: block;
+  flex: none;
+  line-height: 0;
+}
+
+.hse-lockup-mark img {
+  display: block;
+  width: var(--mark);
+  height: var(--mark);
+}
+
+.hse-lockup-caption {
+  display: flex;
+  flex-direction: column;
+  font-family: "HSE Sans", "IBM Plex Sans", sans-serif;
+  font-weight: 400;
+  font-size: calc(var(--mark) * 0.6 / 2 / 1.1);
+  line-height: 1.1;
+  letter-spacing: 0;
+  text-transform: none;
+  white-space: nowrap;
+  text-decoration: none;
+  color: rgb(var(--brand-blue));
+}

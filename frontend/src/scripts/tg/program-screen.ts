@@ -2,17 +2,11 @@ import type { TgNotice, TgProgram } from "../../lib/tg";
 import type { Bridge } from "./bridge";
 import type { Context } from "./context";
 import { formatPrice } from "./core.ts";
-import { clamped, h, hostOf, list, picture, plural, section } from "./dom";
+import { clamped, h, hostOf, list, outLink, picture, plural, section } from "./dom";
 
 const SOURCE_NOTE = "С официальной страницы программы на hse.ru";
 const ABOUT_LIMIT = 320;
 const TEACHER_LIMIT = 110;
-
-function outLink(bridge: Bridge, className: string | null, href: string, children: (Node | string | null)[]): HTMLAnchorElement {
-  const link = h("a", { class: className, href, target: "_blank", rel: "noopener noreferrer" }, children);
-  bridge.routeLink(link);
-  return link;
-}
 
 function noticeBlock(bridge: Bridge, notice: TgNotice | null): HTMLElement | null {
   if (!notice) {

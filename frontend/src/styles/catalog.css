@@ -1,7 +1,7 @@
 :root {
 --radius-md: 16px;
 --radius-sm: 999px;
---header-h: 61px;
+--header-h: 88px;
 }
 *{ box-sizing: border-box; }
 @media (prefers-reduced-motion: no-preference){
@@ -21,7 +21,7 @@ a, button, input, select, textarea, label{ touch-action: manipulation; -webkit-t
 header{
   position: sticky; top: 0; z-index: 20;
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  padding: 16px clamp(20px, 5vw, 56px);
+  padding: 0 clamp(20px, 5vw, 56px);
   background: rgb(var(--bg) / 0.9);
   backdrop-filter: blur(10px);
 }
@@ -41,11 +41,6 @@ html.vi-mode header::after{ display: none !important; }
   header{ background: rgb(var(--surface)); backdrop-filter: none; border-bottom: 1px solid rgb(var(--ink)); }
   header::after{ display: none; }
 }
-.logo{ display: flex; align-items: center; gap: 10px; padding: 5px 0; margin: -5px 0; }
-.brand-mark{ display: block; flex: none; width: 34px; height: 34px; border-radius: 50%; }
-html.vi-mode .brand-mark{ display: none; }
-.logo .sub{ font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.08em;
-   text-transform: uppercase; color: rgb(var(--accent)); }
 @media (max-width: 460px){
   header .header-nav{ flex-wrap: wrap; justify-content: flex-end; row-gap: 6px; }
 }
@@ -370,13 +365,7 @@ main{ padding: clamp(28px, 5vw, 48px) clamp(20px, 5vw, 56px) clamp(64px, 8vw, 96
   background: linear-gradient(180deg, rgb(var(--deep) / 0.55) 0%, rgb(var(--night) / 0.72) 100%);
 }
 .card-media-blank{
-  background: linear-gradient(180deg, rgb(var(--deep)) 0%, rgb(var(--night)) 100%);
-}
-.card-media-blank::before{
-  content: ''; position: absolute; left: 50%; top: 50%;
-  width: 72px; height: 72px; margin: -36px 0 0 -36px;
-  border-radius: 50%;
-  background: url('/images/logo/brand-mark-96.webp') center / cover no-repeat;
+  background: rgb(var(--brand-blue)) url('/images/pattern-cover.svg') center / cover no-repeat;
 }
 .card-media-blank::after{ background: none; }
 .card .sphere{

@@ -20,40 +20,10 @@ header {
   justify-content: space-between;
   gap: 16px;
   flex-wrap: wrap;
-  padding: 16px clamp(20px, 6vw, 64px);
+  padding: 0 clamp(20px, 6vw, 64px);
   border-bottom: 1px solid var(--line);
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  padding: 5px 0;
-  margin: -5px 0;
-}
-
-.logo .mark {
-  width: 34px;
-  height: 34px;
-  flex: none;
-}
-
-.logo .brand-mark {
-  width: 34px;
-  height: 34px;
-  flex: none;
-  border-radius: 50%;
-}
-
-.logo .sub {
-  display: block;
-  font-size: 0.8125rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-weight: 600;
-  color: rgb(var(--accent));
-}
 
 main {
   flex: 1;

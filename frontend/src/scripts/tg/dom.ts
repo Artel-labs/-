@@ -1,3 +1,6 @@
+import { HSE_MARK, HSE_MARK_ALT, HSE_URL, LOCKUP_CAPTION } from "../../lib/brand";
+import type { Bridge } from "./bridge";
+
 type Child = Node | string | null | undefined | false;
 type Attributes = Record<string, string | boolean | null | undefined>;
 
@@ -96,4 +99,18 @@ export function hostOf(url: string): string {
   } catch {
     return "";
   }
+}
+
+export function outLink(bridge: Bridge, className: string | null, href: string, children: (Node | string | null)[]): HTMLAnchorElement {
+  const link = h("a", { class: className, href, target: "_blank", rel: "noopener noreferrer" }, children);
+  bridge.routeLink(link);
+  return link;
+}
+
+export function hseLockup(bridge: Bridge): HTMLElement {
+  const mark = h("img", { src: HSE_MARK, width: "44", height: "44", alt: HSE_MARK_ALT });
+  return h("div", { class: "hse-lockup" }, [
+    outLink(bridge, "hse-lockup-mark", HSE_URL, [mark]),
+    h("span", { class: "hse-lockup-caption" }, LOCKUP_CAPTION.map((line) => h("span", { text: line }))),
+  ]);
 }

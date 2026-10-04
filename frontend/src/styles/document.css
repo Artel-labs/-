@@ -23,7 +23,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 20;
-  padding: 16px clamp(20px, 6vw, 64px);
+  padding: 0 clamp(20px, 6vw, 64px);
   background: rgb(var(--bg) / 0.9);
   backdrop-filter: blur(10px);
   display: flex;
@@ -83,30 +83,6 @@ html.vi-mode header::after {
   }
 }
 
-.logo {
-  font-weight: 600;
-  font-size: 0.8125rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgb(var(--accent));
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 7px 0;
-  margin: -7px 0;
-}
-
-.brand-mark {
-  display: block;
-  flex: none;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-}
-
-html.vi-mode .brand-mark {
-  display: none;
-}
 
 .header-actions {
   display: flex;
