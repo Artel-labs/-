@@ -274,6 +274,7 @@ def test_mail_state_without_server_explains_env(client, settings):
     assert "SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS" in block
     assert "писем ещё не было" in block
     assert "STARTTLS" not in block
+    assert "не задано" in block
 
 
 def test_mail_state_shows_settings_without_password(client, mailing, settings):

@@ -6,6 +6,7 @@ from django.utils import timezone
 from applications.models import Application, MailStatus
 
 NOT_SET = "не задан"
+NO_ENCRYPTION_SET = "не задано"
 ENV_KEYS = "SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS"
 NOT_CONFIGURED = f"Почтовый сервер не настроен. Заполните в файле .env на сервере: {ENV_KEYS} — и перезапустите сайт."
 PROBLEM_STATUSES = (MailStatus.FAILED, MailStatus.SKIPPED)
@@ -37,7 +38,7 @@ class MailState:
 
 def encryption() -> str:
     if not settings.EMAIL_HOST:
-        return NOT_SET
+        return NO_ENCRYPTION_SET
     if settings.EMAIL_USE_SSL:
         return SSL
     return STARTTLS if settings.EMAIL_USE_TLS else PLAIN
