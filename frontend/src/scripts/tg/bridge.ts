@@ -82,7 +82,7 @@ export class Bridge {
     this.mainAction = label ? action : null;
     if (this.app) {
       if (label) {
-        this.app.MainButton.setParams({ text: label, color: PALETTE_HEX.accent, text_color: PALETTE_HEX.surface, is_active: true, is_visible: true });
+        this.app.MainButton.setParams({ text: label, color: PALETTE_HEX["hse-blue-2"], text_color: PALETTE_HEX["hse-white"], is_active: true, is_visible: true });
       } else {
         this.app.MainButton.hide();
       }
@@ -138,13 +138,13 @@ export class Bridge {
     app.ready();
     app.expand();
     if (app.isVersionAtLeast?.(BACKGROUND_VERSION)) {
-      app.setBackgroundColor(PALETTE_HEX.bg);
+      app.setBackgroundColor(PALETTE_HEX["hse-white"]);
     }
     if (app.isVersionAtLeast?.(HEADER_VERSION)) {
-      app.setHeaderColor(PALETTE_HEX.bg);
+      app.setHeaderColor(PALETTE_HEX["hse-white"]);
     }
     if (app.isVersionAtLeast?.(BOTTOM_BAR_VERSION)) {
-      app.setBottomBarColor?.(PALETTE_HEX.bg);
+      app.setBottomBarColor?.(PALETTE_HEX["hse-white"]);
     }
   }
 }

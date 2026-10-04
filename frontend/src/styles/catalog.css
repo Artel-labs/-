@@ -146,12 +146,12 @@ html.vi-mode header::after{ display: none !important; }
 .tl-meta{ font-size: 0.7188rem; line-height: 1.3; color: rgb(var(--ink-mute)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tl-price{ flex: none; margin-top: auto; font-size: 0.8125rem; line-height: 1.25; color: rgb(var(--ink)); white-space: nowrap; }
 .tl-dot{ display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; background: rgb(var(--ink-faint)); }
-.tl-dot[data-sphere="corporate"]{ background: rgb(var(--accent)); }
-.tl-dot[data-sphere="digital"]{ background: rgb(var(--sky-dot)); }
-.tl-dot[data-sphere="international"]{ background: rgb(var(--deep)); }
-.tl-dot[data-sphere="finance"]{ background: rgb(var(--ochre)); }
-.tl-dot[data-sphere="language"]{ background: rgb(var(--deep-soft)); }
-.tl-dot[data-sphere="practice"]{ background: rgb(var(--sand-dot)); }
+.tl-dot[data-sphere="corporate"]{ background: rgb(var(--hse-blue-2)); }
+.tl-dot[data-sphere="digital"]{ background: rgb(var(--hse-blue-3)); }
+.tl-dot[data-sphere="international"]{ background: rgb(var(--hse-blue)); }
+.tl-dot[data-sphere="finance"]{ background: rgb(var(--hse-yellow)); }
+.tl-dot[data-sphere="language"]{ background: rgb(var(--hse-grey)); }
+.tl-dot[data-sphere="practice"]{ background: rgb(var(--hse-blue-4)); box-shadow: inset 0 0 0 1px rgb(var(--hse-blue)); }
 .tl-pin{ position: absolute; left: var(--tl-pin); width: 2px; margin-left: -1px; background: rgb(var(--accent) / .5); }
 .tl-pin::after{ content: ''; position: absolute; left: -4px; width: 10px; height: 10px; border-radius: 999px; background: rgb(var(--accent)); }
 .tl-up1 .tl-card{ bottom: calc(100% - var(--tl-axis) + var(--tl-near)); }

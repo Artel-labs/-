@@ -32,3 +32,26 @@ test("в стилях нет цветов в обход palette.css, кроме 
     assert.deepEqual(hexes, [], name);
   }
 });
+
+const BRANDBOOK = new Set([
+  "255 255 255",
+  "0 0 0",
+  "15 45 105",
+  "35 75 155",
+  "125 160 210",
+  "205 220 240",
+  "250 185 0",
+  "255 220 145",
+  "230 30 60",
+  "146 146 146",
+  "198 198 198",
+]);
+const KEPT_BY_DECISION = new Set(["night", "night-mid", "night-ink", "outline-dark"]);
+
+test("в palette.css только цвета брендбука, кроме затемнения фото и маскота", () => {
+  for (const [, token = "", value = ""] of PALETTE_CSS.matchAll(/--([a-z0-9-]+):\s*(\d+ \d+ \d+);/g)) {
+    if (!KEPT_BY_DECISION.has(token)) {
+      assert.ok(BRANDBOOK.has(value), `--${token}: ${value}`);
+    }
+  }
+});

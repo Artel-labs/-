@@ -556,7 +556,7 @@
       transition: background .15s var(--dpo-ease), border-color .15s var(--dpo-ease), color .15s var(--dpo-ease);
     }
     @media (hover: hover) and (pointer: fine) {
-      .dpo-hero-cta:hover { background: rgb(var(--ochre)) !important; }
+      .dpo-hero-cta:hover { background: rgb(var(--ochre)) !important; color: rgb(var(--brand-blue)) !important; }
       .dpo-hero-cta-alt:hover { border-color: #fff !important; background: rgba(255, 255, 255, 0.1) !important; }
       .dpo-doc-link:hover { text-decoration: underline; }
       .dpo-quiz-open:hover { background: rgb(var(--accent-dark)) !important; }
@@ -842,12 +842,12 @@
     @media (min-width: 1080px) {
       .dpo-spheres { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
-    .dpo-sphere[data-sphere="corporate"]     { --tile-bg: rgb(var(--accent)); --tile-ink: #fff; }
-    .dpo-sphere[data-sphere="digital"]       { --tile-bg: rgb(var(--sky)); --tile-ink: rgb(var(--ink)); --vig: 0.14; }
-    .dpo-sphere[data-sphere="international"] { --tile-bg: rgb(var(--deep)); --tile-ink: #fff; }
-    .dpo-sphere[data-sphere="finance"]       { --tile-bg: rgb(var(--ochre)); --tile-ink: rgb(var(--ink)); --vig: 0.14; }
-    .dpo-sphere[data-sphere="language"]      { --tile-bg: rgb(var(--deep-soft)); --tile-ink: #fff; }
-    .dpo-sphere[data-sphere="practice"]      { --tile-bg: rgb(var(--sand)); --tile-ink: rgb(var(--ink)); --vig: 0.14; }
+    .dpo-sphere[data-sphere="corporate"]     { --tile-bg: rgb(var(--hse-blue-2)); --tile-ink: #fff; }
+    .dpo-sphere[data-sphere="digital"]       { --tile-bg: rgb(var(--hse-blue-4)); --tile-ink: rgb(var(--hse-blue)); --vig: 0.14; }
+    .dpo-sphere[data-sphere="international"] { --tile-bg: rgb(var(--hse-blue)); --tile-ink: #fff; }
+    .dpo-sphere[data-sphere="finance"]       { --tile-bg: rgb(var(--hse-blue-3)); --tile-ink: rgb(var(--hse-blue)); --vig: 0.14; }
+    .dpo-sphere[data-sphere="language"]      { --tile-bg: rgb(var(--hse-blue-2)); --tile-ink: #fff; }
+    .dpo-sphere[data-sphere="practice"]      { --tile-bg: rgb(var(--hse-blue-4)); --tile-ink: rgb(var(--hse-blue)); --vig: 0.14; }
     .dpo-sphere {
       --tile-pad: clamp(22px, 2.6vw, 32px);
       position: relative;

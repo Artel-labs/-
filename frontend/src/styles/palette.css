@@ -1,47 +1,54 @@
 :root {
-  --surface: 255 255 255;
-  --paper: 255 254 251;
-  --bg: 251 249 245;
-  --bg-tint: 242 236 225;
+  --hse-white: 255 255 255;
+  --hse-black: 0 0 0;
+  --hse-blue: 15 45 105;
+  --hse-blue-2: 35 75 155;
+  --hse-blue-3: 125 160 210;
+  --hse-blue-4: 205 220 240;
+  --hse-yellow: 250 185 0;
+  --hse-yellow-light: 255 220 145;
+  --hse-red: 230 30 60;
+  --hse-grey: 146 146 146;
+  --hse-grey-2: 198 198 198;
 
-  --ink: 33 30 27;
-  --ink-strong: 29 29 27;
-  --ink-soft: 72 66 58;
-  --ink-warm: 90 82 72;
-  --ink-mute: 107 100 89;
-  --ink-faint: 163 154 140;
+  --surface: var(--hse-white);
+  --paper: var(--hse-white);
+  --bg: var(--hse-white);
+  --bg-tint: var(--hse-blue-4);
+
+  --ink: var(--hse-black);
+  --ink-strong: var(--hse-black);
+  --ink-soft: var(--hse-blue);
+  --ink-warm: var(--hse-blue);
+  --ink-mute: var(--hse-blue);
+  --ink-faint: var(--hse-grey);
   --outline-dark: 22 24 28;
 
-  --brand-blue: 15 45 105;
-  --accent: 22 88 218;
-  --accent-dark: 17 69 170;
-  --accent-pressed: 18 63 158;
+  --brand-blue: var(--hse-blue);
+  --accent: var(--hse-blue-2);
+  --accent-dark: var(--hse-blue);
+  --accent-pressed: var(--hse-blue);
 
-  --deep: 11 42 105;
-  --deep-header: 16 48 107;
-  --deep-row: 28 57 116;
-  --deep-soft: 34 59 108;
+  --deep: var(--hse-blue);
+  --deep-header: var(--hse-blue);
+  --deep-row: var(--hse-blue-2);
+  --deep-soft: var(--hse-blue-2);
   --night: 6 23 57;
   --night-mid: 8 33 83;
   --night-ink: 10 16 28;
 
-  --ochre: 240 184 110;
-  --sun: 255 217 130;
-  --error: 176 0 32;
+  --ochre: var(--hse-yellow);
+  --sun: var(--hse-yellow-light);
+  --error: var(--hse-red);
 
-  --sky: 206 223 253;
-  --sky-dot: 127 166 240;
-  --sand: 230 212 191;
-  --sand-dot: 201 178 145;
-
-  --hdr-bg: 250 247 241;
-  --hdr-line: 230 224 214;
-  --hdr-capsule: 241 235 224;
-  --hdr-capsule-line: 227 220 208;
-  --hdr-rule: 220 213 201;
-  --hdr-control-line: 201 193 180;
-  --hdr-item: 58 56 51;
-  --hdr-sub: 107 107 102;
+  --hdr-bg: var(--hse-white);
+  --hdr-line: var(--hse-grey-2);
+  --hdr-capsule: var(--hse-blue-4);
+  --hdr-capsule-line: var(--hse-grey-2);
+  --hdr-rule: var(--hse-grey-2);
+  --hdr-control-line: var(--hse-grey-2);
+  --hdr-item: var(--hse-black);
+  --hdr-sub: var(--hse-blue);
 
   --line: rgb(var(--ink) / 0.1);
   --border-field: rgb(var(--ink) / 0.5);
