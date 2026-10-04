@@ -35,14 +35,14 @@ const { program } = Astro.props;
     program.pay_url ? (
       <>
         <a class="cta-pay" href={program.pay_url} target="_blank" rel="noopener">
-          Оплатить на hse.ru
+          Оплатить на&nbsp;hse.ru
         </a>
-        <p class="cta-pay-note">Запись и оплата – в личном кабинете hse.ru</p>
+        <p class="cta-pay-note">Запись и&nbsp;оплата&nbsp;— в&nbsp;личном кабинете hse.ru</p>
       </>
     ) : (
       program.hse_url && (
         <a class="cta-alt" href={program.hse_url} target="_blank" rel="noopener noreferrer">
-          Записаться через личный кабинет на hse.ru
+          Записаться через личный кабинет на&nbsp;hse.ru
         </a>
       )
     )
