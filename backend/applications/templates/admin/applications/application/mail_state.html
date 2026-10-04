@@ -1,0 +1,26 @@
+{% load unfold %}
+{% if mail_state %}
+<div class="mb-4" id="mail-state">
+  {% component "unfold/components/card.html" with title="Состояние почты" %}
+    {% if not mail_state.configured %}
+    <p class="mb-4 text-red-600 dark:text-red-400">{{ not_configured }}</p>
+    {% endif %}
+    <dl class="text-sm">
+      {% for row in mail_state.rows %}
+      <div class="flex flex-col lg:flex-row gap-1 lg:gap-4 py-2 border-b border-base-200 dark:border-base-800">
+        <dt class="font-medium lg:w-56 shrink-0">{{ row.title }}</dt>
+        <dd class="break-words">{{ row.value }}</dd>
+      </div>
+      {% endfor %}
+      <div class="flex flex-col lg:flex-row gap-1 lg:gap-4 py-2 border-b border-base-200 dark:border-base-800">
+        <dt class="font-medium lg:w-56 shrink-0">Последнее отправленное письмо</dt>
+        <dd>{% if mail_state.last_sent %}по заявке № {{ mail_state.last_sent.application_id }} от {{ mail_state.last_sent.when }}{% else %}писем ещё не было{% endif %}</dd>
+      </div>
+      <div class="flex flex-col lg:flex-row gap-1 lg:gap-4 py-2">
+        <dt class="font-medium lg:w-56 shrink-0">Последняя ошибка</dt>
+        <dd class="break-words">{% if mail_state.last_problem %}<span class="text-red-600 dark:text-red-400">{{ mail_state.last_problem.text }}</span>&nbsp;— заявка № {{ mail_state.last_problem.application_id }} от {{ mail_state.last_problem.when }}{% else %}ошибок нет{% endif %}</dd>
+      </div>
+    </dl>
+  {% endcomponent %}
+</div>
+{% endif %}

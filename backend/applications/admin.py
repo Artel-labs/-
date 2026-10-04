@@ -11,6 +11,7 @@ from unfold.decorators import action, display
 from unfold.widgets import UnfoldAdminCheckboxSelectMultipleWidget
 
 from applications.mail import send_test_mail, test_mail_problem
+from applications.mail_state import NOT_CONFIGURED, mail_state
 from applications.models import Application, MailRecipient, Source, Status, Topic, all_topics
 from applications.recipients import all_recipients
 from applications.service import resend
@@ -31,6 +32,7 @@ class ApplicationAdmin(ModelAdmin):
     actions = ["mark_in_progress", "mark_done", "mark_rejected", "resend_mail"]
     actions_list = ["check_mail"]
     actions_detail = ["resend_one"]
+    list_before_template = "admin/applications/application/mail_state.html"
     readonly_fields = [
         "received_at",
         "topic",
@@ -125,7 +127,8 @@ class ApplicationAdmin(ModelAdmin):
     def changelist_view(self, request: HttpRequest, extra_context: dict[str, Any] | None = None) -> HttpResponse:
         if request.method == "GET" and not all_recipients():
             self.message_user(request, NO_RECIPIENTS, messages.WARNING)
-        response: HttpResponse = super().changelist_view(request, extra_context)
+        context = {**(extra_context or {}), "mail_state": mail_state(), "not_configured": NOT_CONFIGURED}
+        response: HttpResponse = super().changelist_view(request, context)
         return response
 
 

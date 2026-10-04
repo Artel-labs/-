@@ -1,4 +1,5 @@
 import json
+import re
 import smtplib
 from datetime import timedelta
 from io import StringIO
@@ -258,3 +259,52 @@ def test_admin_recipient_form_offers_topics(client):
     page = client.get("/admin/applications/mailrecipient/add/").content.decode()
     for topic in Topic:
         assert topic.label in page
+
+
+def mail_block(client):
+    client.force_login(make_admin())
+    page = client.get(CHANGELIST).content.decode()
+    return page[page.index('id="mail-state"') :]
+
+
+def test_mail_state_without_server_explains_env(client, settings):
+    settings.EMAIL_HOST = ""
+    block = mail_block(client)
+    assert "Почтовый сервер не настроен" in block
+    assert "SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS" in block
+    assert "писем ещё не было" in block
+
+
+def test_mail_state_shows_settings_without_password(client, mailing, settings):
+    settings.EMAIL_PORT = 465
+    settings.EMAIL_USE_SSL = True
+    settings.EMAIL_HOST_USER = "dpo-pravo@hse.ru"
+    settings.EMAIL_HOST_PASSWORD = "secret-value"
+    settings.DEFAULT_FROM_EMAIL = "dpo-pravo@hse.ru"
+    block = mail_block(client)
+    assert "smtp.example.ru:465" in block
+    assert "SSL (шифрование сразу)" in block
+    assert "dpo-pravo@hse.ru" in block
+    assert re.search(r"Пароль</dt>\s*<dd[^>]*>задан</dd>", block)
+    assert "не задан" not in block
+    assert "secret-value" not in block
+    assert "Почтовый сервер не настроен" not in block
+
+
+@pytest.mark.parametrize(("ssl", "tls", "label"), [(False, True, "STARTTLS"), (False, False, "без шифрования")])
+def test_mail_state_names_encryption(client, mailing, settings, ssl, tls, label):
+    settings.EMAIL_USE_SSL = ssl
+    settings.EMAIL_USE_TLS = tls
+    assert label in mail_block(client)
+
+
+def test_mail_state_reports_last_sent_and_last_error(client, mailing):
+    sent = Application.objects.get(pk=post(client, VALID).json()["id"])
+    send_application_mail(sent.pk)
+    failed = Application.objects.get(pk=post(client, {**VALID, "email": "other@example.ru"}).json()["id"])
+    with patch(SMTP_DOWN, side_effect=smtplib.SMTPException("отказ сервера")), pytest.raises(smtplib.SMTPException):
+        send_application_mail(failed.pk)
+    block = mail_block(client)
+    assert f"по заявке № {sent.pk} от" in block
+    assert "Попытка 1: отказ сервера" in block
+    assert f"заявка № {failed.pk} от" in block
