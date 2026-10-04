@@ -1,0 +1,31 @@
+.vi-btn-icon {
+  display: none;
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 600px) {
+  button.vi-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
+    padding: 0;
+    border-radius: 50%;
+  }
+
+  .vi-btn-icon {
+    display: block;
+  }
+
+  .vi-btn-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}

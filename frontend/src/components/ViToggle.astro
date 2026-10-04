@@ -1,4 +1,14 @@
-<button id="viToggle" class="vi-btn" type="button" aria-pressed="false" title="Версия для слабовидящих">Версия для слабовидящих</button>
+---
+import "../styles/vi-toggle.css";
+---
+
+<button id="viToggle" class="vi-btn" type="button" aria-pressed="false" title="Версия для слабовидящих">
+  <svg class="vi-btn-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+    <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="2"></circle>
+    <circle cx="10" cy="10" r="3" fill="currentColor"></circle>
+  </svg>
+  <span class="vi-btn-label">Версия для слабовидящих</span>
+</button>
 
 <script>
   import { setupViMode } from "../scripts/vi-mode";

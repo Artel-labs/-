@@ -34,13 +34,25 @@
   display: none;
 }
 
-@media (max-width: 460px) {
+@media (max-width: 600px) {
+  .home-link {
+    justify-content: center;
+    width: 44px;
+    padding: 0;
+  }
+
   .home-link-full {
     display: none;
   }
 
   .home-link-short {
     display: inline;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 }
 

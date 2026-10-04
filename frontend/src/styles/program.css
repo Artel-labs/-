@@ -35,6 +35,7 @@ html.vi-mode header::after{display:none !important}
   header::after{display:none}}
 .header-side{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .header-nav{display:flex;align-items:center;gap:14px}
+@media (max-width:480px){.header-nav{display:none}}
 .nav-link{font-size:0.9375rem;font-weight:600;color:rgb(var(--accent));
   display:block;padding:13px 0;margin:-13px 0}
 .nav-link:hover{text-decoration:underline}
