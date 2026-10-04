@@ -23,7 +23,7 @@ const { starts } = Astro.props;
         ))}
       </div>
       {starts.legend.length > 0 && (
-        <ul class="starts-legend" aria-label="Цвет точки – направление программы">
+        <ul class="starts-legend" aria-label="Цвет точки — направление программы">
           {starts.legend.map((sphere) => (
             <li>
               <i class="tl-dot" data-sphere={sphere.slug} aria-hidden="true" />

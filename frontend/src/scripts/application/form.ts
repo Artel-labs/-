@@ -17,8 +17,8 @@ function topicField(handlers: FormHandlers): HTMLDivElement {
 
 function kindField(handlers: FormHandlers): HTMLDivElement {
   const { wrapper, select } = selectField("dpo-app-kind", "applicantType", "Кто подаёт заявку", [
-    [PERSONAL, "За себя"],
-    [CORPORATE, "От организации – обучение сотрудников"],
+    [PERSONAL, "За себя"],
+    [CORPORATE, "От организации — обучение сотрудников"],
   ]);
   wrapper.id = "dpo-app-kind-wrap";
   select.addEventListener("change", () => {
@@ -29,8 +29,8 @@ function kindField(handlers: FormHandlers): HTMLDivElement {
 
 function corporateBlock(): HTMLDivElement {
   const block = row(
-    inputField({ name: "employeesCount", text: "Сколько сотрудников обучить", type: "text", placeholder: "например: 8 или 10–15" }),
-    inputField({ name: "timeframe", text: "Желаемые сроки", type: "text", placeholder: "например: октябрь – декабрь" }),
+    inputField({ name: "employeesCount", text: "Сколько сотрудников обучить", type: "text", placeholder: "например: 8 или 10–15" }),
+    inputField({ name: "timeframe", text: "Желаемые сроки", type: "text", placeholder: "например: октябрь—декабрь" }),
   );
   block.id = "dpo-app-corp";
   block.hidden = true;
@@ -38,7 +38,7 @@ function corporateBlock(): HTMLDivElement {
 }
 
 function programField(): HTMLDivElement {
-  const { wrapper, select } = selectField("dpo-app-program", "program", "Программа", [["", "Ещё не выбрал(а) – помогите подобрать"]]);
+  const { wrapper, select } = selectField("dpo-app-program", "program", "Программа", [["", "Ещё не выбрал(а) — помогите подобрать"]]);
   wrapper.id = "dpo-app-program-wrap";
   wrapper.hidden = true;
   select.setAttribute("aria-describedby", "dpo-app-program-err");
@@ -47,7 +47,7 @@ function programField(): HTMLDivElement {
 }
 
 function sourcesBlock(): HTMLElement[] {
-  const { wrapper, select } = selectField("dpo-app-sources", "sources", "Как вы узнали о нас?", [["", "Не выбрано"], ...SOURCES]);
+  const { wrapper, select } = selectField("dpo-app-sources", "sources", "Как вы узнали о нас?", [["", "Не выбрано"], ...SOURCES]);
   const other = inputField({ name: "sourceOther", text: "Уточните, откуда узнали", type: "text" });
   other.id = "dpo-app-other-wrap";
   other.hidden = true;
@@ -81,9 +81,9 @@ function moreDetails(): HTMLDetailsElement {
       inputField({ name: "company", text: "Место работы", type: "text", autocomplete: "organization" }),
     ),
     ...sourcesBlock(),
-    checkbox("noAnnouncements", "Не присылать анонсы новых программ и мероприятий Центра ДПО факультета права"),
+    checkbox("noAnnouncements", "Не присылать анонсы новых программ и мероприятий Центра ДПО факультета права"),
   );
-  details.append(element("summary", "", "Ещё о себе: должность, место работы, откуда узнали"), body);
+  details.append(element("summary", "", "Ещё о себе: должность, место работы, откуда узнали"), body);
   return details;
 }
 
@@ -95,7 +95,7 @@ function commentField(): HTMLDivElement {
   textarea.id = "dpo-app-comment";
   textarea.name = "comment";
   textarea.rows = 3;
-  textarea.placeholder = "Например: интересует корпоративный формат для группы из восьми юристов";
+  textarea.placeholder = "Например: интересует корпоративный формат для группы из восьми юристов";
   wrapper.append(label, textarea);
   return wrapper;
 }
@@ -113,9 +113,9 @@ function consentField(): HTMLElement[] {
   privacy.rel = "noopener";
   const text = element("span");
   text.append(
-    "Я подтверждаю, что ознакомился с ",
+    "Я подтверждаю, что ознакомился с ",
     privacy,
-    ", и даю согласие на обработку моих персональных данных для рассмотрения заявки. ",
+    ", и даю согласие на обработку моих персональных данных для рассмотрения заявки. ",
     element("span", "req", "*"),
   );
   label.append(input, text);
@@ -125,7 +125,7 @@ function consentField(): HTMLElement[] {
 function trapField(): HTMLDivElement {
   const trap = element("div", "dpo-app-trap");
   trap.setAttribute("aria-hidden", "true");
-  const label = element("label", "", "Не заполняйте это поле");
+  const label = element("label", "", "Не заполняйте это поле");
   label.htmlFor = "dpo-app-website";
   const input = element("input");
   input.type = "text";
@@ -172,7 +172,7 @@ export function buildForm(handlers: FormHandlers): HTMLFormElement {
     trapField(),
     submit,
     statusBlock(),
-    element("p", "dpo-app-note", "Мы свяжемся с вами по телефону или почте. Данные не передаются третьим лицам."),
+    element("p", "dpo-app-note", "Мы свяжемся с вами по телефону или почте. Данные не передаются третьим лицам."),
   );
   return form;
 }

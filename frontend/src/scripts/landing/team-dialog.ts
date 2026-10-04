@@ -37,7 +37,7 @@ function programList(programs: TaughtProgram[]): HTMLUListElement {
 }
 
 function hsePageLink(url: string): HTMLAnchorElement {
-  const link = element("a", "dpo-team-hse", "Личная страница на hse.ru");
+  const link = element("a", "dpo-team-hse", "Личная страница на hse.ru");
   link.href = url;
   link.target = "_blank";
   link.rel = "noopener noreferrer";

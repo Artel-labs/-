@@ -10,6 +10,7 @@ from django.core.management import call_command
 from catalog.landing_schemas import LandingOut
 from catalog.models import Program
 from catalog.presentation.landing.page import landing_page
+from tests.typography import untypeset
 
 pytestmark = pytest.mark.django_db
 
@@ -73,7 +74,7 @@ def test_menu_matches_previous_site(page):
 
 def test_sphere_cards_match_previous_site(page):
     cards = [card.dict() for card in page.spheres]
-    assert cards == [{**card, "href": site_href(card["href"])} for card in LEGACY["spheres"]]
+    assert untypeset(cards) == untypeset([{**card, "href": site_href(card["href"])} for card in LEGACY["spheres"]])
 
 
 def format_record(row: Any) -> dict[str, Any]:
@@ -94,7 +95,7 @@ def format_record(row: Any) -> dict[str, Any]:
 
 def test_formats_match_previous_site(page):
     legacy = [{**row, "ctas": [[site_href(cta[0]), *cta[1:]] for cta in row["ctas"]]} for row in LEGACY["formats"]]
-    assert [format_record(row) for row in page.formats] == legacy
+    assert untypeset([format_record(row) for row in page.formats]) == untypeset(legacy)
 
 
 def legacy_teacher(record: dict[str, Any]) -> dict[str, Any]:
@@ -122,12 +123,14 @@ def teacher_record(card: Any) -> dict[str, Any]:
 
 
 def test_teachers_match_previous_site(page):
-    assert [teacher_record(card) for card in page.teachers] == [legacy_teacher(record) for record in LEGACY["teachers"]]
+    assert untypeset([teacher_record(card) for card in page.teachers]) == untypeset(
+        [legacy_teacher(record) for record in LEGACY["teachers"]]
+    )
 
 
 def test_starts_strip_matches_previous_site(page):
     starts = [[item.path, item.label, item.big, item.is_month, item.small, item.title] for item in page.starts]
-    assert starts == [[site_href(item[0]), *item[1:]] for item in LEGACY["starts"]]
+    assert untypeset(starts) == untypeset([[site_href(item[0]), *item[1:]] for item in LEGACY["starts"]])
 
 
 def test_reviews_match_previous_site(page):
@@ -161,10 +164,17 @@ def test_top_programs_match_previous_site(page):
         {key: site_href(value) if key in ("image", "imageWebp", "href") else value for key, value in item.items()}
         for item in LEGACY["top"]
     ]
-    assert [top_record(item) for item in page.top] == legacy
+    assert untypeset([top_record(item) for item in page.top]) == untypeset(legacy)
 
 
 def test_landing_endpoint(client, page):
     response = client.get("/api/catalog/landing")
     assert response.status_code == 200
     assert len(response.json()["teachers"]) == len(LEGACY["teachers"])
+
+
+def test_landing_texts_follow_brandbook_typography(page):
+    starts = [row.start for row in page.formats if row.start]
+    assert starts
+    assert all(start.startswith("Ближайший старт — ") for start in starts)
+    assert all(" – " not in row.desc for row in page.formats)

@@ -1,7 +1,7 @@
 import type { BotProgram } from "./types";
 
 const META_SEPARATOR = " · ";
-const DEFAULT_MORE = "Подробнее на сайте";
+const DEFAULT_MORE = "Подробнее на сайте";
 
 export function node<K extends keyof HTMLElementTagNameMap>(tag: K, className = "", text = ""): HTMLElementTagNameMap[K] {
   const element = document.createElement(tag);

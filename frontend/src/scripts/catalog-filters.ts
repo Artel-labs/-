@@ -79,7 +79,7 @@ function applySort(state: State, cards: HTMLElement[]): void {
 function updateChrome(elements: Elements, state: State, visible: number): void {
   elements.reset.disabled = !isDirty(state);
   const total = cardsOf(elements).length;
-  elements.count.textContent = visible === total ? `${String(total)} программ` : `Найдено: ${String(visible)} из ${String(total)}`;
+  elements.count.textContent = visible === total ? `${String(total)} программ` : `Найдено: ${String(visible)} из\u00a0${String(total)}`;
 }
 
 function hide(state: State, card: HTMLElement): void {

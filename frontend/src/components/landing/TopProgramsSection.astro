@@ -15,14 +15,14 @@ const { programs } = Astro.props;
       <div class="dpo-section-head top5-intro">
 <span class="dpo-eyebrow">Выбор слушателей</span>
 <h2 class="dpo-h2">Популярные программы повышения квалификации для юристов</h2>
-<p class="dpo-lead">Право меняется быстрее, чем когда-либо. Цифровизация, санкционные риски, трансграничные сделки, банкротства – сегодня это не просто темы для обсуждения, а повседневная реальность юриста. Мы собрали программы, которые сейчас выбирают те, кто хочет оставаться востребованным.</p>
+<p class="dpo-lead">Право меняется быстрее, чем когда-либо. Цифровизация, санкционные риски, трансграничные сделки, банкротства&nbsp;— сегодня это не&nbsp;просто темы для обсуждения, а&nbsp;повседневная реальность юриста. Мы&nbsp;собрали программы, которые сейчас выбирают те, кто хочет оставаться востребованным.</p>
 </div>
       <div class="dpo-top5-aside">
         <div class="crow-walk-row">
           <div class="crow-walk-slot" data-crow-walk=""></div>
         </div>
         <div class="dpo-carousel-nav dpo-top5-nav top5-nav">
-<a class="dpo-starts-all top5-all" href="/catalog">Все программы с фильтрами</a>
+<a class="dpo-starts-all top5-all" href="/catalog">Все программы с&nbsp;фильтрами</a>
 <button aria-controls="top5Track" aria-label="Предыдущие программы" class="dpo-carousel-btn" data-dpo-scroll="prev" type="button">
 <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 16 16"><path d="M13 8H3M7 4L3 8l4 4"></path></svg>
 </button>
@@ -35,6 +35,6 @@ const { programs } = Astro.props;
     <div class="dpo-top5-track" id="top5Track" role="list" aria-label="Программы Центра ДПО факультета права">
       {programs.map((program) => <TopProgramTile program={program} />)}
     </div>
-    <p class="dpo-tag-legend">ПК – повышение квалификации, итог – удостоверение; ПП – профессиональная переподготовка, итог – диплом.</p>
+    <p class="dpo-tag-legend">ПК&nbsp;— повышение квалификации, итог&nbsp;— удостоверение; ПП&nbsp;— профессиональная переподготовка, итог&nbsp;— диплом.</p>
   </div>
 </section>

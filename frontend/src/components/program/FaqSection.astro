@@ -12,7 +12,7 @@ const { faq } = Astro.props;
 
 {
   faq.length > 0 && (
-    <Block title="Вопросы и ответы" sub={HSE_SOURCE_NOTE}>
+    <Block title="Вопросы и ответы" sub={HSE_SOURCE_NOTE}>
       <ul class="faq">
         {faq.map((item) => (
           <li>

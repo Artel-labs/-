@@ -10,6 +10,7 @@ from django.core.management import call_command
 from catalog.models import Program
 from catalog.presentation.page import program_page
 from catalog.schemas import ProgramPageOut
+from tests.typography import untypeset
 
 pytestmark = pytest.mark.django_db
 
@@ -98,7 +99,7 @@ def test_program_pages_match_previous_site(pages):
         hse_id: field
         for hse_id, record in LEGACY.items()
         for field, value in normalized_legacy(record).items()
-        if comparable(pages[hse_id])[field] != value
+        if untypeset(comparable(pages[hse_id])[field]) != untypeset(value)
     }
     assert mismatched == {}
     assert len(pages) == len(LEGACY)

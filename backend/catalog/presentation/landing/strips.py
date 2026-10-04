@@ -22,7 +22,7 @@ def start_strip_item(program: Program, start: date) -> StartStripOut:
     title = en_dash(program.title)
     return StartStripOut(
         path=f"/{program.path}",
-        label=f"{title} – старт {format_start(start, program.start_month_only)}",
+        label=f"{title} — старт {format_start(start, program.start_month_only)}",
         big=big,
         small=small,
         is_month=is_month,

@@ -21,7 +21,7 @@ def kind(program: Program) -> str:
 
 
 def tag(tag_kind: str, text: str, tip: str = "") -> TagOut:
-    return TagOut(kind=tag_kind, text=en_dash(text), tip=en_dash(tip))
+    return TagOut(kind=tag_kind, text=en_dash(text), tip=tip)
 
 
 def tags(program: Program) -> list[TagOut]:

@@ -72,7 +72,7 @@ function fieldRow(context: Context, controls: FormControls, [name, label, autoco
     controls.clear(name);
   });
   const error = controls.register(name, input);
-  const hint = name === "firstName" && context.state.nameFromTelegram ? h("span", { class: "field-hint", text: " · из профиля Telegram" }) : null;
+  const hint = name === "firstName" && context.state.nameFromTelegram ? h("span", { class: "field-hint", text: " · из профиля Telegram" }) : null;
   return h("div", { class: "field" }, [h("label", null, [h("span", { class: "field-label" }, [label, hint]), input]), error]);
 }
 
@@ -89,7 +89,7 @@ function consentRow(context: Context, controls: FormControls): HTMLElement[] {
   context.bridge.routeLink(policy);
   const label = h("label", { class: "check" }, [
     consent,
-    h("span", null, ["Я подтверждаю, что ознакомился с ", policy, ", и даю согласие на обработку моих персональных данных для рассмотрения заявки."]),
+    h("span", null, ["Я подтверждаю, что ознакомился с ", policy, ", и даю согласие на обработку моих персональных данных для рассмотрения заявки."]),
   ]);
   return [label, error];
 }

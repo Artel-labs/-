@@ -12,7 +12,7 @@ import { applyButton, choiceButton, node } from "./view";
 
 const GREETING = "Спрашивайте про программы: тему, формат, цену или ближайший старт.";
 const HINTS = ["Подобрать программу", "Онлайн", "Какой документ выдают", "Ближайшие старты", "Сколько стоит"];
-const FAIL_TEXT = "Не получилось загрузить программы. Напишите нам – ответим.";
+const FAIL_TEXT = "Не получилось загрузить программы. Напишите нам — ответим.";
 const WAIT_TEXT = "Секунду, гружу программы…";
 const FOCUSABLE = 'a[href],button:not([disabled]),input,[tabindex]:not([tabindex="-1"])';
 const OPEN_CLASS = "is-open";
@@ -105,7 +105,7 @@ export class BotPanel {
     this.input.type = "text";
     this.input.id = "dpoBotInput";
     this.input.placeholder = "Например: банкротство онлайн";
-    this.input.setAttribute("aria-label", "Вопрос в поддержку");
+    this.input.setAttribute("aria-label", "Вопрос в поддержку");
     const submit = node("button", "", "Спросить");
     submit.type = "submit";
     const form = node("form");

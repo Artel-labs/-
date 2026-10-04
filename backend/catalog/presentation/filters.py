@@ -13,7 +13,7 @@ ALL_SPHERES = "Все направления"
 ALL_DURATIONS = "Любая длительность"
 OTHER_TYPE = "Другое"
 OTHER_SPHERE_TITLE = "Прочее"
-TYPE_CHIP_LABELS = {"ПК": "ПК · Повышение квалификации", "ПП": "ПП · Профессиональная переподготовка"}
+TYPE_CHIP_LABELS = {"ПК": "ПК · Повышение квалификации", "ПП": "ПП · Профессиональная переподготовка"}
 
 
 def chip(label: str, value: str, count: int, active: bool = False) -> ChipOut:

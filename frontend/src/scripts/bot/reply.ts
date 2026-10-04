@@ -124,7 +124,7 @@ export function pickBy(programs: BotProgram[], field: "sphere" | "type", value: 
 
 export function introFor(reason: string, count: number): string {
   if (reason === "filter") {
-    return "Отобрала по вашим условиям:";
+    return "Отобрала по вашим условиям:";
   }
   return count === 1 ? "Нашла одну программу:" : "Вот что нашла:";
 }

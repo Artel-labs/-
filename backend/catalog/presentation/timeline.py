@@ -124,7 +124,7 @@ def start_item(board: Board, item: Dated) -> StartOut:
         left=left,
         pin=x - left,
         path=program.path,
-        hint=f"{title} – старт: {en_dash(full)}",
+        hint=f"{title} — старт: {en_dash(full)}",
         when=en_dash(short),
         title=title,
         sphere=program.sphere.slug if program.sphere else "",

@@ -29,15 +29,15 @@ from catalog.teachers import canonical_name
 
 SPHERE_CHIPS = {
     "corporate": "Корпоративное",
-    "digital": "Цифровое и ИС",
+    "digital": "Цифровое и ИС",
     "international": "Международное",
-    "finance": "Финансы и налоги",
+    "finance": "Финансы и налоги",
     "language": "Языки",
     "practice": "Практика",
 }
 DEFAULT_FILE_TITLE = "Документ"
 HTTPS = re.compile(r"^https://", re.IGNORECASE)
-DOC_FROM_TIP = re.compile(r"–\s*(.+?)\.?$")
+DOC_FROM_TIP = re.compile(r"[–—]\s*(.+?)\.?$")
 
 
 def optional(text: str) -> str | None:

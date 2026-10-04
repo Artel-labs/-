@@ -11,6 +11,7 @@ from catalog.models import Program, Source
 from catalog.presentation.catalog import catalog_page
 from catalog.presentation.timeline import DAY_PX
 from catalog.schemas import CardOut, CatalogPageOut, StartsOut
+from tests.typography import untypeset
 
 pytestmark = pytest.mark.django_db
 
@@ -103,7 +104,9 @@ def starts_record(starts: StartsOut) -> dict[str, Any]:
 
 
 def test_cards_match_previous_site(page):
-    assert [card_record(card) for card in page.cards] == [legacy_card(record) for record in LEGACY["cards"]]
+    assert untypeset([card_record(card) for card in page.cards]) == untypeset(
+        [legacy_card(record) for record in LEGACY["cards"]]
+    )
 
 
 def test_filters_match_previous_site(page):
@@ -111,13 +114,15 @@ def test_filters_match_previous_site(page):
         group: [[chip.label, chip.value, chip.active] for chip in getattr(page.filters, group)]
         for group in LEGACY["filters"]
     }
-    assert chips == LEGACY["filters"]
+    assert untypeset(chips) == untypeset(LEGACY["filters"])
 
 
 def test_starts_board_matches_previous_site(page):
     assert page.starts is not None
     record, legacy = starts_record(page.starts), LEGACY["starts"]
-    assert {key: record[key] for key in SAME_AS_LEGACY} == {key: legacy[key] for key in SAME_AS_LEGACY}
+    assert untypeset({key: record[key] for key in SAME_AS_LEGACY}) == untypeset(
+        {key: legacy[key] for key in SAME_AS_LEGACY}
+    )
 
 
 def test_starts_ticks_mark_mondays_and_month_starts(page):
@@ -165,3 +170,9 @@ def test_catalog_endpoint_lists_published_programs(client, seeded):
     assert response.status_code == 200
     assert "856421092" not in [card["hse_id"] for card in response.json()["cards"]]
     assert response.json()["total"] == len(LEGACY["cards"]) - 1
+
+
+def test_card_tips_follow_brandbook_typography(page):
+    tips = {tag.tip for card in page.cards for tag in card.tags if tag.tip}
+    assert "Повышение квалификации. Итоговый документ — удостоверение о повышении квалификации НИУ ВШЭ." in tips
+    assert not [tip for tip in tips if " – " in tip or " - " in tip]

@@ -22,10 +22,10 @@ DESCRIPTION_LIMIT = 158
 DESCRIPTION_MIN_CUT = 100
 ADJECTIVE_MIN_LENGTH = 4
 TITLE_OVERRIDES = {
-    "1129129055": "Налоговое администрирование и оптимизация",
-    "1163275658": "GR в фарме: работа с органами власти",
+    "1129129055": "Налоговое администрирование и оптимизация",
+    "1163275658": "GR в фарме: работа с органами власти",
     "820703080": "Анализ юридических документов",
-    "1129129056": "Цифровые инструменты в кадровой работе",
+    "1129129056": "Цифровые инструменты в кадровой работе",
 }
 TITLE_ADJECTIVE_ENDING = re.compile(r"(ого|его|ых|их|ый|ий|ой|ая|яя|ое|ее|ые|ому|ему|ыми|ими|ую|юю|ов|ев)$", re.I)
 TITLE_STOP_WORDS = frozenset(
@@ -115,7 +115,7 @@ def meta_description(program: Program) -> str:
     price = effective_price(program)
     if price:
         tail.append(price_label(program))
-    text = f"{program.title} – {kind} в НИУ ВШЭ."
+    text = f"{program.title} — {kind} в НИУ ВШЭ."
     if tail:
         text += f" {', '.join(tail)}."
     if program.type_short in DOCUMENT_SHORT:

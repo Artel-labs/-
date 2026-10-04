@@ -9,7 +9,7 @@ interface Props {
 const { program } = Astro.props;
 ---
 
-<div class="buy-bar" role="region" aria-label="Цена и заявка">
+<div class="buy-bar" role="region" aria-label="Цена и&nbsp;заявка">
   <span class="buy-bar-price">{program.price}</span>
   <ApplicationButton program={program} extraClass="buy-bar-cta" />
 </div>

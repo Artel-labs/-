@@ -50,7 +50,7 @@ export function listScreen(context: Context, direction: Direction): HTMLElement 
     cards.classList.toggle("cascade", cascade);
     cards.textContent = "";
     if (!items.length) {
-      cards.append(h("p", { class: "empty", text: "Ничего не нашлось. Попробуйте другое слово или сферу." }));
+      cards.append(h("p", { class: "empty", text: "Ничего не нашлось. Попробуйте другое слово или сферу." }));
       return;
     }
     cards.append(...items.map(programCard));

@@ -10,7 +10,7 @@ import { fillPrograms, loadPrograms, programOption } from "./programs";
 import { submit, type ChosenProgram } from "./submit";
 
 const TRIGGER = "[data-application],[data-application-topic]";
-const NO_PROGRAM_HINT = "Расскажите о себе – учебный офис свяжется с вами и подберёт программу.";
+const NO_PROGRAM_HINT = "Расскажите о себе — учебный офис свяжется с вами и подберёт программу.";
 
 interface Context {
   programId: string;

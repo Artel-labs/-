@@ -97,7 +97,7 @@ function toggle(id: string): void {
   if (selected.includes(id)) {
     selected = selected.filter((item) => item !== id);
   } else if (selected.length >= MAX_SELECTED) {
-    say("Можно сравнить не больше трёх программ – снимите одну.");
+    say("Можно сравнить не больше трёх программ — снимите одну.");
     return;
   } else {
     selected = [...selected, id];
@@ -135,7 +135,7 @@ function barChip(id: string, card: HTMLElement): HTMLLIElement {
   const item = element("li");
   const chip = element("button", "cmp-chip");
   chip.type = "button";
-  chip.setAttribute("aria-label", `Убрать из сравнения: ${titleOf(card)}`);
+  chip.setAttribute("aria-label", `Убрать из\u00a0сравнения: ${titleOf(card)}`);
   chip.appendChild(element("span", "", titleOf(card)));
   chip.addEventListener("click", () => {
     toggle(id);
@@ -156,7 +156,7 @@ function renderBar(): void {
   const openButton = bar.querySelector<HTMLButtonElement>(".cmp-open");
   const list = bar.querySelector(".cmp-bar-list");
   if (count) {
-    count.textContent = `Выбрано ${String(selected.length)} из ${String(MAX_SELECTED)}`;
+    count.textContent = `Выбрано ${String(selected.length)} из\u00a0${String(MAX_SELECTED)}`;
   }
   say(selected.length < MIN_TO_COMPARE ? "Отметьте ещё одну программу" : "");
   if (openButton) {
@@ -270,7 +270,7 @@ function buildWindow(cards: HTMLElement[]): { node: HTMLElement; heading: HTMLEl
   const close = closeButton("cmp-close", "Закрыть сравнение");
   const scroll = element("div", "cmp-scroll");
   scroll.appendChild(buildTable(cards));
-  node.append(close, heading, element("p", "cmp-sub", "Точкой отмечены строки, в которых программы различаются."), scroll);
+  node.append(close, heading, element("p", "cmp-sub", "Точкой отмечены строки, в которых программы различаются."), scroll);
   return { node, heading, close };
 }
 

@@ -9,6 +9,7 @@ from django.core.management import call_command
 
 from catalog.models import Program
 from catalog.presentation.tg import tg_catalog
+from tests.typography import untypeset
 
 pytestmark = pytest.mark.django_db
 
@@ -51,14 +52,14 @@ def current() -> dict[str, Any]:
 
 
 def test_spheres_match_previous_mini_app(seeded):
-    assert current()["spheres"] == LEGACY["spheres"]
+    assert untypeset(current()["spheres"]) == untypeset(LEGACY["spheres"])
 
 
 def test_programs_match_previous_mini_app(seeded):
     programs = current()["programs"]
     assert [program["id"] for program in programs] == [program["id"] for program in LEGACY["programs"]]
     for mine, legacy in zip(programs, LEGACY["programs"], strict=True):
-        assert mine == local(legacy), legacy["id"]
+        assert untypeset(mine) == untypeset(local(legacy)), legacy["id"]
 
 
 def test_endpoint_hides_unpublished(client, seeded):

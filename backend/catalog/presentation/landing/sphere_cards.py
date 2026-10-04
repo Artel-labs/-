@@ -8,12 +8,12 @@ from catalog.presentation.text import en_dash
 FILTERS_ANCHOR = "#filters"
 FACT_SEPARATOR = " · "
 SPHERE_LEADS = {
-    "corporate": "Договоры по российскому, английскому и гонконгскому праву, корпоративные споры и деловые переговоры",
-    "digital": "Интеллектуальная собственность, авторское право, цифровые инструменты в работе и нейроправо",
-    "international": "Право Франции, ЕС и Китая, трансграничные операции и морской арбитраж",
-    "finance": "Налоговое администрирование, банкротство и исламские финансы",
-    "language": "Юридический английский и французский для практикующих юристов",
-    "practice": "Бизнес-медиация, GR в фарме, анализ юридических документов и транспортное право",
+    "corporate": "Договоры по российскому, английскому и гонконгскому праву, корпоративные споры и деловые переговоры",
+    "digital": "Интеллектуальная собственность, авторское право, цифровые инструменты в работе и нейроправо",
+    "international": "Право Франции, ЕС и Китая, трансграничные операции и морской арбитраж",
+    "finance": "Налоговое администрирование, банкротство и исламские финансы",
+    "language": "Юридический английский и французский для практикующих юристов",
+    "practice": "Бизнес-медиация, GR в фарме, анализ юридических документов и транспортное право",
 }
 KIND_SHORTS = ("ПК", "ПП")
 
@@ -29,7 +29,7 @@ def kinds_label(programs: list[Program]) -> str:
 def facts(programs: list[Program], today: date) -> list[str]:
     summary = FACT_SEPARATOR.join(part for part in (plural_programs(len(programs)), kinds_label(programs)) if part)
     nearest = nearest_start(programs, today)
-    return [summary, f"Ближайший старт – {nearest}"] if nearest else [summary]
+    return [summary, f"Ближайший старт — {nearest}"] if nearest else [summary]
 
 
 def sphere_card(group: SphereGroup, index: int, today: date) -> SphereCardOut:

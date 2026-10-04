@@ -16,23 +16,23 @@ export const SENDING_LABEL = "Отправляем…";
 export const VIBRATION_MS = 10;
 
 export const TOPICS: [string, string][] = [
-  ["program", "Заявка на программу"],
+  ["program", "Заявка на программу"],
   ["course-idea", "Идея курса"],
   ["teaching", "Хочу стать преподавателем"],
-  ["feedback", "Отзыв о работе центра"],
+  ["feedback", "Отзыв о работе центра"],
 ];
 
 export const TOPIC_TITLES: Record<string, string> = {
-  program: "Заявка на обучение",
+  program: "Заявка на обучение",
   "course-idea": "Идея курса",
   teaching: "Стать нашим преподавателем",
   feedback: "Помогите нам стать лучше",
 };
 
 export const TOPIC_HINTS: Record<string, string> = {
-  "course-idea": "Расскажите в комментарии, какой программы вам не хватает.",
-  teaching: "Расскажите в комментарии о себе и о курсе, который готовы вести.",
-  feedback: "Поделитесь в комментарии, что стоит улучшить в работе центра или на сайте.",
+  "course-idea": "Расскажите в комментарии, какой программы вам не хватает.",
+  teaching: "Расскажите в комментарии о себе и о курсе, который готовы вести.",
+  feedback: "Поделитесь в комментарии, что стоит улучшить в работе центра или на сайте.",
 };
 
 export const SOURCES: [string, string][] = [
@@ -43,6 +43,6 @@ export const SOURCES: [string, string][] = [
   ["social", "Социальные сети"],
   ["mailing", "Почтовая рассылка"],
   ["board", "Стенд объявлений"],
-  ["recommendation", "По рекомендации"],
+  ["recommendation", "По рекомендации"],
   ["other", "Другое"],
 ];

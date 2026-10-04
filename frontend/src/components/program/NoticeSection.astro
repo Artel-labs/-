@@ -18,7 +18,7 @@ const { notice } = Astro.props;
       <p class="notice-text">{notice.text}</p>
       {notice.url && (
         <a class="notice-link" href={notice.url} target="_blank" rel="noopener noreferrer">
-          {notice.host ? `Смотреть на ${notice.host}` : "Смотреть"}
+          {notice.host ? `Смотреть на\u00a0${notice.host}` : "Смотреть"}
         </a>
       )}
     </section>

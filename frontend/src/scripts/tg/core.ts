@@ -72,7 +72,7 @@ export function validateApplication(draft: ApplicationDraft): Validation {
     ["lastName", values.lastName ? "" : "Укажите фамилию."],
     ["phone", phoneError(values.phone)],
     ["email", emailError(values.email)],
-    ["consent", draft.consent ? "" : "Без согласия на обработку персональных данных заявку принять нельзя."],
+    ["consent", draft.consent ? "" : "Без согласия на обработку персональных данных заявку принять нельзя."],
   ];
   const errors = checks.filter(([, message]) => message).map(([field, message]) => ({ field, message }));
   return errors.length ? { ok: false, errors } : { ok: true, values };

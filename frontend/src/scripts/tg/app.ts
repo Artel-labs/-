@@ -59,7 +59,7 @@ class TgApp implements Context {
   program(): TgProgram {
     const found = this.byId.get(this.state.programId ?? "");
     if (!found) {
-      throw new Error("Программа не выбрана");
+      throw new Error("Программа не выбрана");
     }
     return found;
   }

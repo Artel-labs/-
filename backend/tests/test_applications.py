@@ -14,7 +14,7 @@ from django_q.models import Schedule
 
 from applications.mail import letter, send_application_mail, subject
 from applications.models import Application, MailRecipient, MailStatus, Status, Topic
-from applications.rules import email_looks_valid, phone_problem
+from applications.rules import EMAIL_TYPO, PHONE_BAD_LENGTH, email_looks_valid, phone_problem
 from applications.service import purge_expired
 from tests.factories import make_admin
 
@@ -108,9 +108,9 @@ def test_missing_fields_are_reported(client):
     assert response.json()["fields"] == [
         {"field": "firstName", "message": "Укажите имя."},
         {"field": "lastName", "message": "Укажите фамилию."},
-        {"field": "phone", "message": "Проверьте телефон: нужен номер с кодом страны или города."},
-        {"field": "email", "message": "Проверьте адрес почты: похоже, в нём опечатка."},
-        {"field": "consent", "message": "Без согласия на обработку персональных данных заявку принять нельзя."},
+        {"field": "phone", "message": PHONE_BAD_LENGTH},
+        {"field": "email", "message": EMAIL_TYPO},
+        {"field": "consent", "message": "Без согласия на\u00a0обработку персональных данных заявку принять нельзя."},
     ]
 
 

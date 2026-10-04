@@ -4,7 +4,7 @@ import type { Context } from "./context";
 import { formatPrice } from "./core.ts";
 import { clamped, h, hostOf, list, picture, plural, section } from "./dom";
 
-const SOURCE_NOTE = "С официальной страницы программы на hse.ru";
+const SOURCE_NOTE = "С официальной страницы программы на hse.ru";
 const ABOUT_LIMIT = 320;
 const TEACHER_LIMIT = 110;
 
@@ -21,7 +21,7 @@ function noticeBlock(bridge: Bridge, notice: TgNotice | null): HTMLElement | nul
   return h("div", { class: "notice", role: "note" }, [
     h("p", { class: "notice-head" }, [h("span", { class: "notice-tag", text: "Важно" }), notice.date]),
     h("p", { class: "notice-text", text: notice.text }),
-    notice.url ? outLink(bridge, "notice-link", notice.url, [`Смотреть на ${hostOf(notice.url) || "сайте"} ↗`]) : null,
+    notice.url ? outLink(bridge, "notice-link", notice.url, [`Смотреть на\u00a0${hostOf(notice.url) || "сайте"} ↗`]) : null,
   ]);
 }
 
@@ -105,7 +105,7 @@ function faqBlock(program: TgProgram): HTMLElement | null {
     return null;
   }
   const items = program.faq.map((item) => h("li", null, [h("details", null, [h("summary", { text: item.q }), h("p", { class: "faq-a", text: item.a })])]));
-  return section("Вопросы и ответы", SOURCE_NOTE, h("ul", { class: "faq" }, items));
+  return section("Вопросы и ответы", SOURCE_NOTE, h("ul", { class: "faq" }, items));
 }
 
 function aboutBlock(program: TgProgram): HTMLElement | null {
@@ -114,7 +114,7 @@ function aboutBlock(program: TgProgram): HTMLElement | null {
     return null;
   }
   const body = program.about_items ? list("bul", program.about_items) : clamped("about", text, ABOUT_LIMIT);
-  return section("О программе", null, h("div", null, [program.lead ? h("p", { class: "about-lead", text: program.lead }) : null, body]));
+  return section("О программе", null, h("div", null, [program.lead ? h("p", { class: "about-lead", text: program.lead }) : null, body]));
 }
 
 function factsBlock(program: TgProgram): HTMLElement | null {
@@ -154,7 +154,7 @@ export function programScreen(context: Context): HTMLElement {
     priceBlock(program, price),
     aboutBlock(program),
     section("Кому подойдёт программа", program.audience_intro, list("pills", audience(program))),
-    section("Чему вы научитесь", null, list("bul", program.results)),
+    section("Чему вы научитесь", null, list("bul", program.results)),
     section("Преимущества программы", null, list("advantages", program.advantages, "ol")),
     modulesBlock(program),
     filesBlock(bridge, program),

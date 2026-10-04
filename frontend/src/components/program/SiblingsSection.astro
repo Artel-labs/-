@@ -11,7 +11,7 @@ const { siblings } = Astro.props;
 
 {
   siblings && (
-    <Block title={`Другие программы направления «${siblings.sphere_title}»`} sub={`${siblings.count_label} в направлении`}>
+    <Block title={`Другие программы направления «${siblings.sphere_title}»`} sub={`${siblings.count_label} в\u00a0направлении`}>
       <ul class="siblings">
         {siblings.items.map((item) => (
           <li>

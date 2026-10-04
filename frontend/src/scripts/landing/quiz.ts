@@ -2,7 +2,7 @@ import { closeButton, element, openDialog, type Dialog } from "../dialog";
 import { attachSheet, type SheetControl } from "../sheet-gesture";
 
 const CATALOG_PATH = "/catalog";
-const UNDECIDED = "Пока не определился";
+const UNDECIDED = "Пока не определился";
 
 interface Question {
   group: string;
@@ -19,11 +19,11 @@ function questions(branches: string[]): Question[] {
     },
     {
       group: "type",
-      title: "Какой документ об обучении вам нужен?",
+      title: "Какой документ об обучении вам нужен?",
       options: [
         ["", UNDECIDED],
-        ["ПК", "Удостоверение о повышении квалификации"],
-        ["ПП", "Диплом о профессиональной переподготовке"],
+        ["ПК", "Удостоверение о повышении квалификации"],
+        ["ПП", "Диплом о профессиональной переподготовке"],
       ],
     },
     {
@@ -108,7 +108,7 @@ function build(branches: string[]): { backdrop: HTMLElement; sheet: HTMLElement;
   sheet.append(
     close,
     title,
-    element("p", "dpo-quiz-sub", "Три вопроса – и вы увидите программы по интересующей области права, документу и формату обучения."),
+    element("p", "dpo-quiz-sub", "Три вопроса — и вы увидите программы по интересующей области права, документу и формату обучения."),
     form,
   );
   backdrop.appendChild(sheet);

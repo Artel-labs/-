@@ -19,7 +19,7 @@ import { fetchCatalogPage } from "../lib/catalog";
 
 const TITLE = "Курсы повышения квалификации для юристов · ДПО НИУ ВШЭ";
 const DESCRIPTION =
-  "Каталог программ ДПО факультета права НИУ ВШЭ: 26 курсов повышения квалификации и переподготовки для юристов – с ценой, форматом и датой старта.";
+  "Каталог программ ДПО факультета права НИУ ВШЭ: 26 курсов повышения квалификации и переподготовки для юристов — с ценой, форматом и датой старта.";
 
 const catalog = await fetchCatalogPage();
 if (!catalog) {
@@ -36,19 +36,19 @@ const { filters } = catalog;
   <StartsBoard starts={catalog.starts} />
   <FilterRow id="filters" group="type" chips={filters.type} />
   <FilterRow id="filtersFormat" group="format" chips={filters.format} />
-  <FilterRow id="filtersSphere" group="sphere" chips={filters.sphere} label="Фильтр по направлению" />
-  <FilterRow id="filtersDuration" group="duration" chips={filters.duration} label="Фильтр по длительности" />
+  <FilterRow id="filtersSphere" group="sphere" chips={filters.sphere} label="Фильтр по&nbsp;направлению" />
+  <FilterRow id="filtersDuration" group="duration" chips={filters.duration} label="Фильтр по&nbsp;длительности" />
   <Toolbar />
   <div class="crow-walk-row"><div class="crow-walk-slot" data-crow-walk></div></div>
-  <p class="tag-legend">ПК – повышение квалификации, итог – удостоверение; ПП – профессиональная переподготовка, итог – диплом.</p>
+  <p class="tag-legend">ПК&nbsp;— повышение квалификации, итог&nbsp;— удостоверение; ПП&nbsp;— профессиональная переподготовка, итог&nbsp;— диплом.</p>
   <main id="main">
-    <h2 class="visually-hidden">Программы повышения квалификации и профессиональной переподготовки для юристов</h2>
+    <h2 class="visually-hidden">Программы повышения квалификации и&nbsp;профессиональной переподготовки для юристов</h2>
     <div class="grid" id="grid">
       {catalog.cards.map((card) => <ProgramCard card={card} />)}
     </div>
     <div class="empty" id="empty">
       <div class="empty-crow" data-crow-slot aria-hidden="true"></div>
-      <p class="empty-text">По выбранному фильтру программ не найдено.</p>
+      <p class="empty-text">По&nbsp;выбранному фильтру программ не&nbsp;найдено.</p>
     </div>
   </main>
   <SiteFooter copyright />

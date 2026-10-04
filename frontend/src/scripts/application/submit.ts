@@ -18,9 +18,9 @@ interface Reply {
 }
 
 const CHECK_FIELDS = "Проверьте отмеченные поля.";
-const TOO_MANY = "Слишком много попыток подряд. Подождите минуту и отправьте ещё раз.";
-const FAILED = `Не удалось отправить заявку. Попробуйте ещё раз или позвоните: ${FALLBACK_PHONE}`;
-const OFFLINE = `Заявка не отправлена – нет связи с сервером. Попробуйте ещё раз или позвоните: ${FALLBACK_PHONE}`;
+const TOO_MANY = "Слишком много попыток подряд. Подождите минуту и отправьте ещё раз.";
+const FAILED = `Не\u00a0удалось отправить заявку. Попробуйте ещё раз или позвоните: ${FALLBACK_PHONE}`;
+const OFFLINE = `Заявка не\u00a0отправлена\u00a0— нет связи с\u00a0сервером. Попробуйте ещё раз или позвоните: ${FALLBACK_PHONE}`;
 
 function text(data: FormData, name: string): string {
   const value = data.get(name);

@@ -96,7 +96,7 @@ test("очередь действий ждёт данные, отдаёт их �
   assert.equal(failing.status(), false);
 });
 
-test("база ответов: устойчивые id, якоря на новые адреса, без длинного тире", () => {
+test("база ответов: устойчивые id, якоря на новые адреса, тире по брендбуку", () => {
   const entries = faq();
   const all = [...entries.answers, ...entries.gaps, entries.duration];
   assert.equal(new Set(all.map((entry) => entry.id)).size, all.length);
@@ -106,6 +106,9 @@ test("база ответов: устойчивые id, якоря на новы
   for (const entry of all) {
     assert.ok(entry.triggers.length > 0 && entry.triggers.every((trigger) => trigger.trim() && !trigger.includes("—")), entry.id);
   }
-  assert.ok(entries.answers.every((answer) => !answer.text.includes("—")));
+  for (const answer of entries.answers) {
+    assert.doesNotMatch(answer.text, / [–-] /, answer.id);
+    assert.doesNotMatch(answer.text, /[^\u00a0]—/, answer.id);
+  }
   assert.ok(entries.answers.some((answer) => answer.note && !answer.text.includes(answer.note)));
 });

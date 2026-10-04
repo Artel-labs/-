@@ -106,7 +106,7 @@ def parse(data: ApplicationIn) -> Parsed:
     phone, email = line(data.phone, "phone"), line(data.email, "email")
     errors = contact_errors(first_name, last_name, phone, email)
     if not flag(data.consent):
-        errors.append(FieldError("consent", "Без согласия на обработку персональных данных заявку принять нельзя."))
+        errors.append(FieldError("consent", "Без согласия на обработку персональных данных заявку принять нельзя."))
     if errors:
         return Parsed(errors=errors)
     chosen_sources = sources(data.sources)

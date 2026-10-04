@@ -3,10 +3,10 @@ import { formatPrice, introFor, pickBy, priceRange, sphereList, upcoming, type R
 import type { BotData } from "./types";
 import { applyButton, choiceButton, moreLink, node } from "./view";
 
-const GAP_TEXT = "Об этом на сайте не написано, а придумывать я не стану. Оставьте заявку – ответит учебный офис.";
-const NOTHING_FOUND = "Такого не нашла. Вот что стартует ближе всего:";
-const WEAK_MATCH = "Точного совпадения нет, вот близкое по теме:";
-const EXTRA_INTRO = "Ещё нашла программы по теме:";
+const GAP_TEXT = "Об этом на сайте не написано, а придумывать я не стану. Оставьте заявку — ответит учебный офис.";
+const NOTHING_FOUND = "Такого не нашла. Вот что стартует ближе всего:";
+const WEAK_MATCH = "Точного совпадения нет, вот близкое по теме:";
+const EXTRA_INTRO = "Ещё нашла программы по теме:";
 const CATALOG_URL = "/catalog";
 const TYPE_CHOICES: [string, string][] = [
   ["ПК", "Повышение квалификации"],
@@ -98,7 +98,7 @@ export function renderPickProgram(chat: Chat, data: BotData): void {
 export function renderUpcomingStarts(chat: Chat, data: BotData): void {
   const list = upcoming(data.programs, SHOWN_PROGRAMS).filter((program) => program.start_iso || program.start);
   if (!list.length) {
-    chat.say("Дат старта в каталоге сейчас нет.");
+    chat.say("Дат старта в каталоге сейчас нет.");
     chat.scrollDown();
     return;
   }
@@ -110,12 +110,12 @@ export function renderUpcomingStarts(chat: Chat, data: BotData): void {
 export function renderPriceRange(chat: Chat, data: BotData): void {
   const range = priceRange(data.programs);
   if (!range) {
-    chat.say("Цены сейчас не в каталоге – загляните в разделы программ.");
+    chat.say("Цены сейчас не в каталоге — загляните в разделы программ.");
     chat.scrollDown();
     return;
   }
-  chat.say(`Программы стоят от ${formatPrice(range.min)} до ${formatPrice(range.max)}.`);
-  chat.say("Могу отобрать по цене – напишите, например, «до 30000» или «от 50000».");
+  chat.say(`Программы стоят от\u00a0${formatPrice(range.min)} до\u00a0${formatPrice(range.max)}.`);
+  chat.say("Могу отобрать по цене — напишите, например, «до 30000» или «от 50000».");
   chat.add(moreLink(CATALOG_URL, "Открыть каталог"));
   chat.scrollDown();
 }
