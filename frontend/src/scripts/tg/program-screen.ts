@@ -2,7 +2,7 @@ import type { TgNotice, TgProgram } from "../../lib/tg";
 import type { Bridge } from "./bridge";
 import type { Context } from "./context";
 import { formatPrice } from "./core.ts";
-import { clamped, h, hostOf, list, outLink, picture, plural, section } from "./dom";
+import { clamped, h, hostOf, icon, list, outLink, picture, plural, section } from "./dom";
 
 const SOURCE_NOTE = "С официальной страницы программы на hse.ru";
 const ABOUT_LIMIT = 320;
@@ -15,7 +15,7 @@ function noticeBlock(bridge: Bridge, notice: TgNotice | null): HTMLElement | nul
   return h("div", { class: "notice", role: "note" }, [
     h("p", { class: "notice-head" }, [h("span", { class: "notice-tag", text: "Важно" }), notice.date]),
     h("p", { class: "notice-text", text: notice.text }),
-    notice.url ? outLink(bridge, "notice-link", notice.url, [`Смотреть на\u00a0${hostOf(notice.url) || "сайте"} ↗`]) : null,
+    notice.url ? outLink(bridge, "notice-link", notice.url, [`Смотреть на\u00a0${hostOf(notice.url) || "сайте"} `, icon("arrow-up-right")]) : null,
   ]);
 }
 
@@ -26,7 +26,7 @@ function priceBlock(program: TgProgram, price: string): HTMLElement | null {
   return h("div", { class: "price-box" }, [
     price ? h("span", { class: "price", text: price }) : null,
     program.old_price ? h("s", { class: "price-old", text: formatPrice(program.old_price) }) : null,
-    list("price-terms", program.price_terms),
+    list("price-terms", program.price_terms, "ul", "check"),
   ]);
 }
 
@@ -54,7 +54,7 @@ function filesBlock(bridge: Bridge, program: TgProgram): HTMLElement | null {
       outLink(bridge, "file", file.path, [
         h("span", { class: "file-icon", "aria-hidden": "true", text: "PDF" }),
         h("span", { class: "file-name" }, [file.title, h("small", { text: file.size ? `PDF · ${file.size}` : "PDF" })]),
-        h("span", { class: "file-go", "aria-hidden": "true", text: "↗" }),
+        h("span", { class: "file-go", "aria-hidden": "true" }, [icon("arrow-up-right")]),
       ]),
     ]),
   );
@@ -73,7 +73,7 @@ function teachersBlock(bridge: Bridge, program: TgProgram): HTMLElement | null {
         : h("span", { class: "teacher-photo", "aria-hidden": "true" }),
       h("div", null, [
         teacher.page
-          ? h("p", { class: "teacher-name" }, [outLink(bridge, null, teacher.page, [teacher.name, h("span", { "aria-hidden": "true", text: " ↗" })])])
+          ? h("p", { class: "teacher-name" }, [outLink(bridge, null, teacher.page, [`${teacher.name} `, icon("arrow-up-right")])])
           : h("p", { class: "teacher-name", text: teacher.name }),
         teacher.about ? clamped("teacher-about", teacher.about, TEACHER_LIMIT) : null,
       ]),

@@ -17,6 +17,24 @@ function astroFiles(dir: string): string[] {
   });
 }
 
+const MISSING_GLYPHS = /[←→↗✓⌕]/;
+
+function sourceFiles(dir: string): string[] {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const path = join(dir, entry.name);
+    if (entry.isDirectory()) {
+      return sourceFiles(path);
+    }
+    return /\.(astro|ts|css|json)$/.test(entry.name) && !entry.name.endsWith(".test.ts") ? [path] : [];
+  });
+}
+
+test("в исходниках нет символов, которых нет в шрифтах HSE: вместо них значки", () => {
+  for (const file of sourceFiles(SOURCE)) {
+    assert.doesNotMatch(readFileSync(file, "utf8"), MISSING_GLYPHS, file);
+  }
+});
+
 test("в разметке нет тире с обычными пробелами и «© » без неразрывного пробела", () => {
   for (const file of astroFiles(SOURCE)) {
     const source = readFileSync(file, "utf8");

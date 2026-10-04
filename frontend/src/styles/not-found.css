@@ -8,7 +8,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-family: "HSE Sans", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  font-family: var(--font-sans);
   background: rgb(var(--bg));
   color: rgb(var(--ink));
   line-height: 1.6;
@@ -39,7 +39,7 @@ main {
   right: -3vw;
   top: 50%;
   transform: translateY(-50%);
-  font-family: "HSE Slab", Georgia, serif;
+  font-family: var(--font-slab);
   font-weight: 900;
   font-size: clamp(12.5rem, 34vw, 28.75rem);
   line-height: 0.8;
@@ -75,7 +75,7 @@ main {
 }
 
 h1 {
-  font-family: "HSE Slab", Georgia, serif;
+  font-family: var(--font-slab);
   font-weight: 600;
   font-size: clamp(1.75rem, 3.2vw, 2.625rem);
   line-height: 1.12;
@@ -204,7 +204,7 @@ a:focus-visible,
   z-index: 10001;
   background: rgb(var(--surface));
   color: rgb(var(--accent));
-  font: 600 0.9375rem/1.4 "HSE Sans", sans-serif;
+  font: 600 0.9375rem/1.4 var(--font-sans);
   padding: 12px 20px;
   border-radius: 0 0 10px 0;
   box-shadow: 0 4px 18px rgb(var(--ink) / 0.22);

@@ -1,0 +1,21 @@
+---
+import "../styles/icon.css";
+import { ICON_PATHS, ICON_STROKE, ICON_VIEWBOX, type IconName } from "../lib/icons";
+
+interface Props {
+  name: IconName;
+}
+
+const { name } = Astro.props;
+---
+
+<svg
+  class="icon"
+  viewBox={ICON_VIEWBOX}
+  fill="none"
+  stroke="currentColor"
+  stroke-width={ICON_STROKE}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"><path d={ICON_PATHS[name]}></path></svg
+>

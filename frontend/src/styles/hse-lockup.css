@@ -23,7 +23,7 @@
 .hse-lockup-caption {
   display: flex;
   flex-direction: column;
-  font-family: "HSE Sans", "IBM Plex Sans", sans-serif;
+  font-family: var(--font-sans);
   font-weight: 400;
   font-size: calc(var(--mark) * 0.6 / 2 / 1.1);
   line-height: 1.1;

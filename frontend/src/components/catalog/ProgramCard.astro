@@ -1,5 +1,6 @@
 ---
 import type { Card } from "../../lib/catalog";
+import Icon from "../Icon.astro";
 import { sitePath } from "../../lib/program";
 
 interface Props {
@@ -71,7 +72,7 @@ const href = sitePath(card.path);
         data-program-url={href}
         aria-label={`Заявка: ${card.title}`}>Заявка</button
       >
-      <span class="go" aria-hidden="true">Подробнее →</span>
+      <span class="go" aria-hidden="true">Подробнее <Icon name="arrow-right" /></span>
     </span>
   </div>
 </div>

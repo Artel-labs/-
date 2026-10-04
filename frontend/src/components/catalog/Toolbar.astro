@@ -1,3 +1,7 @@
+---
+import Icon from "../Icon.astro";
+---
+
 <div class="toolbar">
   <div class="search-wrap">
     <input
@@ -8,7 +12,7 @@
       enterkeyhint="search"
       aria-label="Поиск программ"
     />
-    <span class="search-icon" aria-hidden="true">⌕</span>
+    <span class="search-icon" aria-hidden="true"><Icon name="search" /></span>
   </div>
   <label class="sort-wrap" for="sortSelect">
     <span class="sort-label">Сортировка</span>

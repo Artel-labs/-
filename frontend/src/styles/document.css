@@ -6,7 +6,7 @@ body {
   margin: 0;
   background: rgb(var(--bg));
   color: rgb(var(--ink));
-  font-family: "HSE Sans", "IBM Plex Sans", sans-serif;
+  font-family: var(--font-sans);
   line-height: 1.7;
 }
 
@@ -91,7 +91,7 @@ html.vi-mode header::after {
 }
 
 h1 {
-  font-family: "HSE Slab", "Source Serif 4", serif;
+  font-family: var(--font-slab);
   font-size: clamp(1.75rem, 3.2vw, 2.625rem);
   line-height: 1.15;
   letter-spacing: -0.01em;
@@ -183,7 +183,7 @@ html.vi-mode :focus-visible {
   z-index: 10001;
   background: rgb(var(--surface));
   color: rgb(var(--accent));
-  font: 600 0.9375rem/1.4 "HSE Sans", "IBM Plex Sans", sans-serif;
+  font: 600 0.9375rem/1.4 var(--font-sans);
   padding: 12px 20px;
   border-radius: 0 0 10px 0;
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.22);

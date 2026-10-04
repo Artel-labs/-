@@ -5,7 +5,7 @@
 .crow-mascot.is-fixed.is-left{left:24px;right:auto}
 [data-rig="crow"].crow-stage{position:absolute;left:0;bottom:-4%;width:100%;aspect-ratio:1400/1465}
 [data-rig="crow"] .crow-bubble{position:absolute;right:70%;bottom:82%;opacity:0;transform-origin:100% 100%;pointer-events:none;z-index:3}
-[data-rig="crow"] .crow-bubble-box{position:relative;background:#fff;border:3px solid rgb(var(--outline-dark));border-radius:20px;padding:11px 17px;font-size:16px;font-weight:600;line-height:1.15;white-space:nowrap;color:rgb(var(--ink));box-shadow:0 5px 0 rgb(var(--outline-dark) / .09);font-family:'HSE Sans',system-ui,sans-serif}
+[data-rig="crow"] .crow-bubble-box{position:relative;background:#fff;border:3px solid rgb(var(--outline-dark));border-radius:20px;padding:11px 17px;font-size:16px;font-weight:600;line-height:1.15;white-space:nowrap;color:rgb(var(--ink));box-shadow:0 5px 0 rgb(var(--outline-dark) / .09);font-family:var(--font-sans)}
 [data-rig="crow"] .crow-bubble-tail{position:absolute;right:calc(-4px * var(--crow-k,1));bottom:calc(-77px * var(--crow-k,1));width:calc(64px * var(--crow-k,1));height:calc(80px * var(--crow-k,1))}
 [data-rig="crow"] .crow-bubble-tail-edge{position:absolute;inset:0;background:rgb(var(--outline-dark));clip-path:polygon(24% 0,62% 0,100% 100%)}
 [data-rig="crow"] .crow-bubble-tail-fill{position:absolute;left:3px;right:3px;top:-5px;bottom:4px;background:#fff;clip-path:polygon(29% 0,58% 0,96% 100%)}
@@ -39,7 +39,7 @@ body>.crow-mascot{right:var(--crow-edge)!important;bottom:0;pointer-events:none}
 html.crow-inline-live .crow-hit-btn{pointer-events:none}
 html.vi-mode .crow-hit-btn{display:none}
 #crow-vi-btn{display:none}
-html.vi-mode #crow-vi-btn{display:inline-flex;align-items:center;justify-content:center;position:fixed;right:var(--crow-edge);bottom:calc(16px + env(safe-area-inset-bottom, 0px));z-index:920;min-height:44px;padding:0 16px;border-radius:999px;cursor:pointer;font:600 0.8125rem/1 'HSE Sans','IBM Plex Sans',system-ui,sans-serif}
+html.vi-mode #crow-vi-btn{display:inline-flex;align-items:center;justify-content:center;position:fixed;right:var(--crow-edge);bottom:calc(16px + env(safe-area-inset-bottom, 0px));z-index:920;min-height:44px;padding:0 16px;border-radius:999px;cursor:pointer;font:600 0.8125rem/1 var(--font-sans)}
 @layer widgets {
 html.vi-mode .crow-walk-hit{display:none!important}
 html.vi-mode #crow-vi-btn{background:#fff!important;color:#000!important;border:2px solid #000!important}

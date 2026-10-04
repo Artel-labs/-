@@ -1,3 +1,4 @@
+import { ICON_PATHS, ICON_STROKE, ICON_VIEWBOX, type IconName } from "../../lib/icons";
 import { HSE_MARK, HSE_MARK_ALT, HSE_URL, LOCKUP_CAPTION } from "../../lib/brand";
 import type { Bridge } from "./bridge";
 
@@ -33,35 +34,32 @@ export function picture(src: string | null): HTMLImageElement | null {
   return src ? h("img", { src, alt: "", loading: "lazy", decoding: "async" }) : null;
 }
 
-export function searchIcon(): SVGSVGElement {
+export function icon(name: IconName): SVGSVGElement {
   const svg = document.createElementNS(SVG_NS, "svg");
   const attributes: [string, string][] = [
-    ["width", "16"],
-    ["height", "16"],
-    ["viewBox", "0 0 24 24"],
+    ["class", "icon"],
+    ["viewBox", ICON_VIEWBOX],
     ["fill", "none"],
     ["stroke", "currentColor"],
-    ["stroke-width", "2"],
+    ["stroke-width", ICON_STROKE],
+    ["stroke-linecap", "round"],
+    ["stroke-linejoin", "round"],
     ["aria-hidden", "true"],
   ];
-  attributes.forEach(([name, value]) => {
-    svg.setAttribute(name, value);
+  attributes.forEach(([attribute, value]) => {
+    svg.setAttribute(attribute, value);
   });
-  const circle = document.createElementNS(SVG_NS, "circle");
-  circle.setAttribute("cx", "11");
-  circle.setAttribute("cy", "11");
-  circle.setAttribute("r", "7");
-  const handle = document.createElementNS(SVG_NS, "path");
-  handle.setAttribute("d", "m20 20-3.5-3.5");
-  svg.append(circle, handle);
+  const path = document.createElementNS(SVG_NS, "path");
+  path.setAttribute("d", ICON_PATHS[name]);
+  svg.append(path);
   return svg;
 }
 
-export function list(className: string, items: string[], tag: "ul" | "ol" = "ul"): HTMLElement | null {
+export function list(className: string, items: string[], tag: "ul" | "ol" = "ul", marker: IconName | null = null): HTMLElement | null {
   if (!items.length) {
     return null;
   }
-  return h(tag, { class: className }, items.map((item) => h("li", { text: item })));
+  return h(tag, { class: className }, items.map((item) => h("li", null, [marker ? icon(marker) : null, item])));
 }
 
 export function section(title: string, sub: string | null, body: HTMLElement | null): HTMLElement | null {

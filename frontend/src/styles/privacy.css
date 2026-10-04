@@ -9,7 +9,7 @@ main {
 }
 
 h2 {
-  font-family: "HSE Slab", "Source Serif 4", serif;
+  font-family: var(--font-slab);
   font-size: 1.3125rem;
   margin: 36px 0 12px;
 }

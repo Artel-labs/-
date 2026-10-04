@@ -1,7 +1,7 @@
 import type { TgProgram } from "../../lib/tg";
 import type { Context, Direction } from "./context";
 import { filterPrograms, formatPrice } from "./core.ts";
-import { h, hseLockup, picture, searchIcon } from "./dom";
+import { h, hseLockup, icon, picture } from "./dom";
 
 const MAX_CASCADE_STEP = 7;
 const ALL = "all";
@@ -85,7 +85,7 @@ export function listScreen(context: Context, direction: Direction): HTMLElement 
   return h("section", { "aria-label": "Программы" }, [
     hseLockup(context.bridge),
     h("h1", { class: "h1", text: "Программы Центра ДПО факультета права" }),
-    h("label", { class: "search" }, [searchIcon(), search]),
+    h("label", { class: "search" }, [icon("search"), search]),
     chips,
     cards,
   ]);

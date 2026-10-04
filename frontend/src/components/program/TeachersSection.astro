@@ -1,5 +1,6 @@
 ---
 import type { Teacher } from "../../lib/program";
+import Icon from "../Icon.astro";
 import Block from "./Block.astro";
 
 interface Props {
@@ -20,7 +21,7 @@ const { teachers, heading } = Astro.props;
               {teacher.page_url ? (
                 <a href={teacher.page_url} target="_blank" rel="noopener noreferrer">
                   {teacher.name}
-                  <span aria-hidden="true"> ↗</span>
+                  <Icon name="arrow-up-right" />
                 </a>
               ) : (
                 teacher.name
