@@ -6,7 +6,7 @@ from catalog.models import Program
 from catalog.presentation import about, images, links, seo
 from catalog.presentation.dates import format_start, notice_is_fresh
 from catalog.presentation.labels import CREDENTIALS, FILE_LABELS, UNKNOWN, price_label, type_label
-from catalog.presentation.text import plain_lines, plural, typographic_lines, typography
+from catalog.presentation.text import plain_lines, plural, typographic_lines
 from catalog.schemas import (
     AboutOut,
     AudienceOut,
@@ -24,6 +24,7 @@ from catalog.schemas import (
     TeacherOut,
 )
 from catalog.teachers import canonical_name
+from catalog.typography import squeeze_spaces
 
 ONE_TEACHER = "Преподаватель-практик"
 MANY_TEACHERS = "Преподаватели-практики"
@@ -71,12 +72,14 @@ def about_section(program: Program) -> AboutOut | None:
 
 def audience(program: Program) -> AudienceOut | None:
     items = typographic_lines(program.audience)
-    return AudienceOut(intro=typography(program.audience_intro), items=items) if items else None
+    return AudienceOut(intro=squeeze_spaces(program.audience_intro), items=items) if items else None
 
 
 def modules(program: Program) -> list[ModuleOut]:
     return [
-        ModuleOut(title=typography(module.title), hours=typography(module.hours), topics=plain_lines(module.topics))
+        ModuleOut(
+            title=squeeze_spaces(module.title), hours=squeeze_spaces(module.hours), topics=plain_lines(module.topics)
+        )
         for module in program.modules.all()
     ]
 
@@ -92,8 +95,8 @@ def files(program: Program) -> list[FileOut]:
 def teachers(program: Program) -> list[TeacherOut]:
     return [
         TeacherOut(
-            name=canonical_name(typography(link.teacher.name)),
-            about=typography(link.about),
+            name=canonical_name(squeeze_spaces(link.teacher.name)),
+            about=squeeze_spaces(link.about),
             page_url=links.safe_hse_url(link.teacher.page_url),
         )
         for link in program.program_teachers.select_related("teacher")
@@ -102,7 +105,7 @@ def teachers(program: Program) -> list[TeacherOut]:
 
 def reviews(program: Program) -> list[ReviewOut]:
     return [
-        ReviewOut(text=typography(review.text), author=typography(review.author))
+        ReviewOut(text=squeeze_spaces(review.text), author=squeeze_spaces(review.author))
         for review in program.reviews.all()
         if review.text.strip() and review.author.strip()
     ]

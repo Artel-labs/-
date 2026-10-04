@@ -68,7 +68,7 @@ def test_menu_matches_previous_site(page):
         }
         for sphere in LEGACY["panel"]["spheres"]
     ]
-    assert spheres == legacy
+    assert untypeset(spheres) == untypeset(legacy)
     assert f"Все {page.menu.total} программ с фильтрами" == LEGACY["panel"]["all"]
 
 
@@ -135,7 +135,9 @@ def test_starts_strip_matches_previous_site(page):
 
 def test_reviews_match_previous_site(page):
     reviews = [[item.text, item.author, item.path, item.program] for item in page.reviews]
-    assert reviews == [[text, author, site_href(href), title] for text, author, href, title in LEGACY["reviews"]]
+    assert untypeset(reviews) == untypeset(
+        [[text, author, site_href(href), title] for text, author, href, title in LEGACY["reviews"]]
+    )
 
 
 def top_record(item: Any) -> dict[str, str]:

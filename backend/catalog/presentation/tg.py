@@ -13,7 +13,7 @@ from catalog.presentation.facets import doc_badge, short_format
 from catalog.presentation.images import thumb
 from catalog.presentation.labels import FILE_LABELS, effective_price
 from catalog.presentation.page import price_terms
-from catalog.presentation.text import en_dash, plain_lines
+from catalog.presentation.text import plain_lines
 from catalog.schemas import (
     TgCatalogOut,
     TgFaqOut,
@@ -41,11 +41,11 @@ DOC_FROM_TIP = re.compile(r"[–—]\s*(.+?)\.?$")
 
 
 def optional(text: str) -> str | None:
-    return en_dash(text) or None
+    return text or None
 
 
 def lines(text: str) -> list[str]:
-    return [en_dash(line) for line in plain_lines(text)]
+    return plain_lines(text)
 
 
 def doc_title(tip: str) -> str | None:
@@ -62,13 +62,13 @@ def notice(program: Program, today: date) -> TgNoticeOut | None:
     if not program.notice_text or not notice_is_fresh(program.notice_date, today):
         return None
     url = program.notice_url if HTTPS.match(program.notice_url) else None
-    return TgNoticeOut(date=program.notice_date or None, text=en_dash(program.notice_text), url=url)
+    return TgNoticeOut(date=program.notice_date or None, text=program.notice_text, url=url)
 
 
 def files(program: Program) -> list[TgFileOut]:
     return [
         TgFileOut(
-            title=en_dash(FILE_LABELS.get(item.kind) or item.title or DEFAULT_FILE_TITLE),
+            title=FILE_LABELS.get(item.kind) or item.title or DEFAULT_FILE_TITLE,
             size=item.size_label,
             path=item.file.url,
         )
@@ -80,8 +80,8 @@ def files(program: Program) -> list[TgFileOut]:
 def teachers(program: Program) -> list[TgTeacherOut]:
     return [
         TgTeacherOut(
-            name=canonical_name(en_dash(link.teacher.name)),
-            about=en_dash(link.about),
+            name=canonical_name(link.teacher.name),
+            about=link.about,
             photo=link.teacher.photo.url if link.teacher.photo else None,
             page=links.safe_hse_url(link.teacher.page_url) or None,
         )
@@ -91,8 +91,7 @@ def teachers(program: Program) -> list[TgTeacherOut]:
 
 def modules(program: Program) -> list[TgModuleOut]:
     return [
-        TgModuleOut(title=en_dash(item.title), hours=en_dash(item.hours), topics=lines(item.topics))
-        for item in program.modules.all()
+        TgModuleOut(title=item.title, hours=item.hours, topics=lines(item.topics)) for item in program.modules.all()
     ]
 
 
@@ -103,7 +102,7 @@ def tg_program(program: Program, today: date) -> TgProgramOut:
     cover = program.image.url if program.image else None
     return TgProgramOut(
         id=program.hse_id,
-        title=en_dash(program.title),
+        title=program.title,
         sphere=program.sphere.slug if program.sphere else None,
         badge=badge.label if badge else None,
         doc=doc_title(badge.tip) if badge else None,
@@ -113,31 +112,27 @@ def tg_program(program: Program, today: date) -> TgProgramOut:
         start_label=start_label(program.start_date, program.start_month_only, today) or None,
         price=effective_price(program),
         old_price=old_price(program),
-        tagline=en_dash(program.tagline or program.about),
+        tagline=program.tagline or program.about,
         audience=lines(program.audience),
         results=lines(program.results),
         modules=modules(program),
         cover=cover,
         thumb=picture.src if picture else cover,
         pay=links.pay_url(program.hse_id) or None,
-        about=en_dash(program.about),
+        about=program.about,
         lead=found_about.lead or None if found_about and program.about else None,
         about_items=found_about.items or None if found_about else None,
         audience_intro=optional(program.audience_intro),
         advantages=lines(program.advantages),
         language=optional(program.language),
         schedule=optional(program.schedule),
-        price_terms=[en_dash(term) for term in price_terms(program)],
+        price_terms=price_terms(program),
         notice=notice(program, today),
         files=files(program),
         teachers=teachers(program),
-        feedback=[
-            TgReviewOut(text=en_dash(item.text), author=en_dash(item.author))
-            for item in program.reviews.all()
-            if item.text
-        ],
+        feedback=[TgReviewOut(text=item.text, author=item.author) for item in program.reviews.all() if item.text],
         admission_docs=lines(program.admission_documents),
-        faq=[TgFaqOut(q=en_dash(item.question), a=en_dash(item.answer)) for item in program.faq.all()],
+        faq=[TgFaqOut(q=item.question, a=item.answer) for item in program.faq.all()],
     )
 
 

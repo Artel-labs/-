@@ -9,6 +9,7 @@ from django.core.management import call_command
 
 from catalog.models import Program
 from catalog.presentation.bot import bot_catalog
+from tests.typography import untypeset
 
 pytestmark = pytest.mark.django_db
 
@@ -38,7 +39,7 @@ def test_bot_catalog_matches_previous_site(seeded):
     current = current_records()
     assert list(current) == [record["id"] for record in LEGACY]
     for record in LEGACY:
-        assert current[record["id"]] == legacy_record(record), record["id"]
+        assert untypeset(current[record["id"]]) == untypeset(legacy_record(record)), record["id"]
 
 
 def test_bot_catalog_endpoint_hides_unpublished(client, seeded):

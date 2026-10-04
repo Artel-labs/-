@@ -78,13 +78,17 @@ export function validateApplication(draft: ApplicationDraft): Validation {
   return errors.length ? { ok: false, errors } : { ok: true, values };
 }
 
+function searchable(text: string): string {
+  return text.replace(/\s+/g, " ").trim().toLowerCase();
+}
+
 export function filterPrograms<T extends { sphere: string | null; title: string; tagline: string }>(programs: T[], sphere: string, query: string): T[] {
-  const needle = query.trim().toLowerCase();
+  const needle = searchable(query);
   return programs.filter((program) => {
     if (sphere && sphere !== "all" && program.sphere !== sphere) {
       return false;
     }
-    return !needle || `${program.title} ${program.tagline}`.toLowerCase().includes(needle);
+    return !needle || searchable(`${program.title} ${program.tagline}`).includes(needle);
   });
 }
 

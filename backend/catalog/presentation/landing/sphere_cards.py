@@ -3,7 +3,6 @@ from datetime import date
 from catalog.landing_schemas import SphereCardOut
 from catalog.models import Program
 from catalog.presentation.landing.groups import Grouped, SphereGroup, catalog_url, nearest_start, plural_programs
-from catalog.presentation.text import en_dash
 
 FILTERS_ANCHOR = "#filters"
 FACT_SEPARATOR = " · "
@@ -38,7 +37,7 @@ def sphere_card(group: SphereGroup, index: int, today: date) -> SphereCardOut:
         slug=slug,
         href=catalog_url(sphere=slug) + FILTERS_ANCHOR,
         index=f"{index:02d}",
-        title=en_dash(group.sphere.title),
+        title=group.sphere.title,
         lead=SPHERE_LEADS.get(slug, ""),
         facts=facts(group.programs, today),
     )

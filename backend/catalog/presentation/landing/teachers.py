@@ -8,7 +8,6 @@ from catalog.models import Program, Teacher
 from catalog.presentation.images import Photo, photo_with_webp
 from catalog.presentation.landing.collation import sort_key
 from catalog.presentation.landing.groups import plural_programs
-from catalog.presentation.text import en_dash
 
 MAX_ALT_LENGTH = 125
 MIN_TOKEN_LENGTH = 2
@@ -139,7 +138,7 @@ def photo(person: Person, about: str) -> TeacherPhotoOut | None:
     found: Photo | None = photo_with_webp(person.teacher.photo) if person.teacher else None
     if found is None:
         return None
-    return TeacherPhotoOut(src=found.src, webp=found.webp, alt=en_dash(photo_alt(person.name, about)))
+    return TeacherPhotoOut(src=found.src, webp=found.webp, alt=photo_alt(person.name, about))
 
 
 def payload(person: Person, about: str) -> str:
@@ -149,7 +148,7 @@ def payload(person: Person, about: str) -> str:
         "programs": [{"t": item.title, "h": item.path} for item in person.programs],
         "url": person.page,
     }
-    return en_dash(json.dumps(data, ensure_ascii=False, separators=(",", ":")))
+    return json.dumps(data, ensure_ascii=False, separators=(",", ":"))
 
 
 def card(person: Person) -> TeacherCardOut:
@@ -158,11 +157,11 @@ def card(person: Person) -> TeacherCardOut:
         payload=payload(person, about),
         initials=initials(person.name),
         photo=photo(person, about),
-        name=en_dash(person.name),
+        name=person.name,
         page=person.page,
-        more_label=en_dash(f"Подробнее: {person.name}"),
+        more_label=f"Подробнее: {person.name}",
         count=plural_programs(len(person.programs)),
-        about=en_dash(about),
+        about=about,
     )
 
 

@@ -8,7 +8,6 @@ from catalog.presentation.dates import is_upcoming, start_label
 from catalog.presentation.facets import doc_badge, format_tip, short_format
 from catalog.presentation.labels import FREE, PRICE_ON_REQUEST, effective_price
 from catalog.presentation.landing.collation import sort_key
-from catalog.presentation.text import en_dash
 
 TOP_COUNT = 15
 CURATED_IDS = ("837181759", "816497962", "474596729", "1008772871", "474599435")
@@ -34,7 +33,7 @@ def kind_label(program: Program) -> str:
 
 def first_sentence(program: Program) -> str:
     source = (program.tagline or program.about).strip()
-    return en_dash(SENTENCE_END.split(source)[0]) if source else ""
+    return SENTENCE_END.split(source)[0] if source else ""
 
 
 def upcoming_key(program: Program, today: date) -> date:
@@ -61,7 +60,7 @@ def tile(program: Program, rank: int, today: date) -> TopProgramOut:
         id=program.hse_id,
         start=start_label(program.start_date, program.start_month_only, today),
         rank=str(rank),
-        title=en_dash(program.title),
+        title=program.title,
         tagline=first_sentence(program),
         kind=kind_label(program),
         format=short_format(program.study_format),

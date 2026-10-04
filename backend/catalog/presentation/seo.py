@@ -59,8 +59,8 @@ TITLE_STOP_WORDS = frozenset(
     ]
 )
 TITLE_BREAK = re.compile(r"\s*[:/(]")
-TRAILING_PUNCTUATION = re.compile(r"[\s,;:./–-]+$")
-DESCRIPTION_TAIL = re.compile(r"[\s,.–-]+$")
+TRAILING_PUNCTUATION = re.compile(r"[\s,;:./—–-]+$")
+DESCRIPTION_TAIL = re.compile(r"[\s,.—–-]+$")
 COURSE_MODES = {
     "Онлайн": "online",
     "Онлайн синхронный": "online",

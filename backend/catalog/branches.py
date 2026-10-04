@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from catalog.typography import plain_spaces
+
 
 @dataclass(frozen=True)
 class Branch:
@@ -39,5 +41,5 @@ BRANCHES = (
 
 
 def branch_titles(program_title: str) -> list[str]:
-    lowered = program_title.lower()
+    lowered = plain_spaces(program_title).lower()
     return [branch.title for branch in BRANCHES if any(fragment in lowered for fragment in branch.fragments)]

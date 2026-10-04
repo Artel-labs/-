@@ -9,6 +9,7 @@ from django.db import transaction
 from catalog.models import FaqItem, Module, Program, ProgramFile, ProgramTeacher, Review, Source, Teacher
 from catalog.spheres import ensure_spheres, match_sphere
 from catalog.teachers import canonical_name
+from catalog.typesetting import typeset_program
 
 MOSCOW = ZoneInfo("Europe/Moscow")
 MILLISECONDS = 1000
@@ -143,6 +144,7 @@ def import_program(
     import_reviews(program, record)
     import_files(program, record, root)
     import_program_teachers(program, record, teachers)
+    typeset_program(program)
     return program
 
 

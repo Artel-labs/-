@@ -8,7 +8,7 @@ from catalog.presentation.cards import kind
 from catalog.presentation.dates import day_and_month, epoch_day, format_start, is_upcoming, month_title
 from catalog.presentation.facets import short_format
 from catalog.presentation.labels import price_label
-from catalog.presentation.text import en_dash, plural
+from catalog.presentation.text import plural
 from catalog.schemas import MonthOut, SphereOut, StartOut, StartsOut, TickOut
 
 DAY_PX = 32
@@ -118,17 +118,17 @@ def start_item(board: Board, item: Dated) -> StartOut:
     x = board.x_of(epoch_day(item.start))
     lane, left = board.place(x)
     short, full = when(item)
-    title = en_dash(program.title)
+    title = program.title
     return StartOut(
         lane=lane,
         left=left,
         pin=x - left,
         path=program.path,
-        hint=f"{title} — старт: {en_dash(full)}",
-        when=en_dash(short),
+        hint=f"{title} — старт: {full}",
+        when=short,
         title=title,
         sphere=program.sphere.slug if program.sphere else "",
-        meta=en_dash(META_SEPARATOR.join(part for part in (kind(program), short_format(program.study_format)) if part)),
+        meta=META_SEPARATOR.join(part for part in (kind(program), short_format(program.study_format)) if part),
         price=price_label(program),
     )
 

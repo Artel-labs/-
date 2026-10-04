@@ -10,17 +10,18 @@ from catalog.presentation.facets import format_facet
 from catalog.presentation.labels import effective_price, price_label
 from catalog.presentation.landing.groups import group_by_sphere
 from catalog.presentation.options import OTHER_PROGRAMS
-from catalog.presentation.text import plain_lines, typography
+from catalog.presentation.text import plain_lines
 from catalog.schemas import BotProgramOut
+from catalog.typography import squeeze_spaces
 
 
 def keywords(program: Program) -> list[str]:
     phrases = [*module_titles(program), *plain_lines(program.audience), program.tagline]
-    return [typography(phrase) for phrase in phrases if typography(phrase)]
+    return [squeeze_spaces(phrase) for phrase in phrases if squeeze_spaces(phrase)]
 
 
 def optional(text: str) -> str | None:
-    return typography(text) or None
+    return squeeze_spaces(text) or None
 
 
 def bot_program(program: Program, sphere: str, today: date) -> BotProgramOut:
@@ -28,12 +29,12 @@ def bot_program(program: Program, sphere: str, today: date) -> BotProgramOut:
     facet = format_facet(program.study_format)
     return BotProgramOut(
         id=program.hse_id,
-        title=typography(program.title),
+        title=squeeze_spaces(program.title),
         url=f"/{program.path}",
         sphere=sphere,
         type=kind(program),
         format=facet.value,
-        format_label=typography(program.study_format) or facet.label,
+        format_label=squeeze_spaces(program.study_format) or facet.label,
         price=effective_price(program),
         price_label=price_label(program),
         duration=optional(program.duration),

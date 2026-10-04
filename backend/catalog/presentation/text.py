@@ -1,13 +1,4 @@
-EM_DASH = "—"
-EN_DASH = "–"
-
-
-def en_dash(text: str) -> str:
-    return text.replace(EM_DASH, EN_DASH)
-
-
-def typography(text: str) -> str:
-    return " ".join(en_dash(text).split())
+from catalog.typography import squeeze_spaces
 
 
 def plain_lines(text: str) -> list[str]:
@@ -15,7 +6,7 @@ def plain_lines(text: str) -> list[str]:
 
 
 def typographic_lines(text: str) -> list[str]:
-    return [typography(line) for line in plain_lines(text)]
+    return [squeeze_spaces(line) for line in plain_lines(text)]
 
 
 def plural(count: int, one: str, few: str, many: str) -> str:

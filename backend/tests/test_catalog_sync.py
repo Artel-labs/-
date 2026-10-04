@@ -13,6 +13,7 @@ from catalog.hse.listing import page_url
 from catalog.models import FileKind, Program, ProgramFile, Source, Teacher
 from catalog.sync.media import TEACHER_PHOTO_WIDTH
 from catalog.sync.runner import run_sync
+from catalog.typography import typeset
 from tests.factories import make_admin
 from tests.hse_helpers import FIXTURES, fixture
 
@@ -79,7 +80,7 @@ def test_new_programs_are_created_with_details(hse, sync_settings):
     assert len(report.created) == LISTED - 1
     assert english.title == "Английское контрактное право"
     assert english.sphere is not None
-    assert english.tax_refund == "6 500 рублей"
+    assert english.tax_refund == "6\u00a0500\u00a0рублей"
     assert english.modules.count() == 8
     assert english.image.name.startswith("programs/856421092")
     assert english.files.get(kind=FileKind.PLAN).file.read() == PDF
@@ -150,3 +151,12 @@ def test_admin_button_queues_sync(client):
     response = client.get("/admin/catalog/program/sync-from-hse/")
     assert response.status_code == 302
     assert OrmQ.objects.count() == 1
+
+
+def test_synced_texts_are_typeset(hse, sync_settings):
+    sync()
+    english = Program.objects.get(hse_id="856421092")
+    assert english.about
+    assert typeset(english.about) == english.about
+    assert all(typeset(module.title) == module.title for module in english.modules.all())
+    assert all(typeset(item.answer) == item.answer for item in english.faq.all())

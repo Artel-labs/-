@@ -151,7 +151,7 @@ def test_starts_legend_lists_spheres_on_board(page):
 
 
 def test_structured_data_matches_previous_site(page):
-    assert json.loads(page.structured_data) == LEGACY["structured_data"]
+    assert untypeset(json.loads(page.structured_data)) == untypeset(LEGACY["structured_data"])
 
 
 def test_manual_programs_follow_hse_order(seeded):

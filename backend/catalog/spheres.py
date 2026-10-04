@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 from catalog.models import Sphere
+from catalog.typography import plain_spaces
 
 
 @dataclass(frozen=True)
@@ -91,7 +92,7 @@ def ensure_spheres() -> dict[str, Sphere]:
 
 
 def match_sphere(title: str) -> SphereMatch | None:
-    lowered = title.lower()
+    lowered = plain_spaces(title).lower()
     for rule in SPHERE_RULES:
         for position, fragment in enumerate(rule.fragments):
             if fragment.lower() in lowered:

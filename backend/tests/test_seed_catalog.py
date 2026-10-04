@@ -1,16 +1,18 @@
+import importlib
 from io import StringIO
 
 import pytest
+from django.apps import apps
 from django.core.management import call_command
 
-from catalog.models import FileKind, Program, Sphere, Teacher
+from catalog.models import FileKind, Program, Review, Sphere, Teacher
 from catalog.spheres import SPHERE_RULES
 
 pytestmark = pytest.mark.django_db
 
 SEED_PROGRAMS = 34
 LOCKED_PROGRAMS = 9
-UNASSIGNED_TITLE = "Право и обществознание"
+UNASSIGNED_TITLE = "Право и\u00a0обществознание"
 
 
 @pytest.fixture
@@ -50,3 +52,14 @@ def test_seed_runs_once(seeded):
     call_command("seed_catalog", stdout=output)
     assert "уже заполнен" in output.getvalue()
     assert Program.objects.count() == SEED_PROGRAMS
+
+
+def test_seed_texts_are_typeset(seeded):
+    review = Review.objects.get(text__contains="Авакян")
+    assert "Авакян\u00a0Е.\u200aГ." in review.text
+
+
+def test_migration_typesets_existing_catalog(seeded):
+    Program.objects.filter(title=UNASSIGNED_TITLE).update(about="Курс – в работе")
+    importlib.import_module("catalog.migrations.0004_typeset_catalog").typeset_existing(apps, None)
+    assert Program.objects.get(title=UNASSIGNED_TITLE).about == "Курс\u00a0— в\u00a0работе"

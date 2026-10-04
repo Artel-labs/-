@@ -17,6 +17,7 @@ from applications.models import Application, MailRecipient, MailStatus, Status, 
 from applications.rules import EMAIL_TYPO, PHONE_BAD_LENGTH, email_looks_valid, phone_problem
 from applications.service import purge_expired
 from tests.factories import make_admin
+from tests.typography import untypeset
 
 pytestmark = pytest.mark.django_db
 
@@ -176,9 +177,9 @@ def test_old_applications_are_purged(client, settings):
 def test_program_options_match_previous_site(client, seeded):
     legacy = json.loads((FIXTURES / "legacy_programs_index.json").read_text(encoding="utf-8"))["programs"]
     options = client.get("/api/catalog/program-options").json()
-    assert [[item["id"], item["title"], item["sphere"]] for item in options] == [
-        [item["id"], item["title"], item["sphere"]] for item in legacy
-    ]
+    assert untypeset([[item["id"], item["title"], item["sphere"]] for item in options]) == untypeset(
+        [[item["id"], item["title"], item["sphere"]] for item in legacy]
+    )
 
 
 def fail_mail(application_id):

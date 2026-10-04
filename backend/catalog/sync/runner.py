@@ -15,6 +15,7 @@ from catalog.spheres import ensure_spheres
 from catalog.sync.fields import apply_details, apply_listing
 from catalog.sync.media import ensure_cover, ensure_teacher_photo, refresh_document
 from catalog.sync.related import replace_related
+from catalog.typesetting import typeset_program
 
 NETWORK_ERRORS = (HseError, httpx.HTTPError, OSError)
 
@@ -50,6 +51,7 @@ def store_program(
     apply_details(saved, details)
     saved.save()
     teachers, documents = replace_related(saved, details)
+    typeset_program(saved)
     return saved, teachers, documents
 
 

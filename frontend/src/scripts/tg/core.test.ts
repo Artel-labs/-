@@ -44,6 +44,14 @@ test("витрина: фильтр по сфере и поиск без учёт
   assert.deepEqual(ids(filterPrograms(programs, "corporate", "мозг")), []);
 });
 
+test("витрина: поиск находит название с неразрывными пробелами", () => {
+  const programs = [{ id: "1", title: `Право${NBSP}— в${NBSP}семье`, tagline: "", sphere: "practice" }];
+  assert.deepEqual(
+    filterPrograms(programs, "all", "право — в семье").map((program) => program.id),
+    ["1"],
+  );
+});
+
 test("цена: неразрывные пробелы, пусто без цены", () => {
   assert.equal(formatPrice(390000), `390${NBSP}000${NBSP}₽`);
   assert.equal(formatPrice(null), "");

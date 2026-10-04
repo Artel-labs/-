@@ -5,7 +5,6 @@ from catalog.models import Program
 from catalog.presentation.facets import format_facet
 from catalog.presentation.labels import effective_price
 from catalog.presentation.seo import PROVIDER, as_json
-from catalog.presentation.text import en_dash
 
 LIST_NAME = "Программы ДПО факультета права НИУ ВШЭ"
 SENTENCE_END = re.compile(r"(?<=[.!?])\s+")
@@ -24,12 +23,12 @@ def course_description(program: Program) -> str:
     source = (program.tagline or program.about).strip()
     if not source:
         kind = RETRAINING_KIND if program.type_short == RETRAINING else DEFAULT_KIND
-        return en_dash(f"{kind}: {program.title}. Факультет права НИУ ВШЭ.")
+        return f"{kind}: {program.title}. Факультет права НИУ ВШЭ."
     first_sentence = SENTENCE_END.split(source)[0].strip()
     text = first_sentence if len(first_sentence) >= MIN_SENTENCE_LENGTH else source
     if len(text) > DESCRIPTION_LIMIT:
         text = PARTIAL_WORD.sub("", text[:DESCRIPTION_CUT]) + ELLIPSIS
-    return en_dash(text)
+    return text
 
 
 def course_instance(program: Program) -> dict[str, str]:
@@ -45,7 +44,7 @@ def course_instance(program: Program) -> dict[str, str]:
 def course(program: Program, site_url: str) -> dict[str, Any]:
     data: dict[str, Any] = {
         "@type": "Course",
-        "name": en_dash(program.title),
+        "name": program.title,
         "description": course_description(program),
         "url": f"{site_url}/{program.path}",
         "inLanguage": "ru",

@@ -4,7 +4,6 @@ from catalog.landing_schemas import ReviewCardOut, StartStripOut
 from catalog.models import Program, Review
 from catalog.presentation.dates import MONTHS_GENITIVE, MONTHS_NOMINATIVE, format_start, is_upcoming
 from catalog.presentation.landing.teachers import fix_text
-from catalog.presentation.text import en_dash
 
 MAX_STARTS = 30
 REVIEWS_PER_PROGRAM = 3
@@ -19,7 +18,7 @@ def start_strip_item(program: Program, start: date) -> StartStripOut:
         big, small, is_month = MONTHS_NOMINATIVE[start.month - 1], str(start.year), True
     else:
         big, small, is_month = str(start.day), MONTHS_GENITIVE[start.month - 1], False
-    title = en_dash(program.title)
+    title = program.title
     return StartStripOut(
         path=f"/{program.path}",
         label=f"{title} — старт {format_start(start, program.start_month_only)}",
@@ -52,10 +51,10 @@ def fitting_reviews(program: Program) -> list[Review]:
 
 def review_card(program: Program, review: Review) -> ReviewCardOut:
     return ReviewCardOut(
-        text=en_dash(fix_text(review.text).strip()),
-        author=en_dash(review.author),
+        text=fix_text(review.text).strip(),
+        author=review.author,
         path=f"/{program.path}",
-        program=en_dash(program.title),
+        program=program.title,
     )
 
 

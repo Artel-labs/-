@@ -2,7 +2,7 @@ import re
 from dataclasses import dataclass
 
 from catalog.models import Program
-from catalog.presentation.text import typography
+from catalog.typography import squeeze_spaces
 
 GLUED_MIN_LENGTH = 150
 GLUED_MIN_JUNCTIONS = 3
@@ -32,7 +32,7 @@ def simplified(text: str) -> str:
 
 
 def about(program: Program) -> About | None:
-    tagline, body = typography(program.tagline), typography(program.about)
+    tagline, body = squeeze_spaces(program.tagline), squeeze_spaces(program.about)
     if not tagline and not body:
         return None
     lead_repeats_body = bool(tagline and body and simplified(body).startswith(simplified(tagline)[:LEAD_PREFIX_LENGTH]))
