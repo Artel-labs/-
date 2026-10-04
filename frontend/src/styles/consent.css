@@ -5,8 +5,8 @@
 #cookieBanner .cb-actions{display:flex;gap:10px;flex:0 0 auto}
 #cookieBanner button{font:inherit;font-weight:600;font-size:0.9375rem;cursor:pointer;border-radius:999px;padding:10px 20px;border:1px solid transparent}
 #cookieBanner .cb-accept{color:rgb(var(--surface));background:rgb(var(--accent))}
-#cookieBanner .cb-accept:hover{background:#123F9E}
-#cookieBanner .cb-decline{color:var(--ink-soft);background:transparent;border-color:rgb(var(--ink) / .3)}
+#cookieBanner .cb-accept:hover{background:rgb(var(--accent-pressed))}
+#cookieBanner .cb-decline{color:rgb(var(--ink-soft));background:transparent;border-color:rgb(var(--ink) / .3)}
 #cookieBanner .cb-decline:hover{border-color:rgb(var(--ink))}
 @layer widgets {
 html.vi-mode #cookieBanner{background:rgb(var(--surface))!important;border:2px solid #000!important}

@@ -1,0 +1,47 @@
+:root {
+  --surface: 255 255 255;
+  --paper: 255 254 251;
+  --bg: 251 249 245;
+  --bg-tint: 242 236 225;
+
+  --ink: 33 30 27;
+  --ink-strong: 29 29 27;
+  --ink-soft: 72 66 58;
+  --ink-warm: 90 82 72;
+  --ink-mute: 107 100 89;
+  --ink-faint: 163 154 140;
+  --outline-dark: 22 24 28;
+
+  --accent: 22 88 218;
+  --accent-dark: 17 69 170;
+  --accent-pressed: 18 63 158;
+
+  --deep: 11 42 105;
+  --deep-header: 16 48 107;
+  --deep-row: 28 57 116;
+  --deep-soft: 34 59 108;
+  --night: 6 23 57;
+  --night-mid: 8 33 83;
+  --night-ink: 10 16 28;
+
+  --ochre: 240 184 110;
+  --sun: 255 217 130;
+  --error: 176 0 32;
+
+  --sky: 206 223 253;
+  --sky-dot: 127 166 240;
+  --sand: 230 212 191;
+  --sand-dot: 201 178 145;
+
+  --hdr-bg: 250 247 241;
+  --hdr-line: 230 224 214;
+  --hdr-capsule: 241 235 224;
+  --hdr-capsule-line: 227 220 208;
+  --hdr-rule: 220 213 201;
+  --hdr-control-line: 201 193 180;
+  --hdr-item: 58 56 51;
+  --hdr-sub: 107 107 102;
+
+  --line: rgb(var(--ink) / 0.1);
+  --border-field: rgb(var(--ink) / 0.5);
+}

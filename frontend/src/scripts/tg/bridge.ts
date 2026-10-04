@@ -1,3 +1,4 @@
+import { PALETTE_HEX } from "../../lib/brand";
 interface TelegramButton {
   show(): void;
   hide(): void;
@@ -31,9 +32,6 @@ declare global {
   }
 }
 
-const BRAND_BG = "#FBF9F5";
-const ACCENT = "#1658DA";
-const BUTTON_TEXT = "#FFFFFF";
 const BACKGROUND_VERSION = "6.1";
 const HEADER_VERSION = "6.9";
 const BOTTOM_BAR_VERSION = "7.10";
@@ -84,7 +82,7 @@ export class Bridge {
     this.mainAction = label ? action : null;
     if (this.app) {
       if (label) {
-        this.app.MainButton.setParams({ text: label, color: ACCENT, text_color: BUTTON_TEXT, is_active: true, is_visible: true });
+        this.app.MainButton.setParams({ text: label, color: PALETTE_HEX.accent, text_color: PALETTE_HEX.surface, is_active: true, is_visible: true });
       } else {
         this.app.MainButton.hide();
       }
@@ -140,13 +138,13 @@ export class Bridge {
     app.ready();
     app.expand();
     if (app.isVersionAtLeast?.(BACKGROUND_VERSION)) {
-      app.setBackgroundColor(BRAND_BG);
+      app.setBackgroundColor(PALETTE_HEX.bg);
     }
     if (app.isVersionAtLeast?.(HEADER_VERSION)) {
-      app.setHeaderColor(BRAND_BG);
+      app.setHeaderColor(PALETTE_HEX.bg);
     }
     if (app.isVersionAtLeast?.(BOTTOM_BAR_VERSION)) {
-      app.setBottomBarColor?.(BRAND_BG);
+      app.setBottomBarColor?.(PALETTE_HEX.bg);
     }
   }
 }

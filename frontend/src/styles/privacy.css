@@ -17,7 +17,7 @@ h2 {
 p,
 li {
   font-size: 1rem;
-  color: var(--ink-soft);
+  color: rgb(var(--ink-soft));
   max-width: 75ch;
 }
 

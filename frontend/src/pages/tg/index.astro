@@ -1,5 +1,7 @@
 ---
+import "../../styles/palette.css";
 import "../../styles/tg.css";
+import { TG_THEME_COLOR } from "../../lib/brand";
 import { embeddedJson, fetchTgCatalog } from "../../lib/tg";
 
 const catalog = await fetchTgCatalog();
@@ -12,7 +14,7 @@ const catalog = await fetchTgCatalog();
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="robots" content="noindex" />
-    <meta name="theme-color" content="#FBF9F5" />
+    <meta name="theme-color" content={TG_THEME_COLOR} />
     <title>Программы Центра ДПО · мини-приложение</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/images/logo/favicon-32.png" />
     <link rel="stylesheet" href="/fonts/fonts-hse.css" />

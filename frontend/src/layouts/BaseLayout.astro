@@ -1,4 +1,7 @@
 ---
+import "../styles/palette.css";
+import { THEME_COLOR } from "../lib/brand";
+
 interface Props {
   title: string;
   description: string;
@@ -21,7 +24,7 @@ const { title, description, bodyClass } = Astro.props;
     <link rel="icon" type="image/png" sizes="16x16" href="/images/logo/favicon-16.png" />
     <link rel="icon" type="image/png" sizes="48x48" href="/images/logo/favicon-48.png" />
     <link rel="apple-touch-icon" href="/images/logo/apple-touch-icon-180.png" />
-    <meta name="theme-color" content="#1658DA" />
+    <meta name="theme-color" content={THEME_COLOR} />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <link rel="stylesheet" href="/fonts/fonts-hse.css" />
     <link rel="stylesheet" href="/fonts/fonts-main.css" />
