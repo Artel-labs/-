@@ -4,11 +4,12 @@ from functools import partial
 
 from django.conf import settings
 from django.db import transaction
+from django.db.models import QuerySet
 from django.utils import timezone
 
 from applications.delivery import queue_mail
 from applications.mail import skip_reason
-from applications.models import Application, MailStatus
+from applications.models import Application, MailStatus, Status
 from applications.parsing import Cleaned
 from catalog.models import Program
 
@@ -52,13 +53,46 @@ def queue_if_ready(application: Application) -> None:
         queue_mail(application.pk)
 
 
-@transaction.atomic
-def resend(applications: list[Application]) -> int:
-    pending = [application.pk for application in applications if application.mail_status != MailStatus.SENT]
-    Application.objects.filter(pk__in=pending).update(mail_status=MailStatus.QUEUED, mail_error="", mail_attempts=0)
-    for application_id in pending:
+@dataclass(frozen=True)
+class Resent:
+    queued: int
+    already_sent: int
+    blocked: dict[str, int]
+
+
+def blocked_by_reason(applications: list[Application]) -> dict[str, list[int]]:
+    blocked: dict[str, list[int]] = {}
+    for application in applications:
+        reason = skip_reason(application.topic)
+        if reason:
+            blocked.setdefault(reason, []).append(application.pk)
+    return blocked
+
+
+def mark_blocked(blocked: dict[str, list[int]]) -> None:
+    for reason, ids in blocked.items():
+        Application.objects.filter(pk__in=ids).update(mail_status=MailStatus.SKIPPED, mail_error=reason)
+
+
+def queue_again(ids: list[int]) -> None:
+    Application.objects.filter(pk__in=ids).update(mail_status=MailStatus.QUEUED, mail_error="", mail_attempts=0)
+    for application_id in ids:
         transaction.on_commit(partial(queue_mail, application_id))
-    return len(pending)
+
+
+@transaction.atomic
+def resend(applications: list[Application]) -> Resent:
+    unsent = [application for application in applications if application.mail_status != MailStatus.SENT]
+    blocked = blocked_by_reason(unsent)
+    held = {application_id for ids in blocked.values() for application_id in ids}
+    ready = [application.pk for application in unsent if application.pk not in held]
+    mark_blocked(blocked)
+    queue_again(ready)
+    return Resent(len(ready), len(applications) - len(unsent), {reason: len(ids) for reason, ids in blocked.items()})
+
+
+def set_status(applications: QuerySet[Application], status: Status) -> int:
+    return applications.update(status=status)
 
 
 @transaction.atomic

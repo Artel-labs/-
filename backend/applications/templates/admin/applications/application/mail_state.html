@@ -1,26 +1,33 @@
-{% load unfold %}
 {% if mail_state %}
-<div class="mb-4" id="mail-state">
-  {% component "unfold/components/card.html" with title="Состояние почты" %}
-    {% if not mail_state.configured %}
-    <p class="mb-4 text-red-600 dark:text-red-400">{{ not_configured }}</p>
-    {% endif %}
-    <dl class="text-sm">
-      {% for row in mail_state.rows %}
-      <div class="flex flex-col lg:flex-row gap-1 lg:gap-4 py-2 border-b border-base-200 dark:border-base-800">
-        <dt class="font-medium lg:w-56 shrink-0">{{ row.title }}</dt>
-        <dd class="break-words">{{ row.value }}</dd>
-      </div>
-      {% endfor %}
-      <div class="flex flex-col lg:flex-row gap-1 lg:gap-4 py-2 border-b border-base-200 dark:border-base-800">
-        <dt class="font-medium lg:w-56 shrink-0">Последнее отправленное письмо</dt>
-        <dd>{% if mail_state.last_sent %}по заявке № {{ mail_state.last_sent.application_id }} от {{ mail_state.last_sent.when }}{% else %}писем ещё не было{% endif %}</dd>
-      </div>
-      <div class="flex flex-col lg:flex-row gap-1 lg:gap-4 py-2">
-        <dt class="font-medium lg:w-56 shrink-0">Последняя ошибка</dt>
-        <dd class="break-words">{% if mail_state.last_problem %}<span class="text-red-600 dark:text-red-400">{{ mail_state.last_problem.text }}</span>&nbsp;— заявка № {{ mail_state.last_problem.application_id }} от {{ mail_state.last_problem.when }}{% else %}ошибок нет{% endif %}</dd>
-      </div>
-    </dl>
-  {% endcomponent %}
-</div>
+<details class="dpo-mail-state{% if not mail_state.ok %} is-warning{% endif %}" id="mail-state">
+    <summary>
+        <span class="material-symbols-outlined" aria-hidden="true">{% if mail_state.ok %}check_circle{% else %}warning{% endif %}</span>
+        <span class="dpo-mail-headline">{{ mail_state.headline }}</span>
+        <span class="dpo-mail-more">Подробнее</span>
+    </summary>
+
+    <div class="dpo-mail-body">
+        {% if not mail_state.configured %}
+            <p class="dpo-mail-alert">{{ not_configured }}</p>
+        {% endif %}
+
+        <dl class="dpo-facts">
+            {% for row in mail_state.rows %}
+                <dt>{{ row.title }}</dt>
+                <dd>{{ row.value }}</dd>
+            {% endfor %}
+            <dt>Последнее отправленное письмо</dt>
+            <dd>{% if mail_state.last_sent %}по заявке № {{ mail_state.last_sent.application_id }} от {{ mail_state.last_sent.when }}{% else %}писем ещё не было{% endif %}</dd>
+            <dt>Последняя ошибка</dt>
+            <dd>{% if mail_state.last_problem %}<span class="dpo-mail-alert">{{ mail_state.last_problem.text }}</span>&nbsp;— заявка № {{ mail_state.last_problem.application_id }} от {{ mail_state.last_problem.when }}{% else %}ошибок нет{% endif %}</dd>
+        </dl>
+
+        <form method="post" action="{% url 'admin:applications_application_check_mail' %}" class="dpo-panel-actions">
+            {% csrf_token %}
+            <button type="submit" class="dpo-button dpo-button-quiet">
+                <span class="material-symbols-outlined" aria-hidden="true">mail</span>&nbsp;Проверить почту
+            </button>
+        </form>
+    </div>
+</details>
 {% endif %}

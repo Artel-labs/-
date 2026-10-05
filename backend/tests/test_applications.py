@@ -243,14 +243,15 @@ def test_admin_resend_requeues_unsent(client, mailing, django_capture_on_commit_
     assert Application.objects.get(pk=sent).mail_status == MailStatus.SENT
 
 
-def test_admin_warns_without_recipients(client):
+def test_admin_warns_without_recipients(client, settings):
+    settings.EMAIL_HOST = "smtp.example.ru"
     client.force_login(make_admin())
     assert "нет активных получателей" in client.get(CHANGELIST).content.decode()
 
 
 def test_admin_check_mail_uses_recipients(client, mailing):
     client.force_login(make_admin())
-    response = client.get(f"{CHANGELIST}check-mail/", follow=True)
+    response = client.post(f"{CHANGELIST}check-mail/", follow=True)
     assert "office@example.ru" in response.content.decode()
     assert mail.outbox[0].to == ["office@example.ru"]
 

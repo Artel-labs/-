@@ -1,0 +1,70 @@
+{% extends "admin/change_form.html" %}
+
+{% block content %}
+    <div id="content-main" class="dpo-application">
+        <section class="dpo-panel dpo-application-head">
+            <p class="dpo-panel-note">Заявка № {{ original.pk }} · {{ original.received_at|date:"j E Y, H:i" }} · {{ original.get_topic_display }}</p>
+            <h2 class="dpo-application-name">{{ original.full_name }}</h2>
+
+            <div class="dpo-contacts">
+                <a class="dpo-contact" href="tel:{{ original.phone }}">
+                    <span class="material-symbols-outlined" aria-hidden="true">call</span>{{ original.phone }}
+                </a>
+                <a class="dpo-contact" href="mailto:{{ original.email }}">
+                    <span class="material-symbols-outlined" aria-hidden="true">mail</span>{{ original.email }}
+                </a>
+            </div>
+
+            {% if original.program_title %}
+                <p class="dpo-application-line">
+                    <span class="dpo-muted">Программа:</span>
+                    {% if card.program_url %}
+                        <a href="{{ card.program_url }}" target="_blank" rel="noopener">{{ original.program_title }}</a>
+                    {% else %}
+                        {{ original.program_title }}
+                    {% endif %}
+                </p>
+            {% endif %}
+
+            {% if original.comment %}
+                <blockquote class="dpo-comment">{{ original.comment|linebreaksbr }}</blockquote>
+            {% endif %}
+        </section>
+
+        <section class="dpo-panel">
+            <h3 class="dpo-panel-title">Статус</h3>
+            <form method="post" action="{{ card.status_url }}" class="dpo-status-switch" data-status-form>
+                {% csrf_token %}
+                {% for value, label in card.statuses %}
+                    <button type="submit" name="status" value="{{ value }}" class="dpo-status-option dpo-status-{{ value }}" aria-pressed="{% if value == original.status %}true{% else %}false{% endif %}"{% if not has_change_permission %} disabled{% endif %}>{{ label }}</button>
+                {% endfor %}
+            </form>
+        </section>
+
+        {% if card.facts %}
+            <details class="dpo-panel dpo-more">
+                <summary>Подробнее</summary>
+                <dl class="dpo-facts">
+                    {% for fact in card.facts %}
+                        <dt>{{ fact.title }}</dt>
+                        <dd>{{ fact.value }}</dd>
+                    {% endfor %}
+                </dl>
+            </details>
+        {% endif %}
+
+        <section class="dpo-panel">
+            <h3 class="dpo-panel-title">Письмо учебному офису</h3>
+            <p class="dpo-mail-line dpo-mail-{{ original.mail_status }}">{{ original.get_mail_status_display }}</p>
+            {% if original.mail_error %}
+                <p class="dpo-panel-lead">{{ original.mail_error }}</p>
+            {% endif %}
+            {% if not card.mail_sent and has_change_permission %}
+                <form method="post" action="{{ card.resend_url }}" class="dpo-panel-actions">
+                    {% csrf_token %}
+                    <button type="submit" class="dpo-button">Отправить ещё раз</button>
+                </form>
+            {% endif %}
+        </section>
+    </div>
+{% endblock %}

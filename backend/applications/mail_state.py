@@ -4,6 +4,7 @@ from django.conf import settings
 from django.utils import timezone
 
 from applications.models import Application, MailStatus
+from applications.recipients import all_recipients
 
 NOT_SET = "не задан"
 NO_ENCRYPTION_SET = "не задано"
@@ -13,6 +14,10 @@ PROBLEM_STATUSES = (MailStatus.FAILED, MailStatus.SKIPPED)
 SSL = "SSL (шифрование сразу)"
 STARTTLS = "STARTTLS"
 PLAIN = "без шифрования"
+NO_SERVER = "Почта не настроена — письма по заявкам не уходят."
+NO_RECIPIENTS = "Письма по заявкам не уходят: нет активных получателей. Добавьте их в «Заявки» → «Получатели писем»."
+LAST_FAILED = "Последнее письмо по заявке не ушло — подробности ниже."
+READY = "Почта настроена."
 
 
 @dataclass(frozen=True)
@@ -34,6 +39,8 @@ class MailState:
     rows: list[Row]
     last_sent: Event | None
     last_problem: Event | None
+    ok: bool
+    headline: str
 
 
 def encryption() -> str:
@@ -73,5 +80,22 @@ def last_problem() -> Event | None:
     return event(application, application.mail_error if application else "")
 
 
+def failed_last(sent: Event | None, problem: Event | None) -> bool:
+    return problem is not None and (sent is None or problem.application_id > sent.application_id)
+
+
+def headline(configured: bool, sent: Event | None, problem: Event | None) -> tuple[bool, str]:
+    if not configured:
+        return False, NO_SERVER
+    if not all_recipients():
+        return False, NO_RECIPIENTS
+    if failed_last(sent, problem):
+        return False, LAST_FAILED
+    return True, READY
+
+
 def mail_state() -> MailState:
-    return MailState(bool(settings.EMAIL_HOST), server_rows(), last_sent(), last_problem())
+    configured = bool(settings.EMAIL_HOST)
+    sent, problem = last_sent(), last_problem()
+    ok, text = headline(configured, sent, problem)
+    return MailState(configured, server_rows(), sent, problem, ok, text)

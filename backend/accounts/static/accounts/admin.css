@@ -557,3 +557,268 @@ html.dark #page #main .shadow-lg.dark\:bg-base-800 {
     flex: 1 1 auto;
   }
 }
+
+.dpo-status-new {
+  --status: var(--hse-blue-2);
+}
+
+.dpo-status-in-progress {
+  --status: 214 140 20;
+}
+
+.dpo-status-done {
+  --status: var(--success);
+}
+
+.dpo-status-rejected {
+  --status: 120 130 150;
+}
+
+#page select.dpo-status-select {
+  min-height: 32px;
+  padding: 0 28px 0 12px;
+  border: 1px solid rgb(var(--status) / 0.45);
+  border-radius: 999px;
+  background-color: rgb(var(--status) / 0.16);
+  background-image: none;
+  color: var(--ink-strong);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  appearance: auto;
+}
+
+#page select.dpo-status-select:disabled {
+  opacity: 0.6;
+}
+
+.dpo-application .dpo-panel {
+  max-width: 880px;
+  margin-bottom: 16px;
+}
+
+.dpo-application-name {
+  margin: 4px 0 14px;
+  color: var(--ink-strong);
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.dpo-contacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.dpo-contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--surface-edge);
+  border-radius: var(--border-radius);
+  background: var(--row-hover);
+  color: var(--ink-strong);
+  word-break: break-all;
+}
+
+.dpo-contact:hover {
+  color: var(--accent-ink);
+}
+
+.dpo-contact .material-symbols-outlined {
+  color: var(--accent-ink);
+  font-size: 18px;
+}
+
+.dpo-application-line {
+  margin: 0 0 12px;
+  color: var(--ink-strong);
+}
+
+.dpo-application-line a {
+  color: var(--accent-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.dpo-muted {
+  color: var(--ink-muted);
+}
+
+.dpo-comment {
+  margin: 0;
+  padding: 12px 14px;
+  border-left: 3px solid var(--accent-ink);
+  border-radius: var(--border-radius);
+  background: var(--row-hover);
+  color: var(--ink-strong);
+}
+
+.dpo-status-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dpo-status-option {
+  flex: 1 1 140px;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid rgb(var(--status) / 0.4);
+  border-radius: var(--border-radius);
+  background: rgb(var(--status) / 0.08);
+  color: var(--ink-strong);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dpo-status-option:hover {
+  background: rgb(var(--status) / 0.18);
+}
+
+.dpo-status-option[aria-pressed="true"] {
+  border-color: transparent;
+  background: rgb(var(--status));
+  color: rgb(var(--white));
+}
+
+.dpo-status-option:disabled {
+  cursor: default;
+}
+
+.dpo-more summary,
+.dpo-mail-state summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.dpo-more summary::-webkit-details-marker,
+.dpo-mail-state summary::-webkit-details-marker {
+  display: none;
+}
+
+.dpo-more summary {
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+.dpo-more[open] summary {
+  margin-bottom: 12px;
+}
+
+.dpo-facts {
+  display: grid;
+  grid-template-columns: minmax(140px, max-content) 1fr;
+  gap: 8px 20px;
+  margin: 0;
+  color: var(--ink-strong);
+}
+
+.dpo-facts dt {
+  color: var(--ink-muted);
+}
+
+.dpo-facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.dpo-mail-line {
+  margin: 0 0 6px;
+  font-weight: 600;
+}
+
+.dpo-mail-sent {
+  color: rgb(var(--success));
+}
+
+.dpo-mail-failed,
+.dpo-mail-skipped,
+.dpo-mail-alert {
+  color: rgb(var(--hse-red));
+}
+
+.dpo-mail-state {
+  margin-bottom: 16px;
+  border: 1px solid var(--surface-edge);
+  border-radius: calc(var(--border-radius) * 1.6);
+  background: var(--surface-glass);
+  box-shadow: var(--surface-shadow);
+  -webkit-backdrop-filter: var(--surface-blur);
+  backdrop-filter: var(--surface-blur);
+  color: var(--ink-strong);
+}
+
+.dpo-mail-state summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+}
+
+.dpo-mail-state summary .material-symbols-outlined {
+  color: rgb(var(--success));
+}
+
+.dpo-mail-state.is-warning summary .material-symbols-outlined {
+  color: rgb(var(--hse-red));
+}
+
+.dpo-mail-headline {
+  flex: 1;
+  font-weight: 600;
+}
+
+.dpo-mail-more {
+  color: var(--accent-ink);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.dpo-mail-body {
+  padding: 4px 16px 16px;
+  border-top: 1px solid var(--surface-edge);
+}
+
+.dpo-mail-body > p {
+  margin: 12px 0;
+}
+
+.dpo-mail-body .dpo-facts {
+  margin-top: 12px;
+}
+
+.dpo-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  z-index: 100;
+  padding: 10px 16px;
+  border: 1px solid var(--surface-edge);
+  border-radius: var(--border-radius);
+  background: var(--surface-pop-glass);
+  box-shadow: var(--surface-shadow);
+  -webkit-backdrop-filter: var(--surface-blur);
+  backdrop-filter: var(--surface-blur);
+  color: var(--ink-strong);
+  font-weight: 600;
+  transform: translateX(-50%);
+}
+
+.dpo-toast.is-error {
+  color: rgb(var(--hse-red));
+}
+
+@media (max-width: 640px) {
+  .dpo-facts {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .dpo-facts dd {
+    margin-bottom: 8px;
+  }
+}
