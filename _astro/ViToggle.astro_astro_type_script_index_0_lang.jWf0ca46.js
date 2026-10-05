@@ -1,0 +1,1 @@
+import{t as e}from"./vi-mode.DpSE7XJq.js";var t=document.getElementById(`viToggle`);t&&e(t);

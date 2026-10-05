@@ -1,0 +1,1 @@
+function e(){document.querySelectorAll(`.email-protect`).forEach(e=>{let t=`${e.dataset.u??``}@${e.dataset.d??``}`;e.href=`mailto:${t}`,e.textContent=t})}export{e as t};
