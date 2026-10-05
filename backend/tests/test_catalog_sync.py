@@ -148,7 +148,7 @@ def test_daily_schedule_is_installed():
 
 def test_admin_button_queues_sync(client):
     client.force_login(make_admin())
-    response = client.get("/admin/catalog/program/sync-from-hse/")
+    response = client.post("/admin/catalog/program/sync/")
     assert response.status_code == 302
     assert OrmQ.objects.count() == 1
 

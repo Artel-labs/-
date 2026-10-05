@@ -3,7 +3,7 @@
 {% block content %}
     <section class="dpo-panel">
         <h2 class="dpo-panel-title">{{ step.title }}</h2>
-        <p class="dpo-panel-lead">Сотрудник: <b>{{ target.get_full_name|default:target.get_username }}</b> ({{ target.get_username }})</p>
+        <p class="dpo-panel-lead">{{ subject.label }}: <b>{{ subject.name }}</b></p>
         <p>{{ step.text }}</p>
         <form method="post" class="dpo-panel-actions">
             {% csrf_token %}

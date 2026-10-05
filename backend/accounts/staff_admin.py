@@ -1,14 +1,13 @@
 from collections.abc import Callable
-from dataclasses import dataclass
 from typing import Any
 
 from axes.utils import reset as reset_lockout
 from django import forms
-from django.contrib import admin, messages
+from django.contrib import admin
 from django.contrib.auth.models import AnonymousUser, Group, User
 from django.core.exceptions import PermissionDenied
 from django.db.models import QuerySet
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 from django.urls import reverse
@@ -22,8 +21,8 @@ from accounts.passwords import new_password
 from accounts.roles import ROLE_HELP, Role, apply_role, role_of
 from accounts.staff_rules import protected_reason
 from accounts.staff_state import has_two_factor, is_locked
+from core.steps import Step, Subject, page_context, run_step
 
-CONFIRM_TEMPLATE = "admin/auth/user/confirm.html"
 ISSUED_TEMPLATE = "admin/auth/user/issued.html"
 CREATED_TITLE = "Сотрудник добавлен"
 RESET_TITLE = "Новый пароль"
@@ -31,15 +30,6 @@ EMPTY = "—"
 
 admin.site.unregister(User)
 admin.site.unregister(Group)
-
-
-@dataclass(frozen=True)
-class Step:
-    title: str
-    text: str
-    button: str
-    danger: bool
-    done: str = ""
 
 
 STEPS = {
@@ -249,14 +239,8 @@ class StaffAdmin(ModelAdmin):
         target = get_object_or_404(User, pk=object_id)
         if not getattr(self, f"has_{name}_permission")(request, object_id):
             raise PermissionDenied
-        step = STEPS[name]
-        if request.method != "POST":
-            return self.confirm_page(request, target, step)
-        result = perform(request, target)
-        if isinstance(result, HttpResponse):
-            return result
-        messages.success(request, step.done)
-        return HttpResponseRedirect(self.card_url(target))
+        subject = Subject("Сотрудник", f"{target.get_full_name() or target.get_username()} ({target.get_username()})")
+        return run_step(self, request, STEPS[name], subject, self.card_url(target), lambda: perform(request, target))
 
     def after_reset(self, request: HttpRequest, target: User) -> HttpResponse:
         return self.password_page(request, target, RESET_TITLE)
@@ -268,25 +252,11 @@ class StaffAdmin(ModelAdmin):
     def card_url(self, target: User) -> str:
         return reverse("admin:auth_user_change", args=[target.pk])
 
-    def page_context(self, request: HttpRequest, target: User, title: str) -> dict[str, Any]:
-        return {
-            **self.admin_site.each_context(request),
-            "opts": self.model._meta,
-            "title": title,
-            "target": target,
-            "back_url": self.card_url(target),
-        }
-
-    def confirm_page(self, request: HttpRequest, target: User, step: Step) -> TemplateResponse:
-        context = {**self.page_context(request, target, step.title), "step": step}
-        return TemplateResponse(request, CONFIRM_TEMPLATE, context)
-
     def password_page(self, request: HttpRequest, target: User, title: str) -> TemplateResponse:
         password = new_password(target)
         target.set_password(password)
         target.save(update_fields=["password"])
-        response = TemplateResponse(
-            request, ISSUED_TEMPLATE, {**self.page_context(request, target, title), "password": password}
-        )
+        context = {**page_context(self, request, title, self.card_url(target)), "target": target, "password": password}
+        response = TemplateResponse(request, ISSUED_TEMPLATE, context)
         add_never_cache_headers(response)
         return response

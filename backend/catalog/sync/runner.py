@@ -18,6 +18,7 @@ from catalog.sync.related import replace_related
 from catalog.typesetting import typeset_program
 
 NETWORK_ERRORS = (HseError, httpx.HTTPError, OSError)
+PROBLEMS_LABEL = "проблем"
 
 
 @dataclass
@@ -36,7 +37,7 @@ class SyncReport:
             f"защищено от обновления: {len(self.locked)}",
             f"скрыто (нет на hse.ru): {len(self.hidden)}",
             f"скачано файлов: {self.downloads}",
-            f"проблем: {len(self.problems)}",
+            f"{PROBLEMS_LABEL}: {len(self.problems)}",
         ]
         details = [f"Скрыты: {', '.join(self.hidden)}"] if self.hidden else []
         details += [f"— {problem}" for problem in self.problems]

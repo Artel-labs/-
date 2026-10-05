@@ -3,6 +3,34 @@ from catalog.hse.listing import ListedProgram
 from catalog.models import Program, Source, Sphere
 from catalog.spheres import match_sphere
 
+SYNCED_FIELDS = (
+    "title",
+    "hse_url",
+    "type_short",
+    "type_title",
+    "study_format",
+    "duration",
+    "start_date",
+    "start_month_only",
+    "price",
+    "base_price",
+    "tagline",
+    "about",
+    "audience_intro",
+    "audience",
+    "results",
+    "hours",
+    "language",
+    "schedule",
+    "tax_refund",
+    "discounts",
+    "admission_documents",
+    "advantages",
+    "notice_date",
+    "notice_text",
+    "notice_url",
+)
+
 
 def lines(items: list[str]) -> str:
     return "\n".join(items)
@@ -29,7 +57,7 @@ def apply_listing(program: Program | None, item: ListedProgram, spheres: dict[st
     program.price = item.price
     program.base_price = item.base_price
     program.source = Source.HSE
-    program.is_published = True
+    program.is_published = not program.hidden_by_hand
     if is_new:
         place_new_program(program, spheres)
     return program

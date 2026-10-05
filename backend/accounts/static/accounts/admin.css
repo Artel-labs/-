@@ -822,3 +822,117 @@ html.dark #page #main .shadow-lg.dark\:bg-base-800 {
     margin-bottom: 8px;
   }
 }
+
+.dpo-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 6px;
+  border: 1px solid var(--surface-edge);
+  border-radius: calc(var(--border-radius) * 1.4);
+  background: var(--surface-glass);
+  -webkit-backdrop-filter: var(--surface-blur);
+  backdrop-filter: var(--surface-blur);
+}
+
+.dpo-tab {
+  flex: 1 1 auto;
+  min-height: 38px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: var(--border-radius);
+  background: transparent;
+  color: var(--ink-muted);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dpo-tab:hover {
+  color: var(--accent-ink);
+}
+
+.dpo-tab.is-active {
+  background: var(--color-primary-600);
+  color: rgb(var(--white));
+}
+
+.dpo-tab-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+#page #main fieldset.module.dpo-service {
+  opacity: 0.8;
+}
+
+.dpo-sync-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border: 1px solid rgb(var(--hse-blue-2) / 0.35);
+  border-radius: calc(var(--border-radius) * 1.4);
+  background: var(--accent-wash);
+  color: var(--ink-strong);
+}
+
+.dpo-sync-banner.is-manual {
+  border-color: rgb(214 140 20 / 0.45);
+  background: rgb(214 140 20 / 0.1);
+}
+
+.dpo-sync-banner p {
+  flex: 1 1 320px;
+  margin: 0;
+}
+
+.dpo-sync-banner .material-symbols-outlined {
+  color: var(--accent-ink);
+}
+
+.dpo-inline {
+  border: 1px solid var(--surface-edge);
+  border-radius: calc(var(--border-radius) * 1.4);
+  background: var(--surface-glass);
+}
+
+.dpo-inline > summary {
+  padding: 14px 16px;
+  color: var(--ink-strong);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dpo-inline[open] > summary {
+  border-bottom: 1px solid var(--surface-edge);
+}
+
+.dpo-inline > :not(summary) {
+  margin: 12px;
+}
+
+.dpo-sync-lines {
+  margin: 12px 0;
+  padding-left: 18px;
+  color: var(--ink-strong);
+  list-style: disc;
+}
+
+.dpo-spin {
+  animation: dpo-spin 1.2s linear infinite;
+}
+
+@keyframes dpo-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dpo-spin {
+    animation: none;
+  }
+}

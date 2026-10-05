@@ -52,6 +52,7 @@ class Program(models.Model):
         "Порядок в каталоге", default=0, help_text="Как в списке на hse.ru; программы, добавленные вручную, идут после"
     )
     is_published = models.BooleanField("Показывать на сайте", default=True)
+    hidden_by_hand = models.BooleanField("Скрыта вручную", default=False, editable=False)
     source = models.CharField("Источник", max_length=10, choices=Source.choices, default=Source.MANUAL)
     locked = models.BooleanField(
         "Не обновлять с hse.ru", default=False, help_text="Ручные правки сохранятся при обновлении каталога"

@@ -1,0 +1,51 @@
+{% extends "admin/change_form.html" %}
+
+{% block form_top %}
+    {% if program and program.source == "hse" %}
+        <div class="dpo-sync-banner{% if not follows_hse %} is-manual{% endif %}">
+            <span class="material-symbols-outlined" aria-hidden="true">{% if follows_hse %}sync{% else %}edit_note{% endif %}</span>
+            {% if follows_hse %}
+                <p>Данные берутся с hse.ru и обновляются каждую ночь, поэтому тексты, условия и списки здесь только для чтения. Всегда можно менять показ на сайте, направление, порядок и обложку.</p>
+                {% if has_change_permission %}
+                    <a class="dpo-button" href="{% url 'admin:catalog_program_manual' program.pk %}">Править вручную</a>
+                {% endif %}
+            {% else %}
+                <p>Программа правится вручную и не обновляется с hse.ru.</p>
+                {% if has_change_permission %}
+                    <a class="dpo-button dpo-button-quiet" href="{% url 'admin:catalog_program_follow' program.pk %}">Вернуть обновление с hse.ru</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <nav class="dpo-tabs" x-data="{ dpoTab: 'main' }" x-on:dpo-tab.window="dpoTab = $event.detail" role="tablist">
+        {% for key, title in tabs %}
+            <button type="button" role="tab" class="dpo-tab" x-bind:class="dpoTab == '{{ key }}' && 'is-active'" x-bind:aria-selected="dpoTab == '{{ key }}'" x-on:click="$dispatch('dpo-tab', '{{ key }}')">{{ title }}</button>
+        {% endfor %}
+    </nav>
+{% endblock %}
+
+{% block field_sets %}
+    {% for key, title in tabs %}
+        {% if key != "content" %}
+        <div class="dpo-tab-panel" data-dpo-tab="{{ key }}" x-data="{ dpoTab: 'main' }" x-on:dpo-tab.window="dpoTab = $event.detail" x-show="dpoTab == '{{ key }}'">
+            {% for fieldset in adminform %}
+                {% if "dpo-tab-"|add:key in fieldset.classes %}
+                    {% include "admin/includes/fieldset.html" %}
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{% block inline_field_sets %}
+    <div class="dpo-tab-panel" data-dpo-tab="content" x-data="{ dpoTab: 'main' }" x-on:dpo-tab.window="dpoTab = $event.detail" x-show="dpoTab == 'content'">
+        {% for inline_admin_formset in inline_admin_formsets %}
+            <details class="dpo-inline">
+                <summary>{{ inline_admin_formset.opts.verbose_name_plural|capfirst }} · {{ inline_admin_formset.formset.initial_form_count }}</summary>
+                {% include inline_admin_formset.opts.template %}
+            </details>
+        {% endfor %}
+    </div>
+{% endblock %}
