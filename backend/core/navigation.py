@@ -52,23 +52,14 @@ SECTIONS = (
         "protection",
         "Защита входа",
         "shield",
-        (
-            Entry("axes.AccessAttempt", "block"),
-            Entry("axes.AccessFailureLog", "error"),
-            Entry("axes.AccessLog", "history"),
-        ),
+        (Entry("protection.Lockout", "lock"), Entry("protection.LoginJournal", "history")),
         open=False,
     ),
     Section(
         "tasks",
         "Фоновые задачи",
         "settings",
-        (
-            Entry("django_q.OrmQ", "pending_actions"),
-            Entry("django_q.Schedule", "schedule"),
-            Entry("django_q.Failure", "report"),
-            Entry("django_q.Success", "task_alt"),
-        ),
+        (Entry("tasks.PlannedTask", "schedule"), Entry("tasks.TaskRecord", "task_alt")),
         open=False,
     ),
 )

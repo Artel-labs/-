@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     "catalog",
     "applications",
     "analytics",
+    "protection",
+    "tasks",
 ]
 
 MIDDLEWARE = [
@@ -162,6 +164,7 @@ AXES_FAILURE_LIMIT = LOGIN_FAILURE_LIMIT
 AXES_COOLOFF_TIME = LOGIN_COOLOFF
 AXES_LOCKOUT_PARAMETERS = [["username", "ip_address"]]
 AXES_RESET_ON_SUCCESS = True
+AXES_ENABLE_ACCESS_FAILURE_LOG = True
 AXES_CLIENT_IP_CALLABLE = "core.client_ip.client_ip"
 AXES_LOCKOUT_TEMPLATE = "accounts/login_locked.html"
 

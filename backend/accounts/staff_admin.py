@@ -1,7 +1,6 @@
 from collections.abc import Callable
 from typing import Any
 
-from axes.utils import reset as reset_lockout
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.models import AnonymousUser, Group, User
@@ -22,6 +21,7 @@ from accounts.roles import ROLE_HELP, Role, apply_role, role_of
 from accounts.staff_rules import protected_reason
 from accounts.staff_state import has_two_factor, is_locked
 from core.steps import Step, Subject, page_context, run_step
+from protection.lockout import unlock
 
 ISSUED_TEMPLATE = "admin/auth/user/issued.html"
 CREATED_TITLE = "Сотрудник добавлен"
@@ -229,9 +229,7 @@ class StaffAdmin(ModelAdmin):
 
     @action(description="Снять блокировку входа", url_path="unlock", icon="lock_open", permissions=["unlock"])
     def unlock(self, request: HttpRequest, object_id: Any) -> HttpResponse:
-        return self.run_step(
-            request, object_id, "unlock", lambda _, target: reset_lockout(username=target.get_username())
-        )
+        return self.run_step(request, object_id, "unlock", lambda _, target: unlock(target.get_username()))
 
     def run_step(
         self, request: HttpRequest, object_id: Any, name: str, perform: Callable[[HttpRequest, User], Any]

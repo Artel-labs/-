@@ -59,7 +59,7 @@ def test_menu_has_collapse_button_and_header_reopen(client):
 
 def test_current_page_opens_its_folded_section(client):
     client.force_login(make_admin())
-    content: bytes = client.get("/admin/django_q/success/").content
+    content: bytes = client.get("/admin/tasks/taskrecord/").content
     tasks = content.decode().split("dpo-nav-tasks")[1].split("</ol>")[0]
     assert 'x-init="navigationOpen = true"' in tasks
-    assert 'href="/admin/django_q/success/"' in tasks.split(" active")[0].rsplit("<a", 1)[1]
+    assert 'href="/admin/tasks/taskrecord/"' in tasks.split(" active")[0].rsplit("<a", 1)[1]

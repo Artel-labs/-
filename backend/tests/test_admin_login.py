@@ -1,4 +1,5 @@
 import pytest
+from axes.models import AccessFailureLog
 from django.conf import settings
 
 from tests.factories import ADMIN_LOGIN, ADMIN_PASSWORD, make_admin
@@ -52,3 +53,9 @@ def test_lock_does_not_block_other_addresses(client):
     make_admin()
     exhaust_attempts(client)
     assert log_in(client, ADMIN_PASSWORD, ip=OFFICE_IP).status_code == 302
+
+
+def test_failed_logins_are_journaled(client):
+    make_admin()
+    log_in(client, "неверный пароль")
+    assert AccessFailureLog.objects.filter(username=ADMIN_LOGIN, locked_out=False).exists()

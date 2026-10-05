@@ -1,0 +1,40 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+    <div class="dpo-journal">
+        <nav class="dpo-filter-row" aria-label="Итог">
+            <a class="dpo-chip{% if not outcome %} is-active{% endif %}" href="?{% if days %}days={{ days }}{% endif %}">Все</a>
+            {% for value, label in outcomes %}
+                <a class="dpo-chip{% if outcome == value %} is-active{% endif %}" href="?outcome={{ value }}{% if days %}&amp;days={{ days }}{% endif %}">{{ label }}</a>
+            {% endfor %}
+        </nav>
+        <nav class="dpo-filter-row" aria-label="Период">
+            <a class="dpo-chip{% if not days %} is-active{% endif %}" href="?{% if outcome %}outcome={{ outcome }}{% endif %}">Всё время</a>
+            {% for value, label in periods.items %}
+                <a class="dpo-chip{% if days == value %} is-active{% endif %}" href="?days={{ value }}{% if outcome %}&amp;outcome={{ outcome }}{% endif %}">{{ label }}</a>
+            {% endfor %}
+        </nav>
+
+        {% if rows %}
+            <table class="dpo-table">
+                <thead>
+                    <tr><th>Когда</th><th>Итог</th><th>Логин</th><th>IP</th><th>Браузер</th></tr>
+                </thead>
+                <tbody>
+                    {% for row in rows %}
+                        <tr>
+                            <td data-label="Когда">{{ row.when|date:"j E Y, H:i" }}</td>
+                            <td data-label="Итог"><span class="dpo-badge dpo-badge-{{ row.outcome.value }}">{{ row.outcome.label }}</span></td>
+                            <td data-label="Логин">{{ row.username|default:"—" }}</td>
+                            <td data-label="IP">{{ row.ip|default:"—" }}</td>
+                            <td data-label="Браузер">{{ row.browser }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <p class="dpo-panel-note">Показаны последние записи, не больше {{ limit }}.</p>
+        {% else %}
+            <p class="dpo-panel">Записей нет.</p>
+        {% endif %}
+    </div>
+{% endblock %}

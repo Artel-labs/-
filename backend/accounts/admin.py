@@ -8,11 +8,10 @@ from unfold.admin import ModelAdmin
 from accounts import two_factor
 from accounts.forms import WRONG_CODE, CodeForm
 from accounts.models import TwoFactor
-from accounts.protection_admin import LoginAttemptAdmin, LoginFailureAdmin, LoginLogAdmin
 from accounts.staff_admin import StaffAdmin
 from accounts.totp import grouped, provisioning_uri
 
-__all__ = ["LoginAttemptAdmin", "LoginFailureAdmin", "LoginLogAdmin", "StaffAdmin", "TwoFactorAdmin"]
+__all__ = ["StaffAdmin", "TwoFactorAdmin"]
 
 SETTINGS_TEMPLATE = "admin/accounts/twofactor/settings.html"
 ENABLED = "Двухфакторный вход включён."

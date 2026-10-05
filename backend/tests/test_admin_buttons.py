@@ -1,9 +1,9 @@
 import re
 
 import pytest
-from axes.models import AccessLog
+from axes.models import AccessAttempt
 from django.utils import timezone
-from django_q.models import Success
+from django_q.models import Task
 
 from catalog.models import Sphere
 from tests.factories import make_admin
@@ -11,8 +11,8 @@ from tests.factories import make_admin
 pytestmark = pytest.mark.django_db
 
 SPHERES_URL = "/admin/catalog/sphere/"
-LOGINS_URL = "/admin/axes/accesslog/"
-SUCCESS_URL = "/admin/django_q/success/"
+LOCKOUTS_URL = "/admin/protection/lockout/"
+TASKS_URL = "/admin/tasks/taskrecord/"
 OK = 200
 FOUND = 302
 FORBIDDEN = 403
@@ -73,19 +73,19 @@ def test_delete_message_has_no_broken_gender(admin_client, sphere):
     assert "был успешно" not in html
 
 
-def test_login_log_is_view_only(admin_client):
-    entry = AccessLog.objects.create(username="someone", ip_address="203.0.113.5", user_agent="test")
-    html = card(admin_client, LOGINS_URL, entry.pk)
+def test_lockout_is_view_only(admin_client):
+    entry = AccessAttempt.objects.create(username="someone", ip_address="203.0.113.5", failures_since_start=2)
+    html = card(admin_client, LOCKOUTS_URL, entry.pk)
     assert 'name="_save"' not in html
     assert TO_LIST in html
-    assert f"{LOGINS_URL}{entry.pk}/delete/" in html
-    assert admin_client.post(f"{LOGINS_URL}{entry.pk}/change/", {}).status_code == FORBIDDEN
+    assert f"{LOCKOUTS_URL}{entry.pk}/delete/" in html
+    assert admin_client.post(f"{LOCKOUTS_URL}{entry.pk}/change/", {}).status_code == FORBIDDEN
 
 
 def test_finished_task_is_view_only(admin_client):
     now = timezone.now()
     fields = {"name": "sync", "func": "catalog.tasks.sync", "started": now, "stopped": now, "success": True}
-    task = Success.objects.create(id="t1", **fields)
-    html = card(admin_client, SUCCESS_URL, task.pk)
+    task = Task.objects.create(id="t1", **fields)
+    html = card(admin_client, TASKS_URL, task.pk)
     assert 'name="_save"' not in html
     assert TO_LIST in html

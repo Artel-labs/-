@@ -2,16 +2,14 @@ import re
 from dataclasses import dataclass
 
 from django.utils import timezone
-from django_q.models import OrmQ, Task
-from django_q.tasks import async_task
+from django_q.models import Task
 
 from catalog.sync.runner import PROBLEMS_LABEL
+from tasks.queue import MANUAL_SUFFIX, first_line, is_queued, last_run, start_once, task_title
 
 SYNC_FUNCTION = "catalog.tasks.sync_catalog"
-MANUAL_SYNC_NAME = "Обновление каталога с hse.ru (вручную)"
+MANUAL_SYNC_NAME = task_title(SYNC_FUNCTION) + MANUAL_SUFFIX
 PROBLEMS = re.compile(rf"{PROBLEMS_LABEL}: (\d+)")
-MAX_REASON_LENGTH = 300
-TRACEBACK_MARK = " : Traceback"
 RUNNING = "Идёт обновление каталога с hse.ru…"
 NEVER = "Каталог ещё не обновлялся с hse.ru."
 LAST = "Последнее обновление с hse.ru: {when} — {outcome}."
@@ -29,11 +27,7 @@ class SyncState:
 
 
 def is_running() -> bool:
-    return any(entry.func() == SYNC_FUNCTION for entry in OrmQ.objects.all())
-
-
-def last_run() -> Task | None:
-    return Task.objects.filter(func=SYNC_FUNCTION).order_by("-stopped").first()
+    return is_queued(SYNC_FUNCTION)
 
 
 def problem_count(summary: str) -> int:
@@ -47,8 +41,8 @@ def summary_lines(summary: str) -> list[str]:
 
 
 def failure_reason(result: object) -> str:
-    first = (str(result or "").strip().splitlines() or [""])[0].split(TRACEBACK_MARK)[0].strip()
-    return f"Причина: {first[:MAX_REASON_LENGTH]}" if first else ""
+    line = first_line(result)
+    return f"Причина: {line}" if line else ""
 
 
 def when(task: Task) -> str:
@@ -68,12 +62,9 @@ def finished_state(task: Task) -> SyncState:
 def sync_state() -> SyncState:
     if is_running():
         return SyncState(True, True, RUNNING, [])
-    task = last_run()
+    task = last_run(SYNC_FUNCTION)
     return finished_state(task) if task else SyncState(False, True, NEVER, [])
 
 
 def start_sync() -> bool:
-    if is_running():
-        return False
-    async_task(SYNC_FUNCTION, task_name=MANUAL_SYNC_NAME)
-    return True
+    return start_once(SYNC_FUNCTION, MANUAL_SYNC_NAME)
