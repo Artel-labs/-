@@ -75,9 +75,9 @@ html.dark #page #main .dark\:bg-base-800 {
   backdrop-filter: var(--surface-blur);
 }
 
-#page #main .bg-white,
+#page #main .bg-white:not(input),
 #page #main .lg\:bg-white,
-html.dark #page #main .dark\:bg-base-900,
+html.dark #page #main .dark\:bg-base-900:not(input),
 html.dark #page #main .lg\:dark\:bg-base-900 {
   background-color: var(--surface-dense);
 }
