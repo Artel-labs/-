@@ -112,7 +112,7 @@ def test_journal_filters_by_outcome(admin_client):
 def test_schedule_is_readable(admin_client):
     html = page(admin_client, SCHEDULE)
     assert "Обновление каталога с hse.ru" in html
-    assert "каждый день в 04:00" in html
+    assert "два раза в день: в 00:00 и 12:00" in html
     assert "Запустить сейчас" in html
     assert "catalog.tasks.sync_catalog" not in html
     assert f"{SCHEDULE}add/" not in html

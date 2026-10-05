@@ -1,5 +1,5 @@
 {% if sync %}
-<details class="dpo-mail-state{% if not sync.ok %} is-warning{% endif %}" id="sync-state"{% if sync.running %} data-sync-running="{% url 'admin:catalog_program_sync_status' %}"{% endif %}>
+<details class="dpo-mail-state{% if not sync.ok %} is-warning{% endif %}" id="sync-state"{% if sync.running %} data-sync-running="{{ sync_status_url }}"{% endif %}>
     <summary>
         <span class="material-symbols-outlined{% if sync.running %} dpo-spin{% endif %}" aria-hidden="true">{% if sync.running %}sync{% elif sync.ok %}check_circle{% else %}warning{% endif %}</span>
         <span class="dpo-mail-headline">{{ sync.headline }}</span>
@@ -15,13 +15,13 @@
             </ul>
         {% endif %}
 
-        <p class="dpo-panel-note">Каталог обновляется с hse.ru автоматически каждую ночь. Программы, которые правятся вручную, не обновляются.</p>
+        <p class="dpo-panel-note">Каталог вместе с преподавателями обновляется с hse.ru автоматически два раза в сутки — в 00:00 и 12:00. Программы, которые правятся вручную, не обновляются.</p>
 
         {% if not sync.running %}
-            <form method="post" action="{% url 'admin:catalog_program_sync' %}" class="dpo-panel-actions">
+            <form method="post" action="{{ sync_url }}" class="dpo-panel-actions">
                 {% csrf_token %}
                 <button type="submit" class="dpo-button">
-                    <span class="material-symbols-outlined" aria-hidden="true">sync</span>&nbsp;Обновить сейчас
+                    <span class="material-symbols-outlined" aria-hidden="true">sync</span>&nbsp;{{ sync_button }}
                 </button>
             </form>
         {% endif %}

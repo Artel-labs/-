@@ -2,6 +2,7 @@ import time
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from functools import partial
+from typing import Protocol
 
 import httpx
 from django.conf import settings
@@ -56,20 +57,29 @@ def store_program(
     return saved, teachers, documents
 
 
-def attempt(report: SyncReport, label: str, download: Callable[[], bool]) -> None:
+class Downloads(Protocol):
+    downloads: int
+    problems: list[str]
+
+
+def attempt(report: Downloads, label: str, download: Callable[[], bool]) -> None:
     try:
         report.downloads += int(download())
     except NETWORK_ERRORS as error:
         report.problems.append(f"{label}: {error}")
 
 
-def download_media(client: HseClient, report: SyncReport, program: Program, details: ProgramDetails) -> None:
-    attempt(report, f"обложка «{program.title}»", partial(ensure_cover, client, program, details.image_url))
+def download_teacher_photos(client: HseClient, report: Downloads, program: Program, details: ProgramDetails) -> None:
     photos = {item.name: item.photo_url for item in details.teachers}
     for link in program.program_teachers.select_related("teacher"):
         teacher = link.teacher
         url = photos.get(teacher.name, "")
         attempt(report, f"фото {teacher.name}", partial(ensure_teacher_photo, client, teacher, url))
+
+
+def download_media(client: HseClient, report: SyncReport, program: Program, details: ProgramDetails) -> None:
+    attempt(report, f"обложка «{program.title}»", partial(ensure_cover, client, program, details.image_url))
+    download_teacher_photos(client, report, program, details)
     for document in program.files.all():
         attempt(report, f"{document.title} «{program.title}»", partial(refresh_document, client, document))
 

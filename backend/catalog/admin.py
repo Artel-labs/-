@@ -1,11 +1,11 @@
 from typing import Any
 
-from django.contrib import admin, messages
+from django.contrib import admin
 from django.contrib.admin.options import InlineModelAdmin
 from django.contrib.admin.utils import unquote
 from django.core.exceptions import PermissionDenied
 from django.db.models import QuerySet
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.urls import URLPattern, path, reverse
 from unfold.admin import ModelAdmin, StackedInline, TabularInline
@@ -15,13 +15,11 @@ from catalog.formatting import format_price, unbreakable
 from catalog.models import FaqItem, Module, Program, ProgramFile, ProgramTeacher, Review, Source, Sphere, Teacher
 from catalog.publishing import follows_hse, remember_visibility, set_manual
 from catalog.sync.fields import SYNCED_FIELDS
-from catalog.sync.state import is_running, start_sync, sync_state
+from catalog.sync.state import CATALOG, TEACHERS
+from catalog.sync_admin import SyncLine
 from core.steps import Step, Subject, run_step
 
 PROGRAM_CARD = "admin/catalog/program/change_form.html"
-SYNC_LINE = "admin/catalog/program/sync_state.html"
-SYNC_STARTED = "Обновление с hse.ru запущено. Итог появится в строке над списком, страница обновится сама."
-SYNC_BUSY = "Обновление с hse.ru уже идёт — дождитесь итога."
 SERVICE_FIELDS = ["hse_id", "source", "catalog_position", "created_at", "updated_at"]
 STEPS = {
     "manual": Step(
@@ -86,7 +84,9 @@ class ReviewInline(FollowsHseInline, TabularInline):
 
 
 @admin.register(Program)
-class ProgramAdmin(ModelAdmin):
+class ProgramAdmin(SyncLine, ModelAdmin):
+    sync_kind = CATALOG
+    sync_button = "Обновить программы"
     list_display = [
         "title",
         "sphere",
@@ -102,7 +102,6 @@ class ProgramAdmin(ModelAdmin):
     list_select_related = ["sphere"]
     inlines = [ModuleInline, ProgramTeacherInline, ProgramFileInline, FaqInline, ReviewInline]
     change_form_template = PROGRAM_CARD
-    list_before_template = SYNC_LINE
     fieldsets = [
         ("Главное", {"classes": ["dpo-tab-main"], "fields": ["title", "sphere", "position", "is_published", "image"]}),
         ("Служебное", {"classes": ["dpo-tab-main", "dpo-service"], "fields": ["hse_url", *SERVICE_FIELDS]}),
@@ -153,8 +152,7 @@ class ProgramAdmin(ModelAdmin):
     def get_urls(self) -> list[URLPattern]:
         view = self.admin_site.admin_view
         own = [
-            path("sync/", view(self.sync_view), name="catalog_program_sync"),
-            path("sync/status/", view(self.sync_status_view), name="catalog_program_sync_status"),
+            *self.sync_patterns(),
             path("<path:object_id>/manual/", view(self.manual_view), name="catalog_program_manual"),
             path("<path:object_id>/follow-hse/", view(self.follow_view), name="catalog_program_follow"),
         ]
@@ -168,28 +166,9 @@ class ProgramAdmin(ModelAdmin):
         context = {"tabs": TABS, "program": program, "follows_hse": follows_hse(program)}
         return super().changeform_view(request, object_id, form_url, {**(extra_context or {}), **context})
 
-    def changelist_view(self, request: HttpRequest, extra_context: dict[str, Any] | None = None) -> HttpResponse:
-        context = {**(extra_context or {}), "sync": sync_state()}
-        response: HttpResponse = super().changelist_view(request, context)
-        return response
-
     def save_model(self, request: HttpRequest, obj: Program, form: Any, change: bool) -> None:
         remember_visibility(obj, "is_published" in form.changed_data)
         super().save_model(request, obj, form, change)
-
-    def sync_view(self, request: HttpRequest) -> HttpResponseRedirect:
-        if request.method != "POST" or not self.has_change_permission(request):
-            raise PermissionDenied
-        if start_sync():
-            messages.success(request, SYNC_STARTED)
-        else:
-            messages.warning(request, SYNC_BUSY)
-        return HttpResponseRedirect(reverse("admin:catalog_program_changelist"))
-
-    def sync_status_view(self, request: HttpRequest) -> JsonResponse:
-        if not self.has_view_or_change_permission(request):
-            raise PermissionDenied
-        return JsonResponse({"running": is_running()})
 
     def toggle(self, request: HttpRequest, object_id: str, name: str, manual: bool) -> HttpResponse:
         program = get_object_or_404(Program, pk=unquote(object_id))
@@ -228,9 +207,18 @@ class SphereAdmin(ModelAdmin):
 
 
 @admin.register(Teacher)
-class TeacherAdmin(ModelAdmin):
+class TeacherAdmin(SyncLine, ModelAdmin):
+    sync_kind = TEACHERS
+    sync_button = "Обновить преподавателей"
     list_display = ["name", "page_url", "has_photo"]
     search_fields = ["name"]
+
+    class Media:
+        js = ("catalog/program.js",)
+
+    def get_urls(self) -> list[URLPattern]:
+        inherited: list[URLPattern] = super().get_urls()
+        return self.sync_patterns() + inherited
 
     @display(description="Фото", boolean=True)
     def has_photo(self, teacher: Teacher) -> bool:

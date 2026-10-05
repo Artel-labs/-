@@ -1,9 +1,11 @@
 import re
 from io import BytesIO
+from zoneinfo import ZoneInfo
 
 import pytest
 import respx
 from django.core.files.base import ContentFile
+from django.utils import timezone
 from django_q.models import OrmQ, Schedule
 from httpx import Response
 from PIL import Image
@@ -13,6 +15,7 @@ from catalog.hse.listing import page_url
 from catalog.models import FileKind, Program, ProgramFile, Source, Teacher
 from catalog.sync.media import TEACHER_PHOTO_WIDTH
 from catalog.sync.runner import run_sync
+from catalog.sync.teachers import run_teacher_sync
 from catalog.typography import typeset
 from tests.factories import make_admin
 from tests.hse_helpers import FIXTURES, fixture
@@ -20,6 +23,9 @@ from tests.hse_helpers import FIXTURES, fixture
 pytestmark = pytest.mark.django_db
 
 LISTED = 24
+HALF_DAY_MINUTES = 12 * 60
+MOSCOW = ZoneInfo("Europe/Moscow")
+ENGLISH_ID = "856421092"
 PROGRAM_PAGE = re.compile(r"https://www\.hse\.ru/edu/dpo/(\d+)$")
 PDF = b"%PDF-1.4\n%test\n"
 BROKEN_PROGRAM = "906651510"
@@ -140,10 +146,13 @@ def test_summary_lists_counts(hse, sync_settings):
     assert "проблем: 1" in summary
 
 
-def test_daily_schedule_is_installed():
+def test_sync_runs_twice_a_day_at_midnight_and_noon():
     schedule = Schedule.objects.get(name="Обновление каталога с hse.ru")
     assert schedule.func == "catalog.tasks.sync_catalog"
-    assert schedule.schedule_type == Schedule.DAILY
+    assert schedule.schedule_type == Schedule.MINUTES
+    assert schedule.minutes == HALF_DAY_MINUTES
+    moment = timezone.localtime(schedule.next_run, MOSCOW)
+    assert (moment.hour, moment.minute) in {(0, 0), (12, 0)}
 
 
 def test_admin_button_queues_sync(client):
@@ -160,3 +169,58 @@ def test_synced_texts_are_typeset(hse, sync_settings):
     assert typeset(english.about) == english.about
     assert all(typeset(module.title) == module.title for module in english.modules.all())
     assert all(typeset(item.answer) == item.answer for item in english.faq.all())
+
+
+def sync_teachers():
+    with HseClient() as client:
+        return run_teacher_sync(client, pause=lambda _: None)
+
+
+def followed(hse_id: str, **fields) -> Program:
+    return program(hse_id, hse_url=f"https://www.hse.ru/edu/dpo/{hse_id}", **fields)
+
+
+def test_teacher_sync_refreshes_only_teachers(hse, sync_settings):
+    english = followed(ENGLISH_ID, about="Своё описание")
+    report = sync_teachers()
+    english.refresh_from_db()
+    assert english.about == "Своё описание"
+    assert english.program_teachers.count() == report.teachers > 0
+    assert report.programs == 1
+    assert all(link.teacher.photo for link in english.program_teachers.select_related("teacher"))
+    assert report.summary().startswith("Программ: 1; преподавателей:")
+
+
+def test_teacher_sync_skips_programs_edited_by_hand(hse, sync_settings):
+    english = followed(ENGLISH_ID, locked=True)
+    report = sync_teachers()
+    assert report.programs == 0
+    assert english.program_teachers.count() == 0
+
+
+def test_teacher_sync_reports_broken_page(hse, sync_settings):
+    followed(BROKEN_PROGRAM)
+    report = sync_teachers()
+    assert any("500" in problem for problem in report.problems)
+
+
+def test_teacher_button_queues_teacher_sync(client):
+    client.force_login(make_admin())
+    response = client.post("/admin/catalog/teacher/sync/")
+    assert response.status_code == 302
+    assert [entry.func() for entry in OrmQ.objects.all()] == ["catalog.tasks.sync_teachers"]
+
+
+def test_teacher_and_catalog_sync_never_run_together(client):
+    client.force_login(make_admin())
+    client.post("/admin/catalog/program/sync/")
+    response = client.post("/admin/catalog/teacher/sync/", follow=True)
+    assert OrmQ.objects.count() == 1
+    assert "уже идёт" in response.content.decode()
+
+
+def test_teacher_list_has_sync_line(client):
+    client.force_login(make_admin())
+    html = client.get("/admin/catalog/teacher/").content.decode()
+    assert "Обновить преподавателей" in html
+    assert "Преподаватели ещё не обновлялись отдельно" in html
