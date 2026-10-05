@@ -1,0 +1,14 @@
+{% extends "accounts/glass.html" %}
+{% load login_page %}
+
+{% block title %}Вход заблокирован | Центр ДПО{% endblock %}
+
+{% block card_class %} is-shaking{% endblock %}
+
+{% block heading %}Вход заблокирован{% endblock %}
+
+{% block lead %}{% locked_message %}{% endblock %}
+
+{% block body %}
+    <a class="glass-button glass-button-quiet" href="{% url 'admin:login' %}">Вернуться ко входу</a>
+{% endblock %}

@@ -7,7 +7,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.signals import user_login_failed
 from django.contrib.auth.views import LoginView
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.http.response import HttpResponseBase
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -16,8 +16,22 @@ from django.views.generic import FormView
 from accounts import two_factor
 from accounts.forms import WRONG_CODE, LoginCodeForm
 from accounts.pending_login import PendingLogin, forget, pending, pending_user, remember
+from accounts.totp import DIGITS
 
 CODE_TEMPLATE = "accounts/login_code.html"
+SCRIPT_HEADER = "X-Requested-With"
+SCRIPT_REQUEST = "XMLHttpRequest"
+REJECTED = 400
+
+
+def from_script(request: HttpRequest) -> bool:
+    return request.headers.get(SCRIPT_HEADER) == SCRIPT_REQUEST
+
+
+def go_to(request: HttpRequest, address: str) -> HttpResponse:
+    if from_script(request):
+        return JsonResponse({"redirect": address})
+    return HttpResponseRedirect(address)
 
 
 class PasswordStepView(LoginView):
@@ -45,7 +59,7 @@ class CodeStepView(FormView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-        return {**super().get_context_data(**kwargs), "login_name": self.user.get_username()}
+        return {**super().get_context_data(**kwargs), "login_name": self.user.get_username(), "code_digits": DIGITS}
 
     def form_valid(self, form: LoginCodeForm) -> HttpResponse:
         credentials = {"username": self.user.get_username()}
@@ -56,10 +70,15 @@ class CodeStepView(FormView):
         if self.accepts(form.cleaned_data["code"]):
             forget(self.request)
             auth_login(self.request, self.user, backend=self.login.backend)
-            return HttpResponseRedirect(self.login.redirect_to)
+            return go_to(self.request, self.login.redirect_to)
         user_login_failed.send(sender=__name__, credentials=credentials, request=self.request)
         form.add_error("code", WRONG_CODE)
         return self.form_invalid(form)
+
+    def form_invalid(self, form: LoginCodeForm) -> HttpResponse:
+        if from_script(self.request):
+            return JsonResponse({"error": form.errors["code"][0]}, status=REJECTED)
+        return super().form_invalid(form)
 
     def accepts(self, code: str) -> bool:
         device = two_factor.device_of(self.user)

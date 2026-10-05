@@ -1,0 +1,32 @@
+{% load static %}<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <meta name="robots" content="noindex">
+    <title>{% block title %}{{ title }} | {{ site_title }}{% endblock %}</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'core/favicon-32.png' %}">
+    <link rel="stylesheet" href="{% static 'unfold/fonts/inter/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'accounts/login.css' %}">
+    <script src="{% static 'accounts/login.js' %}" defer></script>
+</head>
+<body class="glass-page">
+    <main class="glass-stage">
+        <section class="glass-card{% block card_class %}{% endblock %}" aria-labelledby="glass-title">
+            <header class="glass-lockup">
+                <img class="glass-mark" src="{% static 'accounts/hse-mark.svg' %}" width="44" height="44" alt="НИУ ВШЭ">
+                <span class="glass-caption"><span>Центр ДПО</span><span>факультета права</span></span>
+            </header>
+            <h1 class="glass-title" id="glass-title">{% block heading %}{% endblock %}</h1>
+            <p class="glass-lead" id="glass-lead">{% block lead %}{% endblock %}</p>
+            {% if messages %}
+                <ul class="glass-notes">
+                    {% for message in messages %}<li class="glass-note">{{ message }}</li>{% endfor %}
+                </ul>
+            {% endif %}
+            {% block body %}{% endblock %}
+        </section>
+    </main>
+</body>
+</html>

@@ -12,9 +12,12 @@ from unfold.sites import UnfoldAdminSite
 from accounts.login_views import CodeStepView, PasswordStepView
 
 CODE_TITLE = "Подтверждение входа"
+LOGIN_TEMPLATE = "accounts/login.html"
 
 
 class DpoAdminSite(UnfoldAdminSite):
+    login_template = LOGIN_TEMPLATE
+
     def extra_urls(self) -> list[URLPattern]:
         return [path("login/code/", self.login_code, name="login_code")]
 

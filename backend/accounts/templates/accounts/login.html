@@ -1,0 +1,41 @@
+{% extends "accounts/glass.html" %}
+{% load i18n %}
+
+{% block card_class %}{% if form.errors %} is-shaking{% endif %}{% endblock %}
+
+{% block heading %}Вход в админку{% endblock %}
+
+{% block lead %}Введите логин и пароль сотрудника.{% endblock %}
+
+{% block body %}
+    {% if form.errors %}
+        <div class="glass-error" role="alert">
+            {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
+            {% if form.username.errors or form.password.errors %}<p>Заполните логин и пароль.</p>{% endif %}
+        </div>
+    {% endif %}
+    {% if user.is_authenticated %}
+        <div class="glass-error" role="alert">
+            <p>Вы вошли как {{ username }}, но у этой учётной записи нет доступа к админке. Войдите под другим логином.</p>
+        </div>
+    {% endif %}
+
+    <form class="glass-form" action="{{ app_path }}" method="post" id="login-form">
+        {% csrf_token %}
+        <label class="glass-field">
+            <span class="glass-label">{{ form.username.label }}</span>
+            <input class="glass-input" type="text" name="{{ form.username.html_name }}" value="{{ form.username.value|default:'' }}" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="{{ form.username.field.max_length }}" required autofocus>
+        </label>
+        <label class="glass-field">
+            <span class="glass-label">{{ form.password.label }}</span>
+            <span class="glass-secret">
+                <input class="glass-input" type="password" name="{{ form.password.html_name }}" autocomplete="current-password" required data-secret>
+                <button class="glass-eye" type="button" aria-label="Показать пароль" aria-pressed="false" data-secret-toggle hidden>
+                    <svg class="glass-eye-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <svg class="glass-eye-shut" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.2M6.6 6.6C3.8 8.4 2 12 2 12s3.6 7 10 7a9.7 9.7 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>
+                </button>
+            </span>
+        </label>
+        <button class="glass-button" type="submit">{% translate "Log in" %}</button>
+    </form>
+{% endblock %}

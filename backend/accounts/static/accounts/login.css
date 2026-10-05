@@ -1,0 +1,516 @@
+:root {
+  --night: 6 23 57;
+  --hse-blue: 15 45 105;
+  --hse-blue-2: 35 75 155;
+  --hse-blue-3: 125 160 210;
+  --hse-red: 230 30 60;
+  --success: 63 185 80;
+  --white: 255 255 255;
+
+  --text: rgb(var(--white));
+  --text-soft: rgb(var(--white) / 0.72);
+  --glass: rgb(var(--white) / 0.08);
+  --glass-edge: rgb(var(--white) / 0.16);
+  --field: rgb(var(--white) / 0.06);
+  --field-edge: rgb(var(--white) / 0.18);
+  --focus: rgb(var(--hse-blue-3));
+  --focus-glow: rgb(var(--hse-blue-3) / 0.35);
+  --button: rgb(var(--hse-blue-2));
+  --button-hover: rgb(var(--hse-blue-2) / 0.82);
+  --error: rgb(var(--hse-red));
+  --error-soft: rgb(var(--hse-red) / 0.16);
+  --ok: rgb(var(--success));
+
+  --radius-card: 24px;
+  --radius-field: 12px;
+  --card-width: 420px;
+  --card-pad: 36px;
+  --gutter: 16px;
+  --cell-gap: 10px;
+  --cell-height: 58px;
+  --stack-step: 7px;
+  --stack-turn: 4deg;
+  --pattern-size: 540px;
+  --blur: 22px;
+
+  --quick: 160ms;
+  --move: 420ms;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+}
+
+body.glass-page {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text);
+  background-color: rgb(var(--night));
+  background-image:
+    radial-gradient(55% 45% at 50% 45%, rgb(var(--hse-blue-3) / 0.16), transparent 70%),
+    radial-gradient(120% 90% at 50% 50%, rgb(var(--night) / 0.55), rgb(0 0 0 / 0.75)),
+    linear-gradient(180deg, rgb(var(--night) / 0.7), rgb(var(--night) / 0.88)),
+    url("pattern-cover.svg");
+  background-size: auto, auto, auto, var(--pattern-size) auto;
+  background-position: center;
+  background-repeat: no-repeat, no-repeat, no-repeat, repeat;
+  background-attachment: fixed;
+}
+
+.glass-stage {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 40px var(--gutter);
+}
+
+.glass-card {
+  position: relative;
+  width: min(var(--card-width), 100%);
+  padding: var(--card-pad);
+  border: 1px solid var(--glass-edge);
+  border-radius: var(--radius-card);
+  background: linear-gradient(180deg, rgb(var(--white) / 0.12), var(--glass));
+  box-shadow:
+    0 30px 80px rgb(0 0 0 / 0.45),
+    inset 0 1px 0 rgb(var(--white) / 0.14);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(140%);
+  backdrop-filter: blur(var(--blur)) saturate(140%);
+  text-align: center;
+  transition:
+    background var(--move) var(--ease),
+    border-color var(--move) var(--ease);
+}
+
+.glass-card.is-shaking {
+  animation: glass-shake 420ms var(--ease) 1;
+}
+
+.glass-card.is-success {
+  border-color: rgb(var(--success) / 0.45);
+  background: linear-gradient(180deg, rgb(var(--success) / 0.24), rgb(var(--success) / 0.07));
+}
+
+.glass-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 26px;
+  text-align: left;
+}
+
+.glass-mark {
+  display: block;
+  flex: none;
+  width: 44px;
+  height: 44px;
+}
+
+.glass-caption {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  line-height: 1.1;
+  color: var(--text-soft);
+  white-space: nowrap;
+}
+
+.glass-title {
+  margin: 0 0 8px;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.glass-lead {
+  margin: 0 0 26px;
+  color: var(--text-soft);
+}
+
+.glass-lead b {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.glass-notes {
+  margin: 0 0 18px;
+  padding: 0;
+  list-style: none;
+}
+
+.glass-note {
+  padding: 10px 14px;
+  border-radius: var(--radius-field);
+  background: var(--field);
+  color: var(--text-soft);
+}
+
+.glass-error {
+  margin: 0 0 18px;
+  padding: 10px 14px;
+  border: 1px solid rgb(var(--hse-red) / 0.45);
+  border-radius: var(--radius-field);
+  background: var(--error-soft);
+  text-align: left;
+}
+
+.glass-error[hidden] {
+  display: none;
+}
+
+.glass-error p {
+  margin: 0;
+}
+
+.glass-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: left;
+}
+
+.glass-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.glass-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-soft);
+}
+
+.glass-hidden-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.glass-input {
+  width: 100%;
+  height: 48px;
+  padding: 0 14px;
+  border: 1px solid var(--field-edge);
+  border-radius: var(--radius-field);
+  background: var(--field);
+  color: var(--text);
+  font: inherit;
+  font-size: 16px;
+  outline: none;
+  transition:
+    border-color var(--quick) ease,
+    box-shadow var(--quick) ease;
+}
+
+.glass-input:focus {
+  border-color: var(--focus);
+  box-shadow: 0 0 0 3px var(--focus-glow);
+}
+
+.glass-input:-webkit-autofill {
+  -webkit-text-fill-color: var(--text);
+  box-shadow: 0 0 0 100px rgb(var(--hse-blue)) inset;
+}
+
+.glass-secret {
+  position: relative;
+  display: block;
+}
+
+.glass-secret .glass-input {
+  padding-right: 52px;
+}
+
+.glass-eye {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-soft);
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.glass-eye[hidden] {
+  display: none;
+}
+
+.glass-eye:hover,
+.glass-eye:focus-visible {
+  color: var(--text);
+  background: var(--field);
+  outline: none;
+}
+
+.glass-eye svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.glass-eye-shut,
+.glass-eye[aria-pressed="true"] .glass-eye-open {
+  display: none;
+}
+
+.glass-eye[aria-pressed="true"] .glass-eye-shut {
+  display: block;
+}
+
+.glass-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  margin-top: 6px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: var(--radius-field);
+  background: var(--button);
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--quick) ease;
+}
+
+.glass-button:hover {
+  background: var(--button-hover);
+}
+
+.glass-button:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.glass-button-quiet {
+  margin-top: 0;
+  border: 1px solid var(--field-edge);
+  background: var(--field);
+  color: var(--text-soft);
+  font-weight: 500;
+}
+
+.glass-button-quiet:hover {
+  background: rgb(var(--white) / 0.12);
+  color: var(--text);
+}
+
+.glass-code {
+  position: relative;
+  display: block;
+}
+
+.glass-done {
+  display: none;
+}
+
+.glass-code.is-enhanced {
+  display: grid;
+  grid-template-columns: repeat(var(--digits), 1fr);
+  gap: var(--cell-gap);
+  margin: 4px 0 8px;
+}
+
+.glass-code.is-enhanced .glass-code-input {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.glass-cell {
+  --shift: calc((var(--middle) - var(--i)) * (100% + var(--cell-gap)));
+  --fan: calc((var(--i) - var(--middle)) * var(--stack-step));
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: var(--cell-height);
+  border: 1px solid var(--field-edge);
+  border-radius: var(--radius-field);
+  background: rgb(var(--night) / 0.55);
+  font-size: 24px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  transition:
+    transform var(--move) var(--ease),
+    border-color var(--quick) ease,
+    box-shadow var(--quick) ease,
+    color var(--quick) ease,
+    opacity var(--move) ease;
+}
+
+.glass-code.has-focus:not(.is-error) .glass-cell.is-active {
+  border-color: var(--focus);
+  box-shadow: 0 0 0 3px var(--focus-glow);
+}
+
+.glass-code.has-focus:not(.is-error) .glass-cell.is-active:empty::after {
+  content: "";
+  width: 2px;
+  height: 26px;
+  background: var(--text);
+  animation: glass-caret 1s steps(1) infinite;
+}
+
+.glass-code.is-checking .glass-cell,
+.glass-code.is-success .glass-cell {
+  color: transparent;
+  border-color: var(--focus);
+  transform: translateX(calc(var(--shift) + var(--fan))) rotate(calc((var(--i) - var(--middle)) * var(--stack-turn)));
+}
+
+.glass-code.is-checking .glass-cell {
+  animation: glass-pulse 900ms ease-in-out infinite;
+}
+
+.glass-code.is-success .glass-cell {
+  opacity: 0;
+  transform: translateX(var(--shift)) scale(0.6);
+}
+
+.glass-code.is-enhanced .glass-done {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: var(--cell-height);
+  height: var(--cell-height);
+  border: 2px solid var(--ok);
+  border-radius: var(--radius-field);
+  background: rgb(var(--success) / 0.18);
+  box-shadow: 0 0 24px rgb(var(--success) / 0.45);
+  opacity: 0;
+  transform: translateX(-50%) scale(0.4);
+  transition:
+    opacity var(--move) var(--ease),
+    transform var(--move) var(--ease);
+  pointer-events: none;
+}
+
+.glass-done svg {
+  width: 28px;
+  height: 28px;
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  transition: stroke-dashoffset var(--move) var(--ease) 180ms;
+}
+
+.glass-code.is-success .glass-done {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+.glass-code.is-success .glass-done svg {
+  stroke-dashoffset: 0;
+}
+
+.glass-code.is-error .glass-cell {
+  border-color: var(--error);
+  box-shadow: 0 0 0 3px var(--error-soft);
+  color: var(--error);
+}
+
+.glass-code.is-error {
+  animation: glass-shake 420ms var(--ease) 1;
+}
+
+.glass-code.is-locked .glass-cell {
+  opacity: 0.4;
+}
+
+.glass-form.is-enhanced [data-code-submit] {
+  display: none;
+}
+
+@keyframes glass-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-8px);
+  }
+  40%,
+  80% {
+    transform: translateX(8px);
+  }
+}
+
+@keyframes glass-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes glass-pulse {
+  50% {
+    box-shadow: 0 0 0 4px var(--focus-glow);
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --card-pad: 24px;
+    --cell-gap: 8px;
+    --cell-height: 52px;
+  }
+
+  .glass-title {
+    font-size: 21px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .glass-code.is-checking .glass-cell {
+    transform: none;
+    color: transparent;
+  }
+}

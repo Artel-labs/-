@@ -1,30 +1,30 @@
-{% extends "unfold/layouts/unauthenticated.html" %}
-{% load i18n unfold %}
+{% extends "accounts/glass.html" %}
+{% load login_page %}
 
-{% block title %}{{ title }} | {{ site_title }}{% endblock %}
+{% block card_class %}{% if form.errors %} is-shaking{% endif %}{% endblock %}
 
-{% block content %}
-    {% include "unfold/helpers/unauthenticated_title.html" with title=site_title subtitle=title %}
+{% block heading %}Подтвердите вход{% endblock %}
 
-    {% if form.errors %}
-        <div class="flex flex-col gap-4 mb-8 *:mb-0">
-            {% include "unfold/helpers/messages/errornote.html" with errors=form.errors %}
-        </div>
-    {% endif %}
+{% block lead %}Введите код из приложения-аутентификатора для <b>{{ login_name }}</b>. Проверка начнётся сама.{% endblock %}
 
-    <p class="mb-6">Для пользователя <b>{{ login_name }}</b> включён двухфакторный вход. Введите шестизначный код из приложения-аутентификатора.</p>
-
-    <form action="{{ app_path }}" method="post" id="login-form">
+{% block body %}
+    {% locked_message as locked %}
+    <form class="glass-form" action="{{ app_path }}" method="post" id="login-form"
+          data-code
+          data-digits="{{ code_digits }}"
+          data-locked-message="{{ locked }}"
+          data-success-title="Вход подтверждён"
+          data-success-lead="Открываем админку…">
         {% csrf_token %}
-        {% include "unfold/helpers/field.html" with field=form.code %}
-        <div class="flex flex-col gap-3 mt-6">
-            {% component "unfold/components/button.html" with submit=1 variant="primary" class="submit-row w-full" %}
-                Подтвердить
-            {% endcomponent %}
-            {% url "admin:login" as login_url %}
-            {% component "unfold/components/button.html" with href=login_url variant="secondary" class="w-full" %}
-                Войти под другим логином
-            {% endcomponent %}
-        </div>
+        <p class="glass-error" role="alert" data-code-error{% if not form.errors %} hidden{% endif %}>{% for error in form.code.errors %}{{ error }}{% endfor %}</p>
+        <label class="glass-field">
+            <span class="glass-label glass-hidden-label">{{ form.code.label }}</span>
+            <span class="glass-code" data-code-cells>
+                <input class="glass-input glass-code-input" type="text" name="{{ form.code.html_name }}" inputmode="numeric" autocomplete="one-time-code" maxlength="{{ form.code.field.max_length }}" required autofocus data-code-input>
+                <span class="glass-done" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+            </span>
+        </label>
+        <button class="glass-button" type="submit" data-code-submit>Подтвердить</button>
+        <a class="glass-button glass-button-quiet" href="{% url 'admin:login' %}">Войти под другим логином</a>
     </form>
 {% endblock %}

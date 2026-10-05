@@ -162,6 +162,7 @@ AXES_COOLOFF_TIME = LOGIN_COOLOFF
 AXES_LOCKOUT_PARAMETERS = [["username", "ip_address"]]
 AXES_RESET_ON_SUCCESS = True
 AXES_CLIENT_IP_CALLABLE = "core.client_ip.client_ip"
+AXES_LOCKOUT_TEMPLATE = "accounts/login_locked.html"
 
 BRAND_BLUE = {
     "50": "oklch(97% .015 262)",
