@@ -1,0 +1,88 @@
+html {
+  --surface-glass: rgb(var(--white) / 0.55);
+  --surface-dense: rgb(var(--white) / 0.92);
+  --surface-bar: rgb(var(--white) / 0.62);
+  --surface-pop: rgb(var(--white));
+  --surface-edge: rgb(var(--hse-blue) / 0.12);
+  --surface-shadow: 0 18px 48px rgb(var(--hse-blue) / 0.12);
+  --surface-blur: blur(var(--blur)) saturate(140%);
+}
+
+html.dark {
+  --surface-glass: rgb(var(--white) / 0.06);
+  --surface-dense: rgb(var(--night) / 0.82);
+  --surface-bar: rgb(var(--night) / 0.55);
+  --surface-pop: rgb(var(--night));
+  --surface-edge: rgb(var(--white) / 0.1);
+  --surface-shadow: 0 24px 60px rgb(0 0 0 / 0.4);
+}
+
+html body.antialiased {
+  background-color: rgb(var(--hse-blue-4));
+  background-image: var(--day-veil), url("pattern-cover.svg");
+  background-size: var(--backdrop-size);
+  background-position: center;
+  background-repeat: var(--backdrop-repeat);
+  background-attachment: fixed;
+}
+
+html.dark body.antialiased {
+  background-color: rgb(var(--night));
+  background-image: var(--night-veil), url("pattern-cover.svg");
+}
+
+#page #main,
+#page #nav-sidebar-inner,
+#page div:has(> #nav-sidebar) {
+  background: transparent;
+}
+
+#page #main {
+  overflow-x: clip;
+}
+
+#page #nav-sidebar,
+#page #main > div:has(#header-inner),
+#page #submit-row > div {
+  border-color: var(--surface-edge);
+  background: var(--surface-bar);
+  -webkit-backdrop-filter: var(--surface-blur);
+  backdrop-filter: var(--surface-blur);
+}
+
+#page #main .bg-base-50,
+html.dark #page #main .dark\:bg-base-800 {
+  background-color: var(--surface-glass);
+}
+
+#page #main fieldset.module,
+#page #main .dpo-card {
+  border-radius: var(--border-radius);
+  background-color: var(--surface-glass);
+}
+
+#page #main fieldset.module {
+  min-inline-size: 0;
+  padding: 8px 16px;
+}
+
+#page #main .bg-base-50.rounded-default,
+#page #main fieldset.module,
+#page #main .dpo-card {
+  border: 1px solid var(--surface-edge);
+  box-shadow: var(--surface-shadow);
+  -webkit-backdrop-filter: var(--surface-blur);
+  backdrop-filter: var(--surface-blur);
+}
+
+#page #main .bg-white,
+#page #main .lg\:bg-white,
+html.dark #page #main .dark\:bg-base-900,
+html.dark #page #main .lg\:dark\:bg-base-900 {
+  background-color: var(--surface-dense);
+}
+
+#page #main .bg-white.shadow-lg,
+html.dark #page #main .shadow-lg.dark\:bg-base-800 {
+  background-color: var(--surface-pop);
+}

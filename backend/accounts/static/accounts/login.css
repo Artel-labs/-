@@ -1,12 +1,4 @@
 :root {
-  --night: 6 23 57;
-  --hse-blue: 15 45 105;
-  --hse-blue-2: 35 75 155;
-  --hse-blue-3: 125 160 210;
-  --hse-red: 230 30 60;
-  --success: 63 185 80;
-  --white: 255 255 255;
-
   --text: rgb(var(--white));
   --text-soft: rgb(var(--white) / 0.72);
   --glass: rgb(var(--white) / 0.08);
@@ -30,8 +22,6 @@
   --cell-height: 58px;
   --stack-step: 7px;
   --stack-turn: 4deg;
-  --pattern-size: 540px;
-  --blur: 22px;
 
   --quick: 160ms;
   --move: 420ms;
@@ -58,14 +48,10 @@ body.glass-page {
   line-height: 1.5;
   color: var(--text);
   background-color: rgb(var(--night));
-  background-image:
-    radial-gradient(55% 45% at 50% 45%, rgb(var(--hse-blue-3) / 0.16), transparent 70%),
-    radial-gradient(120% 90% at 50% 50%, rgb(var(--night) / 0.55), rgb(0 0 0 / 0.75)),
-    linear-gradient(180deg, rgb(var(--night) / 0.7), rgb(var(--night) / 0.88)),
-    url("pattern-cover.svg");
-  background-size: auto, auto, auto, var(--pattern-size) auto;
+  background-image: var(--night-veil), url("pattern-cover.svg");
+  background-size: var(--backdrop-size);
   background-position: center;
-  background-repeat: no-repeat, no-repeat, no-repeat, repeat;
+  background-repeat: var(--backdrop-repeat);
   background-attachment: fixed;
 }
 

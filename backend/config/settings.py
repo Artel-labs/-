@@ -178,18 +178,36 @@ BRAND_BLUE = {
     "950": "oklch(22% .08 262)",
 }
 
+BRAND_NAVY = {
+    "50": "oklch(98% .006 262)",
+    "100": "oklch(95.5% .012 262)",
+    "200": "oklch(91% .022 262)",
+    "300": "oklch(84% .035 262)",
+    "400": "oklch(70% .05 262)",
+    "500": "oklch(56% .06 262)",
+    "600": "oklch(46% .065 262)",
+    "700": "oklch(38% .07 262)",
+    "800": "oklch(29% .07 262)",
+    "900": "oklch(22% .065 262)",
+    "950": "oklch(16% .055 262)",
+}
+ADMIN_RADIUS = "10px"
+ADMIN_STYLES = ("accounts/brand.css", "accounts/admin.css")
+
 UNFOLD = {
     "SITE_TITLE": "Центр ДПО",
     "SITE_HEADER": "Центр ДПО",
-    "SITE_SUBHEADER": "Факультет права НИУ ВШЭ",
+    "SITE_SUBHEADER": "факультета права",
     "SITE_URL": "/",
-    "SITE_ICON": lambda request: static("core/brand-mark.webp"),
+    "SITE_ICON": lambda request: static("accounts/hse-mark.svg"),
     "SITE_FAVICONS": [
         {"rel": "icon", "sizes": "32x32", "type": "image/png", "href": lambda request: static("core/favicon-32.png")},
     ],
     "SHOW_HISTORY": True,
     "SHOW_VIEW_ON_SITE": False,
-    "COLORS": {"primary": BRAND_BLUE},
+    "COLORS": {"base": BRAND_NAVY, "primary": BRAND_BLUE},
+    "BORDER_RADIUS": ADMIN_RADIUS,
+    "STYLES": [lambda request, path=path: static(path) for path in ADMIN_STYLES],
     "ACCOUNT": {
         "navigation": [
             {"title": "Изменить пароль", "link": lambda request: reverse("admin:password_change")},
