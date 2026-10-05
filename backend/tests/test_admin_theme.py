@@ -12,6 +12,7 @@ LOGIN_URL = "/admin/login/"
 ADMIN_STYLES = ("accounts/brand.", "accounts/admin.")
 HSE_MARK = "accounts/hse-mark."
 OLD_ICON = "brand-mark"
+THEME_OPTIONS = 3
 
 
 def admin_page(client) -> str:
@@ -41,3 +42,11 @@ def test_glass_surfaces_leave_checkboxes_alone():
     css = (Path(settings.BASE_DIR) / "accounts" / "static" / "accounts" / "admin.css").read_text()
     assert "#page #main .bg-white:not(input)" in css
     assert "html.dark #page #main .dark\\:bg-base-900:not(input)" in css
+
+
+def test_theme_switch_fits_user_menu(client):
+    client.force_login(make_admin())
+    html = client.get("/admin/").content.decode()
+    assert "dpo-theme-switch" in html
+    assert html.count('class="dpo-theme-option"') == THEME_OPTIONS
+    assert "Как в системе" in html

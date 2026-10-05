@@ -1,0 +1,16 @@
+{% if not theme %}
+    <div class="dpo-theme-switch" role="group" aria-label="Тема оформления">
+        <a class="dpo-theme-option" role="button" x-on:click="switchTheme('light')" x-bind:class="adminTheme == 'light' && 'is-active'">
+            <span class="material-symbols-outlined" aria-hidden="true">light_mode</span>
+            <span>Светлая</span>
+        </a>
+        <a class="dpo-theme-option" role="button" x-on:click="switchTheme('dark')" x-bind:class="adminTheme == 'dark' && 'is-active'">
+            <span class="material-symbols-outlined" aria-hidden="true">dark_mode</span>
+            <span>Тёмная</span>
+        </a>
+        <a class="dpo-theme-option" role="button" x-on:click="switchTheme('auto')" x-bind:class="adminTheme == 'auto' && 'is-active'">
+            <span class="material-symbols-outlined" aria-hidden="true">computer</span>
+            <span>Как в системе</span>
+        </a>
+    </div>
+{% endif %}

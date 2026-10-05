@@ -1040,3 +1040,44 @@ html.dark #page #main .shadow-lg.dark\:bg-base-800 {
     content: attr(data-label);
   }
 }
+
+.dpo-theme-switch {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  margin-bottom: 4px;
+  padding: 4px 8px 8px;
+  border-bottom: 1px solid var(--surface-edge);
+}
+
+.dpo-theme-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+  min-height: 56px;
+  padding: 6px 4px;
+  border-radius: var(--border-radius);
+  color: var(--ink-muted);
+  font-size: 12px;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+}
+
+.dpo-theme-option .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.dpo-theme-option:hover {
+  background: var(--row-hover);
+  color: var(--accent-ink);
+}
+
+.dpo-theme-option.is-active {
+  background: var(--accent-wash);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
