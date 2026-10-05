@@ -1,0 +1,25 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script src="{% static 'accounts/copy.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+    <section class="dpo-panel">
+        <h2 class="dpo-panel-title">{{ title }}</h2>
+        <p class="dpo-panel-lead">Сотрудник: <b>{{ target.get_full_name|default:target.get_username }}</b></p>
+        <dl class="dpo-secret">
+            <dt>Логин</dt>
+            <dd><code>{{ target.get_username }}</code></dd>
+            <dt>Пароль</dt>
+            <dd><code id="dpo-password">{{ password }}</code></dd>
+        </dl>
+        <p class="dpo-panel-note">Пароль показан один раз и больше нигде не хранится в открытом виде. Передайте его сотруднику — сменить пароль он сможет сам в меню «Изменить пароль».</p>
+        <div class="dpo-panel-actions">
+            <button type="button" class="dpo-button" data-copy="dpo-password" data-copied="Скопировано">Скопировать пароль</button>
+            <a class="dpo-button dpo-button-quiet" href="{{ back_url }}">К карточке сотрудника</a>
+        </div>
+    </section>
+{% endblock %}

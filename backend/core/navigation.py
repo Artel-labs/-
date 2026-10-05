@@ -46,7 +46,7 @@ SECTIONS = (
         "users",
         "Пользователи",
         "group",
-        (Entry("auth.User", "person"), Entry("auth.Group", "groups"), Entry("accounts.TwoFactor", "verified_user")),
+        (Entry("auth.User", "person"), Entry("accounts.TwoFactor", "verified_user")),
     ),
     Section(
         "protection",

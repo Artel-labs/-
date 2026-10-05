@@ -1,37 +1,21 @@
 from django.contrib import admin, messages
-from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.base_user import AbstractBaseUser
-from django.contrib.auth.models import Group, User
 from django.core.exceptions import PermissionDenied
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.template.response import TemplateResponse
 from unfold.admin import ModelAdmin
-from unfold.forms import AdminPasswordChangeForm, UserChangeForm, UserCreationForm
 
 from accounts import two_factor
 from accounts.forms import WRONG_CODE, CodeForm
 from accounts.models import TwoFactor
+from accounts.staff_admin import StaffAdmin
 from accounts.totp import grouped, provisioning_uri
+
+__all__ = ["StaffAdmin", "TwoFactorAdmin"]
 
 SETTINGS_TEMPLATE = "admin/accounts/twofactor/settings.html"
 ENABLED = "Двухфакторный вход включён."
 DISABLED = "Двухфакторный вход отключён."
-
-admin.site.unregister(User)
-admin.site.unregister(Group)
-
-
-@admin.register(User)
-class UserAdmin(BaseUserAdmin, ModelAdmin):
-    form = UserChangeForm
-    add_form = UserCreationForm
-    change_password_form = AdminPasswordChangeForm
-
-
-@admin.register(Group)
-class GroupAdmin(BaseGroupAdmin, ModelAdmin):
-    pass
 
 
 def current_user(request: HttpRequest) -> AbstractBaseUser:
