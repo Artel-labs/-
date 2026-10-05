@@ -1,0 +1,30 @@
+<div id="changelist-actions" class="actions dpo-actions" x-data="{ action: '', selectAcross: 0 }" x-bind:style="'max-width: ' + changeListWidth + 'px'">
+    <input type="hidden" name="action" value="">
+
+    {% for field in action_form %}
+        {% if field.name != "action" %}{{ field }}{% endif %}
+    {% endfor %}
+
+    <div class="dpo-actions-state">
+        <span class="dpo-actions-count">Выбрано: <b data-selected-count>0</b></span>
+        <span class="action-counter" hidden data-actions-icnt="{{ cl.result_list|length }}">{{ selection_note }}</span>
+
+        {% if cl.result_count != cl.result_list|length and not cl.model_admin.list_disable_select_all %}
+            <span class="all hidden dpo-actions-count">Выбраны все {{ cl.result_count }}</span>
+            <span class="question hidden"><a href="#" class="dpo-chip">Выбрать все {{ cl.result_count }}</a></span>
+        {% endif %}
+
+        <button type="button" class="dpo-chip" data-select-all>Выбрать все</button>
+        <button type="button" class="dpo-chip" data-select-none>Снять выбор</button>
+    </div>
+
+    <div class="dpo-actions-buttons">
+        {% for value, label in action_form.fields.action.choices %}
+            {% if value %}
+                <button type="submit" name="index" value="{{ action_index|default:0 }}" data-action="{{ value }}" class="dpo-action{% if value == 'delete_selected' %} dpo-action-danger{% endif %}">
+                    {% if value == "delete_selected" %}Удалить{% else %}{{ label }}{% endif %}
+                </button>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>

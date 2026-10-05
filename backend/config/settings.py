@@ -194,6 +194,7 @@ BRAND_NAVY = {
 }
 ADMIN_RADIUS = "10px"
 ADMIN_STYLES = ("accounts/brand.css", "accounts/admin.css")
+ADMIN_SCRIPTS = ("accounts/lists.js",)
 ADMIN_NAVIGATION = "core.navigation.sidebar"
 
 UNFOLD = {
@@ -215,6 +216,7 @@ UNFOLD = {
         "navigation": lambda request: import_string(ADMIN_NAVIGATION)(request),
     },
     "STYLES": [lambda request, path=path: static(path) for path in ADMIN_STYLES],
+    "SCRIPTS": [lambda request, path=path: static(path) for path in ADMIN_SCRIPTS],
     "ACCOUNT": {
         "navigation": [
             {"title": "Изменить пароль", "link": lambda request: reverse("admin:password_change")},

@@ -351,3 +351,21 @@ msgstr "Сохранено: «{obj}»."
 
 msgid "The %(name)s “%(obj)s” was deleted successfully."
 msgstr "Удалено: «%(obj)s»."
+
+msgid "Are you sure you want to delete the selected %(objects_name)s? All of the following objects and their related items will be deleted:"
+msgstr "Удалить выбранные записи? Вместе с ними будут удалены все связанные объекты:"
+
+msgid "Deleting the selected %(objects_name)s would result in deleting related objects, but your account doesn't have permission to delete the following types of objects:"
+msgstr "Удалить выбранные записи нельзя: вместе с ними удалятся связанные объекты, а удалять такие объекты вашей учётной записи нельзя:"
+
+msgid "Deleting the selected %(objects_name)s would require deleting the following protected related objects:"
+msgstr "Удалить выбранные записи нельзя: с ними связаны защищённые объекты:"
+
+msgid "Are you sure you want to delete the %(object_name)s \"%(escaped_object)s\"? All of the following related items will be deleted:"
+msgstr "Удалить «%(escaped_object)s»? Вместе с записью будут удалены все связанные объекты:"
+
+msgid "Deleting the %(object_name)s '%(escaped_object)s' would result in deleting related objects, but your account doesn't have permission to delete the following types of objects:"
+msgstr "Удалить «%(escaped_object)s» нельзя: вместе с записью удалятся связанные объекты, а удалять такие объекты вашей учётной записи нельзя:"
+
+msgid "Deleting the %(object_name)s '%(escaped_object)s' would require deleting the following protected related objects:"
+msgstr "Удалить «%(escaped_object)s» нельзя: с записью связаны защищённые объекты:"
