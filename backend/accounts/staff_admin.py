@@ -157,12 +157,6 @@ class StaffAdmin(ModelAdmin):
         allowed = super().has_delete_permission(request, obj)
         return bool(allowed and (obj is None or protected_reason(request.user, obj) is None))
 
-    def changeform_view(
-        self, request: HttpRequest, object_id: Any = None, form_url: str = "", extra_context: Any = None
-    ) -> Any:
-        single_save = {"show_save_and_continue": False, "show_save_and_add_another": False}
-        return super().changeform_view(request, object_id, form_url, {**(extra_context or {}), **single_save})
-
     def save_model(self, request: HttpRequest, obj: User, form: Any, change: bool) -> None:
         if not change:
             obj.set_unusable_password()

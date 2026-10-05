@@ -342,3 +342,12 @@ msgstr "Выберите валюту"
 
 msgid "Filters"
 msgstr "Фильтры"
+
+msgid "The {name} “{obj}” was added successfully."
+msgstr "Сохранено: «{obj}»."
+
+msgid "The {name} “{obj}” was changed successfully."
+msgstr "Сохранено: «{obj}»."
+
+msgid "The %(name)s “%(obj)s” was deleted successfully."
+msgstr "Удалено: «%(obj)s»."

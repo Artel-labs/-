@@ -3,9 +3,9 @@ from django_q.admin import FailAdmin, QueueAdmin, ScheduleAdmin, TaskAdmin
 from django_q.models import Failure, OrmQ, Schedule, Success
 from unfold.admin import ModelAdmin
 
-for model in (Schedule, Success, Failure, OrmQ):
-    if admin.site.is_registered(model):
-        admin.site.unregister(model)
+from core.admin_tools import ViewOnly, take_over
+
+take_over(Schedule, Success, Failure, OrmQ)
 
 
 @admin.register(Schedule)
@@ -14,12 +14,12 @@ class BackgroundScheduleAdmin(ScheduleAdmin, ModelAdmin):
 
 
 @admin.register(Success)
-class SuccessfulTaskAdmin(TaskAdmin, ModelAdmin):
+class SuccessfulTaskAdmin(ViewOnly, TaskAdmin, ModelAdmin):
     pass
 
 
 @admin.register(Failure)
-class FailedTaskAdmin(FailAdmin, ModelAdmin):
+class FailedTaskAdmin(ViewOnly, FailAdmin, ModelAdmin):
     pass
 
 
