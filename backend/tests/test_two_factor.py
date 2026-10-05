@@ -91,7 +91,6 @@ def test_enabled_two_factor_asks_code_on_separate_page(client):
     assert not logged_in(client)
     page = client.get(CODE_URL).content.decode()
     assert "Код из приложения" in page
-    assert ADMIN_LOGIN in page
     assert "Неверный код" in send_code(client, "000000").content.decode()
     assert not logged_in(client)
     assert send_code(client, code_now(device.secret))["Location"] == INDEX_URL

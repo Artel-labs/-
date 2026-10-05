@@ -59,7 +59,7 @@ class CodeStepView(FormView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-        return {**super().get_context_data(**kwargs), "login_name": self.user.get_username(), "code_digits": DIGITS}
+        return {**super().get_context_data(**kwargs), "code_digits": DIGITS}
 
     def form_valid(self, form: LoginCodeForm) -> HttpResponse:
         credentials = {"username": self.user.get_username()}

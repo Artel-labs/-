@@ -1,0 +1,13 @@
+{% extends "accounts/glass.html" %}
+{% load i18n %}
+
+{% block heading %}{% translate "You have been successfully logged out from the administration" %}{% endblock %}
+
+{% block lead %}{% translate "Thanks for spending some quality time with the web site today." %}{% endblock %}
+
+{% block body %}
+    <div class="glass-form">
+        <a class="glass-button" href="{% url 'admin:index' %}">{% translate "Log in again" %}</a>
+        <a class="glass-button glass-button-quiet" href="{{ site_url|default:'/' }}">{% translate "Return to site" %}</a>
+    </div>
+{% endblock %}

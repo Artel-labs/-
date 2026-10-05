@@ -15,6 +15,7 @@ OK = 200
 REJECTED = 400
 LOCKED = 429
 SCRIPT = {"HTTP_X_REQUESTED_WITH": "XMLHttpRequest"}
+LOGOUT_URL = "/admin/logout/"
 REPO = Path(settings.BASE_DIR).parent
 BRAND_COPIES = {
     "pattern-cover.svg": "frontend/public/images/pattern-cover.svg",
@@ -55,6 +56,8 @@ def test_code_page_tells_script_digits_and_lock_text(client):
     assert f'data-digits="{DIGITS}"' in page
     assert f'data-locked-message="{locked_message()}"' in page
     assert 'autocomplete="one-time-code"' in page
+    assert "Введите код из приложения-аутентификатора.</p>" in page
+    assert ADMIN_LOGIN not in page.split("glass-lead")[1].split("</p>")[0]
 
 
 def test_script_gets_address_after_right_code(client):
@@ -94,6 +97,14 @@ def test_lock_page_explains_wait(client):
     assert response.status_code == LOCKED
     assert "Вход заблокирован" in page
     assert locked_message() in page
+
+
+def test_logout_page_is_glass_card(client):
+    client.force_login(make_admin())
+    page = client.post(LOGOUT_URL).content.decode()
+    assert "accounts/login.css" in page
+    assert "Вы вышли из админки" in page
+    assert f'href="{INDEX_URL}"' in page
 
 
 def test_lock_text_names_cooloff_minutes():

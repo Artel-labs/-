@@ -13,10 +13,12 @@ from accounts.login_views import CodeStepView, PasswordStepView
 
 CODE_TITLE = "Подтверждение входа"
 LOGIN_TEMPLATE = "accounts/login.html"
+LOGOUT_TEMPLATE = "accounts/logged_out.html"
 
 
 class DpoAdminSite(UnfoldAdminSite):
     login_template = LOGIN_TEMPLATE
+    logout_template = LOGOUT_TEMPLATE
 
     def extra_urls(self) -> list[URLPattern]:
         return [path("login/code/", self.login_code, name="login_code")]
