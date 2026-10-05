@@ -1,0 +1,41 @@
+{% extends 'admin/base.html' %}
+
+{% load i18n admin_tiles %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+    {% include "unfold/helpers/site_branding.html" %}
+{% endblock %}
+
+{% block content %}
+    {% admin_tiles as sections %}
+    <div class="dpo-tiles">
+        {% for section in sections %}
+            <section class="dpo-tile">
+                <h2 class="dpo-tile-title">
+                    <span class="material-symbols-outlined dpo-tile-icon">{{ section.icon }}</span>
+                    <span>{{ section.title }}</span>
+                </h2>
+                <ul class="dpo-tile-list">
+                    {% for item in section.items %}
+                        <li class="dpo-tile-item">
+                            <a class="dpo-tile-link" href="{{ item.url }}">
+                                <span class="material-symbols-outlined">{{ item.icon }}</span>
+                                <span>{{ item.title }}</span>
+                            </a>
+                            {% if item.add_url %}
+                                <a class="dpo-tile-add" href="{{ item.add_url }}" title="Добавить" aria-label="Добавить: {{ item.title }}">
+                                    <span class="material-symbols-outlined">add</span>
+                                </a>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </section>
+        {% empty %}
+            {% trans "You don’t have permission to view or edit anything." as error_message %}
+            {% include "unfold/helpers/messages/error.html" with error=error_message %}
+        {% endfor %}
+    </div>
+{% endblock %}

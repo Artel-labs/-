@@ -3,6 +3,7 @@ from pathlib import Path
 
 from django.templatetags.static import static
 from django.urls import reverse
+from django.utils.module_loading import import_string
 
 from config.env import env_flag, env_int, env_list, env_required, env_text
 
@@ -83,7 +84,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -193,6 +194,7 @@ BRAND_NAVY = {
 }
 ADMIN_RADIUS = "10px"
 ADMIN_STYLES = ("accounts/brand.css", "accounts/admin.css")
+ADMIN_NAVIGATION = "core.navigation.sidebar"
 
 UNFOLD = {
     "SITE_TITLE": "Центр ДПО",
@@ -207,6 +209,11 @@ UNFOLD = {
     "SHOW_VIEW_ON_SITE": False,
     "COLORS": {"base": BRAND_NAVY, "primary": BRAND_BLUE},
     "BORDER_RADIUS": ADMIN_RADIUS,
+    "SIDEBAR": {
+        "show_search": False,
+        "show_all_applications": False,
+        "navigation": lambda request: import_string(ADMIN_NAVIGATION)(request),
+    },
     "STYLES": [lambda request, path=path: static(path) for path in ADMIN_STYLES],
     "ACCOUNT": {
         "navigation": [

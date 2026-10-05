@@ -1,0 +1,38 @@
+{% load i18n unfold %}
+
+{% if sidebar_navigation %}
+    <div id="nav-sidebar-apps" class="h-0 grow overflow-auto" data-simplebar>
+        {% for group in sidebar_navigation %}
+            {% if group.items %}
+                {% has_nav_item_active group.items as has_active %}
+
+                <div class="dpo-nav-group hidden has-[ol]:has-[li]:block"
+                     x-data="{navigationOpen: $persist({{ group.open|yesno:'true,false' }}).as('dpo-nav-{{ group.key }}')}"
+                     {% if has_active %}x-init="navigationOpen = true"{% endif %}>
+                    <h2 class="dpo-nav-title" x-on:click="navigationOpen = !navigationOpen" x-bind:aria-expanded="navigationOpen">
+                        <span>{{ group.title }}</span>
+                        <span class="material-symbols-outlined dpo-nav-chevron" x-bind:class="{'is-open': navigationOpen}">chevron_right</span>
+                    </h2>
+
+                    <ol class="flex flex-col gap-0.5 px-6" x-show="navigationOpen">
+                        {% for item in group.items %}
+                            {% if item.has_permission %}
+                                <li>
+                                    <a href="{% if item.link_callback %}{{ item.link_callback }}{% else %}{{ item.link }}{% endif %}" class="flex h-[38px] items-center -mx-3 px-3 rounded-default hover:text-primary-600 dark:hover:text-primary-500 {% if item.active %}bg-base-100 font-semibold text-primary-600 dark:bg-white/[.06] dark:text-primary-500 active{% endif %}">
+                                        <span class="material-symbols-outlined md-18 mr-3 w-[18px]">{{ item.icon }}</span>
+                                        <span>{{ item.title }}</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ol>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% else %}
+    <p>
+        {% trans "You don’t have permission to view or edit anything." as error_message %}
+        {% include "unfold/helpers/messages/error.html" with error=error_message %}
+    </p>
+{% endif %}
