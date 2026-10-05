@@ -108,7 +108,7 @@ def test_program_pages_match_previous_site(pages):
 def test_page_has_cover_variants(pages):
     cover = pages["856421092"].cover
     assert cover is not None
-    assert cover.src.endswith("programs/thumbs/856421092.jpg")
+    assert cover.src.partition("?")[0].endswith("programs/thumbs/856421092.jpg")
     assert cover.width == 640
 
 

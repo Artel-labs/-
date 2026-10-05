@@ -6,6 +6,7 @@ from catalog.models import Program
 from catalog.presentation import about, images, links, seo
 from catalog.presentation.dates import format_start, notice_is_fresh
 from catalog.presentation.labels import CREDENTIALS, FILE_LABELS, UNKNOWN, price_label, type_label
+from catalog.presentation.media import file_url
 from catalog.presentation.text import plain_lines, plural, typographic_lines
 from catalog.schemas import (
     AboutOut,
@@ -86,7 +87,11 @@ def modules(program: Program) -> list[ModuleOut]:
 
 def files(program: Program) -> list[FileOut]:
     return [
-        FileOut(label=FILE_LABELS.get(document.kind) or document.title, size=document.size_label, url=document.file.url)
+        FileOut(
+            label=FILE_LABELS.get(document.kind) or document.title,
+            size=document.size_label,
+            url=file_url(document.file),
+        )
         for document in program.files.all()
         if document.file
     ]
@@ -146,7 +151,7 @@ def program_page(program: Program, today: date) -> ProgramPageOut:
         canonical_url=f"{site_url}/{program.path}",
         page_title=seo.page_title(program),
         description=seo.meta_description(program),
-        image_url=f"{site_url}{program.image.url}" if program.image else "",
+        image_url=f"{site_url}{file_url(program.image)}" if program.image else "",
         structured_data=seo.structured_data(program, site_url),
         crumb=program.sphere.title if program.sphere else NO_SPHERE,
         chips=chips(program),

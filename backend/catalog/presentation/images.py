@@ -6,6 +6,7 @@ from django.conf import settings
 from PIL import Image
 
 from catalog.models import Program
+from catalog.presentation.media import file_url, media_url
 
 THUMB_WIDTH = 640
 JPEG_QUALITY = 80
@@ -21,10 +22,6 @@ class Cover:
     width: int
     height: int
     alt: str
-
-
-def media_url(relative: str) -> str:
-    return f"{settings.MEDIA_URL}{relative}"
 
 
 def is_fresh(target: Path, source: Path) -> bool:
@@ -87,7 +84,7 @@ def cover(program: Program) -> Cover | None:
         return None
     return Cover(
         src=media_url(found.thumb),
-        srcset=f"{media_url(found.thumb)} 1x, {program.image.url} 2x",
+        srcset=f"{media_url(found.thumb)} 1x, {file_url(program.image)} 2x",
         webp_srcset=f"{media_url(found.thumb_webp)} 1x, {media_url(found.full_webp)} 2x",
         width=found.width,
         height=found.height,
@@ -116,4 +113,4 @@ def photo_with_webp(image: Any) -> Photo | None:
         return None
     webp_name = f"{Path(image.name).with_suffix('.webp')}"
     save_variant(source, Path(settings.MEDIA_ROOT) / webp_name, None, "WEBP", WEBP_QUALITY)
-    return Photo(src=image.url, webp=media_url(webp_name))
+    return Photo(src=file_url(image), webp=media_url(webp_name))

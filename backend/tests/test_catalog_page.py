@@ -11,6 +11,7 @@ from catalog.models import Program, Source
 from catalog.presentation.catalog import catalog_page
 from catalog.presentation.timeline import DAY_PX
 from catalog.schemas import CardOut, CatalogPageOut, StartsOut
+from tests.media import unversioned
 from tests.typography import untypeset
 
 pytestmark = pytest.mark.django_db
@@ -104,7 +105,7 @@ def starts_record(starts: StartsOut) -> dict[str, Any]:
 
 
 def test_cards_match_previous_site(page):
-    assert untypeset([card_record(card) for card in page.cards]) == untypeset(
+    assert untypeset(unversioned([card_record(card) for card in page.cards])) == untypeset(
         [legacy_card(record) for record in LEGACY["cards"]]
     )
 

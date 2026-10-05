@@ -10,6 +10,7 @@ from django.core.management import call_command
 from catalog.landing_schemas import LandingOut
 from catalog.models import Program
 from catalog.presentation.landing.page import landing_page
+from tests.media import unversioned
 from tests.typography import untypeset
 
 pytestmark = pytest.mark.django_db
@@ -123,7 +124,7 @@ def teacher_record(card: Any) -> dict[str, Any]:
 
 
 def test_teachers_match_previous_site(page):
-    assert untypeset([teacher_record(card) for card in page.teachers]) == untypeset(
+    assert untypeset(unversioned([teacher_record(card) for card in page.teachers])) == untypeset(
         [legacy_teacher(record) for record in LEGACY["teachers"]]
     )
 
@@ -166,7 +167,7 @@ def test_top_programs_match_previous_site(page):
         {key: site_href(value) if key in ("image", "imageWebp", "href") else value for key, value in item.items()}
         for item in LEGACY["top"]
     ]
-    assert untypeset([top_record(item) for item in page.top]) == untypeset(legacy)
+    assert untypeset(unversioned([top_record(item) for item in page.top])) == untypeset(legacy)
 
 
 def test_landing_endpoint(client, page):

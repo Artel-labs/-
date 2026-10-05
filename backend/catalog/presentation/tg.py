@@ -12,6 +12,7 @@ from catalog.presentation.dates import notice_is_fresh, start_label
 from catalog.presentation.facets import doc_badge, short_format
 from catalog.presentation.images import thumb
 from catalog.presentation.labels import FILE_LABELS, effective_price
+from catalog.presentation.media import file_url
 from catalog.presentation.page import price_terms
 from catalog.presentation.text import plain_lines
 from catalog.schemas import (
@@ -70,7 +71,7 @@ def files(program: Program) -> list[TgFileOut]:
         TgFileOut(
             title=FILE_LABELS.get(item.kind) or item.title or DEFAULT_FILE_TITLE,
             size=item.size_label,
-            path=item.file.url,
+            path=file_url(item.file),
         )
         for item in program.files.all()
         if item.file
@@ -82,7 +83,7 @@ def teachers(program: Program) -> list[TgTeacherOut]:
         TgTeacherOut(
             name=canonical_name(link.teacher.name),
             about=link.about,
-            photo=link.teacher.photo.url if link.teacher.photo else None,
+            photo=file_url(link.teacher.photo) if link.teacher.photo else None,
             page=links.safe_hse_url(link.teacher.page_url) or None,
         )
         for link in program.program_teachers.all()
@@ -99,7 +100,7 @@ def tg_program(program: Program, today: date) -> TgProgramOut:
     badge = doc_badge(kind(program))
     found_about = about(program)
     picture = thumb(program)
-    cover = program.image.url if program.image else None
+    cover = file_url(program.image) if program.image else None
     return TgProgramOut(
         id=program.hse_id,
         title=program.title,
