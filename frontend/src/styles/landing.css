@@ -801,7 +801,7 @@
     .dpo-spheres {
       --sphere-dark-bg: rgb(var(--hse-blue-2));
       --sphere-dark-ink: #fff;
-      --sphere-light-bg: rgb(var(--hse-blue-4));
+      --sphere-light-bg: rgb(var(--hse-white));
       --sphere-light-ink: rgb(var(--hse-blue));
     }
     .dpo-sphere { --tile-bg: var(--sphere-light-bg); --tile-ink: var(--sphere-light-ink); --vig: 0.14; }

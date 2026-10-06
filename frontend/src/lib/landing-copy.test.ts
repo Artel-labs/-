@@ -83,6 +83,14 @@ test("sphere tiles are colored as a checkerboard by position, not by sphere", ()
   assert.match(css, /\.dpo-sphere:nth-child\(4n\+4\) \{ --tile-bg: var\(--sphere-dark-bg\)/);
 });
 
+test("light sphere tiles are white so they stand out from the tinted section", () => {
+  const css = readFileSync(new URL("../styles/landing.css", import.meta.url), "utf8");
+  const sections = readFileSync(new URL("../styles/landing-sections.css", import.meta.url), "utf8");
+  assert.match(css, /--sphere-light-bg: rgb\(var\(--hse-white\)\);/);
+  assert.match(sections, /\.spheres-section \{[^}]*background: rgb\(var\(--bg-tint\)\)/);
+  assert.doesNotMatch(css, /--sphere-light-bg: rgb\(var\(--(hse-blue-4|bg-tint)\)\)/);
+});
+
 test("teachers intro has no carousel hint and no duplicated cases sentence", () => {
   const teachers = visibleText("landing/TeachersSection.astro");
   assert.doesNotMatch(teachers, /Листайте ленту/);
