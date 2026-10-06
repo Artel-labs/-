@@ -1,5 +1,6 @@
 ---
 import type { CatalogPage } from "../../lib/catalog";
+import { CATALOG_TITLE } from "../../lib/catalog-meta";
 
 interface Props {
   catalog: CatalogPage;
@@ -8,14 +9,13 @@ interface Props {
 const SITE_NAME = "Центр ДПО · Факультет права НИУ ВШЭ";
 const KEYWORDS =
   "ДПО, повышение квалификации юристов, профессиональная переподготовка, право, НИУ ВШЭ, факультет права, курсы для юристов";
-const SHARE_TITLE = "Курсы повышения квалификации для юристов · ДПО НИУ ВШЭ";
 const SHARE_DESCRIPTION =
-  "26 курсов повышения квалификации и профессиональной переподготовки для юристов — с ценой, форматом и датой старта.";
+  "26 курсов повышения квалификации и профессиональной переподготовки — с ценой, форматом и датой старта.";
 const SHARE_IMAGE_WIDTH = "2226";
 const SHARE_IMAGE_HEIGHT = "1298";
 const SHARE_IMAGE_ALT = "Статуя Фемиды с весами на фоне здания факультета права НИУ ВШЭ";
 const TWITTER_TITLE = "Каталог программ ДПО · Факультет права НИУ ВШЭ";
-const TWITTER_DESCRIPTION = "Программы повышения квалификации и переподготовки для юристов НИУ ВШЭ.";
+const TWITTER_DESCRIPTION = "Программы повышения квалификации и переподготовки НИУ ВШЭ.";
 
 const { catalog } = Astro.props;
 ---
@@ -26,7 +26,7 @@ const { catalog } = Astro.props;
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="ru_RU" />
 <meta property="og:site_name" content={SITE_NAME} />
-<meta property="og:title" content={SHARE_TITLE} />
+<meta property="og:title" content={CATALOG_TITLE} />
 <meta property="og:description" content={SHARE_DESCRIPTION} />
 <meta property="og:url" content={catalog.canonical_url} />
 <meta property="og:image" content={catalog.image_url} />

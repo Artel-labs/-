@@ -16,10 +16,10 @@ import StartsBoard from "../components/catalog/StartsBoard.astro";
 import Toolbar from "../components/catalog/Toolbar.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { fetchCatalogPage } from "../lib/catalog";
+import { CATALOG_TITLE } from "../lib/catalog-meta";
 
-const TITLE = "Курсы повышения квалификации для юристов · ДПО НИУ ВШЭ";
 const DESCRIPTION =
-  "Каталог программ ДПО факультета права НИУ ВШЭ: 26 курсов повышения квалификации и переподготовки для юристов — с ценой, форматом и датой старта.";
+  "Каталог программ ДПО факультета права НИУ ВШЭ: 26 курсов повышения квалификации и переподготовки — с ценой, форматом и датой старта.";
 
 const catalog = await fetchCatalogPage();
 if (!catalog) {
@@ -28,7 +28,7 @@ if (!catalog) {
 const { filters } = catalog;
 ---
 
-<BaseLayout title={TITLE} description={DESCRIPTION}>
+<BaseLayout title={CATALOG_TITLE} description={DESCRIPTION}>
   <CatalogHead slot="head" catalog={catalog} />
   <SkipLink />
   <CatalogHeader />
@@ -42,7 +42,7 @@ const { filters } = catalog;
   <div class="crow-walk-row"><div class="crow-walk-slot" data-crow-walk></div></div>
   <p class="tag-legend">ПК&nbsp;— повышение квалификации, итог&nbsp;— удостоверение; ПП&nbsp;— профессиональная переподготовка, итог&nbsp;— диплом.</p>
   <main id="main">
-    <h2 class="visually-hidden">Программы повышения квалификации и&nbsp;профессиональной переподготовки для юристов</h2>
+    <h2 class="visually-hidden">Программы повышения квалификации и&nbsp;профессиональной переподготовки</h2>
     <div class="grid" id="grid">
       {catalog.cards.map((card) => <ProgramCard card={card} />)}
     </div>
