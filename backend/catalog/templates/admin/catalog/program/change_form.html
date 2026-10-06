@@ -5,7 +5,7 @@
         <div class="dpo-sync-banner{% if not follows_hse %} is-manual{% endif %}">
             <span class="material-symbols-outlined" aria-hidden="true">{% if follows_hse %}sync{% else %}edit_note{% endif %}</span>
             {% if follows_hse %}
-                <p>Данные берутся с hse.ru и обновляются два раза в сутки, поэтому тексты, условия и списки здесь только для чтения. Всегда можно менять показ на сайте, направление, порядок и обложку.</p>
+                <p>Данные берутся с hse.ru и обновляются два раза в сутки, поэтому тексты, условия и списки здесь только для чтения. Всегда можно менять показ на сайте, направление, порядок, место в «Выборе слушателей» и обложку.</p>
                 {% if has_change_permission %}
                     <a class="dpo-button" href="{% url 'admin:catalog_program_manual' program.pk %}">Править вручную</a>
                 {% endif %}

@@ -8,7 +8,7 @@ import pytest
 from django.core.management import call_command
 
 from catalog.landing_schemas import LandingOut
-from catalog.models import Program
+from catalog.models import TOP_PLACES, Program
 from catalog.presentation.landing.page import landing_page
 from tests.media import unversioned
 from tests.typography import untypeset
@@ -165,7 +165,7 @@ def top_record(item: Any) -> dict[str, str]:
 def test_top_programs_match_previous_site(page):
     legacy = [
         {key: site_href(value) if key in ("image", "imageWebp", "href") else value for key, value in item.items()}
-        for item in LEGACY["top"]
+        for item in LEGACY["top"][:TOP_PLACES]
     ]
     assert untypeset(unversioned([top_record(item) for item in page.top])) == untypeset(legacy)
 

@@ -1,6 +1,9 @@
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from catalog.slugs import program_path
+
+TOP_PLACES = 12
 
 
 class Source(models.TextChoices):
@@ -48,6 +51,13 @@ class Program(models.Model):
         Sphere, verbose_name="Направление", null=True, blank=True, on_delete=models.SET_NULL, related_name="programs"
     )
     position = models.PositiveSmallIntegerField("Порядок в направлении", default=0)
+    top_position = models.PositiveSmallIntegerField(
+        "Место в «Выборе слушателей»",
+        null=True,
+        blank=True,
+        validators=[MinValueValidator(1), MaxValueValidator(TOP_PLACES)],
+        help_text=f"От 1 до {TOP_PLACES}. Пусто — программа попадает в блок по ближайшему старту",
+    )
     catalog_position = models.PositiveIntegerField(
         "Порядок в каталоге", default=0, help_text="Как в списке на hse.ru; программы, добавленные вручную, идут после"
     )

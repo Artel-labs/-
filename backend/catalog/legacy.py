@@ -9,6 +9,7 @@ from django.db import transaction
 from catalog.models import FaqItem, Module, Program, ProgramFile, ProgramTeacher, Review, Source, Teacher
 from catalog.spheres import ensure_spheres, match_sphere
 from catalog.teachers import canonical_name
+from catalog.top_picks import pin_initial_top
 from catalog.typesetting import typeset_program
 
 MOSCOW = ZoneInfo("Europe/Moscow")
@@ -154,4 +155,5 @@ def import_catalog(data: Record, root: Path) -> int:
     teachers = import_teachers(data, root)
     for catalog_position, record in enumerate(data["programs"]):
         import_program(record, root, spheres, teachers, catalog_position)
+    pin_initial_top(Program.objects)
     return len(data["programs"])

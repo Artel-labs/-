@@ -103,7 +103,13 @@ class ProgramAdmin(SyncLine, ModelAdmin):
     inlines = [ModuleInline, ProgramTeacherInline, ProgramFileInline, FaqInline, ReviewInline]
     change_form_template = PROGRAM_CARD
     fieldsets = [
-        ("Главное", {"classes": ["dpo-tab-main"], "fields": ["title", "sphere", "position", "is_published", "image"]}),
+        (
+            "Главное",
+            {
+                "classes": ["dpo-tab-main"],
+                "fields": ["title", "sphere", "position", "top_position", "is_published", "image"],
+            },
+        ),
         ("Служебное", {"classes": ["dpo-tab-main", "dpo-service"], "fields": ["hse_url", *SERVICE_FIELDS]}),
         (
             "Условия и цена",

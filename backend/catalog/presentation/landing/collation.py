@@ -22,5 +22,8 @@ def primary_key(text: str) -> list[tuple[int, str]]:
     return [(char_group(char), SECONDARY_LETTERS.get(char, char)) for char in lowered]
 
 
-def sort_key(text: str) -> tuple[list[tuple[int, str]], str, list[bool]]:
+SortKey = tuple[list[tuple[int, str]], str, list[bool]]
+
+
+def sort_key(text: str) -> SortKey:
     return primary_key(text), text.lower(), [char.isupper() for char in text]
