@@ -74,6 +74,10 @@
       transition: background 150ms var(--dpo-ease), color 150ms var(--dpo-ease), transform .18s var(--dpo-ease);
     }
     .dpo-capsule > a::after { content: none !important; }
+    .dpo-capsule > a[href]:active { transform: none; }
+    html.dpo-scrolled .dpo-capsule > a[href]:active { transform: translateY(calc(var(--hdr-shift) / -2)); }
+    .dpo-capsule-label { display: inline-block; transition: transform .14s var(--dpo-ease); }
+    .dpo-capsule > a:active .dpo-capsule-label { transform: scale(0.97); }
     .dpo-capsule > a.is-active {
       background: #fff; color: rgb(var(--deep-header)); font-weight: 600;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
@@ -127,9 +131,9 @@
     }
     html { scroll-padding-top: 100px; }
     html.dpo-scrolled .dpo-capsule {
-      padding: 0; gap: 22px; background: transparent; border-color: transparent;
+      padding: 0; gap: 0; background: transparent; border-color: transparent;
     }
-    html.dpo-scrolled .dpo-capsule > a { padding: 0; font-size: 0.9375rem; }
+    html.dpo-scrolled .dpo-capsule > a { padding: 8px 11px; font-size: 0.9375rem; }
     html.dpo-scrolled .dpo-capsule > a.is-active {
       background: transparent; box-shadow: none; color: rgb(var(--deep-header)); font-weight: 600;
     }
@@ -479,7 +483,8 @@
     .dpo-contacts-apply:active, .dpo-cta-gold:active { transform: scale(0.97); }
     @media (prefers-reduced-motion: reduce) {
       .dpo-nav-cta:active, .dpo-mobile-apply:active,
-      .dpo-contacts-apply:active, .dpo-cta-gold:active { transform: none; }
+      .dpo-contacts-apply:active, .dpo-cta-gold:active,
+      .dpo-capsule > a:active .dpo-capsule-label { transform: none; }
     }
     @media (prefers-reduced-motion: reduce) {
       .dpo-menu-panel { transition: none; transform: none; }

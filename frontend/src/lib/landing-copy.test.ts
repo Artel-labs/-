@@ -154,3 +154,14 @@ test("top bar has no spheres dropdown on desktop or in the burger", () => {
   assert.doesNotMatch(header, /Сферы права|navProgramsPanel|mobileDirsList|MenuGrid/);
   assert.doesNotMatch(readFileSync(new URL("../scripts/landing/nav-menu.ts", import.meta.url), "utf8"), /dpo-nav-trigger|fillMobileDirs|pointerover/);
 });
+
+test("top bar links keep their full hit area when scrolled and while pressed", () => {
+  const css = readFileSync(new URL("../styles/landing.css", import.meta.url), "utf8");
+  assert.match(css, /html\.dpo-scrolled \.dpo-capsule > a \{ padding: 8px 11px;/);
+  assert.doesNotMatch(css, /html\.dpo-scrolled \.dpo-capsule > a \{ padding: 0;/);
+  assert.match(css, /\.dpo-capsule > a\[href\]:active \{ transform: none; \}/);
+  assert.match(css, /html\.dpo-scrolled \.dpo-capsule > a\[href\]:active \{ transform: translateY\(calc\(var\(--hdr-shift\) \/ -2\)\); \}/);
+  assert.match(css, /\.dpo-capsule > a:active \.dpo-capsule-label \{ transform: scale\(0\.97\); \}/);
+  const header = visibleText("landing/LandingHeader.astro");
+  assert.equal((header.match(/<span class="dpo-capsule-label">/g) ?? []).length, 5);
+});
