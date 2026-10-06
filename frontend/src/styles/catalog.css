@@ -212,7 +212,6 @@ html.vi-mode .filters:first-of-type::after{ display: none !important; }
 }
 #filtersFormat .chip{ font-size: 0.8125rem; padding: 7px 14px; }
 
-.tag-legend{ font-size: 0.8125rem; color: rgb(var(--ink-mute)); margin: 10px 0 0; }
 .crow-walk-row{ display: flex; justify-content: flex-end; padding: 6px clamp(20px, 5vw, 56px) 0; }
 .crow-walk-slot{ width: 160px; height: 167px; }
 @media (max-width: 1023px) { .crow-walk-slot{ width: 96px; height: 100px; } }

@@ -37,3 +37,8 @@ test("catalog hero keeps two lead paragraphs without the summit phrase and the b
   assert.doesNotMatch(text, /вершинам юридической практики/);
   assert.doesNotMatch(text, /Выбирайте по направлениям/);
 });
+
+test("catalog has no PK/PP legend under the filters", () => {
+  assert.doesNotMatch(visibleText("pages/catalog.astro"), /tag-legend|ПК — повышение квалификации/);
+  assert.doesNotMatch(visibleText("styles/catalog.css"), /tag-legend/);
+});
