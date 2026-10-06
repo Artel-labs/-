@@ -28,6 +28,7 @@ import SkipLink from "../components/SkipLink.astro";
 import SupportBot from "../components/SupportBot.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { fetchLanding } from "../lib/landing";
+import { CATALOG_LINK_LABEL } from "../lib/nav";
 
 const TITLE = "Повышение квалификации юристов — Центр ДПО НИУ ВШЭ";
 const DESCRIPTION =
@@ -63,7 +64,7 @@ if (!landing) {
     <LandingFooter />
   </div>
   <nav class="dpo-mobile-cta" aria-label="Быстрые действия">
-    <a class="secondary" href="/catalog">Программы</a>
+    <a class="secondary" href="/catalog">{CATALOG_LINK_LABEL}</a>
     <a class="primary" href="#contacts" data-application>Подать заявку</a>
   </nav>
   <ApplicationForm />

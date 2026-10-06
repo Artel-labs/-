@@ -132,3 +132,19 @@ test("application form asks who will study with the new option names", () => {
   assert.match(form, /\[PERSONAL, "Частное лицо"\]/);
   assert.match(form, /\[CORPORATE, "Сотрудник организации"\]/);
 });
+
+test("every catalog link in navigation is called the programme portfolio", async () => {
+  const { CATALOG_LINK_LABEL } = await import("./nav.ts");
+  assert.equal(CATALOG_LINK_LABEL, "Портфель программ");
+  const sources = ["landing/LandingHeader.astro", "SiteHeader.astro", "../pages/index.astro"];
+  for (const source of sources) {
+    const text = visibleText(source);
+    assert.doesNotMatch(text, /href="\/catalog">Программы</, source);
+    assert.match(text, /href="\/catalog">\{CATALOG_LINK_LABEL\}</, source);
+  }
+});
+
+test("mobile action bar centres button labels when one of them wraps", () => {
+  const css = readFileSync(new URL("../styles/landing.css", import.meta.url), "utf8");
+  assert.match(css, /\.dpo-mobile-cta a\{\n\s+flex: 1; display: flex; align-items: center; justify-content: center;/);
+});
