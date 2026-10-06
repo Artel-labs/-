@@ -82,3 +82,10 @@ test("sphere tiles are colored as a checkerboard by position, not by sphere", ()
   assert.match(css, /\.dpo-sphere:nth-child\(odd\) \{ --tile-bg: var\(--sphere-dark-bg\)/);
   assert.match(css, /\.dpo-sphere:nth-child\(4n\+4\) \{ --tile-bg: var\(--sphere-dark-bg\)/);
 });
+
+test("teachers intro has no carousel hint and no duplicated cases sentence", () => {
+  const teachers = visibleText("landing/TeachersSection.astro");
+  assert.doesNotMatch(teachers, /Листайте ленту/);
+  assert.doesNotMatch(teachers, /реальные кейсы и актуальная судебная практика/);
+  assert.match(visibleText("landing/WhyUsSection.astro"), /реальные кейсы и актуальная судебная практика/);
+});
