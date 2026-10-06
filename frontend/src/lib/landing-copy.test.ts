@@ -47,3 +47,9 @@ test("documents card in why-us states only who issues the documents", () => {
   assert.match(text, /Все документы об окончании обучения выдаёт непосредственно НИУ ВШЭ\.<\/p>/);
   assert.doesNotMatch(text, /высоко ценятся работодателями/);
 });
+
+test("training results block states only who issues the documents", () => {
+  const text = visibleText("landing/DocumentSection.astro");
+  assert.match(text, /выдаются непосредственно НИУ ВШЭ\. После успешного окончания/);
+  assert.doesNotMatch(text, /высоко ценятся работодателями/);
+});
