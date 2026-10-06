@@ -29,3 +29,11 @@ test("catalog heading, list heading and descriptions drop the lawyers audience",
 test("catalog keywords still name lawyers for search", () => {
   assert.match(visibleText("components/catalog/CatalogHead.astro"), /курсы для юристов/);
 });
+
+test("catalog hero keeps two lead paragraphs without the summit phrase and the browsing hint", () => {
+  const text = visibleText("components/catalog/CatalogHero.astro");
+  assert.match(text, /<p class="hero-gap">Образование, которое выводит на новый уровень\.<\/p>/);
+  assert.match(text, /<p> В каталоге — все программы/);
+  assert.doesNotMatch(text, /вершинам юридической практики/);
+  assert.doesNotMatch(text, /Выбирайте по направлениям/);
+});
