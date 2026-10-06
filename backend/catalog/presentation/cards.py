@@ -8,6 +8,7 @@ from catalog.presentation.facets import doc_badge, duration_facet, format_facet,
 from catalog.presentation.labels import price_label
 from catalog.presentation.text import plain_lines
 from catalog.schemas import CardOut, CompareOut, TagOut, ThumbOut
+from catalog.teachers import shown_name
 from catalog.typography import plain_spaces, squeeze_spaces
 
 OTHER_SPHERE = "other"
@@ -47,13 +48,17 @@ def module_titles(program: Program) -> list[str]:
     return [title for title in titles if title]
 
 
+def teacher_names(program: Program) -> list[str]:
+    return [shown_name(link.teacher.name) for link in program.program_teachers.all()]
+
+
 def compare(program: Program, start: str) -> CompareOut:
     return CompareOut(
         format=short_format(program.study_format) or format_facet(program.study_format).label,
         duration=program.duration,
         start=start,
         modules=LIST_SEPARATOR.join(module_titles(program)),
-        teachers=len(program.program_teachers.all()),
+        teachers=LIST_SEPARATOR.join(teacher_names(program)),
         audience=LIST_SEPARATOR.join(plain_lines(program.audience)),
     )
 

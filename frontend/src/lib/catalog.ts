@@ -17,7 +17,7 @@ export interface Compare {
   duration: string;
   start: string;
   modules: string;
-  teachers: number;
+  teachers: string;
   audience: string;
 }
 

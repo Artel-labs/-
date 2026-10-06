@@ -37,7 +37,7 @@ const ROWS: Row[] = [
     },
   },
   { label: "Модули", value: attribute("data-cmp-modules"), list: true },
-  { label: "Преподавателей", value: attribute("data-cmp-teachers") },
+  { label: "Преподаватели", value: attribute("data-cmp-teachers"), list: true },
   { label: "Для кого", value: attribute("data-cmp-audience"), list: true },
 ];
 

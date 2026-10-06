@@ -8,6 +8,7 @@ import pytest
 from django.core.management import call_command
 
 from catalog.models import Program, Source
+from catalog.presentation.cards import LIST_SEPARATOR
 from catalog.presentation.catalog import catalog_page
 from catalog.presentation.timeline import DAY_PX
 from catalog.schemas import CardOut, CatalogPageOut, StartsOut
@@ -54,7 +55,7 @@ def card_record(card: CardOut) -> dict[str, Any]:
             "data-cmp-duration": compare.duration,
             "data-cmp-start": compare.start,
             "data-cmp-modules": compare.modules,
-            "data-cmp-teachers": str(compare.teachers),
+            "data-cmp-teachers": str(len(compare.teachers.split(LIST_SEPARATOR)) if compare.teachers else 0),
             "data-cmp-audience": compare.audience,
         },
         "compare_label": f"Сравнить: {card.title}",

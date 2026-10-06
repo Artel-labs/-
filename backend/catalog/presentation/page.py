@@ -24,7 +24,7 @@ from catalog.schemas import (
     SiblingsOut,
     TeacherOut,
 )
-from catalog.teachers import canonical_name
+from catalog.teachers import shown_name
 from catalog.typography import squeeze_spaces
 
 ONE_TEACHER = "Преподаватель-практик"
@@ -100,7 +100,7 @@ def files(program: Program) -> list[FileOut]:
 def teachers(program: Program) -> list[TeacherOut]:
     return [
         TeacherOut(
-            name=canonical_name(squeeze_spaces(link.teacher.name)),
+            name=shown_name(link.teacher.name),
             about=squeeze_spaces(link.about),
             page_url=links.safe_hse_url(link.teacher.page_url),
         )

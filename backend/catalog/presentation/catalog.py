@@ -24,7 +24,8 @@ def catalog_order(programs: QuerySet[Program]) -> QuerySet[Program]:
 
 
 def catalog_page(programs: QuerySet[Program], today: date) -> CatalogPageOut:
-    ordered = list(catalog_order(programs).select_related("sphere").prefetch_related("modules", "program_teachers"))
+    related = catalog_order(programs).select_related("sphere")
+    ordered = list(related.prefetch_related("modules", "program_teachers__teacher"))
     return CatalogPageOut(
         total=len(ordered),
         canonical_url=absolute_url(CATALOG_PATH),

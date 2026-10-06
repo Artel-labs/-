@@ -134,7 +134,7 @@ class CompareOut(Schema):
     duration: str
     start: str
     modules: str
-    teachers: int
+    teachers: str
     audience: str
 
 

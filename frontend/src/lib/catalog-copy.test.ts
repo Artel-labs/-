@@ -42,3 +42,9 @@ test("catalog has no PK/PP legend under the filters", () => {
   assert.doesNotMatch(visibleText("pages/catalog.astro"), /tag-legend|ПК — повышение квалификации/);
   assert.doesNotMatch(visibleText("styles/catalog.css"), /tag-legend/);
 });
+
+test("compare table lists teacher names instead of their count", () => {
+  const text = visibleText("scripts/compare.ts");
+  assert.match(text, /\{ label: "Преподаватели", value: attribute\("data-cmp-teachers"\), list: true \}/);
+  assert.doesNotMatch(text, /"Преподавателей"/);
+});
