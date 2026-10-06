@@ -23,3 +23,9 @@ test("documents card keeps the link without the academic school paragraph", () =
   assert.doesNotMatch(text, /разбор кейсов ведут/);
   assert.match(text, /Посмотреть образцы документов/);
 });
+
+test("documents card title speaks of a document, not a diploma", () => {
+  const text = visibleText("landing/AboutSection.astro");
+  assert.match(text, /about-card-title">Документ НИУ ВШЭ, а преподают практикующие юристы</);
+  assert.doesNotMatch(text, /Диплом НИУ ВШЭ и преподаватели/);
+});
