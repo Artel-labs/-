@@ -41,3 +41,9 @@ test("practitioners card ends with the list of roles", () => {
   assert.match(text, /ординарные профессора и заслуженные деятели науки\.<\/p>/);
   assert.doesNotMatch(text, /формирует правовой ландшафт/);
 });
+
+test("documents card in why-us states only who issues the documents", () => {
+  const text = visibleText("landing/WhyUsSection.astro");
+  assert.match(text, /Все документы об окончании обучения выдаёт непосредственно НИУ ВШЭ\.<\/p>/);
+  assert.doesNotMatch(text, /высоко ценятся работодателями/);
+});
