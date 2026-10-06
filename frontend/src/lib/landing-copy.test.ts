@@ -16,3 +16,10 @@ test("about section keeps the paragraph without the employers sentence", () => {
   assert.match(text, /Наши выпускники — высокооплачиваемые специалисты/);
   assert.match(text, /государственных структурах\.<\/p>/);
 });
+
+test("documents card keeps the link without the academic school paragraph", () => {
+  const text = visibleText("landing/AboutSection.astro");
+  assert.doesNotMatch(text, /Академическая школа университета/);
+  assert.doesNotMatch(text, /разбор кейсов ведут/);
+  assert.match(text, /Посмотреть образцы документов/);
+});
