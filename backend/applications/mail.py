@@ -41,7 +41,9 @@ def moscow_time(application: Application) -> str:
 
 
 def subject(application: Application) -> str:
-    corporate = " (от организации)" if application.applicant_type == ApplicantType.CORPORATE else ""
+    corporate = (
+        f" ({ApplicantType.CORPORATE.label.lower()})" if application.applicant_type == ApplicantType.CORPORATE else ""
+    )
     topic = SUBJECT_TOPICS.get(Topic(application.topic), application.topic)
     if application.topic == Topic.PROGRAM:
         return f"{topic}{corporate}: {application.full_name} — {application.program_title or 'без программы'}"
@@ -57,10 +59,14 @@ def source_labels(application: Application) -> list[str]:
     return [source_label(source, application.source_other) for source in application.sources]
 
 
+def applicant_field() -> str:
+    return str(Application._meta.get_field("applicant_type").verbose_name)
+
+
 def corporate_lines(application: Application) -> list[str]:
     if application.applicant_type != ApplicantType.CORPORATE:
         return []
-    lines = ["", "Заявка ОТ ОРГАНИЗАЦИИ (корпоративное обучение)."]
+    lines = ["", f"{applicant_field()}: {ApplicantType.CORPORATE.label.lower()} (корпоративное обучение)."]
     if application.employees_count:
         lines.append(f"Сотрудников к обучению: {application.employees_count}")
     if application.timeframe:

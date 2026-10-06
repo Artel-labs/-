@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from django.urls import reverse
 
-from applications.mail import source_labels
+from applications.mail import applicant_field, source_labels
 from applications.models import ApplicantType, Application, MailStatus, Status
 
 
@@ -29,7 +29,7 @@ def announcements(application: Application) -> str:
 def facts(application: Application) -> list[Fact]:
     corporate = application.applicant_type == ApplicantType.CORPORATE
     candidates = [
-        Fact("Кто подаёт", application.get_applicant_type_display() if corporate else ""),
+        Fact(applicant_field(), application.get_applicant_type_display() if corporate else ""),
         Fact("Сотрудников к обучению", application.employees_count),
         Fact("Желаемые сроки", application.timeframe),
         Fact("Должность", application.position),

@@ -16,9 +16,9 @@ function topicField(handlers: FormHandlers): HTMLDivElement {
 }
 
 function kindField(handlers: FormHandlers): HTMLDivElement {
-  const { wrapper, select } = selectField("dpo-app-kind", "applicantType", "Кто подаёт заявку", [
-    [PERSONAL, "За себя"],
-    [CORPORATE, "От организации — обучение сотрудников"],
+  const { wrapper, select } = selectField("dpo-app-kind", "applicantType", "Кто будет обучаться", [
+    [PERSONAL, "Частное лицо"],
+    [CORPORATE, "Сотрудник организации"],
   ]);
   wrapper.id = "dpo-app-kind-wrap";
   select.addEventListener("change", () => {

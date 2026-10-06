@@ -12,8 +12,8 @@ class Topic(models.TextChoices):
 
 
 class ApplicantType(models.TextChoices):
-    PERSONAL = "personal", "За себя"
-    CORPORATE = "corporate", "От организации"
+    PERSONAL = "personal", "Частное лицо"
+    CORPORATE = "corporate", "Сотрудник организации"
 
 
 class Status(models.TextChoices):
@@ -46,7 +46,7 @@ class Application(models.Model):
     received_at = models.DateTimeField("Получена", default=timezone.now, db_index=True)
     topic = models.CharField("Тема", max_length=20, choices=Topic.choices, default=Topic.PROGRAM)
     applicant_type = models.CharField(
-        "Кто подаёт", max_length=20, choices=ApplicantType.choices, default=ApplicantType.PERSONAL
+        "Кто будет обучаться", max_length=20, choices=ApplicantType.choices, default=ApplicantType.PERSONAL
     )
     employees_count = models.CharField("Сотрудников к обучению", max_length=40, blank=True)
     timeframe = models.CharField("Желаемые сроки", max_length=200, blank=True)
