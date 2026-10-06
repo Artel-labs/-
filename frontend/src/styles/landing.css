@@ -1500,10 +1500,8 @@
   @media (hover: hover) and (pointer: fine){
     #explore a.explore-card:hover,
     section#explore a[href]:hover{
-      border-color: rgb(var(--accent)) !important;
       transform: translateY(-3px) !important;
-      box-shadow: 0 12px 28px rgb(var(--ink) / 0.1) !important;
-      background: rgb(var(--paper)) !important;
+      box-shadow: 0 12px 28px rgb(var(--ink) / 0.18) !important;
     }
     #explore a:hover .explore-arrow{
       transform: translateX(6px);

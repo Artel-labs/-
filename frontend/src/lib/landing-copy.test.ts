@@ -102,3 +102,12 @@ test("feedback block is titled by the ideas sentence", () => {
   assert.match(explore, /<p class="dpo-lead">Мы постоянно развиваемся и хотим, чтобы наши программы оставались самыми актуальными\.<\/p>/);
   assert.doesNotMatch(explore, /Помогите нам стать лучше/);
 });
+
+test("feedback cards use three palette colors and keep them on hover", () => {
+  const sections = readFileSync(new URL("../styles/landing-sections.css", import.meta.url), "utf8");
+  const landing = readFileSync(new URL("../styles/landing.css", import.meta.url), "utf8");
+  assert.match(sections, /\.explore-card-box:nth-child\(3n\+1\) \{ --card-bg: rgb\(var\(--hse-blue\)\)/);
+  assert.match(sections, /\.explore-card-box:nth-child\(3n\+2\) \{ --card-bg: rgb\(var\(--hse-blue-2\)\)/);
+  assert.match(sections, /\.explore-card-box:nth-child\(3n\+3\) \{ --card-bg: rgb\(var\(--hse-blue-4\)\)/);
+  assert.doesNotMatch(landing, /#explore a\.explore-card:hover,[^}]*background:/);
+});

@@ -71,9 +71,13 @@
 .corporate-paragraph-last { font-size: 1rem; line-height: 1.7; color: rgba(255, 255, 255, 0.72); max-width: 60ch; margin: 0px; }
 .corporate-cta { font-size: 0.9375rem; font-weight: 600; color: rgb(var(--brand-blue)); background: rgb(var(--ochre)); padding: 16px 30px; border-radius: var(--dpo-radius-sm); white-space: nowrap; }
 .explore-section { padding: clamp(64px, 9vw, 120px) clamp(20px, 6vw, 64px) clamp(32px, 4.5vw, 60px); }
-.explore-card-box { display: block; background: rgb(255, 255, 255); border: 1px solid rgb(var(--ink) / 0.1); border-radius: var(--dpo-radius-md); padding: 26px; transition: border-color 0.15s; }
-.explore-card-heading { font-family: var(--font-slab); font-size: 1.1875rem; font-weight: 600; margin: 0px 0px 8px; color: rgb(var(--accent)); }
-.explore-card-text { font-size: 0.9375rem; line-height: 1.55; color: rgb(var(--ink-soft)); margin: 0px; }
+.explore-card-box { display: block; background: var(--card-bg); color: var(--card-ink); border: 1px solid transparent; border-radius: var(--dpo-radius-md); padding: 26px; transition: border-color 0.15s; }
+.explore-card-box:nth-child(3n+1) { --card-bg: rgb(var(--hse-blue)); --card-ink: rgb(var(--hse-white)); }
+.explore-card-box:nth-child(3n+2) { --card-bg: rgb(var(--hse-blue-2)); --card-ink: rgb(var(--hse-white)); }
+.explore-card-box:nth-child(3n+3) { --card-bg: rgb(var(--hse-blue-4)); --card-ink: rgb(var(--hse-blue)); }
+html.vi-mode .explore-card-box { background: #fff !important; color: #000 !important; border-color: #000 !important; }
+.explore-card-heading { font-family: var(--font-slab); font-size: 1.1875rem; font-weight: 600; margin: 0px 0px 8px; color: inherit; }
+.explore-card-text { font-size: 0.9375rem; line-height: 1.55; color: inherit; margin: 0px; }
 .contacts-section { padding: clamp(32px, 4.5vw, 60px) clamp(20px, 6vw, 64px) clamp(64px, 9vw, 120px); }
 .contacts-title { font-family: var(--font-slab); font-weight: 600; font-size: clamp(1.75rem, 3.2vw, 2.625rem); margin: 0px 0px 20px; }
 .contacts-apply { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 20px; margin: 0px 0px 40px; }
