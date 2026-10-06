@@ -100,7 +100,7 @@ test("teachers intro has no carousel hint and no duplicated cases sentence", () 
 
 test("teachers intro lists only roles confirmed by teacher cards", () => {
   const teachers = visibleText("landing/TeachersSection.astro");
-  assert.match(teachers, /Курсы ведут преподаватели факультета права НИУ ВШЭ вместе с практиками: партнёрами юридических фирм, адвокатами, юристами компаний и судьёй в отставке\./);
+  assert.match(teachers, /Курсы ведут преподаватели факультета права НИУ ВШЭ вместе с практиками: партнёрами юридических фирм, адвокатами, юристами компаний и судьями в отставке\./);
   assert.doesNotMatch(teachers, /формирует правовой ландшафт/);
 });
 
