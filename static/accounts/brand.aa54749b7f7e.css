@@ -1,0 +1,23 @@
+:root {
+  --night: 6 23 57;
+  --hse-blue: 15 45 105;
+  --hse-blue-2: 35 75 155;
+  --hse-blue-3: 125 160 210;
+  --hse-blue-4: 205 220 240;
+  --hse-red: 230 30 60;
+  --success: 63 185 80;
+  --white: 255 255 255;
+
+  --pattern-size: 540px;
+  --blur: 22px;
+  --backdrop-size: auto, auto, auto, var(--pattern-size) auto;
+  --backdrop-repeat: no-repeat, no-repeat, no-repeat, repeat;
+  --night-veil:
+    radial-gradient(55% 45% at 50% 45%, rgb(var(--hse-blue-3) / 0.16), transparent 70%),
+    radial-gradient(120% 90% at 50% 50%, rgb(var(--night) / 0.55), rgb(0 0 0 / 0.75)),
+    linear-gradient(180deg, rgb(var(--night) / 0.7), rgb(var(--night) / 0.88));
+  --day-veil:
+    radial-gradient(55% 45% at 50% 40%, rgb(var(--white) / 0.55), transparent 70%),
+    radial-gradient(120% 90% at 50% 50%, rgb(var(--white) / 0.3), rgb(var(--hse-blue-4) / 0.4)),
+    linear-gradient(180deg, rgb(var(--white) / 0.76), rgb(var(--white) / 0.86));
+}

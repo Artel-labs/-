@@ -1,0 +1,1086 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="ru-ru" dir="ltr"  x-data="theme()" x-bind="themeBindings" x-cloak>
+    <head><meta charset="utf-8">
+        <title> Александра Илькевич | Изменить Преподаватель | Центр ДПО</title>
+
+        <link href="../../../../../static/unfold/fonts/inter/styles.db0319e91aca.css" rel="stylesheet">
+        <link href="../../../../../static/unfold/fonts/material-symbols/styles.24d3da3ad511.css" rel="stylesheet">
+
+        
+            <link href="../../../../../static/accounts/brand.aa54749b7f7e.css" rel="stylesheet">
+        
+            <link href="../../../../../static/accounts/admin.4507bf0e4a26.css" rel="stylesheet">
+        
+
+        
+            <link rel="icon" href="../../../../../static/core/favicon-32.d0d20c772a17.png" type="image/png" sizes="32x32">
+        
+
+        <link href="../../../../../static/unfold/css/styles.f822fefaeccc.css" rel="stylesheet">
+        <link href="../../../../../static/unfold/css/simplebar/simplebar.885fdefd8c76.css" rel="stylesheet">
+
+        <script src="../../../../../static/unfold/js/alpine/alpine.anchor.e12815977e25.js" defer></script>
+        <script src="../../../../../static/unfold/js/alpine/alpine.persist.ab876b01ff8d.js" defer></script>
+        <script src="../../../../../static/unfold/js/alpine/alpine.sort.02b1209e60d4.js" defer></script>
+        <script src="../../../../../static/unfold/js/alpine/alpine.resize.a02fd86e99be.js" defer></script>
+        <script src="../../../../../static/unfold/js/alpine/alpine.e42d440fa0ef.js" defer></script>
+        <script src="../../../../../static/unfold/js/htmx/htmx.13f08cce9f7b.js"></script>
+        <script src="../../../../../static/unfold/js/chart/chart.1c7c04818b71.js"></script>
+
+        
+            <script src="../../../../../static/accounts/lists.73f2ff1b6a58.js"></script>
+        
+
+        
+
+        
+    <script src="../../../../jsi18n/index.html"></script>
+    <script src="../../../../../static/admin/js/vendor/jquery/jquery.min.2c872dbe60f4.js"></script>
+<script src="../../../../../static/catalog/program.247d963198f7.js"></script>
+<script src="../../../../../static/admin/js/jquery.init.b7781a0897fc.js"></script>
+<script src="../../../../../static/admin/js/core.7e257fdf56dc.js"></script>
+<script src="../../../../../static/admin/js/admin/RelatedObjectLookups.c8bdc2b7dfa5.js"></script>
+<script src="../../../../../static/admin/js/actions.b700c7dc853c.js"></script>
+<script src="../../../../../static/admin/js/urlify.ae970a820212.js"></script>
+<script src="../../../../../static/admin/js/prepopulate.bd2361dfd64d.js"></script>
+<script src="../../../../../static/admin/js/vendor/xregexp/xregexp.min.f1ae4617847c.js"></script>
+
+
+        <script src="../../../../../static/unfold/js/app.390dda54a4c1.js"></script>
+
+        
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+
+        
+            <meta name="robots" content="noindex, nofollow">
+        
+    <style>#demo-note{position:relative}@media (min-width:1280px){#demo-note{position:sticky;top:0;z-index:2147483647}#nav-sidebar{top:var(--demo-h,0px)!important;max-height:calc(100vh - var(--demo-h,0px))!important}#nav-sidebar-inner{min-height:calc(100vh - var(--demo-h,0px))!important}}</style><script>(function(){function s(){var n=document.getElementById('demo-note');if(n)document.documentElement.style.setProperty('--demo-h',n.offsetHeight+'px');}document.addEventListener('DOMContentLoaded',s);window.addEventListener('resize',s);})();</script><script>(function(){var m="В демо-копии это действие недоступно: изменения не сохраняются.";document.addEventListener('click',function(e){var a=e.target.closest('[data-demo-off]');if(a){e.preventDefault();e.stopPropagation();alert(m);}},true);document.addEventListener('submit',function(e){e.preventDefault();e.stopPropagation();alert(m);},true);})();</script></head>
+
+    <body class="antialiased bg-base-50 font-sans text-font-default-light text-sm dark:bg-base-900 dark:text-font-default-dark  app-catalog model-teacher change-form" data-admin-utc-offset="10800"
+          x-data="{
+                  activeTab: 'general',
+                  sidebarMobileOpen: false,
+                  sidebarDesktopOpen: (localStorage.getItem('sidebarDesktopOpen') !== null) ? (localStorage.getItem('sidebarDesktopOpen') == '1') : true
+                  }"
+          x-init="
+                  activeTab = getCurrentTab() || 'general';
+                  $watch('sidebarDesktopOpen', value => localStorage.setItem('sidebarDesktopOpen', value ? '1' : '0'));
+                 "
+    ><div id="demo-note" role="note" style="margin:0;padding:8px 16px;background:#fff4c2;color:#3a2c00;font:14px/1.4 system-ui,sans-serif;text-align:center;border-bottom:1px solid #e0c96a">Демо-копия админки для просмотра. Это не официальный сайт НИУ ВШЭ: изменения здесь не сохраняются, данные учебные.</div>
+        
+            <style id="unfold-theme-colors">
+                :root {
+                    
+                        --border-radius: 10px;
+                    
+
+                    
+                        
+                            --color-base-50: oklch(98% .006 262);
+                        
+                            --color-base-100: oklch(95.5% .012 262);
+                        
+                            --color-base-200: oklch(91% .022 262);
+                        
+                            --color-base-300: oklch(84% .035 262);
+                        
+                            --color-base-400: oklch(70% .05 262);
+                        
+                            --color-base-500: oklch(56% .06 262);
+                        
+                            --color-base-600: oklch(46% .065 262);
+                        
+                            --color-base-700: oklch(38% .07 262);
+                        
+                            --color-base-800: oklch(29% .07 262);
+                        
+                            --color-base-900: oklch(22% .065 262);
+                        
+                            --color-base-950: oklch(16% .055 262);
+                        
+                    
+                        
+                            --color-primary-50: oklch(97% .015 262);
+                        
+                            --color-primary-100: oklch(93.5% .035 262);
+                        
+                            --color-primary-200: oklch(88% .065 262);
+                        
+                            --color-primary-300: oklch(80% .11 262);
+                        
+                            --color-primary-400: oklch(69% .16 262);
+                        
+                            --color-primary-500: oklch(58% .195 262);
+                        
+                            --color-primary-600: oklch(50.7% .2 262.1);
+                        
+                            --color-primary-700: oklch(42.6% .175 262);
+                        
+                            --color-primary-800: oklch(36% .14 262);
+                        
+                            --color-primary-900: oklch(30% .11 262);
+                        
+                            --color-primary-950: oklch(22% .08 262);
+                        
+                    
+                        
+                            --color-font-subtle-light: var(--color-base-500);
+                        
+                            --color-font-subtle-dark: var(--color-base-400);
+                        
+                            --color-font-default-light: var(--color-base-600);
+                        
+                            --color-font-default-dark: var(--color-base-300);
+                        
+                            --color-font-important-light: var(--color-base-900);
+                        
+                            --color-font-important-dark: var(--color-base-100);
+                        
+                    
+                }
+            </style>
+        
+
+        
+    <div id="page" class="flex max-w-full min-h-screen ">
+        
+            
+                
+
+<div class="relative z-60">
+    <div class="fixed hidden xl:relative xl:block w-[288px] " x-bind:class="{'xl:hidden!': !sidebarDesktopOpen, 'block!': sidebarMobileOpen}">
+        <div class="bg-base-50 relative z-30 dark:bg-base-900">
+            <div id="nav-sidebar" class="bg-base-50 border-r border-base-200 bottom-0 fixed max-h-screen top-0 w-[288px] dark:border-base-800 dark:bg-base-900 ">
+                
+                    
+
+<nav id="nav-sidebar-inner" class="bg-base-50 flex flex-col min-h-screen dark:text-font-default-dark dark:bg-base-950/20 ">
+    
+
+<div class="border-b border-base-200 flex gap-3 items-center h-[65px] mb-6 dark:border-base-800 px-3 ">
+    <div class="bg-transparent flex font-semibold gap-3 grow min-w-0 h-[64px] items-center px-3">
+        
+            
+
+
+    <div class="shrink-0">
+        <a href="../../../../index.html">
+        
+            <img src="../../../../../static/accounts/hse-mark.e6ee18356e09.svg" class="h-[38px]" alt="Начало" />
+        
+    </a>
+    </div>
+
+
+<div class="flex flex-col grow justify-center min-w-0">
+    <div class="text-important tracking-tight *:truncate xl:text-sm">
+        
+    <div id="site-name">
+    
+        <a href="../../../../index.html">
+            Центр ДПО
+        </a>
+    
+</div>
+
+
+    </div>
+
+    
+        <div class="font-normal text-subtle text-xs truncate">
+            факультета права
+        </div>
+    
+</div>
+
+        
+    </div>
+
+    <button type="button" class="dpo-nav-collapse" title="Свернуть меню" aria-label="Свернуть меню" x-on:click="sidebarDesktopOpen = false">
+        <span class="material-symbols-outlined">keyboard_double_arrow_left</span>
+    </button>
+
+    <span class="material-symbols-outlined block cursor-pointer h-[18px] xl:hidden! hover:text-base-700 dark:hover:text-base-200" x-on:click="sidebarMobileOpen = !sidebarMobileOpen">
+        close
+    </span>
+</div>
+
+
+    
+
+
+
+
+    
+        
+
+
+    <div id="nav-sidebar-apps" class="h-0 grow overflow-auto" data-simplebar>
+        
+            
+                
+
+                <div class="dpo-nav-group hidden has-[ol]:has-[li]:block"
+                     x-data="{navigationOpen: $persist(true).as('dpo-nav-applications')}"
+                     >
+                    <h2 class="dpo-nav-title" x-on:click="navigationOpen = !navigationOpen" x-bind:aria-expanded="navigationOpen">
+                        <span>Заявки</span>
+                        <span class="material-symbols-outlined dpo-nav-chevron" x-bind:class="{'is-open': navigationOpen}">chevron_right</span>
+                    </h2>
+
+                    <ol class="flex flex-col gap-0.5 px-6" x-show="navigationOpen">
+                        
+                            
+                                <li>
+                                    <a href="../../../../applications/application/index.html" class="flex h-[38px] items-center -mx-3 px-3 rounded-default hover:text-primary-600 dark:hover:text-primary-500 ">
+                                        <span class="material-symbols-outlined md-18 mr-3 w-[18px]">inbox</span>
+                                        <span>Заявки</span>
+                                    </a>
+                                </li>
+                            
+                        
+                            
+                                <li>
+                                    <a href="../../../../applications/mailrecipient/index.html" class="flex h-[38px] items-center -mx-3 px-3 rounded-default hover:text-primary-600 dark:hover:text-primary-500 ">
+                                        <span class="material-symbols-outlined md-18 mr-3 w-[18px]">forward_to_inbox</span>
+                                        <span>Получатели писем</span>
+                                    </a>
+                                </li>
+                            
+                        
+                    </ol>
+                </div>
+            
+        
+            
+                
+
+                <div class="dpo-nav-group hidden has-[ol]:has-[li]:block"
+                     x-data="{navigationOpen: $persist(true).as('dpo-nav-catalog')}"
+                     x-init="navigationOpen = true">
+                    <h2 class="dpo-nav-title" x-on:click="navigationOpen = !navigationOpen" x-bind:aria-expanded="navigationOpen">
+                        <span>Каталог программ</span>
+                        <span class="material-symbols-outlined dpo-nav-chevron" x-bind:class="{'is-open': navigationOpen}">chevron_right</span>
+                    </h2>
+
+                    <ol class="flex flex-col gap-0.5 px-6" x-show="navigationOpen">
+                        
+                            
+                                <li>
+                                    <a href="../../../program/index.html" class="flex h-[38px] items-center -mx-3 px-3 rounded-default hover:text-primary-600 dark:hover:text-primary-500 ">
+                                        <span class="material-symbols-outlined md-18 mr-3 w-[18px]">school</span>
+                                        <span>Программы</span>
+                                    </a>
+                                </li>
+                            
+                        
+                            
+                                <li>
+                                    <a href="../../../sphere/index.html" class="flex h-[38px] items-center -mx-3 px-3 rounded-default hover:text-primary-600 dark:hover:text-primary-500 ">
+                                        <span class="material-symbols-outlined md-18 mr-3 w-[18px]">category</span>
+                                        <span>Направления</span>
+                                    </a>
+                                </li>
+                            
+                        
+                            
+                                <li>
+                                    <a href="../../index.html" class="flex h-[38px] items-center -mx-3 px-3 rounded-default hover:text-primary-600 dark:hover:text-primary-500 bg-base-100 font-semibold text-primary-600 dark:bg-white/[.06] dark:text-primary-500 active">
+                                        <span class="material-symbols-outlined md-18 mr-3 w-[18px]">co_present</span>
+                                        <span>Преподаватели</span>
+                                    </a>
+                                </li>
+                            
+                        
+                    </ol>
+                </div>
+            
+        
+            
+                
+
+                <div class="dpo-nav-group hidden has-[ol]:has-[li]:block"
+                     x-data="{navigationOpen: $persist(true).as('dpo-nav-analytics')}"
+                     >
+                    <h2 class="dpo-nav-title" x-on:click="navigationOpen = !navigationOpen" x-bind:aria-expanded="navigationOpen">
+                        <span>Аналитика</span>
+                        <span class="material-symbols-outlined dpo-nav-chevron" x-bind:class="{'is-open': navigationOpen}">chevron_right</span>
+                    </h2>
+
+                    <ol class="flex flex-col gap-0.5 px-6" x-show="navigationOpen">
+                        
+                            
+                                <li>
+                                    <a href="../../../../analytics/event/index.html" class="flex h-[38px] items-center -mx-3 px-3 rounded-default hover:text-primary-600 dark:hover:text-primary-500 ">
+                                        <span class="material-symbols-outlined md-18 mr-3 w-[18px]">monitoring</span>
+                                        <span>Посещаемость</span>
+                                    </a>
+                                </li>
+                            
+                        
+                    </ol>
+                </div>
+            
+        
+            
+                
+
+                <div class="dpo-nav-group hidden has-[ol]:has-[li]:block"
+                     x-data="{navigationOpen: $persist(true).as('dpo-nav-users')}"
+                     >
+                    <h2 class="dpo-nav-title" x-on:click="navigationOpen = !navigationOpen" x-bind:aria-expanded="navigationOpen">
+                        <span>Пользователи</span>
+                        <span class="material-symbols-outlined dpo-nav-chevron" x-bind:class="{'is-open': navigationOpen}">chevron_right</span>
+                    </h2>
+
+                    <ol class="flex flex-col gap-0.5 px-6" x-show="navigationOpen">
+                        
+                            
+                                <li>
+                                    <a href="../../../../auth/user/index.html" class="flex h-[38px] items-center -mx-3 px-3 rounded-default hover:text-primary-600 dark:hover:text-primary-500 ">
+                                        <span class="material-symbols-outlined md-18 mr-3 w-[18px]">person</span>
+                                        <span>Пользователи</span>
+                                    </a>
+                                </li>
+                            
+                        
+                            
+                                <li>
+                                    <a href="#" data-demo-off class="flex h-[38px] items-center -mx-3 px-3 rounded-default hover:text-primary-600 dark:hover:text-primary-500 ">
+                                        <span class="material-symbols-outlined md-18 mr-3 w-[18px]">verified_user</span>
+                                        <span>Двухфакторный вход</span>
+                                    </a>
+                                </li>
+                            
+                        
+                    </ol>
+                </div>
+            
+        
+            
+                
+
+                <div class="dpo-nav-group hidden has-[ol]:has-[li]:block"
+                     x-data="{navigationOpen: $persist(false).as('dpo-nav-protection')}"
+                     >
+                    <h2 class="dpo-nav-title" x-on:click="navigationOpen = !navigationOpen" x-bind:aria-expanded="navigationOpen">
+                        <span>Защита входа</span>
+                        <span class="material-symbols-outlined dpo-nav-chevron" x-bind:class="{'is-open': navigationOpen}">chevron_right</span>
+                    </h2>
+
+                    <ol class="flex flex-col gap-0.5 px-6" x-show="navigationOpen">
+                        
+                            
+                                <li>
+                                    <a href="../../../../protection/lockout/index.html" class="flex h-[38px] items-center -mx-3 px-3 rounded-default hover:text-primary-600 dark:hover:text-primary-500 ">
+                                        <span class="material-symbols-outlined md-18 mr-3 w-[18px]">lock</span>
+                                        <span>Блокировки</span>
+                                    </a>
+                                </li>
+                            
+                        
+                            
+                                <li>
+                                    <a href="../../../../protection/loginjournal/index.html" class="flex h-[38px] items-center -mx-3 px-3 rounded-default hover:text-primary-600 dark:hover:text-primary-500 ">
+                                        <span class="material-symbols-outlined md-18 mr-3 w-[18px]">history</span>
+                                        <span>Журнал входов</span>
+                                    </a>
+                                </li>
+                            
+                        
+                    </ol>
+                </div>
+            
+        
+            
+                
+
+                <div class="dpo-nav-group hidden has-[ol]:has-[li]:block"
+                     x-data="{navigationOpen: $persist(false).as('dpo-nav-tasks')}"
+                     >
+                    <h2 class="dpo-nav-title" x-on:click="navigationOpen = !navigationOpen" x-bind:aria-expanded="navigationOpen">
+                        <span>Фоновые задачи</span>
+                        <span class="material-symbols-outlined dpo-nav-chevron" x-bind:class="{'is-open': navigationOpen}">chevron_right</span>
+                    </h2>
+
+                    <ol class="flex flex-col gap-0.5 px-6" x-show="navigationOpen">
+                        
+                            
+                                <li>
+                                    <a href="../../../../tasks/plannedtask/index.html" class="flex h-[38px] items-center -mx-3 px-3 rounded-default hover:text-primary-600 dark:hover:text-primary-500 ">
+                                        <span class="material-symbols-outlined md-18 mr-3 w-[18px]">schedule</span>
+                                        <span>Расписание</span>
+                                    </a>
+                                </li>
+                            
+                        
+                            
+                                <li>
+                                    <a href="../../../../tasks/taskrecord/index.html" class="flex h-[38px] items-center -mx-3 px-3 rounded-default hover:text-primary-600 dark:hover:text-primary-500 ">
+                                        <span class="material-symbols-outlined md-18 mr-3 w-[18px]">task_alt</span>
+                                        <span>Журнал задач</span>
+                                    </a>
+                                </li>
+                            
+                        
+                    </ol>
+                </div>
+            
+        
+    </div>
+
+
+    
+
+    <div class="border-t border-base-200 px-6 py-3 relative dark:border-base-800" x-data="{ openUserLinks: false }">
+    <nav class="absolute bg-white border border-base-200 flex flex-col leading-none py-1 rounded-default shadow-lg bottom-[73px] left-3 right-3 z-50 dark:bg-base-800 dark:border-base-700" x-cloak x-show="openUserLinks" x-transition x-on:click.outside="openUserLinks = false">
+        
+    <div class="dpo-theme-switch" role="group" aria-label="Тема оформления">
+        <a class="dpo-theme-option" role="button" x-on:click="switchTheme('light')" x-bind:class="adminTheme == 'light' && 'is-active'">
+            <span class="material-symbols-outlined" aria-hidden="true">light_mode</span>
+            <span>Светлая</span>
+        </a>
+        <a class="dpo-theme-option" role="button" x-on:click="switchTheme('dark')" x-bind:class="adminTheme == 'dark' && 'is-active'">
+            <span class="material-symbols-outlined" aria-hidden="true">dark_mode</span>
+            <span>Тёмная</span>
+        </a>
+        <a class="dpo-theme-option" role="button" x-on:click="switchTheme('auto')" x-bind:class="adminTheme == 'auto' && 'is-active'">
+            <span class="material-symbols-outlined" aria-hidden="true">computer</span>
+            <span>Как в системе</span>
+        </a>
+    </div>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+
+        
+
+
+    <a href="/-/" class="mx-1 px-3 py-2 rounded-default hover:bg-base-100 hover:text-base-700 dark:hover:bg-base-700 dark:hover:text-base-200">
+        Открыть сайт
+    </a>
+
+
+
+    
+        <a href="#" data-demo-off class="mx-1 px-3 py-2 rounded-default hover:bg-base-100 hover:text-base-700 dark:hover:bg-base-700 dark:hover:text-base-200">
+            Изменить пароль
+        </a>
+    
+        <a href="#" data-demo-off class="mx-1 px-3 py-2 rounded-default hover:bg-base-100 hover:text-base-700 dark:hover:bg-base-700 dark:hover:text-base-200">
+            Двухфакторный вход
+        </a>
+    
+
+
+<div class="border-t border-base-200 mt-1 pt-1 dark:border-base-700">
+    <form id="logout-form" method="post" action="#" data-demo-off class="mx-1">
+        <input type="hidden" name="csrfmiddlewaretoken" value="">
+
+        <button type="submit" class="bg-none flex cursor-pointer items-center px-3 py-1.5 text-left text-red-700 rounded-default w-full hover:bg-red-100 dark:hover:bg-red-500/20 dark:text-red-400 dark:hover:text-red-400">
+            Выйти <span class="ml-auto material-symbols-outlined text-red-700 dark:text-red-400">logout</span>
+        </button>
+    </form>
+</div>
+
+    </nav>
+
+    <div class="cursor-pointer flex flex-row gap-3 items-center min-h-[64px] -mx-6 -my-3 px-6 py-3 hover:bg-base-100 dark:hover:bg-base-800" x-on:click="openUserLinks = !openUserLinks" x-bind:class="{'bg-base-100 dark:bg-base-800': openUserLinks}">
+        
+    <div class="bg-base-200 bg-cover font-semibold flex items-center justify-center relative select-none text-important dark:bg-base-700 after:absolute after:inset-0 after:inset-ring after:inset-ring-base-800/10 dark:after:inset-ring-base-200/10
+                
+                    h-[38px] min-w-[38px] w-[38px]
+                
+                rounded-default after:rounded-default"
+         >
+        
+            A
+        
+    </div>
+
+
+
+        <div class="flex flex-col select-none min-w-0">
+            <div class="font-semibold text-important tracking-tight truncate">
+                admin
+            </div>
+
+            
+        </div>
+
+        <span class="material-symbols-outlined ml-auto select-none text-font-default-light dark:text-font-default-dark">
+            unfold_more
+        </span>
+    </div>
+</div>
+
+</nav>
+
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            
+        
+
+        <div id="main" class="bg-white flex flex-col grow min-w-0 dark:bg-base-900 ">
+            
+                
+
+<div class="bg-white border-b border-base-200 mb-6 px-4 z-40 dark:bg-base-900 dark:border-base-800 dark:text-font-default-dark ">
+    <div class="container flex items-center h-16 mx-auto py-4 ">
+        <div id="header-inner" class="flex items-center relative w-full">
+            <div class="flex items-center w-full">
+                
+                    
+                        
+                            
+
+<div class="flex flex-row grow font-semibold items-center min-w-0 mr-3">
+    
+        <span class="dpo-header-toggle" x-bind:class="{'is-sidebar-open': sidebarDesktopOpen}">
+            <button type="button" class="dpo-toggle-desktop" title="Развернуть меню" aria-label="Развернуть меню" x-on:click="sidebarDesktopOpen = true">
+                <span class="material-symbols-outlined">keyboard_double_arrow_right</span>
+            </button>
+
+            <button type="button" class="dpo-toggle-mobile" title="Меню" aria-label="Меню" x-on:click="sidebarMobileOpen = !sidebarMobileOpen">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+
+            <span class="block bg-base-200 h-5 mx-3 w-px dark:bg-base-700"></span>
+        </span>
+    
+
+    
+
+
+    
+        
+
+        <a href="../../index.html" class="block h-[18px] mr-3" title="Назад">
+            <span class="material-symbols-outlined">
+                arrow_back
+            </span>
+        </a>
+    
+
+
+
+    <h1 class="overflow-hidden leading-5 text-important flex items-center whitespace-nowrap xl:text-base">
+        <a href="../../../index.html" class="align-middle inline-block leading-5 min-w-0 truncate tracking-tight">
+        Каталог программ
+        </a ><span class="material-symbols-outlined inline-block align-middle leading-5 mx-2 text-base-400 dark:text-base-500">chevron_right</span><a href="../../index.html" class="align-middle inline-block leading-5 min-w-0 truncate tracking-tight">
+        Преподаватели
+        </a ><span class="material-symbols-outlined inline-block align-middle leading-5 mx-2 text-base-400 dark:text-base-500">chevron_right</span><a href="index.html" class="align-middle inline-block leading-5 min-w-0 truncate tracking-tight">
+        Александра Илькевич
+        </a >
+
+
+        
+    </h1>
+</div>
+
+                        
+
+                        
+                            
+
+<div class="flex flex-row gap-4 items-center ml-auto">
+    
+
+    
+
+
+    <div class="flex flex-row items-center ml-auto" x-data="{ showActions: false }" x-on:click.outside="showActions = false">
+        <a href="index.html#"      
+
+class="font-medium inline-flex group items-center gap-1 relative rounded-default justify-center whitespace-nowrap cursor-pointer
+
+    px-3 py-2
+
+
+    border border-base-200 bg-white shadow-xs text-important dark:border-base-700 dark:bg-transparent hover:bg-base-100/80 dark:hover:bg-base-800/80
+
+ !px-0 w-[38px] lg:hidden" 
+ x-on:click='showActions = !showActions'>
+
+
+
+            <span class="material-symbols-outlined">more_horiz</span>
+        
+</a>
+
+
+        <ul class="bg-white container hidden flex-col font-medium mx-auto left-0 right-0 lg:flex lg:flex-row lg:mb-0 lg:mt-0 max-lg:absolute max-lg:top-16 dark:bg-base-900" x-bind:class="{'max-lg:flex': showActions}">
+            
+                
+
+                
+                    <li class="max-lg:first:rounded-t-default dark:border-base-700 hover:text-primary-600 select-none min-lg:first:rounded-l-default min-lg:-ml-px max-lg:-mt-px dark:hover:text-primary-500 border-base-200 min-lg:last:rounded-r-default max-lg:last:rounded-b-default border" ><a href="#" data-demo-offclass="cursor-pointer flex grow items-center gap-2 px-3 py-2 text-left whitespace-nowrap"  
+
+       
+
+       ><span class="material-symbols-outlined">
+                history
+            </span>
+        
+
+        История
+
+        
+    </a></li>
+                
+            
+
+            
+
+            
+        </ul>
+    </div>
+
+
+
+    
+        
+    
+        
+
+
+
+    
+
+    
+</div>
+
+                        
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            
+
+            
+                <div class="px-4">
+                    <div class="container mx-auto ">
+                        
+
+                    </div>
+                </div>
+            
+
+            <div class="@container px-4 pb-4 grow">
+                <div id="content" class="container mx-auto colM ">
+                    
+                        
+
+                    
+
+                    
+    <div id="content-main">
+        
+
+        
+
+        <form  enctype="multipart/form-data"  x-bind:action="activeTab && activeTab !== 'general' ? window.location.pathname + window.location.search + '#' + activeTab : window.location.pathname + window.location.search" method="post" id="teacher_form"  novalidate>
+            <input type="hidden" name="csrfmiddlewaretoken" value="">
+
+            
+
+            
+
+            <div class="flex flex-col gap-6">
+                
+
+                
+
+                
+
+                
+                    
+                        
+                            
+                                
+
+<fieldset class="module relative " x-show="activeTab == 'general'">
+    
+
+    
+
+    
+
+    
+
+    <div class="shadow-xs form-rows rounded-default border-base-200 dark:border-base-800 aligned border">
+        
+            
+
+<div class="group/row form-row field-row ">
+    
+        
+            <div class="group-[.last]/row:border-b-0 flex-col field-name lg:items-center group min-h-[59px] border-b lg:border-l lg:flex-row flex dark:border-base-800 px-3 grow lg:first:border-l-0 group/line field-line border-dashed border-base-200 py-2.5" >
+                
+                    
+                        <div class="lg:min-w-56 lg:w-56 lg:h-[38px] lg:flex lg:items-center lg:self-start lg:leading-[38px] lg:*:m-0">
+    <label class="block font-semibold mb-2 text-font-important-light text-sm dark:text-font-important-dark required" for="id_name">ФИО<span class="text-red-600 dark:text-red-500">*</span></label>
+</div>
+
+<div class="grow relative">
+    
+        <div class="max-w-2xl relative w-full">
+    
+
+    
+
+    <input type="text" name="name" value="Александра Илькевич" class="border border-base-200 bg-white font-medium min-w-20 placeholder-base-400 rounded-default shadow-xs text-font-default-light text-sm focus:outline-2 focus:-outline-offset-2 focus:outline-primary-600 group-[.errors]:border-red-600 focus:group-[.errors]:outline-red-600 dark:bg-base-900 dark:border-base-700 dark:text-font-default-dark dark:group-[.errors]:border-red-500 dark:focus:group-[.errors]:outline-red-500 dark:scheme-dark group-[.primary]:border-transparent disabled:!bg-base-50 dark:disabled:!bg-base-800 px-3 py-2 w-full max-w-2xl " maxlength="200" required id="id_name">
+
+
+    
+
+    
+</div>
+    
+
+    
+
+    
+</div>
+
+                    
+                
+            </div>
+        
+    
+</div>
+
+        
+            
+
+<div class="group/row form-row field-row ">
+    
+        
+            <div class="group-[.last]/row:border-b-0 flex-col lg:items-center group min-h-[59px] border-b lg:border-l lg:flex-row flex dark:border-base-800 px-3 grow lg:first:border-l-0 group/line field-photo field-line border-dashed border-base-200 py-2.5" >
+                
+                    
+                        <div class="lg:min-w-56 lg:w-56 lg:h-[38px] lg:flex lg:items-center lg:self-start lg:leading-[38px] lg:*:m-0">
+    <label class="block font-semibold mb-2 text-font-important-light text-sm dark:text-font-important-dark" for="id_photo">Фото</label>
+</div>
+
+<div class="grow relative">
+    
+        <div class="mb-4 max-w-48">
+        <a href="../../../../../media/teachers/aleksandra-ilkevich.jpg" target="_blank">
+            <img src="../../../../../media/teachers/aleksandra-ilkevich.jpg" alt="Просмотр изображения" class="block rounded-default" />
+        </a>
+    </div>
+
+
+<div class="bg-white border border-base-200 flex grow items-center overflow-hidden rounded-default shadow-xs max-w-2xl focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-primary-600 group-[.errors]:border-red-600 focus-within:group-[.errors]:outline-red-500 dark:bg-base-900 dark:border-base-700 dark:group-[.errors]:border-red-500 dark:focus-within:group-[.errors]:outline-red-500">
+    
+        <div class="bg-base-50 border-r border-base-200 flex flex-none items-center self-stretch px-3 dark:bg-white/[.02] dark:border-base-700 dark:text-font-default-dark">
+            <label for="photo-clear_id" class="flex items-center">
+                <input type="checkbox" class="appearance-none bg-white block border border-base-300 h-4 min-w-4 relative rounded-[4px] shadow-xs w-4 dark:bg-base-900 dark:border-base-700 dark:checked:after:text-white after:absolute after:content-[&#x27;check\_small&#x27;] after:flex! after:h-4 after:items-center after:justify-center after:leading-none after:material-symbols-outlined after:-ml-px after:-mt-px after:text-white after:w-4 dark:after:text-transparent checked:bg-primary-600 dark:checked:bg-primary-600 checked:border-primary-600 dark:checked:border-primary-600 form-check-input" name="photo-clear" id="photo-clear_id" />
+
+                <span class="ml-2">
+                    Очистить
+                </span>
+            </label>
+        </div>
+    
+
+    <label for="id_photo" class="flex grow relative">
+        <input type="text" aria-label="Выберите файл" value="/-/media/teachers/aleksandra-ilkevich.jpg" disabled class="grow font-medium min-w-0 px-3 py-2 text-ellipsis">
+        <span class="absolute cursor-pointer left-0 bottom-0 top-0 right-0"></span>
+    </label>
+
+    <div class="bg-white flex flex-none items-center leading-none self-stretch dark:bg-base-900">
+        <div class="opacity-0 overflow-hidden w-[0px]">
+            <input type="file" name="photo"  accept="image/*" id="id_photo" />
+        </div>
+
+        
+            <a href="../../../../../media/teachers/aleksandra-ilkevich.jpg" class="border-r border-base-200 cursor-pointer text-base-400 px-3 hover:text-base-700 dark:border-base-700 dark:text-base-500 dark:hover:text-base-200" target="_blank">
+                <span class="block material-symbols-outlined">download</span>
+            </a>
+        
+
+        <label for="id_photo" class="cursor-pointer text-base-400 px-3 hover:text-base-700 dark:text-base-500 dark:hover:text-base-200">
+            <span class="block material-symbols-outlined">upload</span>
+        </label>
+    </div>
+</div>
+    
+
+    
+
+    
+</div>
+
+                    
+                
+            </div>
+        
+    
+</div>
+
+        
+            
+
+<div class="group/row form-row field-row last">
+    
+        
+            <div class="group-[.last]/row:border-b-0 flex-col lg:items-center field-page_url group min-h-[59px] border-b lg:border-l lg:flex-row flex dark:border-base-800 px-3 grow lg:first:border-l-0 group/line field-line border-dashed border-base-200 py-2.5" >
+                
+                    
+                        <div class="lg:min-w-56 lg:w-56 lg:h-[38px] lg:flex lg:items-center lg:self-start lg:leading-[38px] lg:*:m-0">
+    <label class="block font-semibold mb-2 text-font-important-light text-sm dark:text-font-important-dark" for="id_page_url">Страница на hse.ru</label>
+</div>
+
+<div class="grow relative">
+    
+        <div class="flex flex-col gap-2">
+    <input type="url" name="page_url" class="border border-base-200 bg-white font-medium min-w-20 placeholder-base-400 rounded-default shadow-xs text-font-default-light text-sm focus:outline-2 focus:-outline-offset-2 focus:outline-primary-600 group-[.errors]:border-red-600 focus:group-[.errors]:outline-red-600 dark:bg-base-900 dark:border-base-700 dark:text-font-default-dark dark:group-[.errors]:border-red-500 dark:focus:group-[.errors]:outline-red-500 dark:scheme-dark group-[.primary]:border-transparent disabled:!bg-base-50 dark:disabled:!bg-base-800 px-3 py-2 w-full max-w-2xl " maxlength="200" id="id_page_url">
+
+
+    
+</div>
+    
+
+    
+
+    
+</div>
+
+                    
+                
+            </div>
+        
+    
+</div>
+
+        
+    </div>
+
+    
+</fieldset>
+
+                            
+                        
+
+                        
+
+
+    
+
+
+                    
+                
+
+                
+
+                
+                    
+                
+
+                
+
+                
+                    <script id="django-admin-form-add-constants" src="../../../../../static/admin/js/change_form.9d8ca4f96b75.js" async></script>
+                
+
+                
+<script id="django-admin-prepopulated-fields-constants"
+        src="../../../../../static/admin/js/prepopulate_init.6cac7f3105b8.js"
+        data-prepopulated-fields="[]">
+</script>
+
+            </div>
+
+            
+        </form>
+
+        
+
+        
+
+        
+    </div>
+
+
+                    
+                </div>
+            </div>
+
+            
+    
+
+<div id="submit-row" class="relative lg:sticky lg:bottom-0 z-40">
+    <div class="backdrop-blur-xs bg-white/80 rounded-b-default pb-4 px-4 dark:bg-base-900/80 lg:border-t lg:border-base-200 relative lg:scrollable-top lg:py-0 dark:border-base-800">
+        <div class="flex flex-col-reverse gap-3 items-center mx-auto lg:flex-row-reverse container lg:h-[64px]">
+            
+                
+                    <button type="submit" form="teacher_form" name="_save"   
+
+class="font-medium inline-flex group items-center gap-1 relative rounded-default justify-center whitespace-nowrap cursor-pointer
+
+    px-3 py-2
+
+
+    border border-base-200 bg-primary-600 border-transparent text-white hover:bg-primary-600/80
+
+ w-full lg:w-auto" 
+ >
+
+
+
+                        Сохранить
+                    
+</button>
+
+                
+
+                
+
+                <div class="flex flex-col gap-3 mr-auto w-full lg:flex-row lg:w-auto">
+                    
+
+                    
+                        
+
+                        <a href="#" data-demo-off      
+
+class="font-medium inline-flex group items-center gap-1 relative rounded-default justify-center whitespace-nowrap cursor-pointer
+
+    px-3 py-2
+
+
+    border border-red-600 bg-red-600 border-transparent text-white hover:bg-red-600/80
+
+ mr-auto w-full lg:w-auto" 
+ >
+
+
+
+                            Удалить
+                        
+</a>
+
+                    
+                </div>
+            
+        </div>
+    </div>
+</div>
+
+
+        </div>
+    </div>
+
+
+        <div id="modal-overlay" class="backdrop-blur-xs bg-base-900/20 bottom-0 fixed left-0 mr-1 right-0 top-0 z-60 dark:bg-base-900/80"
+     x-cloak
+     x-show="openModal"
+     x-on:keydown.escape.window="openModal = false">
+</div>
+
+<div class="bottom-0 flex items-center justify-center left-0 right-0 fixed top-0 z-70"
+     x-cloak
+     x-show="openModal"
+     x-on:keydown.escape.window="openModal = false">
+    <div id="modal-content" class="bg-white relative rounded-default p-6 w-md dark:bg-base-800" x-on:click.outside="openModal = false"></div>
+</div>
+
+
+        
+
+
+    <div class="backdrop-blur-xs bg-base-900/20 flex flex-col fixed inset-0 p-4 lg:p-32 z-[1000] dark:bg-base-900/80"
+         x-data="searchCommand()"
+         x-on:opencommand.window="handleOpen()"
+         x-on:keydown.window="handleShortcut($event)"
+         x-show="openCommandResults">
+        <div class="bg-white flex flex-col max-w-3xl min-h-0 mx-auto overflow-hidden rounded-default shadow-lg w-full dark:bg-base-800" x-on:click.outside="handleOutsideClick()">
+            <div class="flex flex-row items-center px-4 w-full">
+                <button type="submit" id="command-submit" class="group flex items-center focus:outline-hidden">
+                    <span class="block material-symbols-outlined text-xl text-base-400 dark:text-base-500 group-[.htmx-request]:hidden">
+                        search
+                    </span>
+
+                    <span class="hidden material-symbols-outlined text-xl text-base-400 dark:text-base-500 group-[.htmx-request]:block animate-spin">
+                        progress_activity
+                    </span>
+                </button>
+
+                <input
+                    autocomplete="off"
+                    type="search"
+                    placeholder="Поиск"
+                    class="font-medium grow px-2 py-4 placeholder-font-subtle-light text-font-default-light focus:outline-hidden dark:placeholder-font-subtle-dark dark:text-font-default-dark"
+                    name="s"
+                    id="search-input-command"
+                    x-ref="searchInputCommand"
+                    hx-indicator="#command-submit"
+                    x-on:keydown.escape.prevent="handleEscape()"
+                    x-on:keydown.arrow-down.prevent="nextItem()"
+                    x-on:keydown.arrow-up.prevent="prevItem()"
+                    x-on:keydown.meta.enter.prevent="selectItem(false, true)"
+                    x-on:keydown.ctrl.enter.prevent="selectItem(false, true)"
+                    x-on:keydown.enter.prevent="if (!$event.metaKey && !$event.ctrlKey) selectItem(false, false)"
+                    hx-get="/-/admin/search/?extended=1"
+                    hx-trigger="keyup changed delay:500ms"
+                    hx-select="#command-results-list"
+                    hx-select-oob="#command-results-note"
+                    hx-target="#command-results">
+
+                <kbd class="bg-base-50 border border-base-200 font-sans text-xs text-font-subtle-light rounded-xs px-1 whitespace-nowrap dark:bg-white/[.04] dark:border-base-700 dark:text-font-subtle-dark">
+    esc
+</kbd>
+
+            </div>
+
+            <div class="grow h-full overflow-auto w-full dark:border-base-700" data-simplebar x-on:htmx:after-swap="handleContentLoaded($event)" x-bind:class="{'border-t border-base-200': items !== undefined && items.length > 0}">
+                <div id="command-results"></div>
+
+                
+
+                <div id="command-results-note"></div>
+            </div>
+        </div>
+    </div>
+
+
+
+        <script src="../../../../../static/unfold/js/simplebar/simplebar.e7c42525db6e.js"></script>
+    </body>
+</html>

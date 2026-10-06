@@ -1,0 +1,32 @@
+.dpo-analytics{display:flex;flex-direction:column;gap:16px;font-size:14px}
+.dpo-analytics h2{font-size:15px;font-weight:600;margin:0 0 12px}
+.dpo-analytics h2:not(:first-child){margin-top:18px}
+.dpo-range{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.dpo-range-link{padding:6px 14px;border-radius:999px;border:1px solid rgb(127 127 127 / .35);text-decoration:none}
+.dpo-range-link.is-active{background:#1658DA;border-color:#1658DA;color:#fff}
+.dpo-muted{opacity:.7;margin:8px 0 0}
+.dpo-card{border:1px solid rgb(127 127 127 / .25);border-radius:12px;padding:16px}
+.dpo-kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.dpo-kpi-value{font-size:24px;font-weight:600}
+.dpo-kpi-title{opacity:.7;margin-top:4px}
+.dpo-insights{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;list-style:disc}
+.dpo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.dpo-bars{display:flex;flex-direction:column;gap:8px}
+.dpo-bar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 8px}
+.dpo-bar-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dpo-bar-value{font-variant-numeric:tabular-nums;font-weight:600}
+.dpo-bar-track{grid-column:1 / -1;width:100%;height:6px;appearance:none;border:0;border-radius:999px;background:rgb(127 127 127 / .2);overflow:hidden}
+.dpo-bar-track::-webkit-progress-bar{background:rgb(127 127 127 / .2);border-radius:999px}
+.dpo-bar-track::-webkit-progress-value{background:#1658DA;border-radius:999px}
+.dpo-bar-track::-moz-progress-bar{background:#1658DA;border-radius:999px}
+.dpo-hours{display:grid;grid-template-columns:repeat(24,minmax(0,1fr));gap:4px;align-items:end}
+.dpo-hour{display:flex;flex-direction:column;align-items:center;gap:4px}
+.dpo-hour-bar{writing-mode:vertical-lr;direction:rtl;width:100%;height:120px;appearance:none;border:0;border-radius:4px;background:rgb(127 127 127 / .2);overflow:hidden}
+.dpo-hour-bar::-webkit-progress-bar{background:rgb(127 127 127 / .2)}
+.dpo-hour-bar::-webkit-progress-value{background:#1658DA}
+.dpo-hour-bar::-moz-progress-bar{background:#1658DA}
+.dpo-hour-label{font-size:11px;opacity:.7;min-height:14px}
+.dpo-table-wrap{overflow:auto}
+.dpo-table{width:100%;border-collapse:collapse}
+.dpo-table th,.dpo-table td{text-align:left;padding:8px;border-bottom:1px solid rgb(127 127 127 / .2);vertical-align:top}
+.dpo-chip{display:inline-block;margin:0 4px 4px 0;padding:2px 8px;border-radius:999px;background:rgb(22 88 218 / .12)}
