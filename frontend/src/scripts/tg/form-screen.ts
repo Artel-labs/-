@@ -1,6 +1,7 @@
 import type { Context } from "./context";
 import { formatPrice, LIMITS, validateApplication, type FieldError, type FieldName } from "./core.ts";
 import { h, picture } from "./dom";
+import { PRIVACY_POLICY_URL } from "../../lib/brand";
 
 type Control = FieldName | "consent";
 
@@ -12,7 +13,6 @@ const FORM_FIELDS: [FieldName, string, string, string][] = [
   ["position", "Должность, если хотите", "organization-title", "text"],
   ["company", "Место работы, если хотите", "organization", "text"],
 ];
-const PRIVACY_URL = "/privacy";
 
 class FormControls {
   readonly inputs = new Map<Control, HTMLInputElement>();
@@ -85,7 +85,7 @@ function consentRow(context: Context, controls: FormControls): HTMLElement[] {
     controls.clear("consent");
   });
   const error = controls.register("consent", consent);
-  const policy = h("a", { href: PRIVACY_URL, target: "_blank", rel: "noopener", text: "Политикой обработки персональных данных" });
+  const policy = h("a", { href: PRIVACY_POLICY_URL, target: "_blank", rel: "noopener", text: "Политикой обработки персональных данных" });
   context.bridge.routeLink(policy);
   const label = h("label", { class: "check" }, [
     consent,

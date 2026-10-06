@@ -8,6 +8,7 @@ export const THEME_COLOR = PALETTE_HEX["hse-blue"];
 export const TG_THEME_COLOR = PALETTE_HEX["hse-white"];
 
 export const HSE_URL = "https://www.hse.ru/";
+export const PRIVACY_POLICY_URL = "https://www.hse.ru/data_protection_regulation";
 export const HSE_MARK = "/images/logo/hse-mark.svg";
 export const HSE_MARK_ALT = "НИУ ВШЭ";
 export const LOCKUP_CAPTION = ["Центр ДПО", "факультета права"] as const;

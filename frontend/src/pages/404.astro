@@ -5,6 +5,7 @@ import Copyright from "../components/Copyright.astro";
 import HomeLink from "../components/HomeLink.astro";
 import HseLockup from "../components/HseLockup.astro";
 import SkipLink from "../components/SkipLink.astro";
+import { PRIVACY_POLICY_URL } from "../lib/brand";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "../styles/not-found.css";
 
@@ -46,6 +47,6 @@ const DESCRIPTION = "Такой страницы на сайте нет.";
   </main>
   <footer>
     <Copyright />
-    <a class="footer-privacy" href="/privacy">Политика обработки персональных данных</a>
+    <a class="footer-privacy" href={PRIVACY_POLICY_URL} target="_blank" rel="noopener">Политика обработки персональных данных</a>
   </footer>
 </BaseLayout>

@@ -1,6 +1,7 @@
 import { element } from "../dialog";
-import { CORPORATE, OTHER_SOURCE, PERSONAL, PRIVACY_URL, SOURCES, SUBMIT_LABEL, TOPICS } from "./constants";
+import { CORPORATE, OTHER_SOURCE, PERSONAL, SOURCES, SUBMIT_LABEL, TOPICS } from "./constants";
 import { errorBox, inputField, row, selectField } from "./fields";
+import { PRIVACY_POLICY_URL } from "../../lib/brand";
 
 export interface FormHandlers {
   onTopic: (topic: string) => void;
@@ -108,7 +109,7 @@ function consentField(): HTMLElement[] {
   input.id = "dpo-app-consent";
   input.setAttribute("aria-describedby", "dpo-app-consent-err");
   const privacy = element("a", "", "Политикой обработки персональных данных");
-  privacy.href = PRIVACY_URL;
+  privacy.href = PRIVACY_POLICY_URL;
   privacy.target = "_blank";
   privacy.rel = "noopener";
   const text = element("span");

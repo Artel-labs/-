@@ -4,6 +4,7 @@ import { test } from "node:test";
 import { botData, faq } from "./fixtures.ts";
 import { ActionQueue } from "./queue.ts";
 import { detectIntent, formatPrice, pickBy, priceRange, reply, sphereList, upcoming } from "./reply.ts";
+import { PRIVACY_POLICY_URL } from "../../lib/brand.ts";
 
 const data = botData();
 
@@ -101,7 +102,7 @@ test("база ответов: устойчивые id, якоря на новы
   const all = [...entries.answers, ...entries.gaps, entries.duration];
   assert.equal(new Set(all.map((entry) => entry.id)).size, all.length);
   for (const entry of [...entries.answers, entries.duration]) {
-    assert.match(entry.anchor, /^\/(catalog|privacy)?(#[\w-]+)?$/, entry.id);
+    assert.ok(/^\/(catalog)?(#[\w-]+)?$/.test(entry.anchor) || entry.anchor === PRIVACY_POLICY_URL, entry.id);
   }
   for (const entry of all) {
     assert.ok(entry.triggers.length > 0 && entry.triggers.every((trigger) => trigger.trim() && !trigger.includes("—")), entry.id);

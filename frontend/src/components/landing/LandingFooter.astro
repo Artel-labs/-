@@ -1,4 +1,5 @@
 ---
+import { PRIVACY_POLICY_URL } from "../../lib/brand";
 import Copyright from "../Copyright.astro";
 ---
 
@@ -6,7 +7,7 @@ import Copyright from "../Copyright.astro";
 <span class="footer-note">Центр дополнительного профессионального образования факультета права НИУ ВШЭ</span>
 <span class="footer-links-row">
 <a class="footer-link" href="#document">Выдаваемый документ</a>
-<a class="footer-link" href="/privacy">Политика обработки персональных данных</a>
+<a class="footer-link" href={PRIVACY_POLICY_URL} target="_blank" rel="noopener">Политика обработки персональных данных</a>
 <a class="footer-link" href="https://www.hse.ru/sveden/" rel="noopener">Сведения об&nbsp;образовательной организации</a>
 <Copyright class="footer-note" />
 </span>

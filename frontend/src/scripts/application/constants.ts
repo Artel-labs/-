@@ -1,6 +1,5 @@
 export const ENDPOINT = "/api/applications";
 export const PROGRAMS_ENDPOINT = "/api/catalog/program-options";
-export const PRIVACY_URL = "/privacy";
 export const CATALOG_URL = "/catalog";
 export const FALLBACK_PHONE = "+7 (495) 772-95-90";
 export const PROGRAM_TOPIC = "program";

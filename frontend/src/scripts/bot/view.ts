@@ -26,7 +26,17 @@ export function programCard(program: BotProgram): HTMLElement {
 export function moreLink(anchor: string, label = DEFAULT_MORE): HTMLAnchorElement {
   const link = node("a", "dpo-bot-more", label);
   link.href = anchor;
+  if (isExternal(anchor)) openInNewTab(link);
   return link;
+}
+
+function isExternal(href: string): boolean {
+  return /^https?:\/\//.test(href);
+}
+
+function openInNewTab(link: HTMLAnchorElement): void {
+  link.target = "_blank";
+  link.rel = "noopener";
 }
 
 export function applyButton(): HTMLButtonElement {
