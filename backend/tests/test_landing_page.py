@@ -10,6 +10,8 @@ from django.core.management import call_command
 from catalog.landing_schemas import LandingOut
 from catalog.models import TOP_PLACES, Program
 from catalog.presentation.landing.page import landing_page
+from catalog.presentation.landing.teachers import HIDDEN_ON_LANDING
+from catalog.presentation.page import program_page
 from tests.media import unversioned
 from tests.typography import untypeset
 
@@ -17,6 +19,7 @@ pytestmark = pytest.mark.django_db
 
 LEGACY = json.loads((Path(__file__).parent / "fixtures" / "legacy_landing.json").read_text(encoding="utf-8"))
 LEGACY_DAY = date(2026, 10, 1)
+HIDDEN_TEACHER_PROGRAM = "1029651795"
 LEGACY_CATALOG = "Каталог программ.html"
 LEGACY_IMAGES = "images/"
 MEDIA_URL = "/media/"
@@ -102,8 +105,18 @@ def teacher_record(card: Any) -> dict[str, Any]:
 
 def test_teachers_match_previous_site(page):
     assert untypeset(unversioned([teacher_record(card) for card in page.teachers])) == untypeset(
-        [legacy_teacher(record) for record in LEGACY["teachers"]]
+        [legacy_teacher(record) for record in LEGACY["teachers"] if record["name"] not in HIDDEN_ON_LANDING]
     )
+
+
+def test_hidden_teacher_is_not_on_landing(page):
+    assert all(HIDDEN_ON_LANDING[0] not in card.payload for card in page.teachers)
+
+
+def test_hidden_teacher_stays_on_program_page(page):
+    program = Program.objects.get(hse_id=HIDDEN_TEACHER_PROGRAM)
+    names = [teacher.name for teacher in program_page(program, LEGACY_DAY).teachers]
+    assert HIDDEN_ON_LANDING[0] in names
 
 
 def test_starts_strip_matches_previous_site(page):
@@ -151,7 +164,7 @@ def test_top_programs_match_previous_site(page):
 def test_landing_endpoint(client, page):
     response = client.get("/api/catalog/landing")
     assert response.status_code == 200
-    assert len(response.json()["teachers"]) == len(LEGACY["teachers"])
+    assert len(response.json()["teachers"]) == len(LEGACY["teachers"]) - len(HIDDEN_ON_LANDING)
 
 
 def test_landing_texts_follow_brandbook_typography(page):

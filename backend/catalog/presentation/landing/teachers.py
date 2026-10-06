@@ -33,6 +33,7 @@ TEACHER_ABOUT = {
         "Профессор-исследователь департамента частного права НИУ ВШЭ, доктор юридических наук"
     ),
 }
+HIDDEN_ON_LANDING = ("Духовная Татьяна Сергеевна",)
 
 
 @dataclass(frozen=True)
@@ -165,5 +166,9 @@ def card(person: Person) -> TeacherCardOut:
     )
 
 
+def hidden_on_landing(person: Person) -> bool:
+    return any(same_person(person, name_tokens(name)) for name in HIDDEN_ON_LANDING)
+
+
 def teachers(programs: list[Program]) -> list[TeacherCardOut]:
-    return [card(person) for person in merge(programs)]
+    return [card(person) for person in merge(programs) if not hidden_on_landing(person)]
