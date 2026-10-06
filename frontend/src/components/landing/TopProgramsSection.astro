@@ -21,16 +21,10 @@ const { programs } = Astro.props;
         </div>
         <div class="dpo-carousel-nav dpo-top5-nav top5-nav">
 <a class="dpo-starts-all top5-all" href="/catalog">Все программы с&nbsp;фильтрами</a>
-<button aria-controls="top5Track" aria-label="Предыдущие программы" class="dpo-carousel-btn" data-dpo-scroll="prev" type="button">
-<svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 16 16"><path d="M13 8H3M7 4L3 8l4 4"></path></svg>
-</button>
-<button aria-controls="top5Track" aria-label="Следующие программы" class="dpo-carousel-btn" data-dpo-scroll="next" type="button">
-<svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"></path></svg>
-</button>
 </div>
       </div>
     </div>
-    <div class="dpo-top5-track" id="top5Track" role="list" aria-label="Программы Центра ДПО факультета права">
+    <div class="dpo-top5-grid" role="list" aria-label="Программы Центра ДПО факультета права">
       {programs.map((program) => <TopProgramTile program={program} />)}
     </div>
   </div>

@@ -110,16 +110,13 @@ class TopProgramOut(Schema):
     image_webp: str
     id: str
     start: str
-    rank: str
     title: str
-    tagline: str
     kind: str
     format: str
     format_tip: str
     doc: str
     doc_tip: str
     duration: str
-    price: str
     path: str
 
 

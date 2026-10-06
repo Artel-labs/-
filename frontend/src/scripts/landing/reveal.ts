@@ -13,7 +13,7 @@ const CASCADE_SELECTOR = [
   ".dpo-explore-grid .explore-card",
   ".dpo-start",
   ".dpo-review",
-  ".dpo-top5-track > .dpo-tile",
+  ".dpo-top5-grid > .dpo-tile",
   ".dpo-why-list > .dpo-why-row",
 ].join(", ");
 

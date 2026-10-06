@@ -97,16 +97,13 @@ export interface TopProgram {
   image_webp: string;
   id: string;
   start: string;
-  rank: string;
   title: string;
-  tagline: string;
   kind: string;
   format: string;
   format_tip: string;
   doc: string;
   doc_tip: string;
   duration: string;
-  price: string;
   path: string;
 }
 

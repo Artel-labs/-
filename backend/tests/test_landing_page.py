@@ -20,6 +20,7 @@ LEGACY_DAY = date(2026, 10, 1)
 LEGACY_CATALOG = "Каталог программ.html"
 LEGACY_IMAGES = "images/"
 MEDIA_URL = "/media/"
+TILE_FIELDS_REMOVED = ("rank", "tagline", "price")
 STEP_COLORS = {
     1: "--step-bg:#1658DA;--step-ink:#FFFFFF;--step-soft:rgba(255,255,255,.86)",
     2: "--step-bg:#0B2A69;--step-ink:#FFFFFF;--step-soft:rgba(255,255,255,.86)",
@@ -147,16 +148,13 @@ def top_record(item: Any) -> dict[str, str]:
         "imageWebp": item.image_webp,
         "id": item.id,
         "start": item.start,
-        "rank": item.rank,
         "title": item.title,
-        "tagline": item.tagline,
         "kind": item.kind,
         "format": item.format,
         "formatTip": item.format_tip,
         "doc": item.doc,
         "docTip": item.doc_tip,
         "duration": item.duration,
-        "price": item.price,
         "href": item.path,
     }
     return {key: value for key, value in record.items() if value or key not in ("image", "imageWebp")}
@@ -164,7 +162,11 @@ def top_record(item: Any) -> dict[str, str]:
 
 def test_top_programs_match_previous_site(page):
     legacy = [
-        {key: site_href(value) if key in ("image", "imageWebp", "href") else value for key, value in item.items()}
+        {
+            key: site_href(value) if key in ("image", "imageWebp", "href") else value
+            for key, value in item.items()
+            if key not in TILE_FIELDS_REMOVED
+        }
         for item in LEGACY["top"][:TOP_PLACES]
     ]
     assert untypeset(unversioned([top_record(item) for item in page.top])) == untypeset(legacy)

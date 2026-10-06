@@ -62,3 +62,16 @@ test("top programs block is titled by listeners choice without intro and legend"
   assert.doesNotMatch(text, /Право меняется быстрее/);
   assert.doesNotMatch(text, /итог — удостоверение/);
 });
+
+test("top program tile shows the start over the cover without rank, price and description", () => {
+  const tile = visibleText("landing/TopProgramTile.astro");
+  assert.match(tile, /dpo-tile-cover[^>]*>\{program\.start && <span class="dpo-tile-start">/);
+  assert.doesNotMatch(tile, /program\.(rank|price|tagline)/);
+  assert.match(tile, /Подать заявку/);
+});
+
+test("top programs are laid out as a grid, not a carousel", () => {
+  const section = visibleText("landing/TopProgramsSection.astro");
+  assert.match(section, /class="dpo-top5-grid"/);
+  assert.doesNotMatch(section, /data-dpo-scroll/);
+});
