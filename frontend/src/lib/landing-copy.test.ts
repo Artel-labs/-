@@ -95,3 +95,10 @@ test("teachers intro lists only roles confirmed by teacher cards", () => {
   assert.match(teachers, /Курсы ведут преподаватели факультета права НИУ ВШЭ вместе с практиками: партнёрами юридических фирм, адвокатами, юристами компаний и судьёй в отставке\./);
   assert.doesNotMatch(teachers, /формирует правовой ландшафт/);
 });
+
+test("feedback block is titled by the ideas sentence", () => {
+  const explore = visibleText("landing/ExploreSection.astro");
+  assert.match(explore, /<h2 class="dpo-h2">Ваш опыт и идеи помогут нам стать ещё лучше<\/h2>/);
+  assert.match(explore, /<p class="dpo-lead">Мы постоянно развиваемся и хотим, чтобы наши программы оставались самыми актуальными\.<\/p>/);
+  assert.doesNotMatch(explore, /Помогите нам стать лучше/);
+});
