@@ -35,3 +35,9 @@ test("hero lead names corporate lawyers instead of in-house counsel", () => {
   assert.match(text, /практикующих и корпоративных юристов, руководителей правовых департаментов/);
   assert.doesNotMatch(text, /in-house/);
 });
+
+test("practitioners card ends with the list of roles", () => {
+  const text = visibleText("landing/WhyUsSection.astro");
+  assert.match(text, /ординарные профессора и заслуженные деятели науки\.<\/p>/);
+  assert.doesNotMatch(text, /формирует правовой ландшафт/);
+});
