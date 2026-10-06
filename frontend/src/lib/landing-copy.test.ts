@@ -29,3 +29,9 @@ test("documents card title speaks of a document, not a diploma", () => {
   assert.match(text, /about-card-title">Документ НИУ ВШЭ, а преподают практикующие юристы</);
   assert.doesNotMatch(text, /Диплом НИУ ВШЭ и преподаватели/);
 });
+
+test("hero lead names corporate lawyers instead of in-house counsel", () => {
+  const text = visibleText("landing/HeroSection.astro");
+  assert.match(text, /практикующих и корпоративных юристов, руководителей правовых департаментов/);
+  assert.doesNotMatch(text, /in-house/);
+});
