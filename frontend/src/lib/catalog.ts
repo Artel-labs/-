@@ -54,29 +54,13 @@ export interface Filters {
   duration: Chip[];
 }
 
-export interface Month {
-  label: string;
-  caption: string;
-  count: number;
-  left: number;
-  width: number;
-  scroll: number;
-}
-
 export interface LegendEntry {
   slug: string;
   title: string;
 }
 
-export interface Tick {
-  left: number;
-  kind: string;
-}
-
 export interface Start {
-  lane: string;
-  left: number;
-  pin: number;
+  side: "left" | "right";
   path: string;
   hint: string;
   when: string;
@@ -86,13 +70,16 @@ export interface Start {
   price: string;
 }
 
-export interface Starts {
-  width: number;
-  months: Month[];
-  legend: LegendEntry[];
-  ticks: Tick[];
-  today: number | null;
+export interface StartMonth {
+  anchor: string;
+  label: string;
+  caption: string;
   items: Start[];
+}
+
+export interface Starts {
+  months: StartMonth[];
+  legend: LegendEntry[];
 }
 
 export interface CatalogPage {

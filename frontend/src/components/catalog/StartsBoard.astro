@@ -17,13 +17,13 @@ const { starts } = Astro.props;
       </div>
       <div class="starts-months" aria-label="Месяцы">
         {starts.months.map((month, index) => (
-          <button type="button" class="starts-chip" data-scroll={month.scroll} aria-pressed={index === 0}>
+          <button type="button" class="starts-chip" data-target={month.anchor} aria-pressed={index === 0}>
             {month.label}
           </button>
         ))}
       </div>
       {starts.legend.length > 0 && (
-        <ul class="starts-legend" aria-label="Цвет точки — направление программы">
+        <ul class="starts-legend" aria-label="Цвет точки — направление программы">
           {starts.legend.map((sphere) => (
             <li>
               <i class="tl-dot" data-sphere={sphere.slug} aria-hidden="true" />
@@ -32,47 +32,38 @@ const { starts } = Astro.props;
           ))}
         </ul>
       )}
-      <div class="tl-wrap" tabindex="0" role="region" aria-label="Ось времени ближайших стартов, прокручивается горизонтально">
-        <div class="tl" data-width={starts.width}>
-          {starts.months.map((month) => (
-            <div class="tl-month" data-left={month.left} data-width={month.width} aria-hidden="true">
-              <span class="tl-month-label">{month.caption}</span>
-            </div>
-          ))}
-          <div class="tl-axis" aria-hidden="true">
-            {starts.ticks.map((tick) => (
-              <i class:list={["tl-tick", tick.kind]} data-left={tick.left} />
-            ))}
-          </div>
-          {starts.today !== null && (
-            <div class="tl-today" data-left={starts.today} aria-hidden="true">
-              <span>Сегодня</span>
-            </div>
-          )}
-          {starts.items.map((item) => (
-            <div class={`tl-item tl-${item.lane}`} data-left={item.left} data-pin={item.pin}>
-              <a class="tl-card" href={sitePath(item.path)} title={item.hint}>
-                <span class="tl-when">{item.when}</span>
-                <span class="tl-name">{item.title}</span>
-                <span class="tl-meta">
-                  {item.sphere && <i class="tl-dot" data-sphere={item.sphere} aria-hidden="true" />}
-                  {item.meta}
-                </span>
-                <span class="tl-price">{item.price}</span>
-              </a>
-              <span class="tl-pin" aria-hidden="true" />
-            </div>
-          ))}
-        </div>
+      <div class="vt">
+        <p class="vt-today" aria-hidden="true">
+          <span>Сегодня</span>
+        </p>
+        {starts.months.map((month) => (
+          <section class="vt-month" id={month.anchor} aria-label={month.caption}>
+            <h3 class="vt-month-label">{month.caption}</h3>
+            <ol class="vt-items">
+              {month.items.map((item) => (
+                <li class={`vt-item vt-${item.side}`}>
+                  <a class="tl-card" href={sitePath(item.path)} title={item.hint}>
+                    <span class="tl-when">{item.when}</span>
+                    <span class="tl-name">{item.title}</span>
+                    <span class="tl-meta">
+                      {item.sphere && <i class="tl-dot" data-sphere={item.sphere} aria-hidden="true" />}
+                      {item.meta}
+                    </span>
+                    <span class="tl-price">{item.price}</span>
+                  </a>
+                  <span class="tl-pin" aria-hidden="true" />
+                </li>
+              ))}
+            </ol>
+          </section>
+        ))}
       </div>
     </section>
   )
 }
 
 <script>
-  import { placeTimeline } from "../../scripts/timeline";
   import { setupStartsBoard } from "../../scripts/starts-board";
 
-  placeTimeline();
   setupStartsBoard();
 </script>

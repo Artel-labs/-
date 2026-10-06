@@ -10,8 +10,8 @@ from django.core.management import call_command
 from catalog.models import Program, Source
 from catalog.presentation.cards import LIST_SEPARATOR
 from catalog.presentation.catalog import catalog_page
-from catalog.presentation.timeline import DAY_PX
-from catalog.schemas import CardOut, CatalogPageOut, StartsOut
+from catalog.presentation.timeline import SIDES
+from catalog.schemas import CardOut, CatalogPageOut, StartOut, StartsOut
 from tests.media import unversioned
 from tests.typography import untypeset
 
@@ -19,8 +19,6 @@ pytestmark = pytest.mark.django_db
 
 LEGACY = json.loads((Path(__file__).parent / "fixtures" / "legacy_catalog.json").read_text(encoding="utf-8"))
 LEGACY_DAY = date(2026, 10, 1)
-LEGACY_AXIS_START = date(2026, 10, 1)
-SAME_AS_LEGACY = ("width", "chips", "months", "today", "items")
 LEGACY_SITE = "https://example.com"
 LEGACY_IMAGES = "images/"
 MEDIA_URL = "/media/"
@@ -77,32 +75,8 @@ def legacy_card(record: dict[str, Any]) -> dict[str, Any]:
     return {**record, "thumb": thumb}
 
 
-def starts_record(starts: StartsOut) -> dict[str, Any]:
-    return {
-        "width": starts.width,
-        "chips": [
-            [month.label, str(month.count), month.scroll, "true" if index == 0 else "false"]
-            for index, month in enumerate(starts.months)
-        ],
-        "months": [[month.left, month.width, month.label, str(month.count)] for month in starts.months],
-        "ticks": [[tick.left, tick.kind] for tick in starts.ticks],
-        "today": starts.today,
-        "items": [
-            [
-                item.lane,
-                item.left,
-                item.pin,
-                item.path,
-                item.hint,
-                item.when,
-                item.title,
-                item.sphere,
-                item.meta,
-                item.price,
-            ]
-            for item in starts.items
-        ],
-    }
+def start_items(starts: StartsOut) -> list[StartOut]:
+    return [item for month in starts.months for item in month.items]
 
 
 def test_cards_match_previous_site(page):
@@ -119,33 +93,33 @@ def test_filters_match_previous_site(page):
     assert untypeset(chips) == untypeset(LEGACY["filters"])
 
 
-def test_starts_board_matches_previous_site(page):
+def test_starts_keep_previous_site_cards_in_date_order(page):
     assert page.starts is not None
-    record, legacy = starts_record(page.starts), LEGACY["starts"]
-    assert untypeset({key: record[key] for key in SAME_AS_LEGACY}) == untypeset(
-        {key: legacy[key] for key in SAME_AS_LEGACY}
-    )
+    cards = [
+        [item.path, item.hint, item.when, item.title, item.sphere, item.meta, item.price]
+        for item in start_items(page.starts)
+    ]
+    assert untypeset(cards) == untypeset([item[3:] for item in LEGACY["starts"]["items"]])
 
 
-def test_starts_ticks_mark_mondays_and_month_starts(page):
+def test_starts_are_grouped_by_month_with_anchors(page):
     assert page.starts is not None
-    legacy_lefts = {left for left, _ in LEGACY["starts"]["ticks"]}
-    assert page.starts.ticks
-    for tick in page.starts.ticks:
-        day = date.fromordinal(LEGACY_AXIS_START.toordinal() + (tick.left - DAY_PX // 2) // DAY_PX)
-        assert float(tick.left) in legacy_lefts
-        assert tick.kind == ("is-month" if day.day == 1 else "is-week")
-        assert day.day == 1 or day.weekday() == 0
+    months = [(month.anchor, month.label, month.caption, len(month.items)) for month in page.starts.months]
+    assert months == [
+        ("starts-2026-10", "Октябрь", "Октябрь · 10 стартов", 10),
+        ("starts-2026-11", "Ноябрь", "Ноябрь · 12 стартов", 12),
+    ]
 
 
-def test_starts_months_have_captions(page):
+def test_starts_alternate_sides_across_months(page):
     assert page.starts is not None
-    assert [month.caption for month in page.starts.months] == ["Октябрь · 10 стартов", "Ноябрь · 12 стартов"]
+    sides = [item.side for item in start_items(page.starts)]
+    assert sides == [SIDES[index % 2] for index in range(len(sides))]
 
 
 def test_starts_legend_lists_spheres_on_board(page):
     assert page.starts is not None
-    shown = {item.sphere for item in page.starts.items if item.sphere}
+    shown = {item.sphere for item in start_items(page.starts) if item.sphere}
     slugs = [sphere.slug for sphere in page.starts.legend]
     assert set(slugs) == shown
     assert len(slugs) == len(set(slugs))

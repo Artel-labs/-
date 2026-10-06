@@ -66,3 +66,14 @@ test("catalog descriptions take the number of programmes from the data", () => {
     assert.doesNotMatch(text, /26 курсов/);
   }
 });
+
+test("starts board is a vertical timeline grouped by month", () => {
+  const board = visibleText("components/catalog/StartsBoard.astro");
+  assert.match(board, /<section class="vt-month" id=\{month\.anchor\}/);
+  assert.match(board, /<li class=\{`vt-item vt-\$\{item\.side\}`\}>/);
+  assert.match(board, /data-target=\{month\.anchor\}/);
+  assert.doesNotMatch(board, /tl-wrap|tl-axis|tl-tick|data-left|placeTimeline/);
+  const css = visibleText("styles/catalog.css");
+  assert.doesNotMatch(css, /\.tl-wrap|\.tl-up1|\.tl-down1|is-placed/);
+  assert.match(css, /\.vt-item \+ \.vt-item\{ margin-top: calc\(var\(--vt-step\) - var\(--vt-card-h\)\); \}/);
+});

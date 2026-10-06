@@ -1,10 +1,6 @@
-const LOOK_AHEAD_PX = 24;
-const FIRST_ITEM_MARGIN_PX = 20;
-const END_TOLERANCE_PX = 2;
+import { prefersReducedMotion } from "./landing/motion";
 
-function scrollOf(chip: HTMLElement): number {
-  return Number(chip.dataset.scroll);
-}
+const ACTIVE_BAND = "-20% 0px -60% 0px";
 
 function press(chips: HTMLElement[], current: HTMLElement): void {
   chips.forEach((chip) => {
@@ -12,54 +8,40 @@ function press(chips: HTMLElement[], current: HTMLElement): void {
   });
 }
 
-function revealFirstItem(wrap: HTMLElement): void {
-  const first = wrap.querySelector<HTMLElement>(".tl-item");
-  if (first && !wrap.scrollLeft && first.offsetLeft + first.offsetWidth > wrap.clientWidth) {
-    wrap.scrollTo({ left: Math.max(0, first.offsetLeft - FIRST_ITEM_MARGIN_PX), behavior: "instant" });
-  }
+function monthOf(chip: HTMLElement): HTMLElement | null {
+  const id = chip.dataset.target;
+  return id ? document.getElementById(id) : null;
 }
 
-function visibleChip(wrap: HTMLElement, chips: HTMLElement[]): HTMLElement | undefined {
-  if (wrap.scrollLeft >= wrap.scrollWidth - wrap.clientWidth - END_TOLERANCE_PX) {
-    return chips.at(-1);
-  }
-  const position = wrap.scrollLeft + LOOK_AHEAD_PX;
-  return chips.filter((chip) => scrollOf(chip) <= position).at(-1) ?? chips[0];
-}
-
-function followScroll(wrap: HTMLElement, chips: HTMLElement[]): void {
-  let ticking = false;
-  wrap.addEventListener(
-    "scroll",
-    () => {
-      if (ticking) {
-        return;
+function followMonths(chips: HTMLElement[]): void {
+  const byMonth = new Map(chips.map((chip) => [monthOf(chip), chip]));
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const visible = entries.find((entry) => entry.isIntersecting);
+      const chip = visible ? byMonth.get(visible.target as HTMLElement) : undefined;
+      if (chip) {
+        press(chips, chip);
       }
-      ticking = true;
-      window.requestAnimationFrame(() => {
-        ticking = false;
-        const current = visibleChip(wrap, chips);
-        if (current) {
-          press(chips, current);
-        }
-      });
     },
-    { passive: true },
+    { rootMargin: ACTIVE_BAND },
   );
+  byMonth.forEach((_, month) => {
+    if (month) {
+      observer.observe(month);
+    }
+  });
 }
 
 export function setupStartsBoard(): void {
-  const wrap = document.querySelector<HTMLElement>(".tl-wrap");
-  const chips = [...document.querySelectorAll<HTMLElement>(".starts-chip[data-scroll]")];
-  if (!wrap || chips.length === 0) {
+  const chips = [...document.querySelectorAll<HTMLElement>(".starts-chip[data-target]")];
+  if (chips.length === 0) {
     return;
   }
-  revealFirstItem(wrap);
-  followScroll(wrap, chips);
+  followMonths(chips);
   chips.forEach((chip) => {
     chip.addEventListener("click", () => {
       press(chips, chip);
-      wrap.scrollTo({ left: scrollOf(chip), behavior: "smooth" });
+      monthOf(chip)?.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth", block: "start" });
     });
   });
 }

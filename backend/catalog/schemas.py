@@ -171,24 +171,8 @@ class FiltersOut(Schema):
     duration: list[ChipOut]
 
 
-class MonthOut(Schema):
-    label: str
-    caption: str
-    count: int
-    left: int
-    width: int
-    scroll: int
-
-
-class TickOut(Schema):
-    left: int
-    kind: str
-
-
 class StartOut(Schema):
-    lane: str
-    left: int
-    pin: int
+    side: str
     path: str
     hint: str
     when: str
@@ -198,13 +182,16 @@ class StartOut(Schema):
     price: str
 
 
-class StartsOut(Schema):
-    width: int
-    months: list[MonthOut]
-    legend: list[SphereOut]
-    ticks: list[TickOut]
-    today: int | None
+class StartMonthOut(Schema):
+    anchor: str
+    label: str
+    caption: str
     items: list[StartOut]
+
+
+class StartsOut(Schema):
+    months: list[StartMonthOut]
+    legend: list[SphereOut]
 
 
 class CatalogPageOut(Schema):
