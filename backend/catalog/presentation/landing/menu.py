@@ -1,6 +1,7 @@
 from catalog.landing_schemas import LinkOut, MenuOut, MenuSphereOut
 from catalog.models import Program
-from catalog.presentation.landing.groups import Grouped, SphereGroup, catalog_url, plural_programs
+from catalog.presentation.landing.groups import Grouped, SphereGroup, catalog_url
+from catalog.presentation.text import plural_programs
 
 PREVIEW_COUNT = 3
 
@@ -22,4 +23,6 @@ def menu_sphere(group: SphereGroup) -> MenuSphereOut:
 
 
 def menu(grouped: Grouped, total: int) -> MenuOut:
-    return MenuOut(spheres=[menu_sphere(group) for group in grouped.spheres], total=total)
+    return MenuOut(
+        spheres=[menu_sphere(group) for group in grouped.spheres], total=total, total_label=plural_programs(total)
+    )

@@ -97,6 +97,7 @@ export interface Starts {
 
 export interface CatalogPage {
   total: number;
+  total_label: string;
   canonical_url: string;
   image_url: string;
   filters: Filters;

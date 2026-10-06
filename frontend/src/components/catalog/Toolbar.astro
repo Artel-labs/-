@@ -1,5 +1,11 @@
 ---
 import Icon from "../Icon.astro";
+
+interface Props {
+  totalLabel: string;
+}
+
+const { totalLabel } = Astro.props;
 ---
 
 <div class="toolbar">
@@ -25,5 +31,5 @@ import Icon from "../Icon.astro";
     </select>
   </label>
   <button type="button" class="reset" id="resetFilters" disabled>Сбросить фильтры</button>
-  <span class="result-count" id="resultCount" aria-live="polite"></span>
+  <span class="result-count" id="resultCount" aria-live="polite" data-total-label={totalLabel}>{totalLabel}</span>
 </div>

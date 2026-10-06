@@ -72,6 +72,7 @@ def test_menu_matches_previous_site(page):
     ]
     assert untypeset(spheres) == untypeset(legacy)
     assert f"Все {page.menu.total} программ с фильтрами" == LEGACY["panel"]["all"]
+    assert page.menu.total_label == f"{page.menu.total} программы"
 
 
 def test_sphere_cards_match_previous_site(page):

@@ -5,7 +5,8 @@ from datetime import date
 from catalog.hse.client import is_hse_url
 from catalog.landing_schemas import FormatCtaOut, FormatDocOut, FormatOut, FormatStatOut
 from catalog.models import Program
-from catalog.presentation.landing.groups import catalog_url, nearest_start, plural_programs
+from catalog.presentation.landing.groups import catalog_url, nearest_start
+from catalog.presentation.text import plural_programs
 
 DURATION = re.compile(r"^\s*(\d+(?:[.,]\d+)?)\s+(\S+)\s*$")
 DAYS_IN_UNIT = (("недел", 7), ("месяц", 30), ("дн", 1), ("день", 1))

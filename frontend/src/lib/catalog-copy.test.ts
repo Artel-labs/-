@@ -48,3 +48,12 @@ test("compare table lists teacher names instead of their count", () => {
   assert.match(text, /\{ label: "Преподаватели", value: attribute\("data-cmp-teachers"\), list: true \}/);
   assert.doesNotMatch(text, /"Преподавателей"/);
 });
+
+test("program counts come from the server label with agreement", () => {
+  assert.match(visibleText("components/landing/LandingHeader.astro"), /Все \{menu\.total_label\} с фильтрами/);
+  assert.match(visibleText("components/catalog/Toolbar.astro"), /data-total-label=\{totalLabel\}>\{totalLabel\}</);
+  assert.match(visibleText("pages/catalog.astro"), /<Toolbar totalLabel=\{catalog\.total_label\} \/>/);
+  const filters = visibleText("scripts/catalog-filters.ts");
+  assert.match(filters, /elements\.count\.dataset\.totalLabel/);
+  assert.doesNotMatch(filters, /\} программ`/);
+});

@@ -38,7 +38,7 @@ const { filters } = catalog;
   <FilterRow id="filtersFormat" group="format" chips={filters.format} />
   <FilterRow id="filtersSphere" group="sphere" chips={filters.sphere} label="Фильтр по направлению" />
   <FilterRow id="filtersDuration" group="duration" chips={filters.duration} label="Фильтр по длительности" />
-  <Toolbar />
+  <Toolbar totalLabel={catalog.total_label} />
   <div class="crow-walk-row"><div class="crow-walk-slot" data-crow-walk></div></div>
   <main id="main">
     <h2 class="visually-hidden">Программы повышения квалификации и&nbsp;профессиональной переподготовки</h2>

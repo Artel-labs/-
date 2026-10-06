@@ -7,7 +7,7 @@ from catalog.presentation import about, images, links, seo
 from catalog.presentation.dates import format_start, notice_is_fresh
 from catalog.presentation.labels import CREDENTIALS, FILE_LABELS, UNKNOWN, price_label, type_label
 from catalog.presentation.media import file_url
-from catalog.presentation.text import plain_lines, plural, typographic_lines
+from catalog.presentation.text import plain_lines, plural, plural_programs, typographic_lines
 from catalog.schemas import (
     AboutOut,
     AudienceOut,
@@ -125,7 +125,7 @@ def siblings(program: Program) -> SiblingsOut | None:
         return None
     return SiblingsOut(
         sphere_title=program.sphere.title,
-        count_label=plural(len(members), "программа", "программы", "программ"),
+        count_label=plural_programs(len(members)),
         items=others,
     )
 

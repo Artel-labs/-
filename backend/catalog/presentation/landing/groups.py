@@ -4,7 +4,6 @@ from urllib.parse import quote
 
 from catalog.models import Program, Sphere
 from catalog.presentation.dates import format_start, is_upcoming
-from catalog.presentation.text import plural
 
 CATALOG_PATH = "/catalog"
 
@@ -19,10 +18,6 @@ class SphereGroup:
 class Grouped:
     spheres: list[SphereGroup]
     unassigned: list[Program]
-
-
-def plural_programs(count: int) -> str:
-    return plural(count, "программа", "программы", "программ")
 
 
 def catalog_url(**params: str) -> str:

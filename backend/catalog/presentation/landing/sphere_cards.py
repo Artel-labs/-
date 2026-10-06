@@ -2,7 +2,8 @@ from datetime import date
 
 from catalog.landing_schemas import SphereCardOut
 from catalog.models import Program
-from catalog.presentation.landing.groups import Grouped, SphereGroup, catalog_url, nearest_start, plural_programs
+from catalog.presentation.landing.groups import Grouped, SphereGroup, catalog_url, nearest_start
+from catalog.presentation.text import plural_programs
 
 FILTERS_ANCHOR = "#filters"
 FACT_SEPARATOR = " · "

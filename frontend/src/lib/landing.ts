@@ -16,6 +16,7 @@ export interface MenuSphere {
 export interface Menu {
   spheres: MenuSphere[];
   total: number;
+  total_label: string;
 }
 
 export interface SphereCard {

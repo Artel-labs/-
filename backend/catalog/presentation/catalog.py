@@ -7,6 +7,7 @@ from catalog.models import Program, Source, Sphere
 from catalog.presentation.cards import card
 from catalog.presentation.filters import filters
 from catalog.presentation.item_list import item_list
+from catalog.presentation.text import plural_programs
 from catalog.presentation.timeline import starts_board
 from catalog.schemas import CatalogPageOut
 from core.site import SHARE_IMAGE_PATH, absolute_url
@@ -28,6 +29,7 @@ def catalog_page(programs: QuerySet[Program], today: date) -> CatalogPageOut:
     ordered = list(related.prefetch_related("modules", "program_teachers__teacher"))
     return CatalogPageOut(
         total=len(ordered),
+        total_label=plural_programs(len(ordered)),
         canonical_url=absolute_url(CATALOG_PATH),
         image_url=absolute_url(SHARE_IMAGE_PATH),
         filters=filters(ordered, list(Sphere.objects.all())),

@@ -209,6 +209,7 @@ class StartsOut(Schema):
 
 class CatalogPageOut(Schema):
     total: int
+    total_label: str
     canonical_url: str
     image_url: str
     filters: FiltersOut

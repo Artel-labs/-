@@ -17,6 +17,7 @@ class MenuSphereOut(Schema):
 class MenuOut(Schema):
     spheres: list[MenuSphereOut]
     total: int
+    total_label: str
 
 
 class SphereCardOut(Schema):

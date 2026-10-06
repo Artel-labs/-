@@ -16,3 +16,7 @@ def plural(count: int, one: str, few: str, many: str) -> str:
     if last in (2, 3, 4) and last_two not in (12, 13, 14):
         return f"{count} {few}"
     return f"{count} {many}"
+
+
+def plural_programs(count: int) -> str:
+    return plural(count, "программа", "программы", "программ")

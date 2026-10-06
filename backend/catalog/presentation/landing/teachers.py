@@ -7,7 +7,7 @@ from catalog.landing_schemas import TeacherCardOut, TeacherPhotoOut
 from catalog.models import Program, Teacher
 from catalog.presentation.images import Photo, photo_with_webp
 from catalog.presentation.landing.collation import sort_key
-from catalog.presentation.landing.groups import plural_programs
+from catalog.presentation.text import plural_programs
 
 MAX_ALT_LENGTH = 125
 MIN_TOKEN_LENGTH = 2
