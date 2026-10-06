@@ -111,3 +111,9 @@ test("feedback cards use three palette colors and keep them on hover", () => {
   assert.match(sections, /\.explore-card-box:nth-child\(3n\+3\) \{ --card-bg: rgb\(var\(--hse-blue-4\)\)/);
   assert.doesNotMatch(landing, /#explore a\.explore-card:hover,[^}]*background:/);
 });
+
+test("director card has no duties line", () => {
+  const contacts = visibleText("landing/ContactsSection.astro");
+  assert.doesNotMatch(contacts, /Руководство учебным процессом/);
+  assert.match(contacts, /Щеголькова Елена Олеговна/);
+});
