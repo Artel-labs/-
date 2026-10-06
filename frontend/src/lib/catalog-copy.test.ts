@@ -57,3 +57,13 @@ test("program counts come from the server label with agreement", () => {
   assert.match(filters, /elements\.count\.dataset\.totalLabel/);
   assert.doesNotMatch(filters, /\} программ`/);
 });
+
+test("catalog descriptions take the number of programmes from the data", () => {
+  const page = visibleText("pages/catalog.astro");
+  const head = visibleText("components/catalog/CatalogHead.astro");
+  assert.match(page, /НИУ ВШЭ: \$\{catalog\.total_label\} повышения квалификации/);
+  assert.match(head, /`\$\{catalog\.total_label\} повышения квалификации/);
+  for (const text of [page, head]) {
+    assert.doesNotMatch(text, /26 курсов/);
+  }
+});

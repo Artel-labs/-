@@ -18,17 +18,16 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { fetchCatalogPage } from "../lib/catalog";
 import { CATALOG_TITLE } from "../lib/catalog-meta";
 
-const DESCRIPTION =
-  "Каталог программ ДПО факультета права НИУ ВШЭ: 26 курсов повышения квалификации и переподготовки — с ценой, форматом и датой старта.";
 
 const catalog = await fetchCatalogPage();
 if (!catalog) {
   return new Response(null, { status: 404 });
 }
 const { filters } = catalog;
+const description = `Каталог программ ДПО факультета права НИУ ВШЭ: ${catalog.total_label} повышения квалификации и\u00a0переподготовки\u00a0— с\u00a0ценой, форматом и\u00a0датой старта.`;
 ---
 
-<BaseLayout title={CATALOG_TITLE} description={DESCRIPTION}>
+<BaseLayout title={CATALOG_TITLE} description={description}>
   <CatalogHead slot="head" catalog={catalog} />
   <SkipLink />
   <CatalogHeader />
