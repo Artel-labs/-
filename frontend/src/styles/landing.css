@@ -798,12 +798,18 @@
     @media (min-width: 1080px) {
       .dpo-spheres { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
-    .dpo-sphere[data-sphere="corporate"]     { --tile-bg: rgb(var(--hse-blue-2)); --tile-ink: #fff; }
-    .dpo-sphere[data-sphere="digital"]       { --tile-bg: rgb(var(--hse-blue-4)); --tile-ink: rgb(var(--hse-blue)); --vig: 0.14; }
-    .dpo-sphere[data-sphere="international"] { --tile-bg: rgb(var(--hse-blue)); --tile-ink: #fff; }
-    .dpo-sphere[data-sphere="finance"]       { --tile-bg: rgb(var(--hse-blue-3)); --tile-ink: rgb(var(--hse-blue)); --vig: 0.14; }
-    .dpo-sphere[data-sphere="language"]      { --tile-bg: rgb(var(--hse-blue-2)); --tile-ink: #fff; }
-    .dpo-sphere[data-sphere="practice"]      { --tile-bg: rgb(var(--hse-blue-4)); --tile-ink: rgb(var(--hse-blue)); --vig: 0.14; }
+    .dpo-spheres {
+      --sphere-dark-bg: rgb(var(--hse-blue-2));
+      --sphere-dark-ink: #fff;
+      --sphere-light-bg: rgb(var(--hse-blue-4));
+      --sphere-light-ink: rgb(var(--hse-blue));
+    }
+    .dpo-sphere { --tile-bg: var(--sphere-light-bg); --tile-ink: var(--sphere-light-ink); --vig: 0.14; }
+    .dpo-sphere:nth-child(odd) { --tile-bg: var(--sphere-dark-bg); --tile-ink: var(--sphere-dark-ink); --vig: 0.2; }
+    @media (min-width: 700px) and (max-width: 1079px) {
+      .dpo-sphere:nth-child(4n+3) { --tile-bg: var(--sphere-light-bg); --tile-ink: var(--sphere-light-ink); --vig: 0.14; }
+      .dpo-sphere:nth-child(4n+4) { --tile-bg: var(--sphere-dark-bg); --tile-ink: var(--sphere-dark-ink); --vig: 0.2; }
+    }
     .dpo-sphere {
       --tile-pad: clamp(22px, 2.6vw, 32px);
       position: relative;

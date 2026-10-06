@@ -75,3 +75,10 @@ test("top programs are laid out as a grid, not a carousel", () => {
   assert.match(section, /class="dpo-top5-grid"/);
   assert.doesNotMatch(section, /data-dpo-scroll/);
 });
+
+test("sphere tiles are colored as a checkerboard by position, not by sphere", () => {
+  const css = readFileSync(new URL("../styles/landing.css", import.meta.url), "utf8");
+  assert.doesNotMatch(css, /\.dpo-sphere\[data-sphere=/);
+  assert.match(css, /\.dpo-sphere:nth-child\(odd\) \{ --tile-bg: var\(--sphere-dark-bg\)/);
+  assert.match(css, /\.dpo-sphere:nth-child\(4n\+4\) \{ --tile-bg: var\(--sphere-dark-bg\)/);
+});
