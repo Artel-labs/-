@@ -1115,70 +1115,7 @@
     @media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
       .dpo-reviews-toggle { display: none; }
     }
-    .dpo-reviews-track {
-      display: flex;
-      align-items: stretch;
-      overflow-x: auto;
-      padding: 4px 0 20px;
-      scrollbar-width: thin;
-      scrollbar-color: rgb(var(--ink) / 0.28) transparent;
-    }
-    .dpo-reviews-track::-webkit-scrollbar { height: 6px; }
-    .dpo-reviews-track::-webkit-scrollbar-track { background: rgb(var(--ink) / 0.08); border-radius: 999px; }
-    .dpo-reviews-track::-webkit-scrollbar-thumb { background: rgb(var(--ink) / 0.28); border-radius: 999px; }
     .dpo-reviews-dupe { display: flex; flex: none; }
-    .dpo-review {
-      background: #fff;
-      border: 1px solid rgb(var(--ink) / 0.1);
-      border-radius: 16px;
-      padding: 26px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      flex: none;
-      width: min(380px, 82vw);
-      margin-right: 20px;
-      box-sizing: border-box;
-    }
-    .dpo-review-text {
-      font-size: 0.9375rem;
-      line-height: 1.65;
-      color: rgb(var(--ink-soft));
-      margin: 0;
-      min-height: calc(1.65em * 7);
-    }
-    .dpo-review-quote {
-      width: 30px;
-      height: 24px;
-      flex: none;
-      color: rgb(var(--accent));
-      opacity: 0.5;
-    }
-    .dpo-review-foot {
-      margin-top: auto;
-      padding-top: 14px;
-      border-top: 1px solid rgb(var(--ink) / 0.1);
-    }
-    .dpo-review-author {
-      font-size: 0.9375rem;
-      font-weight: 600;
-      color: rgb(var(--ink));
-      margin: 0;
-    }
-    .dpo-review-program {
-      display: inline-block;
-      margin-top: 4px;
-      font-size: 0.8125rem;
-      color: rgb(var(--ink-mute));
-      text-decoration: underline;
-      text-decoration-color: rgb(var(--ink) / 0.25);
-      text-underline-offset: 3px;
-      padding: 5px 0;
-      margin-bottom: -10px;
-    }
-    @media (hover: hover) and (pointer: fine) {
-      .dpo-review-program:hover { color: rgb(var(--accent)); }
-    }
 
     .dpo-explore-grid {
       display: grid;

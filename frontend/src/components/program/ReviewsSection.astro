@@ -1,5 +1,6 @@
 ---
 import type { Review } from "../../lib/program";
+import ReviewFigure from "../ReviewFigure.astro";
 import Block from "./Block.astro";
 import { HSE_SOURCE_NOTE } from "./notes";
 
@@ -13,14 +14,11 @@ const { reviews } = Astro.props;
 {
   reviews.length > 0 && (
     <Block title="Отзывы выпускников" sub={HSE_SOURCE_NOTE}>
-      <ul class="reviews">
+      <div class="dpo-reviews-track" role="region" aria-label="Отзывы выпускников" tabindex="0">
         {reviews.map((review) => (
-          <li>
-            <blockquote>{review.text}</blockquote>
-            <p class="review-author">{review.author}</p>
-          </li>
+          <ReviewFigure review={review} />
         ))}
-      </ul>
+      </div>
     </Block>
   )
 }

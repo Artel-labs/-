@@ -67,6 +67,7 @@ html.vi-mode header::after{display:none !important}
 .block{margin-bottom:clamp(28px,4vw,48px)}
 .block h2{font-size: clamp(1.3125rem,2.2vw,1.75rem);font-weight:600;margin-bottom:12px}
 .block-sub{font-size:0.8125rem;color:rgb(var(--ink-mute));margin:0 0 16px}
+.block .dpo-review{margin:0 20px 0 0}
 .about-lead{font-size:1.0938rem;line-height:1.6;font-weight:600;color:rgb(var(--ink));margin:0 0 14px}
 .about-body{font-size:0.9688rem;line-height:1.7;color:rgb(var(--ink-soft));margin:0 0 14px}
 .about-list{list-style:none;margin:0 0 14px;padding:0}
@@ -166,13 +167,6 @@ html.vi-mode header::after{display:none !important}
 
 .teachers{list-style:none;margin:0;padding:0}
 .teachers li{padding:16px 0;border-top:1px solid var(--line)}
-.reviews{list-style:none;margin:0;padding:0;display:grid;gap:14px}
-.reviews li{background:rgb(var(--surface));border:1px solid var(--line);border-radius:16px;
-  padding:20px 22px;max-width:72ch}
-.reviews blockquote{margin:0;font-size:0.9375rem;line-height:1.65;color:rgb(var(--ink-soft))}
-.reviews blockquote::before{content:"« "}
-.reviews blockquote::after{content:" »"}
-.review-author{margin:12px 0 0;font-size:0.8125rem;font-weight:600;color:rgb(var(--ink))}
 .teacher-name{font-size:1rem;font-weight:600;margin:0 0 4px;color:rgb(var(--ink))}
 .teacher-name a{position:relative;display:inline-block;padding:10px 0;margin:-10px 0;color:rgb(var(--accent))}
 .teacher-name a:hover{text-decoration:underline}
