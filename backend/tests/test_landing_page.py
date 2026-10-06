@@ -46,33 +46,8 @@ def page(settings, tmp_path) -> LandingOut:
     return landing_page(Program.objects.filter(is_published=True), LEGACY_DAY)
 
 
-def legacy_links(pairs: list[list[str]]) -> list[list[str]]:
-    return [[site_href(href), title] for href, title in pairs]
-
-
-def test_menu_matches_previous_site(page):
-    spheres = [
-        {
-            "href": sphere.href,
-            "title": sphere.title,
-            "count": sphere.count,
-            "programs": [[link.href, link.title] for link in sphere.programs],
-            "more": None if sphere.more is None else [sphere.more.href, sphere.more.title],
-        }
-        for sphere in page.menu.spheres
-    ]
-    legacy = [
-        {
-            **sphere,
-            "href": site_href(sphere["href"]),
-            "programs": legacy_links(sphere["programs"]),
-            "more": None if sphere["more"] is None else [site_href(sphere["more"][0]), sphere["more"][1]],
-        }
-        for sphere in LEGACY["panel"]["spheres"]
-    ]
-    assert untypeset(spheres) == untypeset(legacy)
-    assert f"Все {page.menu.total} программ с фильтрами" == LEGACY["panel"]["all"]
-    assert page.menu.total_label == f"{page.menu.total} программы"
+def test_landing_has_no_spheres_dropdown_menu(page):
+    assert "menu" not in page.model_dump()
 
 
 def test_sphere_cards_match_previous_site(page):

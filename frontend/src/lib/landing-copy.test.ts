@@ -148,3 +148,9 @@ test("mobile action bar centres button labels when one of them wraps", () => {
   const css = readFileSync(new URL("../styles/landing.css", import.meta.url), "utf8");
   assert.match(css, /\.dpo-mobile-cta a\{\n\s+flex: 1; display: flex; align-items: center; justify-content: center;/);
 });
+
+test("top bar has no spheres dropdown on desktop or in the burger", () => {
+  const header = visibleText("landing/LandingHeader.astro");
+  assert.doesNotMatch(header, /Сферы права|navProgramsPanel|mobileDirsList|MenuGrid/);
+  assert.doesNotMatch(readFileSync(new URL("../scripts/landing/nav-menu.ts", import.meta.url), "utf8"), /dpo-nav-trigger|fillMobileDirs|pointerover/);
+});

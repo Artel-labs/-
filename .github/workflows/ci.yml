@@ -100,7 +100,7 @@ jobs:
           page="$(curl -fsSk https://127.0.0.1:8443/)"
           grep -q "Повышение квалификации и&nbsp;переподготовка юристов" <<< "$page"
           test "$(grep -o 'class="dpo-teacher"' <<< "$page" | wc -l)" -gt 0
-          grep -q 'Все 34 программы с&nbsp;фильтрами' <<< "$page"
+          test "$(grep -c 'navProgramsBtn' <<< "$page")" = "0"
           grep -q 'id="cookieBanner"' <<< "$page"
           grep -q 'id="channelInvite"' <<< "$page"
       - name: Страница программы собирается из базы

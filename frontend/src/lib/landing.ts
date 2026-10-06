@@ -5,20 +5,6 @@ export interface Link {
   title: string;
 }
 
-export interface MenuSphere {
-  href: string;
-  title: string;
-  count: string;
-  programs: Link[];
-  more: Link | null;
-}
-
-export interface Menu {
-  spheres: MenuSphere[];
-  total: number;
-  total_label: string;
-}
-
 export interface SphereCard {
   slug: string;
   href: string;
@@ -118,7 +104,6 @@ export interface Landing {
   canonical_url: string;
   branches: string[];
   image_url: string;
-  menu: Menu;
   spheres: SphereCard[];
   formats: Format[];
   teachers: TeacherCard[];

@@ -1,25 +1,6 @@
 from ninja import Schema
 
 
-class LinkOut(Schema):
-    href: str
-    title: str
-
-
-class MenuSphereOut(Schema):
-    href: str
-    title: str
-    count: str
-    programs: list[LinkOut]
-    more: LinkOut | None
-
-
-class MenuOut(Schema):
-    spheres: list[MenuSphereOut]
-    total: int
-    total_label: str
-
-
 class SphereCardOut(Schema):
     slug: str
     href: str
@@ -125,7 +106,6 @@ class LandingOut(Schema):
     canonical_url: str
     branches: list[str]
     image_url: str
-    menu: MenuOut
     spheres: list[SphereCardOut]
     formats: list[FormatOut]
     teachers: list[TeacherCardOut]

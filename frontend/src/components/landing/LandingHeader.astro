@@ -1,15 +1,7 @@
 ---
-import type { Menu } from "../../lib/landing";
 import { CATALOG_LINK_LABEL } from "../../lib/nav";
 import HseLockup from "../HseLockup.astro";
-import MenuGrid from "./MenuGrid.astro";
 import ViModeButton from "./ViModeButton.astro";
-
-interface Props {
-  menu: Menu;
-}
-
-const { menu } = Astro.props;
 ---
 
 <header data-screen-label="Header" class="dpo-header">
@@ -20,19 +12,6 @@ const { menu } = Astro.props;
 <nav aria-label="Основная навигация" class="dpo-capsule">
 <a href="/catalog">{CATALOG_LINK_LABEL}</a>
 <a href="#formats">Форматы</a>
-<button aria-controls="navProgramsPanel" aria-expanded="false" aria-haspopup="true" class="dpo-nav-trigger" id="navProgramsBtn" type="button">Сферы права
-        <svg aria-hidden="true" fill="none" height="10" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 12 12" width="10"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg>
-</button>
-<div aria-labelledby="navProgramsBtn" class="dpo-menu-panel" id="navProgramsPanel" role="group">
-<div class="dpo-menu-inner">
-<MenuGrid spheres={menu.spheres} />
-<div class="dpo-menu-foot">
-<a class="dpo-menu-all" href="/catalog">Все {menu.total_label} с&nbsp;фильтрами</a>
-<a class="dpo-menu-side" href="#top5">Топ-5&nbsp;программ</a>
-<a class="dpo-menu-side" href="#spheres">Обзор по&nbsp;сферам</a>
-</div>
-</div>
-</div>
 <a href="#teachers">Преподаватели</a>
 <a href="/ratings">Рейтинги</a>
 <a href="#contacts">Контакты</a>
@@ -49,10 +28,6 @@ const { menu } = Astro.props;
     <nav aria-label="Меню" class="dpo-mobile-nav">
 <a href="/catalog">{CATALOG_LINK_LABEL}</a>
 <a href="#formats">Форматы</a>
-<button aria-controls="mobileDirsList" aria-expanded="false" class="dpo-mobile-acc" type="button">Сферы права
-          <svg aria-hidden="true" fill="none" height="12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 12 12" width="12"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg>
-</button>
-<div class="dpo-mobile-dirs" id="mobileDirsList"></div>
 <a href="#teachers">Преподаватели</a>
 <a href="/ratings">Рейтинги</a>
 <a href="#contacts">Контакты</a>

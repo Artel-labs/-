@@ -4,8 +4,6 @@ import pytest
 
 from catalog.models import Program, Source
 from catalog.presentation.catalog import catalog_page
-from catalog.presentation.landing.groups import Grouped
-from catalog.presentation.landing.menu import menu
 from catalog.presentation.text import plural_programs
 
 TODAY = date(2026, 10, 6)
@@ -24,10 +22,6 @@ TODAY = date(2026, 10, 6)
 )
 def test_programs_label_agrees_with_number(count, label):
     assert plural_programs(count) == label
-
-
-def test_landing_menu_names_all_programs_with_agreement():
-    assert menu(Grouped(spheres=[], unassigned=[]), 34).total_label == "34 программы"
 
 
 @pytest.mark.django_db

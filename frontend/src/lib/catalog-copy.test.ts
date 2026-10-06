@@ -50,7 +50,6 @@ test("compare table lists teacher names instead of their count", () => {
 });
 
 test("program counts come from the server label with agreement", () => {
-  assert.match(visibleText("components/landing/LandingHeader.astro"), /Все \{menu\.total_label\} с фильтрами/);
   assert.match(visibleText("components/catalog/Toolbar.astro"), /data-total-label=\{totalLabel\}>\{totalLabel\}</);
   assert.match(visibleText("pages/catalog.astro"), /<Toolbar totalLabel=\{catalog\.total_label\} \/>/);
   const filters = visibleText("scripts/catalog-filters.ts");

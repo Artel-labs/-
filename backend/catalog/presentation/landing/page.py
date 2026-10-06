@@ -8,7 +8,6 @@ from catalog.models import Program, Sphere
 from catalog.presentation.catalog import catalog_order
 from catalog.presentation.landing.formats import formats
 from catalog.presentation.landing.groups import group_by_sphere
-from catalog.presentation.landing.menu import menu
 from catalog.presentation.landing.sphere_cards import sphere_cards
 from catalog.presentation.landing.strips import reviews, starts
 from catalog.presentation.landing.teachers import teachers
@@ -25,7 +24,6 @@ def landing_page(programs: QuerySet[Program], today: date) -> LandingOut:
         canonical_url=absolute_url("/"),
         branches=[branch.title for branch in BRANCHES],
         image_url=absolute_url(SHARE_IMAGE_PATH),
-        menu=menu(grouped, len(ordered)),
         spheres=sphere_cards(grouped, today),
         formats=formats(ordered, today),
         teachers=teachers(ordered),
