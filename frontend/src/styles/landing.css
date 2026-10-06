@@ -757,7 +757,6 @@
     }
     .dpo-tile-price { font-size: 1rem; font-weight: 400; color: rgb(var(--ink)); }
     .dpo-tile-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-    .dpo-tag-legend { font-size: 0.8125rem; color: rgb(var(--ink-mute)); margin: 16px 0 0; }
     .crow-walk-row { display: flex; justify-content: flex-end; margin-bottom: 4px; }
     .crow-walk-slot { width: 160px; height: 167px; }
     @media (max-width: 1023px) { .crow-walk-slot { width: 96px; height: 100px; } }

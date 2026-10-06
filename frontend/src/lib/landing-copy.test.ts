@@ -53,3 +53,12 @@ test("training results block states only who issues the documents", () => {
   assert.match(text, /выдаются непосредственно НИУ ВШЭ\. После успешного окончания/);
   assert.doesNotMatch(text, /высоко ценятся работодателями/);
 });
+
+test("top programs block is titled by listeners choice without intro and legend", () => {
+  const text = visibleText("landing/TopProgramsSection.astro");
+  assert.match(text, /<h2 class="dpo-h2">Выбор слушателей<\/h2>/);
+  assert.doesNotMatch(text, /dpo-eyebrow/);
+  assert.doesNotMatch(text, /Популярные программы повышения квалификации/);
+  assert.doesNotMatch(text, /Право меняется быстрее/);
+  assert.doesNotMatch(text, /итог — удостоверение/);
+});
