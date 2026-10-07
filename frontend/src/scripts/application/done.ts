@@ -1,16 +1,24 @@
 import { element } from "../dialog";
-import { CATALOG_URL, PROGRAM_TOPIC, VIBRATION_MS } from "./constants";
+import { ANONYMOUS_TOPICS, CATALOG_URL, PROGRAM_TOPIC, VIBRATION_MS } from "./constants";
 
 const PROGRAM_DONE =
   "Заявка принята. Учебный офис Центра ДПО факультета права свяжется с вами по указанному телефону или почте, чтобы подтвердить участие и рассказать о ближайшем наборе.";
 const TOPIC_DONE =
   "Обращение принято и записано. Учебный офис Центра ДПО факультета права прочитает его и свяжется с вами, если потребуется уточнение.";
+const ANONYMOUS_DONE = "Обращение принято. Спасибо! Учебный офис Центра ДПО факультета права прочитает его.";
 const PAYMENT_NOTE = "Обычно это занимает один рабочий день. Оплата проходит на стороне НИУ ВШЭ — её реквизиты пришлёт учебный офис.";
 
 function programLine(title: string): HTMLParagraphElement {
   const line = element("p", "dpo-app-done-program", "Заявка на программу ");
   line.appendChild(element("b", "", title));
   return line;
+}
+
+function doneText(topic: string): string {
+  if (topic === PROGRAM_TOPIC) {
+    return PROGRAM_DONE;
+  }
+  return ANONYMOUS_TOPICS.includes(topic) ? ANONYMOUS_DONE : TOPIC_DONE;
 }
 
 function doneBody(topic: string, programTitle: string, crow: HTMLElement): HTMLDivElement {
@@ -23,7 +31,7 @@ function doneBody(topic: string, programTitle: string, crow: HTMLElement): HTMLD
   body.append(
     crow,
     ...(isProgram && programTitle ? [programLine(programTitle)] : []),
-    element("p", "", isProgram ? PROGRAM_DONE : TOPIC_DONE),
+    element("p", "", doneText(topic)),
     ...(isProgram ? [element("p", "", PAYMENT_NOTE)] : []),
     next,
   );

@@ -28,7 +28,9 @@ URL = "/api/applications"
 CHANGELIST = "/admin/applications/application/"
 SMTP_DOWN = "django.core.mail.EmailMessage.send"
 FIXTURES = Path(__file__).parent / "fixtures"
-CASES = json.loads((Path(__file__).parents[2] / "shared" / "form-rules-cases.json").read_text(encoding="utf-8"))
+SHARED = Path(__file__).parents[2] / "shared"
+CASES = json.loads((SHARED / "form-rules-cases.json").read_text(encoding="utf-8"))
+SHARED_TOPICS = json.loads((SHARED / "application-topics.json").read_text(encoding="utf-8"))
 VALID = {
     "firstName": "Иван",
     "lastName": "Петров",
@@ -345,7 +347,9 @@ def test_program_fields_are_kept_for_program_topic(client, seeded):
 
 
 def test_every_topic_has_field_rules():
-    assert {rule_for(topic).required for topic in Topic.values} == {CONTACTS}
+    anonymous = {topic for topic in Topic.values if rule_for(topic).anonymous}
+    assert anonymous == {Topic.COURSE_IDEA, Topic.FEEDBACK} == set(SHARED_TOPICS["anonymous"])
+    assert {rule_for(topic).required for topic in Topic.values if topic not in anonymous} == {CONTACTS}
 
 
 def test_position_is_not_collected(client, mailing):
@@ -381,3 +385,61 @@ def test_migration_clears_companies_of_personal_applications(client):
         "ivan@example.ru": "ООО «Заказчик»",
         "personal@example.ru": "",
     }
+
+
+ANONYMOUS_TOPICS = [Topic.COURSE_IDEA, Topic.FEEDBACK]
+
+
+@pytest.mark.parametrize("topic", ANONYMOUS_TOPICS)
+def test_anonymous_topics_forget_contacts(client, mailing, topic):
+    payload = {**VALID, "topic": topic, "noAnnouncements": True, "comment": "Хочу курс по праву ИИ"}
+    assert post(client, payload).status_code == 200
+    saved = Application.objects.get()
+    assert (saved.first_name, saved.last_name, saved.phone, saved.email) == ("", "", "", "")
+    assert not saved.no_announcements
+    body = letter(saved)
+    assert "Петров" not in body
+    assert "ivan@example.ru" not in body
+    assert "Обращение анонимное" in body
+    assert "Согласие на обработку" not in body
+
+
+@pytest.mark.parametrize(("topic", "title"), [(Topic.COURSE_IDEA, "Идея курса"), (Topic.FEEDBACK, "Отзыв")])
+def test_anonymous_mail_has_number_and_no_reply_to(client, mailing, topic, title):
+    application = Application.objects.get(pk=post(client, {"topic": topic, "comment": "Текст"}).json()["id"])
+    assert subject(application) == f"{title} № {application.pk}"
+    send_application_mail(application.pk)
+    assert mail.outbox[-1].reply_to == []
+
+
+@pytest.mark.parametrize("topic", ANONYMOUS_TOPICS)
+def test_anonymous_topic_needs_only_text(client, topic):
+    response = post(client, {"topic": topic})
+    assert response.status_code == 400
+    assert response.json()["fields"] == [{"field": "comment", "message": "Напишите текст обращения."}]
+    assert post(client, {"topic": topic, "comment": "Без согласия и контактов"}).status_code == 200
+
+
+def test_anonymous_repeats_are_matched_by_text(client):
+    first = post(client, {"topic": Topic.FEEDBACK, "comment": "Спасибо за курс"}).json()["id"]
+    again = post(client, {"topic": Topic.FEEDBACK, "comment": "Спасибо за курс", "email": "x@example.ru"}).json()["id"]
+    other = post(client, {"topic": Topic.FEEDBACK, "comment": "Другой отзыв"}).json()["id"]
+    assert first == again
+    assert other != first
+
+
+def test_teaching_still_needs_contacts_and_consent(client):
+    fields = {item["field"] for item in post(client, {"topic": Topic.TEACHING, "comment": "Курс"}).json()["fields"]}
+    assert fields == {"firstName", "lastName", "phone", "email", "consent"}
+
+
+def test_migration_forgets_contacts_of_anonymous_topics(client):
+    post(client, VALID)
+    post(client, {"topic": Topic.FEEDBACK, "comment": "Отзыв"})
+    Application.objects.filter(topic=Topic.FEEDBACK).update(first_name="Старое", email="old@example.ru")
+    migration = import_module("applications.migrations.0009_anonymous_topics")
+    migration.forget_contacts(django_apps, None)
+    feedback = Application.objects.get(topic=Topic.FEEDBACK)
+    program = Application.objects.get(topic=Topic.PROGRAM)
+    assert (feedback.first_name, feedback.email, feedback.full_name) == ("", "", "Анонимно")
+    assert program.email == "ivan@example.ru"

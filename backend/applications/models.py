@@ -3,6 +3,8 @@ from django.utils import timezone
 
 from catalog.models import Program
 
+ANONYMOUS = "Анонимно"
+
 
 class Topic(models.TextChoices):
     PROGRAM = "program", "Заявка на программу"
@@ -43,10 +45,10 @@ class Application(models.Model):
     )
     employees_count = models.CharField("Сотрудников к обучению", max_length=40, blank=True)
     timeframe = models.CharField("Желаемые сроки", max_length=200, blank=True)
-    first_name = models.CharField("Имя", max_length=80)
-    last_name = models.CharField("Фамилия", max_length=80)
-    phone = models.CharField("Телефон", max_length=40)
-    email = models.EmailField("Почта", max_length=160)
+    first_name = models.CharField("Имя", max_length=80, blank=True)
+    last_name = models.CharField("Фамилия", max_length=80, blank=True)
+    phone = models.CharField("Телефон", max_length=40, blank=True)
+    email = models.EmailField("Почта", max_length=160, blank=True)
     company = models.CharField(
         "Организация-заказчик", max_length=160, blank=True, help_text="Только для корпоративной заявки"
     )
@@ -72,7 +74,7 @@ class Application(models.Model):
 
     @property
     def full_name(self) -> str:
-        return " ".join(part for part in (self.last_name, self.first_name) if part)
+        return " ".join(part for part in (self.last_name, self.first_name) if part) or ANONYMOUS
 
 
 def all_topics() -> list[str]:

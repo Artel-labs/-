@@ -2,7 +2,7 @@ from unittest.mock import patch
 
 import pytest
 
-from applications.models import ApplicantType, Application, MailRecipient, MailStatus, Status
+from applications.models import ApplicantType, Application, MailRecipient, MailStatus, Status, Topic
 from applications.service import resend
 from tests.factories import make_admin
 from tests.test_staff_admin import make_staff
@@ -136,3 +136,13 @@ def test_mail_line_is_ok_when_ready(admin_client, settings):
 
 def test_check_mail_needs_post(admin_client):
     assert admin_client.get(f"{CHANGELIST}check-mail/").status_code == FORBIDDEN
+
+
+def test_anonymous_card_has_no_contacts(admin_client):
+    feedback = Application.objects.create(topic=Topic.FEEDBACK, comment="Спасибо", mail_status=MailStatus.SKIPPED)
+    html = card(admin_client, feedback)
+    assert "Анонимно" in html
+    assert "Обращение анонимное: контактов заявителя нет." in html
+    assert "tel:" not in html
+    assert "mailto:" not in html
+    assert "Анонсы" not in html

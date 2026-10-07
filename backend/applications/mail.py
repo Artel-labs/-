@@ -7,6 +7,7 @@ from django.utils import timezone
 from applications.delivery import schedule_retry
 from applications.models import ApplicantType, Application, MailStatus, Topic
 from applications.recipients import all_recipients, recipients_for
+from applications.topics import is_anonymous
 
 SUBJECT_TOPICS = {
     Topic.PROGRAM: "Заявка ДПО",
@@ -14,6 +15,9 @@ SUBJECT_TOPICS = {
     Topic.TEACHING: "Заявка преподавателя",
     Topic.FEEDBACK: "Отзыв о работе центра",
 }
+ANONYMOUS_SUBJECTS = {Topic.COURSE_IDEA: "Идея курса", Topic.FEEDBACK: "Отзыв"}
+ANONYMOUS_LINE = "Обращение анонимное: контактов заявителя нет."
+AUTO_SENT = "Письмо отправлено сайтом Центра ДПО факультета права автоматически, отвечать на него не нужно"
 MAX_ERROR_LENGTH = 500
 TEST_SUBJECT = "Проверка почты · Центр ДПО факультета права"
 NO_SMTP = "Почтовый сервер не настроен: укажите SMTP_HOST в файле .env на сервере."
@@ -41,6 +45,8 @@ def moscow_time(application: Application) -> str:
 
 
 def subject(application: Application) -> str:
+    if is_anonymous(application.topic):
+        return f"{ANONYMOUS_SUBJECTS[Topic(application.topic)]} № {application.pk}"
     corporate = (
         f" ({ApplicantType.CORPORATE.label.lower()})" if application.applicant_type == ApplicantType.CORPORATE else ""
     )
@@ -77,20 +83,33 @@ def heading(application: Application) -> str:
     return f"Тема обращения: {SUBJECT_TOPICS.get(Topic(application.topic), application.topic)}"
 
 
-def letter(application: Application) -> str:
-    lines = [
-        heading(application),
-        "",
+def applicant_lines(application: Application) -> list[str]:
+    if is_anonymous(application.topic):
+        return [ANONYMOUS_LINE]
+    return [
         f"Имя и фамилия: {application.full_name}",
         f"Телефон:       {application.phone}",
         f"Почта:         {application.email}",
-    ]
-    lines += [*corporate_lines(application), ""]
-    lines.append(
+        *corporate_lines(application),
+        "",
         "Анонсы новых программ получать ОТКАЗАЛСЯ(ЛАСЬ)."
         if application.no_announcements
-        else "Согласен(на) получать анонсы новых программ."
-    )
+        else "Согласен(на) получать анонсы новых программ.",
+    ]
+
+
+def footer_lines(application: Application) -> list[str]:
+    if is_anonymous(application.topic):
+        return [f"{AUTO_SENT}."]
+    return [
+        "Согласие на обработку персональных данных получено вместе с заявкой.",
+        f"{AUTO_SENT} —",
+        "чтобы ответить заявителю, пишите на адрес из поля «Почта».",
+    ]
+
+
+def letter(application: Application) -> str:
+    lines = [heading(application), "", *applicant_lines(application)]
     if application.comment:
         lines += ["", "Комментарий:", application.comment]
     if application.program:
@@ -100,9 +119,7 @@ def letter(application: Application) -> str:
         "— — —",
         f"Заявка № {application.pk}",
         f"Получена: {moscow_time(application)} (Москва)",
-        "Согласие на обработку персональных данных получено вместе с заявкой.",
-        "Письмо отправлено сайтом Центра ДПО факультета права автоматически, отвечать на него не нужно —",
-        "чтобы ответить заявителю, пишите на адрес из поля «Почта».",
+        *footer_lines(application),
     ]
     return "\n".join(lines)
 
@@ -132,7 +149,7 @@ def send_application_mail(application_id: int) -> str:
         subject=subject(application),
         body=letter(application),
         to=recipients_for(application.topic),
-        reply_to=[application.email],
+        reply_to=[] if is_anonymous(application.topic) else [application.email],
     )
     try:
         message.send()

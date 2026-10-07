@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from datetime import timedelta
 from functools import partial
+from hashlib import sha256
 
 from django.conf import settings
 from django.db import transaction
@@ -11,6 +12,7 @@ from applications.delivery import queue_mail
 from applications.mail import skip_reason
 from applications.models import Application, MailStatus, Status
 from applications.parsing import Cleaned
+from applications.topics import is_anonymous
 from catalog.models import Program
 
 
@@ -21,6 +23,8 @@ class Accepted:
 
 
 def duplicate_key(cleaned: Cleaned) -> str:
+    if is_anonymous(cleaned.topic):
+        return "|".join((cleaned.topic, sha256(cleaned.comment.encode()).hexdigest()))
     digits = "".join(char for char in cleaned.phone if char.isdigit())
     return "|".join((cleaned.topic, cleaned.email.lower(), digits, cleaned.program_id))
 

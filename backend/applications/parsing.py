@@ -86,6 +86,9 @@ MISSING = {
     "email": FieldError("email", "Укажите электронную почту."),
 }
 
+COMMENT_MISSING = FieldError("comment", "Напишите текст обращения.")
+CONSENT_MISSING = FieldError("consent", "Без согласия на обработку персональных данных заявку принять нельзя.")
+
 
 def format_error(name: str, value: str) -> FieldError | None:
     if name == "phone":
@@ -106,8 +109,17 @@ def contact_errors(contacts: dict[str, str], required: frozenset[str]) -> list[F
     return errors
 
 
-def contacts_of(data: ApplicationIn) -> dict[str, str]:
-    return {name: line(getattr(data, name), name) for name in MISSING}
+def contacts_of(data: ApplicationIn, rule: TopicRule) -> dict[str, str]:
+    return {name: "" if rule.anonymous else line(getattr(data, name), name) for name in MISSING}
+
+
+def rule_errors(data: ApplicationIn, rule: TopicRule, contacts: dict[str, str], comment: str) -> list[FieldError]:
+    errors = contact_errors(contacts, rule.required)
+    if "comment" in rule.required and not comment:
+        errors.append(COMMENT_MISSING)
+    if not rule.anonymous and not flag(data.consent):
+        errors.append(CONSENT_MISSING)
+    return errors
 
 
 def allowed_value(data: ApplicationIn, rule: TopicRule, name: str) -> Any:
@@ -137,18 +149,17 @@ def topic_fields(data: ApplicationIn, rule: TopicRule) -> dict[str, Any]:
 def parse(data: ApplicationIn) -> Parsed:
     topic = choice(data.topic, Topic, Topic.PROGRAM)
     rule = rule_for(topic)
-    contacts = contacts_of(data)
-    errors = contact_errors(contacts, rule.required)
-    if not flag(data.consent):
-        errors.append(FieldError("consent", "Без согласия на обработку персональных данных заявку принять нельзя."))
+    contacts = contacts_of(data, rule)
+    comment = paragraph(data.comment, "comment")
+    errors = rule_errors(data, rule, contacts, comment)
     if errors:
         return Parsed(errors=errors)
     return Parsed(
         Cleaned(
             topic=topic,
             **contacts,
-            comment=paragraph(data.comment, "comment"),
-            no_announcements=flag(data.no_announcements),
+            comment=comment,
+            no_announcements=flag(data.no_announcements) and not rule.anonymous,
             **topic_fields(data, rule),
         )
     )

@@ -21,6 +21,7 @@
 .dpo-app ::placeholder{color:rgb(var(--ink-mute));opacity:1}
 .dpo-app input:focus-visible,.dpo-app textarea:focus-visible,.dpo-app select:focus-visible{outline:none;border-color:rgb(var(--accent));box-shadow:0 0 0 3px rgb(var(--accent) / .18)}
 .dpo-app [aria-invalid=true]{border-color:rgb(var(--error));background:rgb(var(--error) / .05)}
+.dpo-app-hint{font-size:0.8125rem;line-height:1.4;color:rgb(var(--ink-mute));margin:6px 0 0}
 .dpo-app-err{font-size:0.8125rem;line-height:1.4;color:rgb(var(--error));margin:0}
 .dpo-app-err:empty{display:none}
 .dpo-app-check{display:flex;gap:9px;align-items:flex-start;font-size:0.9375rem;line-height:1.4;cursor:pointer;padding:4px 0}

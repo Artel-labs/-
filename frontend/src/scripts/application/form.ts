@@ -1,5 +1,5 @@
 import { element } from "../dialog";
-import { CORPORATE, PERSONAL, SUBMIT_LABEL, TOPICS } from "./constants";
+import { ANONYMOUS_HINT, CORPORATE, PERSONAL, PERSONAL_CLASS, SUBMIT_LABEL, TOPICS } from "./constants";
 import { errorBox, inputField, row, selectField } from "./fields";
 import { PRIVACY_POLICY_URL } from "../../lib/brand";
 
@@ -60,6 +60,11 @@ function checkbox(name: string, text: string): HTMLLabelElement {
   return label;
 }
 
+function personal<T extends HTMLElement>(node: T): T {
+  node.classList.add(PERSONAL_CLASS);
+  return node;
+}
+
 function commentField(): HTMLDivElement {
   const wrapper = element("div", "dpo-app-field");
   const label = element("label", "", "Комментарий или вопрос");
@@ -68,8 +73,12 @@ function commentField(): HTMLDivElement {
   textarea.id = "dpo-app-comment";
   textarea.name = "comment";
   textarea.rows = 3;
+  textarea.setAttribute("aria-describedby", "dpo-app-comment-hint dpo-app-comment-err");
+  const hint = element("p", "dpo-app-hint", ANONYMOUS_HINT);
+  hint.id = "dpo-app-comment-hint";
+  hint.hidden = true;
   textarea.placeholder = "Например: интересует корпоративный формат для группы из восьми юристов";
-  wrapper.append(label, textarea);
+  wrapper.append(label, textarea, hint, errorBox("comment"));
   return wrapper;
 }
 
@@ -92,7 +101,7 @@ function consentField(): HTMLElement[] {
     element("span", "req", "*"),
   );
   label.append(input, text);
-  return [label, errorBox("consent")];
+  return [personal(label), personal(errorBox("consent"))];
 }
 
 function trapField(): HTMLDivElement {
@@ -131,21 +140,21 @@ export function buildForm(handlers: FormHandlers): HTMLFormElement {
     kindField(handlers),
     corporateBlock(),
     programField(),
-    row(
+    personal(row(
       inputField({ name: "lastName", text: "Фамилия", type: "text", required: true, autocomplete: "family-name" }),
       inputField({ name: "firstName", text: "Имя", type: "text", required: true, autocomplete: "given-name" }),
-    ),
-    row(
+    )),
+    personal(row(
       inputField({ name: "phone", text: "Телефон", type: "tel", required: true, autocomplete: "tel" }),
       inputField({ name: "email", text: "Электронная почта", type: "email", required: true, autocomplete: "email" }),
-    ),
+    )),
     commentField(),
-    checkbox("noAnnouncements", "Не присылать анонсы новых программ и мероприятий Центра ДПО факультета права"),
+    personal(checkbox("noAnnouncements", "Не присылать анонсы новых программ и мероприятий Центра ДПО факультета права")),
     ...consentField(),
     trapField(),
     submit,
     statusBlock(),
-    element("p", "dpo-app-note", "Мы свяжемся с вами по телефону или почте. Данные не передаются третьим лицам."),
+    personal(element("p", "dpo-app-note", "Мы свяжемся с вами по телефону или почте. Данные не передаются третьим лицам.")),
   );
   return form;
 }

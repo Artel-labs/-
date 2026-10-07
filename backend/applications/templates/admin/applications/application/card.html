@@ -6,14 +6,18 @@
             <p class="dpo-panel-note">Заявка № {{ original.pk }} · {{ original.received_at|date:"j E Y, H:i" }} · {{ original.get_topic_display }}</p>
             <h2 class="dpo-application-name">{{ original.full_name }}</h2>
 
-            <div class="dpo-contacts">
-                <a class="dpo-contact" href="tel:{{ original.phone }}">
-                    <span class="material-symbols-outlined" aria-hidden="true">call</span>{{ original.phone }}
-                </a>
-                <a class="dpo-contact" href="mailto:{{ original.email }}">
-                    <span class="material-symbols-outlined" aria-hidden="true">mail</span>{{ original.email }}
-                </a>
-            </div>
+            {% if card.anonymous_note %}
+                <p class="dpo-application-line dpo-muted">{{ card.anonymous_note }}</p>
+            {% else %}
+                <div class="dpo-contacts">
+                    <a class="dpo-contact" href="tel:{{ original.phone }}">
+                        <span class="material-symbols-outlined" aria-hidden="true">call</span>{{ original.phone }}
+                    </a>
+                    <a class="dpo-contact" href="mailto:{{ original.email }}">
+                        <span class="material-symbols-outlined" aria-hidden="true">mail</span>{{ original.email }}
+                    </a>
+                </div>
+            {% endif %}
 
             {% if original.program_title %}
                 <p class="dpo-application-line">

@@ -3,7 +3,7 @@ import type { CrowMascot } from "../crow/mascot";
 import { mountDoneCrow, mountErrorCrow } from "../crow/inline";
 import { closeButton, element, openDialog, type Dialog } from "../dialog";
 import { attachSheet } from "../sheet-gesture";
-import { CORPORATE, PERSONAL, PROGRAM_TOPIC, TOPIC_HINTS, TOPIC_TITLES } from "./constants";
+import { ANONYMOUS_TOPICS, CORPORATE, PERSONAL, PERSONAL_CLASS, PROGRAM_TOPIC, TOPIC_HINTS, TOPIC_TITLES } from "./constants";
 import { showDone } from "./done";
 import { buildForm } from "./form";
 import { fillPrograms, loadPrograms, programOption } from "./programs";
@@ -118,7 +118,18 @@ class ApplicationDialog {
     this.select("#dpo-app-program-wrap").hidden = !(isProgram && this.hasProgramList());
     this.select("#dpo-app-kind-wrap").hidden = !isProgram;
     this.select("#dpo-app-corp").hidden = !isProgram || this.select<HTMLSelectElement>("#dpo-app-kind").value !== CORPORATE;
+    this.applyAnonymity(ANONYMOUS_TOPICS.includes(topic));
     this.updateCaption(isProgram);
+  }
+
+  private applyAnonymity(anonymous: boolean): void {
+    this.form.querySelectorAll<HTMLElement>(`.${PERSONAL_CLASS}`).forEach((node) => {
+      node.hidden = anonymous;
+      node.querySelectorAll("input").forEach((input) => {
+        input.disabled = anonymous;
+      });
+    });
+    this.select("#dpo-app-comment-hint").hidden = !anonymous;
   }
 
   private updateCaption(isProgram: boolean): void {

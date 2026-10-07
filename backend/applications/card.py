@@ -2,8 +2,9 @@ from dataclasses import dataclass
 
 from django.urls import reverse
 
-from applications.mail import applicant_field, company_field
+from applications.mail import ANONYMOUS_LINE, applicant_field, company_field
 from applications.models import ApplicantType, Application, MailStatus, Status
+from applications.topics import is_anonymous
 
 
 @dataclass(frozen=True)
@@ -20,9 +21,12 @@ class Card:
     resend_url: str
     program_url: str
     mail_sent: bool
+    anonymous_note: str
 
 
 def announcements(application: Application) -> str:
+    if is_anonymous(application.topic):
+        return ""
     return "не присылать" if application.no_announcements else "согласен получать"
 
 
@@ -50,4 +54,5 @@ def card_of(application: Application) -> Card:
         resend_url=admin_url("resend", application),
         program_url=f"/{application.program.path}" if application.program else "",
         mail_sent=application.mail_status == MailStatus.SENT,
+        anonymous_note=ANONYMOUS_LINE if is_anonymous(application.topic) else "",
     )

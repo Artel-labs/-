@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
 
+import { ANONYMOUS_TOPICS } from "./constants.ts";
+
 function source(name: string): string {
   return readFileSync(new URL(name, import.meta.url), "utf8");
 }
@@ -24,4 +26,18 @@ test("customer organisation is asked only in the corporate block", () => {
   assert.match(corporate, /name: "company", text: "Организация-заказчик"/);
   assert.equal(form.match(/name: "company"/g)?.length, 1);
   assert.doesNotMatch(form, /Место работы|dpo-app-more/);
+});
+
+test("anonymous topics match the server rules", () => {
+  const shared = JSON.parse(readFileSync(new URL("../../../../shared/application-topics.json", import.meta.url), "utf8")) as { anonymous: string[] };
+  assert.deepEqual([...ANONYMOUS_TOPICS], shared.anonymous);
+});
+
+test("contacts, consent and announcements are hidden for anonymous topics", () => {
+  const form = source("form.ts");
+  assert.match(form, /personal\(row\(\s*inputField\(\{ name: "lastName"/);
+  assert.match(form, /personal\(row\(\s*inputField\(\{ name: "phone"/);
+  assert.match(form, /personal\(checkbox\("noAnnouncements"/);
+  assert.match(form, /\[personal\(label\), personal\(errorBox\("consent"\)\)\]/);
+  assert.match(source("index.ts"), /ANONYMOUS_TOPICS\.includes\(topic\)/);
 });
