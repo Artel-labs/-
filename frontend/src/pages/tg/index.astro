@@ -5,8 +5,15 @@ import "../../styles/tg.css";
 import "../../styles/hse-lockup.css";
 import "../../styles/icon.css";
 import { TG_THEME_COLOR } from "../../lib/brand";
+import { SITE_MODE } from "astro:env/server";
+import { demoClosed } from "../../lib/site-mode";
 import { embeddedJson, fetchTgCatalog } from "../../lib/tg";
 
+const NOT_FOUND = 404;
+
+if (demoClosed(SITE_MODE)) {
+  return new Response(null, { status: NOT_FOUND });
+}
 const catalog = await fetchTgCatalog();
 ---
 

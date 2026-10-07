@@ -80,6 +80,7 @@ services:
       target: site
     environment:
       API_URL: http://app:8000
+      SITE_MODE: ${SITE_MODE:-production}
     depends_on:
       - app
     restart: unless-stopped

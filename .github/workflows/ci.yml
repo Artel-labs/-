@@ -148,12 +148,19 @@ jobs:
           test "$code" = "204"
           count="$(sudo docker compose exec -T app python manage.py shell -c 'from analytics.models import Event; print(Event.objects.count())' | tail -n 1)"
           test "$count" = "1"
-      - name: Мини-приложение Telegram
+      - name: Демо Telegram закрыто на боевом сервере
+        run: test "$(curl -sSk -o /dev/null -w '%{http_code}' 'https://127.0.0.1:8443/tg/?mode=production')" = "404"
+      - name: Мини-приложение Telegram в тестовом режиме
         run: |
+          sudo sed -i 's/^SITE_MODE=.*/SITE_MODE=test/' .env
+          sudo docker compose up -d site
+          for attempt in $(seq 1 30); do curl -fsSk -o /dev/null https://127.0.0.1:8443/tg/ && break; sleep 2; done
           curl -fsSk https://127.0.0.1:8443/tg/ | grep -q 'id="tg-data"'
           curl -sSkI https://127.0.0.1:8443/tg/ | grep -qi "^content-security-policy: .*script-src 'self' https://telegram.org"
           count="$(curl -fsSk https://127.0.0.1:8443/api/catalog/tg | python3 -c 'import json, sys; print(len(json.load(sys.stdin)["programs"]))')"
           test "$count" = "34"
+          sudo sed -i 's/^SITE_MODE=.*/SITE_MODE=production/' .env
+          sudo docker compose up -d site
       - name: Заявка принимается и видна в базе
         run: |
           code="$(curl -sSk -o /dev/null -w '%{http_code}' -H 'Content-Type: application/json' -d '{"firstName":"Проверка","lastName":"CI","phone":"+7 495 000 00 00","email":"ci@example.ru","consent":true}' https://127.0.0.1:8443/api/applications)"

@@ -1,5 +1,6 @@
 import node from "@astrojs/node";
 import { defineConfig, envField } from "astro/config";
+import { PRODUCTION, SITE_MODES } from "./src/lib/site-mode";
 
 export default defineConfig({
   output: "server",
@@ -11,6 +12,7 @@ export default defineConfig({
   env: {
     schema: {
       API_URL: envField.string({ context: "server", access: "secret", default: "http://127.0.0.1:8000" }),
+      SITE_MODE: envField.enum({ context: "server", access: "secret", values: [...SITE_MODES], default: PRODUCTION }),
     },
   },
   devToolbar: {
