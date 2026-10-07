@@ -16,6 +16,7 @@ TASK_TITLES = {
     "catalog.tasks.sync_teachers": "Обновление преподавателей с hse.ru",
     "applications.tasks.purge_old_applications": "Удаление старых заявок",
     "analytics.tasks.purge_old_events": "Удаление старой аналитики",
+    "protection.tasks.purge_login_journal": "Удаление старых записей журнала входов",
     "applications.mail.send_application_mail": "Письмо по заявке",
 }
 EXCLUSIVE_GROUPS = (frozenset({"catalog.tasks.sync_catalog", "catalog.tasks.sync_teachers"}),)
