@@ -29,6 +29,7 @@ jobs:
           --health-retries 20
     env:
       DJANGO_SECRET_KEY: ci
+      SITE_MODE: test
       DB_HOST: 127.0.0.1
       DB_USER: root
       DB_PASSWORD: ci-root
@@ -194,6 +195,15 @@ jobs:
           count="$(sudo docker compose exec -T app python manage.py shell -c 'from applications.models import Application; print(Application.objects.filter(comment="ci-expired").count())' | tail -n 1)"
           test "$count" = "0"
       - run: curl -fsSk https://127.0.0.1:8443/api/health
+      - name: Установка с HTTPS включает боевой режим
+        run: sudo grep -qx "SITE_MODE=production" .env
+      - name: Боевой режим не запускается с почтой без шифрования
+        run: |
+          sudo sh -c 'echo SMTP_ALLOW_INSECURE_AUTH=1 >> .env'
+          ! sudo docker compose run --rm -T app python manage.py check > check.log 2>&1
+          grep -q "SMTP_ALLOW_INSECURE_AUTH=1 запрещён" check.log
+          sudo sed -i '/^SMTP_ALLOW_INSECURE_AUTH=/d' .env
+          sudo docker compose run --rm -T app python manage.py check
       - name: Пароль root не попадает в лог базы
         run: |
           ! sudo docker compose logs db | grep -q "GENERATED ROOT PASSWORD"

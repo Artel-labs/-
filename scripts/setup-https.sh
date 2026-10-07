@@ -10,16 +10,26 @@ main() {
     root="$(project_root)"
     cd "$root"
     load_env "$root"
+    refuse_insecure_mail "$root/.env"
     make_cert "$@"
     set_env_value "$root/.env" COOKIE_SECURE 1
     allow_hosts "$root/.env" "$@"
     load_env "$root"
     set_env_value "$root/.env" SITE_URL "$(site_url https "${1:-}")"
-    step "3/3" "Перезапускаем сайт"
-    docker compose up -d --force-recreate app web
+    set_env_value "$root/.env" SITE_MODE "$SITE_MODE_PRODUCTION"
+    step "3/3" "Перезапускаем сайт в боевом режиме"
+    docker compose up -d --force-recreate app worker web
     wait_for_site
     echo "Готово. HTTPS включён: $(site_url https "${1:-}")/"
     echo "Сертификат самоподписанный: браузер один раз предупредит. Для домена позже подключим Let's Encrypt."
+}
+
+refuse_insecure_mail() {
+    if [[ "$(env_value "$1" SMTP_ALLOW_INSECURE_AUTH 0)" =~ ^(1|[Tt][Rr][Uu][Ee]|[Yy][Ee][Ss]|[Oo][Nn])$ ]]; then
+        echo "Ошибка: в .env включён SMTP_ALLOW_INSECURE_AUTH. В боевом режиме почта только с шифрованием." >&2
+        echo "Уберите эту строку (параметры почты ВШЭ — у ИТ ВШЭ) и запустите команду снова." >&2
+        exit 1
+    fi
 }
 
 make_cert() {

@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.utils.module_loading import import_string
 
 from config.env import env_flag, env_int, env_list, env_required, env_text
+from config.site_mode import PRODUCTION, check_site_mode
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -14,6 +15,9 @@ DEBUG = env_flag("DJANGO_DEBUG")
 ALLOWED_HOSTS = [*env_list("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1"), *env_list("DJANGO_INTERNAL_HOSTS")]
 COOKIE_SECURE = env_flag("COOKIE_SECURE")
 SITE_URL = env_text("SITE_URL", "http://localhost").rstrip("/")
+SITE_MODE = env_text("SITE_MODE", PRODUCTION)
+SMTP_ALLOW_INSECURE_AUTH = env_flag("SMTP_ALLOW_INSECURE_AUTH")
+check_site_mode(SITE_MODE, COOKIE_SECURE, SITE_URL, SMTP_ALLOW_INSECURE_AUTH)
 
 SESSION_LIFETIME = timedelta(hours=8)
 LOGIN_FAILURE_LIMIT = 5
@@ -39,7 +43,7 @@ EMAIL_PORT = env_int("SMTP_PORT", DEFAULT_SMTP_PORT)
 EMAIL_HOST_USER = env_text("SMTP_USER")
 EMAIL_HOST_PASSWORD = env_text("SMTP_PASS")
 EMAIL_USE_SSL = EMAIL_PORT == SMTP_SSL_PORT
-EMAIL_USE_TLS = not EMAIL_USE_SSL and not env_flag("SMTP_ALLOW_INSECURE_AUTH")
+EMAIL_USE_TLS = not EMAIL_USE_SSL and not SMTP_ALLOW_INSECURE_AUTH
 EMAIL_TIMEOUT = 20
 DEFAULT_FROM_EMAIL = env_text("APPLICATION_MAIL_FROM") or EMAIL_HOST_USER
 

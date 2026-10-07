@@ -5,6 +5,8 @@ HEALTH_DELAY_SECONDS=2
 DEFAULT_HTTP_PORT=80
 DEFAULT_HTTPS_PORT=443
 DEFAULT_BACKUP_MAX_AGE_DAYS=30
+SITE_MODE_PRODUCTION="production"
+SITE_MODE_TEST="test"
 SECRET_BYTES=24
 NETWORK_ATTEMPTS=5
 NETWORK_DELAY_SECONDS=10
@@ -81,9 +83,24 @@ ensure_site_url() {
     fi
 }
 
+ensure_site_mode() {
+    if grep -qE "^SITE_MODE=" "$1"; then
+        return
+    fi
+    if [[ "$(current_mode)" == "https" ]]; then
+        set_env_value "$1" SITE_MODE "$SITE_MODE_PRODUCTION"
+        echo "В .env добавлен режим работы: SITE_MODE=$SITE_MODE_PRODUCTION (боевой сервер)."
+    else
+        set_env_value "$1" SITE_MODE "$SITE_MODE_TEST"
+        echo "Внимание: сайт работает по HTTP, поэтому в .env записан тестовый режим SITE_MODE=$SITE_MODE_TEST."
+        echo "Для боевого сервера включите HTTPS: sudo ./scripts/setup-https.sh"
+    fi
+}
+
 upgrade_env() {
     ensure_env_secret "$1/.env" DB_ROOT_PASSWORD
     ensure_site_url "$1/.env"
+    ensure_site_mode "$1/.env"
 }
 
 port_suffix() {
