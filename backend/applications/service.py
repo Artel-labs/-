@@ -5,13 +5,13 @@ from hashlib import sha256
 
 from django.conf import settings
 from django.db import transaction
-from django.db.models import QuerySet
+from django.db.models import Q, QuerySet
 from django.utils import timezone
 
 from applications.consent import ADS_CONSENT_VERSION, CONSENT_VERSION
 from applications.delivery import queue_mail
 from applications.mail import skip_reason
-from applications.models import Application, MailStatus, Status
+from applications.models import CLOSED_STATUSES, Application, MailStatus, Status
 from applications.parsing import Cleaned
 from applications.topics import is_anonymous
 from catalog.models import Program
@@ -110,6 +110,9 @@ def resend(applications: list[Application]) -> Resent:
 
 
 def set_status(applications: QuerySet[Application], status: Status) -> int:
+    if status not in CLOSED_STATUSES:
+        return applications.update(status=status, closed_at=None)
+    applications.filter(closed_at__isnull=True).update(closed_at=timezone.now())
     return applications.update(status=status)
 
 
@@ -124,10 +127,19 @@ def accept(cleaned: Cleaned) -> Accepted:
     return Accepted(application.pk, duplicate=False)
 
 
+def expired_applications() -> QuerySet[Application]:
+    now = timezone.now()
+    closed_before = now - timedelta(days=settings.APPLICATION_CLOSED_RETENTION_DAYS)
+    received_before = now - timedelta(days=settings.APPLICATION_MAX_RETENTION_DAYS)
+    return Application.objects.filter(Q(closed_at__lt=closed_before) | Q(received_at__lt=received_before))
+
+
 def purge_expired() -> str:
-    cutoff = timezone.now() - timedelta(days=settings.APPLICATION_RETENTION_DAYS)
-    removed, _ = Application.objects.filter(received_at__lt=cutoff).delete()
-    return f"Удалено заявок старше {settings.APPLICATION_RETENTION_DAYS} дней: {removed}"
+    removed, _ = expired_applications().delete()
+    return (
+        f"Удалено заявок: {removed} (рассмотренные — через {settings.APPLICATION_CLOSED_RETENTION_DAYS} дн. "
+        f"после итога, остальные — через {settings.APPLICATION_MAX_RETENTION_DAYS} дн. после получения)"
+    )
 
 
 def withdraw_ads_consent(applications: QuerySet[Application]) -> int:

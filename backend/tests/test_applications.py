@@ -18,7 +18,7 @@ from applications.consent import ADS_CONSENT_VERSION, CONSENT_VERSION
 from applications.mail import letter, send_application_mail, subject
 from applications.models import Application, MailRecipient, MailStatus, Status, Topic
 from applications.rules import EMAIL_TYPO, PHONE_BAD_LENGTH, email_looks_valid, phone_problem
-from applications.service import purge_expired, withdraw_ads_consent
+from applications.service import purge_expired, set_status, withdraw_ads_consent
 from applications.topics import CONTACTS, rule_for
 from tests.factories import make_admin
 from tests.typography import untypeset
@@ -170,13 +170,45 @@ def test_mail_failure_is_recorded(client, mailing):
     assert application.mail_attempts == 1
 
 
-def test_old_applications_are_purged(client, settings):
-    settings.APPLICATION_RETENTION_DAYS = 365
-    old = post(client, VALID).json()["id"]
-    Application.objects.filter(pk=old).update(received_at=timezone.now() - timedelta(days=366))
-    fresh = post(client, {**VALID, "email": "fresh@example.ru"}).json()["id"]
-    assert purge_expired() == "Удалено заявок старше 365 дней: 1"
-    assert list(Application.objects.values_list("pk", flat=True)) == [fresh]
+def age(application_id: int, **days: int) -> None:
+    now = timezone.now()
+    Application.objects.filter(pk=application_id).update(
+        **{field: now - timedelta(days=value) for field, value in days.items()}
+    )
+
+
+def test_purge_keeps_closed_for_thirty_days_and_anything_for_a_year(client, settings):
+    settings.APPLICATION_CLOSED_RETENTION_DAYS = 30
+    settings.APPLICATION_MAX_RETENTION_DAYS = 365
+    ids = [post(client, {**VALID, "email": f"n{index}@example.ru"}).json()["id"] for index in range(4)]
+    closed_old, closed_fresh, open_old, open_fresh = ids
+    age(closed_old, received_at=40, closed_at=31)
+    age(closed_fresh, received_at=40, closed_at=29)
+    age(open_old, received_at=366)
+    age(open_fresh, received_at=300)
+    assert purge_expired().startswith("Удалено заявок: 2")
+    assert set(Application.objects.values_list("pk", flat=True)) == {closed_fresh, open_fresh}
+
+
+def test_closing_sets_and_reopening_clears_closed_at(client):
+    application_id = post(client, VALID).json()["id"]
+    applications = Application.objects.filter(pk=application_id)
+    set_status(applications, Status.DONE)
+    first = applications.get().closed_at
+    assert first is not None
+    set_status(applications, Status.REJECTED)
+    assert applications.get().closed_at == first
+    set_status(applications, Status.IN_PROGRESS)
+    assert applications.get().closed_at is None
+
+
+def test_migration_closes_already_finished_applications(client):
+    done = post(client, VALID).json()["id"]
+    new = post(client, {**VALID, "email": "new@example.ru"}).json()["id"]
+    Application.objects.filter(pk=done).update(status=Status.DONE)
+    import_module("applications.migrations.0012_closed_at").close_finished(django_apps, None)
+    assert Application.objects.get(pk=done).closed_at is not None
+    assert Application.objects.get(pk=new).closed_at is None
 
 
 def test_program_options_match_previous_site(client, seeded):

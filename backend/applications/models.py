@@ -25,6 +25,9 @@ class Status(models.TextChoices):
     REJECTED = "rejected", "Отклонена"
 
 
+CLOSED_STATUSES = (Status.DONE, Status.REJECTED)
+
+
 class MailStatus(models.TextChoices):
     QUEUED = "queued", "Отправляется"
     SENT = "sent", "Отправлено"
@@ -67,6 +70,7 @@ class Application(models.Model):
     )
     program_title = models.CharField("Название программы", max_length=300, blank=True)
     status = models.CharField("Статус", max_length=20, choices=Status.choices, default=Status.NEW)
+    closed_at = models.DateTimeField("Рассмотрена", null=True, blank=True, editable=False)
     mail_status = models.CharField("Письмо", max_length=20, choices=MailStatus.choices, default=MailStatus.QUEUED)
     mail_error = models.CharField("Ошибка письма", max_length=500, blank=True)
     mail_attempts = models.PositiveSmallIntegerField("Попыток отправки", default=0)
