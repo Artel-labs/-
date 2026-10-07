@@ -216,7 +216,8 @@ class SphereAdmin(ModelAdmin):
 class TeacherAdmin(SyncLine, ModelAdmin):
     sync_kind = TEACHERS
     sync_button = "Обновить преподавателей"
-    list_display = ["name", "page_url", "has_photo"]
+    list_display = ["name", "page_url", "has_photo", "hidden_on_landing"]
+    list_filter = ["hidden_on_landing"]
     search_fields = ["name"]
 
     class Media:

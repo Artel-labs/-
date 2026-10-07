@@ -33,7 +33,6 @@ TEACHER_ABOUT = {
         "Профессор-исследователь департамента частного права НИУ ВШЭ, доктор юридических наук"
     ),
 }
-HIDDEN_ON_LANDING = ("Духовная Татьяна Сергеевна",)
 
 
 @dataclass(frozen=True)
@@ -50,6 +49,7 @@ class Person:
     programs: list[Taught] = field(default_factory=list)
     teacher: Teacher | None = None
     page: str = ""
+    hidden: bool = False
 
 
 def fix_text(text: str) -> str:
@@ -83,6 +83,7 @@ def absorb(person: Person, name: str, tokens: frozenset[str], about: str, taught
     page = teacher_page(teacher)
     if not person.page and page:
         person.page = page
+    person.hidden = person.hidden or teacher.hidden_on_landing
 
 
 def teacher_page(teacher: Teacher) -> str:
@@ -108,6 +109,7 @@ def merge(programs: list[Program]) -> list[Person]:
                         [taught],
                         link.teacher if has_photo(link.teacher) else None,
                         teacher_page(link.teacher),
+                        link.teacher.hidden_on_landing,
                     )
                 )
             else:
@@ -166,9 +168,5 @@ def card(person: Person) -> TeacherCardOut:
     )
 
 
-def hidden_on_landing(person: Person) -> bool:
-    return any(same_person(person, name_tokens(name)) for name in HIDDEN_ON_LANDING)
-
-
 def teachers(programs: list[Program]) -> list[TeacherCardOut]:
-    return [card(person) for person in merge(programs) if not hidden_on_landing(person)]
+    return [card(person) for person in merge(programs) if not person.hidden]

@@ -34,6 +34,12 @@ class Teacher(models.Model):
     name = models.CharField("ФИО", max_length=200, unique=True)
     photo = models.ImageField("Фото", upload_to="teachers/", blank=True)
     page_url = models.URLField("Страница на hse.ru", blank=True)
+    hidden_on_landing = models.BooleanField(
+        "Не показывать на главной",
+        default=False,
+        help_text="Преподаватель не попадёт в блок «Преподаватели» на главной странице. "
+        "На страницах программ, в сравнении и в Telegram он остаётся. Обновление с hse.ru эту настройку не сбрасывает.",
+    )
 
     class Meta:
         ordering = ["name"]

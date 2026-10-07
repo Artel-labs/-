@@ -8,9 +8,8 @@ import pytest
 from django.core.management import call_command
 
 from catalog.landing_schemas import LandingOut
-from catalog.models import TOP_PLACES, Program
+from catalog.models import TOP_PLACES, Program, Teacher
 from catalog.presentation.landing.page import landing_page
-from catalog.presentation.landing.teachers import HIDDEN_ON_LANDING
 from catalog.presentation.page import program_page
 from tests.media import unversioned
 from tests.typography import untypeset
@@ -20,6 +19,8 @@ pytestmark = pytest.mark.django_db
 LEGACY = json.loads((Path(__file__).parent / "fixtures" / "legacy_landing.json").read_text(encoding="utf-8"))
 LEGACY_DAY = date(2026, 10, 1)
 HIDDEN_TEACHER_PROGRAM = "1029651795"
+HIDDEN_TEACHER = "Духовная Татьяна Сергеевна"
+HIDDEN_ON_LANDING = (HIDDEN_TEACHER,)
 LEGACY_CATALOG = "Каталог программ.html"
 LEGACY_IMAGES = "images/"
 MEDIA_URL = "/media/"
@@ -110,13 +111,25 @@ def test_teachers_match_previous_site(page):
 
 
 def test_hidden_teacher_is_not_on_landing(page):
-    assert all(HIDDEN_ON_LANDING[0] not in card.payload for card in page.teachers)
+    assert all(HIDDEN_TEACHER not in card.payload for card in page.teachers)
 
 
 def test_hidden_teacher_stays_on_program_page(page):
     program = Program.objects.get(hse_id=HIDDEN_TEACHER_PROGRAM)
     names = [teacher.name for teacher in program_page(program, LEGACY_DAY).teachers]
-    assert HIDDEN_ON_LANDING[0] in names
+    assert HIDDEN_TEACHER in names
+
+
+def test_seed_marks_hidden_teacher(page):
+    assert list(Teacher.objects.filter(hidden_on_landing=True).values_list("name", flat=True)) == [HIDDEN_TEACHER]
+
+
+def test_flag_hides_any_teacher_from_landing(page):
+    shown = json.loads(page.teachers[0].payload)["name"]
+    Teacher.objects.filter(name=shown).update(hidden_on_landing=True)
+    names = [card.name for card in landing_page(Program.objects.filter(is_published=True), LEGACY_DAY).teachers]
+    assert shown not in names
+    assert len(names) == len(page.teachers) - 1
 
 
 def test_starts_strip_matches_previous_site(page):

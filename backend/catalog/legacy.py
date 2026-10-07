@@ -41,7 +41,11 @@ def import_teachers(data: Record, root: Path) -> dict[str, Teacher]:
     names |= {canonical_name(t["name"]) for p in data["programs"] for t in p.get("teachers") or []}
     teachers = {}
     for name in sorted(names):
-        teacher = Teacher(name=name, page_url=(data.get("teacherPages") or {}).get(name, ""))
+        teacher = Teacher(
+            name=name,
+            page_url=(data.get("teacherPages") or {}).get(name, ""),
+            hidden_on_landing=name in (data.get("teachersHiddenOnLanding") or []),
+        )
         attach(teacher.photo, root, (data.get("teacherPhotos") or {}).get(name))
         teacher.save()
         teachers[name] = teacher
