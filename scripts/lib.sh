@@ -8,6 +8,7 @@ DEFAULT_BACKUP_MAX_AGE_DAYS=30
 SITE_MODE_PRODUCTION="production"
 SITE_MODE_TEST="test"
 SECRET_BYTES=24
+FERNET_KEY_BYTES=32
 NETWORK_ATTEMPTS=5
 NETWORK_DELAY_SECONDS=10
 PULLED_SERVICES=(db)
@@ -61,6 +62,17 @@ new_secret() {
     openssl rand -hex "$SECRET_BYTES"
 }
 
+new_fernet_key() {
+    openssl rand -base64 "$FERNET_KEY_BYTES" | tr '+/' '-_'
+}
+
+ensure_two_factor_key() {
+    if ! grep -qE "^TWO_FACTOR_KEY=" "$1"; then
+        set_env_value "$1" TWO_FACTOR_KEY "$(new_fernet_key)"
+        echo "В .env добавлен ключ шифрования двухфакторного входа TWO_FACTOR_KEY. Храните копию .env вне сервера."
+    fi
+}
+
 ensure_env_secret() {
     if ! grep -qE "^$2=" "$1"; then
         set_env_value "$1" "$2" "$(new_secret)"
@@ -99,6 +111,7 @@ ensure_site_mode() {
 
 upgrade_env() {
     ensure_env_secret "$1/.env" DB_ROOT_PASSWORD
+    ensure_two_factor_key "$1/.env"
     ensure_site_url "$1/.env"
     ensure_site_mode "$1/.env"
 }

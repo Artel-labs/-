@@ -132,6 +132,7 @@ write_env() {
     done
     cat > "$file" <<ENV_FILE
 DJANGO_SECRET_KEY=$(openssl rand -hex 32)
+TWO_FACTOR_KEY=$(new_fernet_key)
 DJANGO_DEBUG=0
 DJANGO_ALLOWED_HOSTS=${hosts}
 COOKIE_SECURE=0

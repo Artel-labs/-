@@ -18,7 +18,7 @@ RUN pip install --no-cache-dir --no-index --find-links /wheels -r /wheels/requir
 
 WORKDIR /app
 COPY backend/ .
-RUN DJANGO_SECRET_KEY=collectstatic SITE_MODE=test python manage.py collectstatic --noinput
+RUN DJANGO_SECRET_KEY=collectstatic TWO_FACTOR_KEY=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA= SITE_MODE=test python manage.py collectstatic --noinput
 
 RUN useradd --system --no-create-home dpo && mkdir -p /app/media && chown dpo /app/media
 USER dpo

@@ -5,6 +5,7 @@ from django.db import transaction
 from django.utils import timezone
 
 from accounts.models import TwoFactor
+from accounts.secret_box import seal
 from accounts.totp import matching_step, new_secret
 
 
@@ -22,11 +23,11 @@ def is_enabled(user: AbstractBaseUser) -> bool:
 
 
 def start(user: AbstractBaseUser) -> TwoFactor:
-    device, _ = TwoFactor.objects.get_or_create(user_id=user.pk, defaults={"secret": new_secret()})
+    device, _ = TwoFactor.objects.get_or_create(user_id=user.pk, defaults={"sealed_secret": seal(new_secret())})
     if not device.enabled:
         device.secret = new_secret()
         device.last_step = 0
-        device.save(update_fields=["secret", "last_step"])
+        device.save(update_fields=["sealed_secret", "last_step"])
     return device
 
 

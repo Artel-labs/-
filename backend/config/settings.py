@@ -6,11 +6,13 @@ from django.urls import reverse
 from django.utils.module_loading import import_string
 
 from config.env import env_flag, env_int, env_list, env_required, env_text
+from config.keys import check_two_factor_key
 from config.site_mode import PRODUCTION, check_site_mode
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = env_required("DJANGO_SECRET_KEY")
+TWO_FACTOR_KEY = check_two_factor_key(env_required("TWO_FACTOR_KEY"))
 DEBUG = env_flag("DJANGO_DEBUG")
 ALLOWED_HOSTS = [*env_list("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1"), *env_list("DJANGO_INTERNAL_HOSTS")]
 COOKIE_SECURE = env_flag("COOKIE_SECURE")

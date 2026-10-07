@@ -10,3 +10,4 @@ httpx==0.28.1
 beautifulsoup4==4.15.0
 json5==0.15.0
 django-q2==1.11.1
+cryptography==50.0.2

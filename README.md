@@ -550,6 +550,11 @@ sudo ./scripts/setup-https.sh [домен-или-IP ...]
 | `sudo ./scripts/backup-timer.sh install` / `remove` | включить или выключить таймер; после обновления до версии с `rotate-logs.sh` выполните `install` ещё раз |
 | `sudo ./scripts/rotate-logs.sh --now` | пересоздать контейнеры сайта и удалить их журналы сейчас |
 
+Секреты двухфакторного входа хранятся в базе зашифрованными, ключ `TWO_FACTOR_KEY` лежит в `.env`
+и в копию не попадает. Восстановить копию с рабочим двухфакторным входом можно только с тем же
+ключом: при переносе на новый сервер перенесите и `.env`. С другим ключом пользователи с включённым
+двухфакторным входом не смогут войти, пока его не сбросить: `sudo ./scripts/disable-two-factor.sh <логин>`.
+
 > [!WARNING]
 > Копии лежат на том же сервере. Если сервер пропадёт, пропадут и они. Регулярно забирайте
 > свежую пару файлов на другой компьютер или в хранилище. Файлы принадлежат root, поэтому
@@ -809,6 +814,7 @@ IP и браузер посетителя к заявке не приклады�
 | Переменная | Назначение |
 |---|---|
 | `DJANGO_SECRET_KEY` | секретный ключ Django, создаётся при установке |
+| `TWO_FACTOR_KEY` | ключ шифрования секретов двухфакторного входа, создаётся при установке (на старых серверах — при обновлении). Без него сайт не запустится; если ключ потерян, двухфакторный вход сбрасывается: `sudo ./scripts/disable-two-factor.sh <логин>` |
 | `DJANGO_DEBUG` | `1` только для разработки |
 | `DJANGO_ALLOWED_HOSTS` | адреса и домены сайта через запятую |
 | `COOKIE_SECURE` | `1` при работе по HTTPS |
@@ -836,7 +842,7 @@ IP и браузер посетителя к заявке не приклады�
 
 ```bash
 python -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
-export DJANGO_SECRET_KEY=dev SITE_MODE=test DB_HOST=127.0.0.1 DB_USER=root DB_PASSWORD=<пароль>
+export DJANGO_SECRET_KEY=dev TWO_FACTOR_KEY=$(openssl rand -base64 32 | tr '+/' '-_') SITE_MODE=test DB_HOST=127.0.0.1 DB_USER=root DB_PASSWORD=<пароль>
 .venv/bin/ruff check . && .venv/bin/ruff format --check . && .venv/bin/mypy && .venv/bin/pytest
 ```
 

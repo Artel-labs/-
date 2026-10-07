@@ -29,6 +29,7 @@ jobs:
           --health-retries 20
     env:
       DJANGO_SECRET_KEY: ci
+      TWO_FACTOR_KEY: Y2ktb25seS10d28tZmFjdG9yLWtleS0zMi1ieXRlcyE=
       SITE_MODE: test
       DB_HOST: 127.0.0.1
       DB_USER: root
