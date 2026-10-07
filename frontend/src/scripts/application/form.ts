@@ -77,14 +77,11 @@ function moreDetails(): HTMLDetailsElement {
   const details = element("details", "dpo-app-more");
   const body = element("div", "dpo-app-more-body");
   body.append(
-    row(
-      inputField({ name: "position", text: "Должность", type: "text", autocomplete: "organization-title" }),
-      inputField({ name: "company", text: "Место работы", type: "text", autocomplete: "organization" }),
-    ),
+    inputField({ name: "company", text: "Место работы", type: "text", autocomplete: "organization" }),
     ...sourcesBlock(),
     checkbox("noAnnouncements", "Не присылать анонсы новых программ и мероприятий Центра ДПО факультета права"),
   );
-  details.append(element("summary", "", "Ещё о себе: должность, место работы, откуда узнали"), body);
+  details.append(element("summary", "", "Ещё о себе: место работы, откуда узнали"), body);
   return details;
 }
 

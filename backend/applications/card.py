@@ -32,7 +32,6 @@ def facts(application: Application) -> list[Fact]:
         Fact(applicant_field(), application.get_applicant_type_display() if corporate else ""),
         Fact("Сотрудников к обучению", application.employees_count),
         Fact("Желаемые сроки", application.timeframe),
-        Fact("Должность", application.position),
         Fact("Место работы", application.company),
         Fact("Откуда узнали", ", ".join(source_labels(application))),
         Fact("Анонсы новых программ", announcements(application)),

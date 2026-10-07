@@ -38,7 +38,6 @@ export function collect(form: HTMLFormElement, program: ChosenProgram): Record<s
     lastName: text(data, "lastName"),
     phone: text(data, "phone"),
     email: text(data, "email"),
-    position: text(data, "position"),
     company: text(data, "company"),
     sources: data.getAll("sources").filter((value) => typeof value === "string" && value),
     sourceOther: text(data, "sourceOther"),

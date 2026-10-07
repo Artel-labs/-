@@ -12,7 +12,6 @@ class ApplicationIn(Schema):
     last_name: Any = Field(None, alias="lastName")
     phone: Any = None
     email: Any = None
-    position: Any = None
     company: Any = None
     sources: Any = None
     source_other: Any = Field(None, alias="sourceOther")

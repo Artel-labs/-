@@ -13,7 +13,6 @@ LIMITS = {
     "last_name": 80,
     "phone": 40,
     "email": 160,
-    "position": 120,
     "company": 160,
     "source_other": 200,
     "comment": 1000,
@@ -44,7 +43,6 @@ class Cleaned:
     last_name: str
     phone: str
     email: str
-    position: str
     company: str
     sources: list[str]
     source_other: str
@@ -160,7 +158,6 @@ def parse(data: ApplicationIn) -> Parsed:
         Cleaned(
             topic=topic,
             **contacts,
-            position=line(data.position, "position"),
             sources=chosen_sources,
             source_other=line(data.source_other, "source_other") if Source.OTHER in chosen_sources else "",
             comment=paragraph(data.comment, "comment"),

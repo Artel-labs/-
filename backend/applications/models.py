@@ -59,7 +59,6 @@ class Application(models.Model):
     last_name = models.CharField("Фамилия", max_length=80)
     phone = models.CharField("Телефон", max_length=40)
     email = models.EmailField("Почта", max_length=160)
-    position = models.CharField("Должность", max_length=120, blank=True)
     company = models.CharField("Место работы", max_length=160, blank=True)
     sources = models.JSONField("Откуда узнали", default=list, blank=True)
     source_other = models.CharField("Откуда узнали: другое", max_length=200, blank=True)

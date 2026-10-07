@@ -88,8 +88,6 @@ def letter(application: Application) -> str:
         f"Телефон:       {application.phone}",
         f"Почта:         {application.email}",
     ]
-    if application.position:
-        lines.append(f"Должность:     {application.position}")
     if application.company:
         lines.append(f"Место работы:  {application.company}")
     lines += [*corporate_lines(application), ""]

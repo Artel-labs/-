@@ -345,3 +345,11 @@ def test_program_fields_are_kept_for_program_topic(client, seeded):
 
 def test_every_topic_has_field_rules():
     assert {rule_for(topic).required for topic in Topic.values} == {CONTACTS}
+
+
+def test_position_is_not_collected(client, mailing):
+    assert post(client, {**VALID, "position": "Юрист"}).status_code == 200
+    saved = Application.objects.get()
+    assert "position" not in {field.name for field in Application._meta.get_fields()}
+    assert "Должность" not in letter(saved)
+    assert "Юрист" not in letter(saved)
