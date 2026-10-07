@@ -128,7 +128,7 @@ def topic_fields(data: ApplicationIn, rule: TopicRule) -> dict[str, Any]:
         "applicant_type": applicant_type,
         "employees_count": corporate_line(allowed_value(data, rule, "employees_count"), "employees_count"),
         "timeframe": corporate_line(allowed_value(data, rule, "timeframe"), "timeframe"),
-        "company": line(allowed_value(data, rule, "company"), "company"),
+        "company": corporate_line(allowed_value(data, rule, "company"), "company"),
         "program_id": line(allowed_value(data, rule, "program_id"), "program_id"),
         "program_title": line(allowed_value(data, rule, "program_title"), "program_title"),
     }

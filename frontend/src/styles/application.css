@@ -12,12 +12,6 @@
 @media (max-width:520px){.dpo-app-row{grid-template-columns:1fr}
 }
 .dpo-app-field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
-.dpo-app-more{margin:2px 0 14px;border-top:1px solid rgb(var(--ink) / .1);border-bottom:1px solid rgb(var(--ink) / .1)}
-.dpo-app-more summary{display:flex;align-items:center;gap:8px;min-height:44px;cursor:pointer;font-size:0.9375rem;font-weight:600;color:rgb(var(--accent));list-style:none}
-.dpo-app-more summary::-webkit-details-marker{display:none}
-.dpo-app-more summary::after{content:"";width:8px;height:8px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:rotate(45deg) translate(-2px,-2px);transition:transform .15s}
-.dpo-app-more[open] summary::after{transform:rotate(-135deg) translate(-3px,-3px)}
-.dpo-app-more-body{padding:4px 0 6px}
 .dpo-app [hidden]{display:none}
 .dpo-app-row .dpo-app-field{margin-bottom:0}
 .dpo-app label{font-size:0.8125rem;font-weight:600;letter-spacing:.01em}

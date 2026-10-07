@@ -2,11 +2,13 @@ import json
 import re
 import smtplib
 from datetime import timedelta
+from importlib import import_module
 from io import StringIO
 from pathlib import Path
 from unittest.mock import patch
 
 import pytest
+from django.apps import apps as django_apps
 from django.core import mail
 from django.core.management import call_command
 from django.utils import timezone
@@ -357,3 +359,25 @@ def test_position_is_not_collected(client, mailing):
 def test_sources_are_not_collected():
     names = {field.name for field in Application._meta.get_fields()}
     assert not {"sources", "source_other"} & names
+
+
+def test_company_is_kept_only_for_corporate_applications(client):
+    post(client, {**VALID, "company": "ООО «Частная»"})
+    post(client, {**VALID, "email": "corp@example.ru", "applicantType": "corporate", "company": "ООО «Заказчик»"})
+    personal, corporate = Application.objects.order_by("pk")
+    assert personal.company == ""
+    assert corporate.company == "ООО «Заказчик»"
+    assert "Организация-заказчик: ООО «Заказчик»" in letter(corporate)
+    assert "Место работы" not in letter(corporate)
+
+
+def test_migration_clears_companies_of_personal_applications(client):
+    post(client, {**VALID, "applicantType": "corporate", "company": "ООО «Заказчик»"})
+    post(client, {**VALID, "email": "personal@example.ru"})
+    Application.objects.filter(email="personal@example.ru").update(company="Старое место работы")
+    migration = import_module("applications.migrations.0008_company_only_for_corporate")
+    migration.clear_personal_companies(django_apps, None)
+    assert dict(Application.objects.values_list("email", "company")) == {
+        "ivan@example.ru": "ООО «Заказчик»",
+        "personal@example.ru": "",
+    }

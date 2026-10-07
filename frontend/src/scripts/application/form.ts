@@ -29,9 +29,13 @@ function kindField(handlers: FormHandlers): HTMLDivElement {
 }
 
 function corporateBlock(): HTMLDivElement {
-  const block = row(
-    inputField({ name: "employeesCount", text: "Сколько сотрудников обучить", type: "text", placeholder: "например: 8 или 10–15" }),
-    inputField({ name: "timeframe", text: "Желаемые сроки", type: "text", placeholder: "например: октябрь—декабрь" }),
+  const block = element("div");
+  block.append(
+    inputField({ name: "company", text: "Организация-заказчик", type: "text", autocomplete: "organization" }),
+    row(
+      inputField({ name: "employeesCount", text: "Сколько сотрудников обучить", type: "text", placeholder: "например: 8 или 10–15" }),
+      inputField({ name: "timeframe", text: "Желаемые сроки", type: "text", placeholder: "например: октябрь—декабрь" }),
+    ),
   );
   block.id = "dpo-app-corp";
   block.hidden = true;
@@ -54,17 +58,6 @@ function checkbox(name: string, text: string): HTMLLabelElement {
   input.name = name;
   label.append(input, element("span", "", text));
   return label;
-}
-
-function moreDetails(): HTMLDetailsElement {
-  const details = element("details", "dpo-app-more");
-  const body = element("div", "dpo-app-more-body");
-  body.append(
-    inputField({ name: "company", text: "Место работы", type: "text", autocomplete: "organization" }),
-    checkbox("noAnnouncements", "Не присылать анонсы новых программ и мероприятий Центра ДПО факультета права"),
-  );
-  details.append(element("summary", "", "Ещё о себе: место работы"), body);
-  return details;
 }
 
 function commentField(): HTMLDivElement {
@@ -146,8 +139,8 @@ export function buildForm(handlers: FormHandlers): HTMLFormElement {
       inputField({ name: "phone", text: "Телефон", type: "tel", required: true, autocomplete: "tel" }),
       inputField({ name: "email", text: "Электронная почта", type: "email", required: true, autocomplete: "email" }),
     ),
-    moreDetails(),
     commentField(),
+    checkbox("noAnnouncements", "Не присылать анонсы новых программ и мероприятий Центра ДПО факультета права"),
     ...consentField(),
     trapField(),
     submit,

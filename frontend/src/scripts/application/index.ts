@@ -144,7 +144,6 @@ class ApplicationDialog {
     if (!corporate) {
       return;
     }
-    this.select<HTMLDetailsElement>(".dpo-app-more").open = true;
     if (focusFirst) {
       block.querySelector("input")?.focus();
     }

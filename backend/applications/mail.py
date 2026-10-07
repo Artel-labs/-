@@ -54,10 +54,16 @@ def applicant_field() -> str:
     return str(Application._meta.get_field("applicant_type").verbose_name)
 
 
+def company_field() -> str:
+    return str(Application._meta.get_field("company").verbose_name)
+
+
 def corporate_lines(application: Application) -> list[str]:
     if application.applicant_type != ApplicantType.CORPORATE:
         return []
     lines = ["", f"{applicant_field()}: {ApplicantType.CORPORATE.label.lower()} (корпоративное обучение)."]
+    if application.company:
+        lines.append(f"{company_field()}: {application.company}")
     if application.employees_count:
         lines.append(f"Сотрудников к обучению: {application.employees_count}")
     if application.timeframe:
@@ -79,8 +85,6 @@ def letter(application: Application) -> str:
         f"Телефон:       {application.phone}",
         f"Почта:         {application.email}",
     ]
-    if application.company:
-        lines.append(f"Место работы:  {application.company}")
     lines += [*corporate_lines(application), ""]
     lines.append(
         "Анонсы новых программ получать ОТКАЗАЛСЯ(ЛАСЬ)."

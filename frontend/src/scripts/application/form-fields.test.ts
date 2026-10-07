@@ -17,3 +17,11 @@ test("application form does not ask how the applicant found the centre", () => {
     assert.doesNotMatch(source(name), /sources|sourceOther|узнали/i, name);
   }
 });
+
+test("customer organisation is asked only in the corporate block", () => {
+  const form = source("form.ts");
+  const corporate = form.slice(form.indexOf("function corporateBlock"), form.indexOf("function programField"));
+  assert.match(corporate, /name: "company", text: "Организация-заказчик"/);
+  assert.equal(form.match(/name: "company"/g)?.length, 1);
+  assert.doesNotMatch(form, /Место работы|dpo-app-more/);
+});

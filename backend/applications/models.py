@@ -47,7 +47,9 @@ class Application(models.Model):
     last_name = models.CharField("Фамилия", max_length=80)
     phone = models.CharField("Телефон", max_length=40)
     email = models.EmailField("Почта", max_length=160)
-    company = models.CharField("Место работы", max_length=160, blank=True)
+    company = models.CharField(
+        "Организация-заказчик", max_length=160, blank=True, help_text="Только для корпоративной заявки"
+    )
     comment = models.TextField("Комментарий", max_length=1000, blank=True)
     no_announcements = models.BooleanField("Отказ от анонсов", default=False)
     program = models.ForeignKey(
