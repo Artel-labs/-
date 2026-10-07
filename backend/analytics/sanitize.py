@@ -2,10 +2,12 @@ import re
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from typing import Any
+from urllib.parse import parse_qsl, urlencode, urlsplit
 
 from analytics.models import Device, EventType
 
 MAX_PATH = 300
+MAX_RAW_PATH = 2000
 MAX_TITLE = 200
 MAX_REFERRER = 200
 MAX_TARGET = 500
@@ -16,6 +18,7 @@ MAX_LANGUAGE = 16
 MAX_CLOCK_SKEW_MS = 48 * 3600 * 1000
 MAX_DURATION_MS = 24 * 3600 * 1000
 MAX_SCROLL = 100
+KEPT_PARAMS = ("utm_source", "utm_medium", "utm_campaign")
 SESSION_JUNK = re.compile(r"[^a-zA-Z0-9_-]")
 TYPES = set(EventType.values)
 DEVICES = set(Device.values)
@@ -54,6 +57,12 @@ def bounded(value: Any, upper: int) -> int:
     return int(max(0.0, min(number(value), float(upper))))
 
 
+def page_path(raw: str) -> str:
+    parts = urlsplit(raw)
+    query = urlencode([(key, value) for key, value in parse_qsl(parts.query) if key in KEPT_PARAMS])
+    return f"{parts.path}?{query}" if query else parts.path
+
+
 def moment(raw: Any, now_ms: int) -> datetime:
     timestamp = number(raw)
     if not timestamp or abs(timestamp - now_ms) > MAX_CLOCK_SKEW_MS:
@@ -66,15 +75,15 @@ def sanitize(raw: Any, now_ms: int) -> CleanEvent | None:
         return None
     event_type = str(raw.get("type") or "").lower()
     session = SESSION_JUNK.sub("", clamp_text(raw.get("sid"), MAX_SESSION))
-    path = clamp_text(raw.get("path") or "/", MAX_PATH)
-    if event_type not in TYPES or len(session) < MIN_SESSION or not path.startswith("/"):
+    raw_path = clamp_text(raw.get("path") or "/", MAX_RAW_PATH)
+    if event_type not in TYPES or len(session) < MIN_SESSION or not raw_path.startswith("/"):
         return None
     device = raw.get("device")
     return CleanEvent(
         occurred_at=moment(raw.get("t"), now_ms),
         session=session,
         type=event_type,
-        path=path,
+        path=clamp_text(page_path(raw_path), MAX_PATH),
         title=clamp_text(raw.get("title"), MAX_TITLE),
         referrer=clamp_text(raw.get("ref"), MAX_REFERRER),
         target=clamp_text(raw.get("target"), MAX_TARGET),

@@ -1,3 +1,4 @@
+import { keptQuery } from "./analytics-path";
 import { consentAccepted, onConsentAccepted } from "./consent";
 
 const ENDPOINT = "/api/collect";
@@ -61,7 +62,7 @@ function deviceType(): string {
 }
 
 function pathName(): string {
-  return location.pathname + location.search;
+  return location.pathname + keptQuery(location.search);
 }
 
 function referrerHost(): string {
