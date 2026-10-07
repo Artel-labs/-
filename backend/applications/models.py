@@ -46,7 +46,12 @@ class Application(models.Model):
     received_at = models.DateTimeField("Получена", default=timezone.now, db_index=True)
     topic = models.CharField("Тема", max_length=20, choices=Topic.choices, default=Topic.PROGRAM)
     applicant_type = models.CharField(
-        "Кто будет обучаться", max_length=20, choices=ApplicantType.choices, default=ApplicantType.PERSONAL
+        "Кто будет обучаться",
+        max_length=20,
+        choices=ApplicantType.choices,
+        default=ApplicantType.PERSONAL,
+        blank=True,
+        help_text="Только для заявки на программу",
     )
     employees_count = models.CharField("Сотрудников к обучению", max_length=40, blank=True)
     timeframe = models.CharField("Желаемые сроки", max_length=200, blank=True)

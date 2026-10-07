@@ -1,10 +1,12 @@
 import re
 from dataclasses import dataclass, field
+from functools import partial
 from typing import Any
 
 from applications.models import ApplicantType, Source, Topic
 from applications.rules import EMAIL_TYPO, email_looks_valid, phone_problem
 from applications.schemas import ApplicationIn
+from applications.topics import TopicRule, rule_for
 
 LIMITS = {
     "first_name": 80,
@@ -63,6 +65,10 @@ def line(value: Any, name: str) -> str:
     return text[: LIMITS[name]]
 
 
+def line_if(keep: bool, value: Any, name: str) -> str:
+    return line(value, name) if keep else ""
+
+
 def paragraph(value: Any, name: str) -> str:
     if value is None:
         return ""
@@ -85,50 +91,80 @@ def sources(value: Any) -> list[str]:
     return list(dict.fromkeys(known))
 
 
-def contact_errors(first_name: str, last_name: str, phone: str, email: str) -> list[FieldError]:
+MISSING = {
+    "first_name": FieldError("firstName", "Укажите имя."),
+    "last_name": FieldError("lastName", "Укажите фамилию."),
+    "phone": FieldError("phone", "Укажите телефон."),
+    "email": FieldError("email", "Укажите электронную почту."),
+}
+
+
+def format_error(name: str, value: str) -> FieldError | None:
+    if name == "phone":
+        problem = phone_problem(value)
+        return FieldError("phone", problem) if problem else None
+    if name == "email" and not email_looks_valid(value):
+        return FieldError("email", EMAIL_TYPO)
+    return None
+
+
+def contact_errors(contacts: dict[str, str], required: frozenset[str]) -> list[FieldError]:
     errors = []
-    if not first_name:
-        errors.append(FieldError("firstName", "Укажите имя."))
-    if not last_name:
-        errors.append(FieldError("lastName", "Укажите фамилию."))
-    problem = phone_problem(phone) if phone else "Укажите телефон."
-    if problem:
-        errors.append(FieldError("phone", problem))
-    if not email:
-        errors.append(FieldError("email", "Укажите электронную почту."))
-    elif not email_looks_valid(email):
-        errors.append(FieldError("email", EMAIL_TYPO))
+    for name, missing in MISSING.items():
+        value = contacts[name]
+        error = format_error(name, value) if value else missing if name in required else None
+        if error:
+            errors.append(error)
     return errors
 
 
+def contacts_of(data: ApplicationIn) -> dict[str, str]:
+    return {name: line(getattr(data, name), name) for name in MISSING}
+
+
+def allowed_value(data: ApplicationIn, rule: TopicRule, name: str) -> Any:
+    return getattr(data, name) if name in rule.allowed else None
+
+
+def applicant_type_of(data: ApplicationIn, rule: TopicRule) -> str:
+    if "applicant_type" not in rule.allowed:
+        return ""
+    return choice(data.applicant_type, ApplicantType, ApplicantType.PERSONAL)
+
+
+def topic_fields(data: ApplicationIn, rule: TopicRule) -> dict[str, Any]:
+    applicant_type = applicant_type_of(data, rule)
+    corporate = applicant_type == ApplicantType.CORPORATE
+    corporate_line = partial(line_if, corporate)
+    return {
+        "applicant_type": applicant_type,
+        "employees_count": corporate_line(allowed_value(data, rule, "employees_count"), "employees_count"),
+        "timeframe": corporate_line(allowed_value(data, rule, "timeframe"), "timeframe"),
+        "company": line(allowed_value(data, rule, "company"), "company"),
+        "program_id": line(allowed_value(data, rule, "program_id"), "program_id"),
+        "program_title": line(allowed_value(data, rule, "program_title"), "program_title"),
+    }
+
+
 def parse(data: ApplicationIn) -> Parsed:
-    first_name, last_name = line(data.first_name, "first_name"), line(data.last_name, "last_name")
-    phone, email = line(data.phone, "phone"), line(data.email, "email")
-    errors = contact_errors(first_name, last_name, phone, email)
+    topic = choice(data.topic, Topic, Topic.PROGRAM)
+    rule = rule_for(topic)
+    contacts = contacts_of(data)
+    errors = contact_errors(contacts, rule.required)
     if not flag(data.consent):
         errors.append(FieldError("consent", "Без согласия на обработку персональных данных заявку принять нельзя."))
     if errors:
         return Parsed(errors=errors)
     chosen_sources = sources(data.sources)
-    applicant_type = choice(data.applicant_type, ApplicantType, ApplicantType.PERSONAL)
-    corporate = applicant_type == ApplicantType.CORPORATE
     return Parsed(
         Cleaned(
-            topic=choice(data.topic, Topic, Topic.PROGRAM),
-            applicant_type=applicant_type,
-            employees_count=line(data.employees_count, "employees_count") if corporate else "",
-            timeframe=line(data.timeframe, "timeframe") if corporate else "",
-            first_name=first_name,
-            last_name=last_name,
-            phone=phone,
-            email=email,
+            topic=topic,
+            **contacts,
             position=line(data.position, "position"),
-            company=line(data.company, "company"),
             sources=chosen_sources,
             source_other=line(data.source_other, "source_other") if Source.OTHER in chosen_sources else "",
             comment=paragraph(data.comment, "comment"),
             no_announcements=flag(data.no_announcements),
-            program_id=line(data.program_id, "program_id"),
-            program_title=line(data.program_title, "program_title"),
+            **topic_fields(data, rule),
         )
     )

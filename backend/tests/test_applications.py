@@ -16,6 +16,7 @@ from applications.mail import letter, send_application_mail, subject
 from applications.models import Application, MailRecipient, MailStatus, Status, Topic
 from applications.rules import EMAIL_TYPO, PHONE_BAD_LENGTH, email_looks_valid, phone_problem
 from applications.service import purge_expired
+from applications.topics import CONTACTS, rule_for
 from tests.factories import make_admin
 from tests.typography import untypeset
 
@@ -312,3 +313,35 @@ def test_mail_state_reports_last_sent_and_last_error(client, mailing):
     assert f"по заявке № {sent.pk} от" in block
     assert "Попытка 1: отказ сервера" in block
     assert f"заявка № {failed.pk} от" in block
+
+
+PROGRAM_ONLY = {
+    "applicantType": "corporate",
+    "employeesCount": "8",
+    "timeframe": "осень",
+    "company": "ООО «Ромашка»",
+    "programId": "856421092",
+    "programTitle": "Название из браузера",
+}
+
+
+@pytest.mark.parametrize("topic", [Topic.COURSE_IDEA, Topic.TEACHING, Topic.FEEDBACK])
+def test_program_fields_are_dropped_for_other_topics(client, seeded, topic):
+    assert post(client, {**VALID, **PROGRAM_ONLY, "topic": topic}).status_code == 200
+    saved = Application.objects.get()
+    assert saved.topic == topic
+    kept = (saved.applicant_type, saved.employees_count, saved.timeframe, saved.company, saved.program_title)
+    assert kept == ("", "", "", "", "")
+    assert saved.program is None
+
+
+def test_program_fields_are_kept_for_program_topic(client, seeded):
+    assert post(client, {**VALID, **PROGRAM_ONLY, "topic": Topic.PROGRAM}).status_code == 200
+    saved = Application.objects.get()
+    assert (saved.applicant_type, saved.employees_count, saved.timeframe) == ("corporate", "8", "осень")
+    assert saved.company == "ООО «Ромашка»"
+    assert saved.program is not None
+
+
+def test_every_topic_has_field_rules():
+    assert {rule_for(topic).required for topic in Topic.values} == {CONTACTS}
