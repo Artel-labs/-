@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from django.urls import reverse
 
-from applications.mail import ANONYMOUS_LINE, applicant_field, company_field, consent_state
+from applications.mail import ANONYMOUS_LINE, ads_consent_state, applicant_field, company_field, consent_state
 from applications.models import ApplicantType, Application, MailStatus, Status
 from applications.topics import is_anonymous
 
@@ -24,10 +24,13 @@ class Card:
     anonymous_note: str
 
 
-def announcements(application: Application) -> str:
+def consent_facts(application: Application) -> list[Fact]:
     if is_anonymous(application.topic):
-        return ""
-    return "не присылать" if application.no_announcements else "согласен получать"
+        return []
+    return [
+        Fact("Согласие на обработку ПДн", consent_state(application)),
+        Fact("Согласие на рекламные рассылки", ads_consent_state(application)),
+    ]
 
 
 def facts(application: Application) -> list[Fact]:
@@ -37,8 +40,7 @@ def facts(application: Application) -> list[Fact]:
         Fact("Сотрудников к обучению", application.employees_count),
         Fact("Желаемые сроки", application.timeframe),
         Fact(company_field(), application.company),
-        Fact("Анонсы новых программ", announcements(application)),
-        Fact("Согласие на обработку ПДн", "" if is_anonymous(application.topic) else consent_state(application)),
+        *consent_facts(application),
     ]
     return [fact for fact in candidates if fact.value]
 

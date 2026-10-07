@@ -8,13 +8,15 @@ from django.db import transaction
 from django.db.models import QuerySet
 from django.utils import timezone
 
-from applications.consent import CONSENT_VERSION
+from applications.consent import ADS_CONSENT_VERSION, CONSENT_VERSION
 from applications.delivery import queue_mail
 from applications.mail import skip_reason
 from applications.models import Application, MailStatus, Status
 from applications.parsing import Cleaned
 from applications.topics import is_anonymous
 from catalog.models import Program
+
+NOT_STORED = ("program_id", "program_title", "ads_consent")
 
 
 @dataclass(frozen=True)
@@ -39,19 +41,23 @@ def program_for(program_id: str) -> Program | None:
     return Program.objects.filter(hse_id=program_id).first() if program_id else None
 
 
-def consent_fields(topic: str) -> dict[str, object]:
-    if is_anonymous(topic):
+def consent_fields(cleaned: Cleaned) -> dict[str, object]:
+    if is_anonymous(cleaned.topic):
         return {}
-    return {"consent_at": timezone.now(), "consent_version": CONSENT_VERSION}
+    now = timezone.now()
+    fields: dict[str, object] = {"consent_at": now, "consent_version": CONSENT_VERSION}
+    if cleaned.ads_consent:
+        fields |= {"ads_consent_at": now, "ads_consent_version": ADS_CONSENT_VERSION}
+    return fields
 
 
 def create(cleaned: Cleaned, key: str) -> Application:
     program = program_for(cleaned.program_id)
     reason = skip_reason(cleaned.topic)
-    fields = {name: value for name, value in cleaned.__dict__.items() if name not in ("program_id", "program_title")}
+    fields = {name: value for name, value in cleaned.__dict__.items() if name not in NOT_STORED}
     return Application.objects.create(
         **fields,
-        **consent_fields(cleaned.topic),
+        **consent_fields(cleaned),
         program=program,
         program_title=program.title if program else cleaned.program_title,
         mail_status=MailStatus.SKIPPED if reason else MailStatus.QUEUED,
@@ -122,3 +128,8 @@ def purge_expired() -> str:
     cutoff = timezone.now() - timedelta(days=settings.APPLICATION_RETENTION_DAYS)
     removed, _ = Application.objects.filter(received_at__lt=cutoff).delete()
     return f"Удалено заявок старше {settings.APPLICATION_RETENTION_DAYS} дней: {removed}"
+
+
+def withdraw_ads_consent(applications: QuerySet[Application]) -> int:
+    active = applications.filter(ads_consent_at__isnull=False, ads_consent_withdrawn_at__isnull=True)
+    return active.update(ads_consent_withdrawn_at=timezone.now())

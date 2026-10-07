@@ -120,6 +120,7 @@ jobs:
           curl -fsSk https://127.0.0.1:8443/privacy | grep -q "<h1>Политика обработки персональных данных</h1>"
           curl -fsSk https://127.0.0.1:8443/consent | grep -q "<h1>Согласие на обработку персональных данных</h1>"
           curl -fsSk https://127.0.0.1:8443/consent | grep -q "https://www.hse.ru/appeal/polls/575012041.html"
+          curl -fsSk https://127.0.0.1:8443/ads-consent | grep -q "<h1>Согласие на получение рассылок</h1>"
           for page in / /catalog /ratings /no-such-page; do
             curl -sSk "https://127.0.0.1:8443$page" | grep -q 'href="https://www.hse.ru/data_protection_regulation" target="_blank" rel="noopener"'
           done

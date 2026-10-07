@@ -53,9 +53,15 @@ class Application(models.Model):
         "Организация-заказчик", max_length=160, blank=True, help_text="Только для корпоративной заявки"
     )
     comment = models.TextField("Комментарий", max_length=1000, blank=True)
-    no_announcements = models.BooleanField("Отказ от анонсов", default=False)
     consent_at = models.DateTimeField("Согласие на обработку ПДн дано", null=True, blank=True, editable=False)
     consent_version = models.CharField("Версия текста согласия", max_length=40, blank=True, editable=False)
+    ads_consent_at = models.DateTimeField("Согласие на рассылки дано", null=True, blank=True, editable=False)
+    ads_consent_version = models.CharField(
+        "Версия текста согласия на рассылки", max_length=40, blank=True, editable=False
+    )
+    ads_consent_withdrawn_at = models.DateTimeField(
+        "Согласие на рассылки отозвано", null=True, blank=True, editable=False
+    )
     program = models.ForeignKey(
         Program, verbose_name="Программа", null=True, blank=True, on_delete=models.SET_NULL, related_name="applications"
     )

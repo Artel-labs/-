@@ -50,6 +50,15 @@ def moscow_time(application: Application) -> str:
     return moscow(application.received_at)
 
 
+def ads_consent_state(application: Application) -> str:
+    if application.ads_consent_at is None:
+        return "не давалось"
+    given = f"дано {moscow(application.ads_consent_at)} (Москва), текст «{application.ads_consent_version}»"
+    if application.ads_consent_withdrawn_at is None:
+        return given
+    return f"{given}; отозвано {moscow(application.ads_consent_withdrawn_at)}"
+
+
 def consent_state(application: Application) -> str:
     if application.consent_at is None:
         return NO_CONSENT_RECORD
@@ -104,9 +113,7 @@ def applicant_lines(application: Application) -> list[str]:
         f"Почта:         {application.email}",
         *corporate_lines(application),
         "",
-        "Анонсы новых программ получать ОТКАЗАЛСЯ(ЛАСЬ)."
-        if application.no_announcements
-        else "Согласен(на) получать анонсы новых программ.",
+        f"Согласие на рекламные рассылки: {ads_consent_state(application)}.",
     ]
 
 

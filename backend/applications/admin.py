@@ -19,7 +19,7 @@ from applications.mail import send_test_mail, test_mail_problem
 from applications.mail_state import NOT_CONFIGURED, mail_state
 from applications.models import Application, MailRecipient, Status, Topic, all_topics
 from applications.recipients import all_recipients
-from applications.service import resend, set_status
+from applications.service import resend, set_status, withdraw_ads_consent
 
 STATUS_SAVED = "Статус: {label}."
 WRONG_STATUS = "Такого статуса нет."
@@ -45,7 +45,7 @@ class ApplicationAdmin(ModelAdmin):
     list_display_links = ["received_at", "full_name"]
     list_filter = ["status", "topic", "applicant_type", "mail_status", "received_at"]
     search_fields = ["last_name", "first_name", "email", "phone", "company", "program_title"]
-    actions = ["mark_in_progress", "mark_done", "mark_rejected", "resend_mail"]
+    actions = ["mark_in_progress", "mark_done", "mark_rejected", "resend_mail", "withdraw_ads_consent"]
     list_before_template = "admin/applications/application/mail_state.html"
     change_form_template = CARD_TEMPLATE
     fields = ["status"]
@@ -118,6 +118,11 @@ class ApplicationAdmin(ModelAdmin):
     @admin.action(description="Отправить письмо ещё раз")
     def resend_mail(self, request: HttpRequest, queryset: QuerySet[Application]) -> None:
         self.report_resend(request, list(queryset))
+
+    @admin.action(description="Отметить отзыв согласия на рассылку")
+    def withdraw_ads_consent(self, request: HttpRequest, queryset: QuerySet[Application]) -> None:
+        withdrawn = withdraw_ads_consent(queryset)
+        self.message_user(request, f"Отзыв согласия на рассылку отмечен у заявок: {withdrawn}")
 
     def editable(self, request: HttpRequest, object_id: str) -> Application:
         if request.method != "POST":

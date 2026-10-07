@@ -2,6 +2,10 @@ from django.http import HttpRequest
 from ninja import Router, Status
 
 from applications.consent import (
+    ADS_CONSENT_PARAGRAPHS,
+    ADS_CONSENT_SOURCE,
+    ADS_CONSENT_TITLE,
+    ADS_CONSENT_VERSION,
     CONSENT_PARAGRAPHS,
     CONSENT_SOURCE,
     CONSENT_TITLE,
@@ -44,4 +48,16 @@ def consent(request: HttpRequest) -> ConsentOut:
         paragraphs=list(CONSENT_PARAGRAPHS),
         withdraw_text=WITHDRAW_LINK_TEXT,
         withdraw_url=WITHDRAW_URL,
+    )
+
+
+@router.get("/ads-consent", response=ConsentOut)
+def ads_consent(request: HttpRequest) -> ConsentOut:
+    return ConsentOut(
+        title=ADS_CONSENT_TITLE,
+        version=ADS_CONSENT_VERSION,
+        source=ADS_CONSENT_SOURCE,
+        paragraphs=list(ADS_CONSENT_PARAGRAPHS),
+        withdraw_text="",
+        withdraw_url="",
     )

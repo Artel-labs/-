@@ -10,12 +10,21 @@ export interface Consent {
 }
 
 const CONSENT_PATH = "/applications/consent";
+const ADS_CONSENT_PATH = "/applications/ads-consent";
 const NOT_FOUND = 404;
 
-export async function fetchConsent(): Promise<Consent> {
-  const consent = await fetchOptional<Consent>(CONSENT_PATH);
+async function fetchText(path: string): Promise<Consent> {
+  const consent = await fetchOptional<Consent>(path);
   if (consent === null) {
-    throw new ApiError(CONSENT_PATH, NOT_FOUND);
+    throw new ApiError(path, NOT_FOUND);
   }
   return consent;
+}
+
+export function fetchConsent(): Promise<Consent> {
+  return fetchText(CONSENT_PATH);
+}
+
+export function fetchAdsConsent(): Promise<Consent> {
+  return fetchText(ADS_CONSENT_PATH);
 }

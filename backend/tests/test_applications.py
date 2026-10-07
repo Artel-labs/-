@@ -14,11 +14,11 @@ from django.core.management import call_command
 from django.utils import timezone
 from django_q.models import Schedule
 
-from applications.consent import CONSENT_VERSION
+from applications.consent import ADS_CONSENT_VERSION, CONSENT_VERSION
 from applications.mail import letter, send_application_mail, subject
 from applications.models import Application, MailRecipient, MailStatus, Status, Topic
 from applications.rules import EMAIL_TYPO, PHONE_BAD_LENGTH, email_looks_valid, phone_problem
-from applications.service import purge_expired
+from applications.service import purge_expired, withdraw_ads_consent
 from applications.topics import CONTACTS, rule_for
 from tests.factories import make_admin
 from tests.typography import untypeset
@@ -393,11 +393,11 @@ ANONYMOUS_TOPICS = [Topic.COURSE_IDEA, Topic.FEEDBACK]
 
 @pytest.mark.parametrize("topic", ANONYMOUS_TOPICS)
 def test_anonymous_topics_forget_contacts(client, mailing, topic):
-    payload = {**VALID, "topic": topic, "noAnnouncements": True, "comment": "Хочу курс по праву ИИ"}
+    payload = {**VALID, "topic": topic, "adsConsent": True, "comment": "Хочу курс по праву ИИ"}
     assert post(client, payload).status_code == 200
     saved = Application.objects.get()
     assert (saved.first_name, saved.last_name, saved.phone, saved.email) == ("", "", "", "")
-    assert not saved.no_announcements
+    assert saved.ads_consent_at is None
     body = letter(saved)
     assert "Петров" not in body
     assert "ivan@example.ru" not in body
@@ -478,3 +478,33 @@ def test_old_application_says_consent_was_not_recorded(client):
     Application.objects.filter(pk=saved.pk).update(consent_at=None, consent_version="")
     saved.refresh_from_db()
     assert "не записано" in letter(saved)
+
+
+def test_ads_consent_is_absent_unless_ticked(client):
+    saved = Application.objects.get(pk=post(client, VALID).json()["id"])
+    assert (saved.ads_consent_at, saved.ads_consent_version) == (None, "")
+    assert "Согласие на рекламные рассылки: не давалось." in letter(saved)
+    assert "анонс" not in letter(saved).lower()
+
+
+def test_ticked_ads_consent_is_recorded(client):
+    saved = Application.objects.get(pk=post(client, {**VALID, "adsConsent": True}).json()["id"])
+    assert saved.ads_consent_version == ADS_CONSENT_VERSION
+    assert saved.ads_consent_at is not None
+    assert "Согласие на рекламные рассылки: дано" in letter(saved)
+
+
+def test_ads_consent_withdrawal_is_marked_once(client):
+    given = post(client, {**VALID, "adsConsent": True}).json()["id"]
+    never = post(client, {**VALID, "email": "never@example.ru"}).json()["id"]
+    assert withdraw_ads_consent(Application.objects.all()) == 1
+    assert withdraw_ads_consent(Application.objects.all()) == 0
+    assert Application.objects.get(pk=never).ads_consent_withdrawn_at is None
+    assert "отозвано" in letter(Application.objects.get(pk=given))
+
+
+def test_ads_consent_text_matches_hse_original(client):
+    reference = (FIXTURES / "hse_ads.txt").read_text(encoding="utf-8").splitlines()
+    consent = client.get(f"{URL}/ads-consent").json()
+    assert consent["paragraphs"] == reference
+    assert (consent["title"], consent["source"]) == ("Согласие на получение рассылок", "https://www.hse.ru/ads")

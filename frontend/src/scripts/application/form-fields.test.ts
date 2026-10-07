@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
 
-import { ANONYMOUS_TOPICS, CONSENT_CHECK, CONSENT_URL } from "./constants.ts";
+import { ADS_CHECK, ADS_CONSENT_URL, ANONYMOUS_TOPICS, CONSENT_CHECK, CONSENT_URL } from "./constants.ts";
 
 function source(name: string): string {
   return readFileSync(new URL(name, import.meta.url), "utf8");
@@ -37,7 +37,7 @@ test("contacts, consent and announcements are hidden for anonymous topics", () =
   const form = source("form.ts");
   assert.match(form, /personal\(row\(\s*inputField\(\{ name: "lastName"/);
   assert.match(form, /personal\(row\(\s*inputField\(\{ name: "phone"/);
-  assert.match(form, /personal\(checkbox\("noAnnouncements"/);
+  assert.match(form, /personal\(adsConsentField\(\)\)/);
   assert.match(form, /\[personal\(label\), personal\(errorBox\("consent"\)\)\]/);
   assert.match(source("index.ts"), /ANONYMOUS_TOPICS\.includes\(topic\)/);
 });
@@ -59,4 +59,13 @@ test("consent checkbox repeats the HSE survey wording word for word", () => {
   assert.match(form, /newTabLink\(CONSENT_CHECK\.regulation, PRIVACY_POLICY_URL\)/);
   assert.match(form, /newTabLink\(CONSENT_CHECK\.consent, CONSENT_URL\)/);
   assert.doesNotMatch(form, /input\.checked = true/);
+});
+
+test("advertising consent is a separate unticked box with the HSE wording", () => {
+  assert.equal(Object.values(ADS_CHECK).join(""), "Я выражаю Согласие на получение рассылок информационного и рекламного содержания");
+  assert.equal(ADS_CONSENT_URL, "/ads-consent");
+  const form = source("form.ts");
+  assert.match(form, /newTabLink\(ADS_CHECK\.consent, ADS_CONSENT_URL\)/);
+  assert.doesNotMatch(form, /noAnnouncements|Не присылать анонсы|checked = true/);
+  assert.match(source("submit.ts"), /adsConsent: data\.has\("adsConsent"\)/);
 });

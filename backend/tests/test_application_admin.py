@@ -155,3 +155,14 @@ def test_card_shows_consent_record(admin_client, application):
     html = card(admin_client, application)
     assert "Согласие на обработку ПДн" in html
     assert "текст «hse-consent-test»" in html
+
+
+def test_admin_marks_ads_consent_withdrawal(admin_client, application):
+    application.ads_consent_at = application.received_at
+    application.ads_consent_version = "hse-ads-test"
+    application.save()
+    response = admin_client.post(CHANGELIST, {"action": "withdraw_ads_consent", "_selected_action": [application.pk]})
+    assert response.status_code == FOUND
+    application.refresh_from_db()
+    assert application.ads_consent_withdrawn_at is not None
+    assert "отозвано" in card(admin_client, application)

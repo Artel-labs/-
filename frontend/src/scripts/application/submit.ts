@@ -40,7 +40,7 @@ export function collect(form: HTMLFormElement, program: ChosenProgram): Record<s
     email: text(data, "email"),
     company: text(data, "company"),
     comment: text(data, "comment"),
-    noAnnouncements: data.has("noAnnouncements"),
+    adsConsent: data.has("adsConsent"),
     consent: data.has("consent"),
     website: text(data, "website"),
     programId: program.id,

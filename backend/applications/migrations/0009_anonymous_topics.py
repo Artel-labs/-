@@ -7,7 +7,7 @@ ANONYMOUS_TOPICS = ("course-idea", "feedback")
 
 def forget_contacts(apps, schema_editor):
     applications = apps.get_model("applications", "Application").objects.filter(topic__in=ANONYMOUS_TOPICS)
-    applications.update(first_name="", last_name="", phone="", email="", no_announcements=False)
+    applications.update(first_name="", last_name="", phone="", email="")
 
 
 

@@ -44,7 +44,7 @@ class Cleaned:
     email: str
     company: str
     comment: str
-    no_announcements: bool
+    ads_consent: bool
     program_id: str
     program_title: str
 
@@ -159,7 +159,7 @@ def parse(data: ApplicationIn) -> Parsed:
             topic=topic,
             **contacts,
             comment=comment,
-            no_announcements=flag(data.no_announcements) and not rule.anonymous,
+            ads_consent=flag(data.ads_consent) and not rule.anonymous,
             **topic_fields(data, rule),
         )
     )

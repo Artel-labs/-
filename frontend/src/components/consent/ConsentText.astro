@@ -11,7 +11,7 @@ const { consent } = Astro.props;
 <h1>{consent.title}</h1>
 {
   consent.paragraphs.map((paragraph) => {
-    const [before, after] = paragraph.split(consent.withdraw_text, 2);
+    const [before, after] = consent.withdraw_text ? paragraph.split(consent.withdraw_text, 2) : [paragraph];
     return after === undefined ? (
       <p>{paragraph}</p>
     ) : (

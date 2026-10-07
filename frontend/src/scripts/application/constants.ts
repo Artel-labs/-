@@ -2,6 +2,12 @@ export const ENDPOINT = "/api/applications";
 export const PROGRAMS_ENDPOINT = "/api/catalog/program-options";
 export const CATALOG_URL = "/catalog";
 export const CONSENT_URL = "/consent";
+export const ADS_CONSENT_URL = "/ads-consent";
+export const ADS_CHECK = {
+  before: "Я выражаю ",
+  consent: "Согласие",
+  after: " на получение рассылок информационного и рекламного содержания",
+} as const;
 export const CONSENT_CHECK = {
   before: "Я подтверждаю, что лично ознакомился с ",
   regulation: "Положением об обработке персональных данных НИУ ВШЭ",

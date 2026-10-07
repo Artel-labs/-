@@ -14,7 +14,7 @@ class ApplicationIn(Schema):
     email: Any = None
     company: Any = None
     comment: Any = None
-    no_announcements: Any = Field(None, alias="noAnnouncements")
+    ads_consent: Any = Field(None, alias="adsConsent")
     consent: Any = None
     website: Any = None
     program_id: Any = Field(None, alias="programId")

@@ -1,5 +1,5 @@
 import { element } from "../dialog";
-import { ANONYMOUS_HINT, CONSENT_CHECK, CONSENT_URL, CORPORATE, PERSONAL, PERSONAL_CLASS, SENSITIVE_HINT, SUBMIT_LABEL, TOPICS } from "./constants";
+import { ADS_CHECK, ADS_CONSENT_URL, ANONYMOUS_HINT, CONSENT_CHECK, CONSENT_URL, CORPORATE, PERSONAL, PERSONAL_CLASS, SENSITIVE_HINT, SUBMIT_LABEL, TOPICS } from "./constants";
 import { errorBox, inputField, row, selectField } from "./fields";
 import { PRIVACY_POLICY_URL } from "../../lib/brand";
 
@@ -51,15 +51,6 @@ function programField(): HTMLDivElement {
   return wrapper;
 }
 
-function checkbox(name: string, text: string): HTMLLabelElement {
-  const label = element("label", "dpo-app-check");
-  const input = element("input");
-  input.type = "checkbox";
-  input.name = name;
-  label.append(input, element("span", "", text));
-  return label;
-}
-
 function personal<T extends HTMLElement>(node: T): T {
   node.classList.add(PERSONAL_CLASS);
   return node;
@@ -90,6 +81,18 @@ function newTabLink(text: string, href: string): HTMLAnchorElement {
   link.target = "_blank";
   link.rel = "noopener";
   return link;
+}
+
+function adsConsentField(): HTMLLabelElement {
+  const label = element("label", "dpo-app-check");
+  const input = element("input");
+  input.type = "checkbox";
+  input.name = "adsConsent";
+  input.id = "dpo-app-adsConsent";
+  const text = element("span");
+  text.append(ADS_CHECK.before, newTabLink(ADS_CHECK.consent, ADS_CONSENT_URL), ADS_CHECK.after);
+  label.append(input, text);
+  return label;
 }
 
 function consentField(): HTMLElement[] {
@@ -158,7 +161,7 @@ export function buildForm(handlers: FormHandlers): HTMLFormElement {
       inputField({ name: "email", text: "Электронная почта", type: "email", required: true, autocomplete: "email" }),
     )),
     commentField(),
-    personal(checkbox("noAnnouncements", "Не присылать анонсы новых программ и мероприятий Центра ДПО факультета права")),
+    personal(adsConsentField()),
     ...consentField(),
     trapField(),
     submit,
