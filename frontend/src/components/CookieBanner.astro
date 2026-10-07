@@ -3,16 +3,19 @@ import { PRIVACY_POLICY_URL } from "../lib/brand";
 import "../styles/consent.css";
 ---
 
-<div id="cookieBanner" role="region" aria-label="Согласие на&nbsp;использование cookies" hidden>
+<div id="cookieBanner" role="region" aria-label="Согласие на&nbsp;статистику посещений" hidden>
   <p>
-    Мы&nbsp;используем cookies и&nbsp;локальную аналитику посещений (страницы, время, интерес к&nbsp;программам) для улучшения сайта.
-    Яндекс.Метрика&nbsp;— только при настроенном счётчике. Вы&nbsp;можете принять или отказаться. Подробнее&nbsp;— в <a href={PRIVACY_POLICY_URL} target="_blank" rel="noopener"
-      >Политике обработки персональных данных</a
+    Сайт не&nbsp;использует cookies и&nbsp;сторонние счётчики. Если вы&nbsp;разрешите, сайт будет собирать статистику посещений
+    на&nbsp;своём сервере, без IP-адресов: какие страницы открыты, сколько времени на&nbsp;них проведено, какие программы
+    и&nbsp;фильтры выбраны. Ваш выбор и&nbsp;настройки сайта хранятся только в&nbsp;вашем браузере. Подробнее&nbsp;— в <a
+      href={PRIVACY_POLICY_URL}
+      target="_blank"
+      rel="noopener">Политике обработки персональных данных</a
     >.
   </p>
   <div class="cb-actions">
-    <button type="button" class="cb-accept">Принять</button>
-    <button type="button" class="cb-decline">Отклонить</button>
+    <button type="button" class="cb-accept">Разрешить</button>
+    <button type="button" class="cb-decline">Отказаться</button>
   </div>
 </div>
 

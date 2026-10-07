@@ -101,7 +101,7 @@ def test_summary_matches_previous_site(days):
 def test_empty_summary_explains_how_data_appears():
     summary = build_summary([], NOW, 7)
     assert summary.visitors == 0
-    assert summary.insights == ["Пока нет данных. События появятся, когда посетители примут cookies."]
+    assert summary.insights == ["Пока нет данных. События появятся, когда посетители разрешат статистику в баннере."]
 
 
 def test_sanitize_rejects_foreign_events():

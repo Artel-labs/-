@@ -270,7 +270,7 @@ def insights(summary: Summary) -> list[str]:
         mobile = next((row.count for row in summary.devices if row.name == Device.MOBILE), 0)
         lines.append(f"С мобильных: {ratio(100 * mobile, summary.visitors):g}% посетителей.")
     else:
-        lines.append("Пока нет данных. События появятся, когда посетители примут cookies.")
+        lines.append("Пока нет данных. События появятся, когда посетители разрешат статистику в баннере.")
     return lines
 
 
