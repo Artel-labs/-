@@ -41,3 +41,10 @@ test("contacts, consent and announcements are hidden for anonymous topics", () =
   assert.match(form, /\[personal\(label\), personal\(errorBox\("consent"\)\)\]/);
   assert.match(source("index.ts"), /ANONYMOUS_TOPICS\.includes\(topic\)/);
 });
+
+test("comment field warns against special categories of data", () => {
+  const form = source("form.ts");
+  assert.match(form, /element\("p", "dpo-app-hint", SENSITIVE_HINT\)/);
+  assert.match(form, /aria-describedby", "dpo-app-comment-note /);
+  assert.match(source("constants.ts"), /SENSITIVE_HINT = "Не\\u00a0указывайте сведения о\\u00a0здоровье/);
+});

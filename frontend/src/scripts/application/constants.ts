@@ -5,6 +5,7 @@ export const FALLBACK_PHONE = "+7 (495) 772-95-90";
 export const PROGRAM_TOPIC = "program";
 export const ANONYMOUS_TOPICS: readonly string[] = ["course-idea", "feedback"];
 export const PERSONAL_CLASS = "dpo-app-personal";
+export const SENSITIVE_HINT = "Не\u00a0указывайте сведения о\u00a0здоровье и\u00a0другие особые категории данных, а\u00a0также данные других людей.";
 export const ANONYMOUS_HINT = "Обращение анонимное: в\u00a0тексте не\u00a0нужно указывать имя, телефон, почту и\u00a0другие персональные данные.";
 export const CORPORATE = "corporate";
 export const PERSONAL = "personal";

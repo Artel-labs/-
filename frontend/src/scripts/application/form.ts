@@ -1,5 +1,5 @@
 import { element } from "../dialog";
-import { ANONYMOUS_HINT, CORPORATE, PERSONAL, PERSONAL_CLASS, SUBMIT_LABEL, TOPICS } from "./constants";
+import { ANONYMOUS_HINT, CORPORATE, PERSONAL, PERSONAL_CLASS, SENSITIVE_HINT, SUBMIT_LABEL, TOPICS } from "./constants";
 import { errorBox, inputField, row, selectField } from "./fields";
 import { PRIVACY_POLICY_URL } from "../../lib/brand";
 
@@ -73,12 +73,14 @@ function commentField(): HTMLDivElement {
   textarea.id = "dpo-app-comment";
   textarea.name = "comment";
   textarea.rows = 3;
-  textarea.setAttribute("aria-describedby", "dpo-app-comment-hint dpo-app-comment-err");
+  textarea.setAttribute("aria-describedby", "dpo-app-comment-note dpo-app-comment-hint dpo-app-comment-err");
+  const note = element("p", "dpo-app-hint", SENSITIVE_HINT);
+  note.id = "dpo-app-comment-note";
   const hint = element("p", "dpo-app-hint", ANONYMOUS_HINT);
   hint.id = "dpo-app-comment-hint";
   hint.hidden = true;
   textarea.placeholder = "Например: интересует корпоративный формат для группы из восьми юристов";
-  wrapper.append(label, textarea, hint, errorBox("comment"));
+  wrapper.append(label, textarea, note, hint, errorBox("comment"));
   return wrapper;
 }
 
