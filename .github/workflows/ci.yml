@@ -119,14 +119,14 @@ jobs:
       - name: Рейтинги, политика, карта сайта и robots.txt
         run: |
           curl -fsSk https://127.0.0.1:8443/ratings | grep -q "<h1>Позиции НИУ ВШЭ в&nbsp;рейтингах</h1>"
-          curl -fsSk https://127.0.0.1:8443/privacy | grep -q "<h1>Политика обработки персональных данных</h1>"
+          curl -sSkI https://127.0.0.1:8443/privacy | grep -qi "^location: https://www.hse.ru/data_protection_regulation"
           curl -fsSk https://127.0.0.1:8443/consent | grep -q "<h1>Согласие на обработку персональных данных</h1>"
           curl -fsSk https://127.0.0.1:8443/consent | grep -q "https://www.hse.ru/appeal/polls/575012041.html"
           curl -fsSk https://127.0.0.1:8443/ads-consent | grep -q "<h1>Согласие на получение рассылок</h1>"
           for page in / /catalog /ratings /no-such-page; do
             curl -sSk "https://127.0.0.1:8443$page" | grep -q 'href="https://www.hse.ru/data_protection_regulation" target="_blank" rel="noopener"'
           done
-          test "$(curl -fsSk https://127.0.0.1:8443/sitemap.xml | grep -c '<url>')" = "38"
+          test "$(curl -fsSk https://127.0.0.1:8443/sitemap.xml | grep -c '<url>')" = "37"
           curl -fsSk https://127.0.0.1:8443/robots.txt | grep -q "^Sitemap: https://.*/sitemap.xml$"
           curl -sSkI https://127.0.0.1:8443/ratings.html | grep -qi "^location: /ratings"
           curl -sSkI https://127.0.0.1:8443/privacy.html | grep -qi "^location: /privacy"
@@ -134,7 +134,7 @@ jobs:
           curl -sSk https://127.0.0.1:8443/no-such-page | grep -q "Такой страницы нет"
       - name: Знак ВШЭ в шапке каждой страницы
         run: |
-          for page in / /catalog /programs/angliyskoe-kontraktnoe-pravo-856421092.html /ratings /privacy; do
+          for page in / /catalog /programs/angliyskoe-kontraktnoe-pravo-856421092.html /ratings; do
             curl -fsSk "https://127.0.0.1:8443$page" | grep -q 'class="hse-lockup"'
           done
           curl -sSk https://127.0.0.1:8443/no-such-page | grep -q 'class="hse-lockup"'

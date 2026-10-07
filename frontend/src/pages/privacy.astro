@@ -1,24 +1,7 @@
 ---
-import PrivacyPolicy from "../components/privacy/PrivacyPolicy.astro";
-import DocumentPage from "../layouts/DocumentPage.astro";
-import { fetchSite } from "../lib/site";
-import "../styles/privacy.css";
+import { PRIVACY_POLICY_URL } from "../lib/brand";
 
-const TITLE = "Политика обработки персональных данных · Центр ДПО НИУ ВШЭ";
-const DESCRIPTION = "Политика обработки персональных данных сайта Центра ДПО факультета права НИУ ВШЭ (152-ФЗ).";
-const SHARE_DESCRIPTION = "Как сайт Центра ДПО факультета права НИУ ВШЭ обрабатывает персональные данные (152-ФЗ).";
+const MOVED_PERMANENTLY = 301;
 
-const site = await fetchSite();
+return Astro.redirect(PRIVACY_POLICY_URL, MOVED_PERMANENTLY);
 ---
-
-<DocumentPage site={site} path="/privacy" title={TITLE} description={DESCRIPTION} shareDescription={SHARE_DESCRIPTION}>
-  <PrivacyPolicy />
-</DocumentPage>
-
-<script>
-  import { setupConsentReset } from "../scripts/consent";
-  import { revealEmails } from "../scripts/email-protect";
-
-  revealEmails();
-  setupConsentReset();
-</script>

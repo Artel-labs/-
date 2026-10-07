@@ -1,5 +1,6 @@
 ---
 import { PRIVACY_POLICY_URL } from "../lib/brand";
+import ConsentResetLink from "./ConsentResetLink.astro";
 import Copyright from "./Copyright.astro";
 
 interface Props {
@@ -13,6 +14,7 @@ const { copyright = false } = Astro.props;
   <span>Центр дополнительного профессионального образования факультета права НИУ ВШЭ</span>
   <span class="footer-links">
     <a href={PRIVACY_POLICY_URL} target="_blank" rel="noopener">Политика обработки персональных данных</a>
+    <ConsentResetLink />
     <a href="https://www.hse.ru/sveden/" rel="noopener">Сведения об&nbsp;образовательной организации</a>
     {copyright && <Copyright />}
   </span>

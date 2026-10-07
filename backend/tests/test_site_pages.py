@@ -11,7 +11,9 @@ pytestmark = pytest.mark.django_db
 
 LEGACY = json.loads((Path(__file__).parent / "fixtures" / "legacy_sitemap.json").read_text(encoding="utf-8"))
 LEGACY_SITE = "https://example.com"
-STATIC_PAGES = 4
+REMOVED_PAGES = frozenset({f"{LEGACY_SITE}/privacy"})
+CURRENT = [entry for entry in LEGACY if entry["loc"] not in REMOVED_PAGES]
+STATIC_PAGES = 3
 
 
 @pytest.fixture
@@ -29,12 +31,16 @@ def sitemap(client) -> list[dict[str, str]]:
 
 
 def test_sitemap_lists_static_pages_first(client, seeded):
-    assert sitemap(client)[:STATIC_PAGES] == LEGACY[:STATIC_PAGES]
+    assert sitemap(client)[:STATIC_PAGES] == CURRENT[:STATIC_PAGES]
 
 
 def test_sitemap_matches_previous_site(client, seeded):
     entries = sitemap(client)
-    assert sorted(entries, key=lambda item: item["loc"]) == sorted(LEGACY, key=lambda item: item["loc"])
+    assert sorted(entries, key=lambda item: item["loc"]) == sorted(CURRENT, key=lambda item: item["loc"])
+
+
+def test_sitemap_has_no_own_privacy_policy(client, seeded):
+    assert not REMOVED_PAGES & {entry["loc"] for entry in sitemap(client)}
 
 
 def test_sitemap_skips_hidden_programs(client, seeded):
@@ -43,7 +49,7 @@ def test_sitemap_skips_hidden_programs(client, seeded):
     hidden.save()
     locs = [entry["loc"] for entry in sitemap(client)]
     assert f"{LEGACY_SITE}/{hidden.path}" not in locs
-    assert len(locs) == len(LEGACY) - 1
+    assert len(locs) == len(CURRENT) - 1
 
 
 def test_site_endpoint_reports_public_urls(client, settings):

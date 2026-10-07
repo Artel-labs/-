@@ -1,0 +1,15 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<a href="#" class={className} data-consent-reset>Статистика посещений</a>
+
+<script>
+  import { setupConsentReset } from "../scripts/consent";
+
+  setupConsentReset();
+</script>

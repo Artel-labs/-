@@ -18,7 +18,6 @@ class Page:
 PAGES = (
     Page("/", "monthly", "1.0"),
     Page("/catalog", "weekly", "0.9"),
-    Page("/privacy", "yearly", "0.2"),
     Page("/ratings", "yearly", "0.4"),
 )
 PROGRAM_CHANGEFREQ = "weekly"

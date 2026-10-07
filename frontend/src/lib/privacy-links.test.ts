@@ -37,3 +37,20 @@ test("bot privacy answer links to the HSE regulation", () => {
   assert.equal(privacy?.anchor, PRIVACY_POLICY_URL);
   assert.doesNotMatch(source("data/bot-faq.json"), /"\/privacy"/);
 });
+
+const FOOTERS = [
+  "components/SiteFooter.astro",
+  "components/document/DocumentFooter.astro",
+  "components/landing/LandingFooter.astro",
+];
+
+test("old policy address redirects to the HSE regulation", () => {
+  assert.match(source("pages/privacy.astro"), /Astro\.redirect\(PRIVACY_POLICY_URL, MOVED_PERMANENTLY\)/);
+});
+
+test("every footer lets visitors change their statistics choice", () => {
+  assert.match(source("components/ConsentResetLink.astro"), /data-consent-reset>Статистика посещений</);
+  for (const path of FOOTERS) {
+    assert.match(source(path), /<ConsentResetLink/, path);
+  }
+});
