@@ -27,6 +27,9 @@ ISSUED_TEMPLATE = "admin/auth/user/issued.html"
 CREATED_TITLE = "Сотрудник добавлен"
 RESET_TITLE = "Новый пароль"
 EMPTY = "—"
+ACCESS = "Доступ"
+ACCESS_ON = "Включён"
+ACCESS_OFF = "Отключён"
 
 admin.site.unregister(User)
 admin.site.unregister(Group)
@@ -113,6 +116,19 @@ class RoleFilter(admin.SimpleListFilter):
         return queryset.filter(is_superuser=self.value() == Role.ADMIN)
 
 
+class AccessFilter(admin.SimpleListFilter):
+    title = ACCESS
+    parameter_name = "access"
+
+    def lookups(self, request: HttpRequest, model_admin: Any) -> list[tuple[str, str]]:
+        return [("on", ACCESS_ON), ("off", ACCESS_OFF)]
+
+    def queryset(self, request: HttpRequest, queryset: QuerySet[User]) -> QuerySet[User]:
+        if self.value() is None:
+            return queryset
+        return queryset.filter(is_active=self.value() == "on")
+
+
 def user_by_id(object_id: Any) -> User | None:
     return User.objects.filter(pk=object_id).first()
 
@@ -122,7 +138,7 @@ class StaffAdmin(ModelAdmin):
     form = StaffForm
     list_display = ["display_name", "login", "role_label", "access", "two_factor_state", "last_login"]
     list_display_links = ["display_name", "login"]
-    list_filter = [RoleFilter, "is_active"]
+    list_filter = [RoleFilter, AccessFilter]
     search_fields = ["username", "first_name", "last_name", "email"]
     ordering = ["username"]
     actions_detail = ["reset_password", "disable_access", "enable_access", "drop_two_factor", "unlock"]
@@ -169,13 +185,13 @@ class StaffAdmin(ModelAdmin):
     def role_label(self, user: User) -> str:
         return str(role_of(user).label)
 
-    @display(description="Доступ", boolean=True, ordering="is_active")
+    @display(description=ACCESS, boolean=True, ordering="is_active")
     def access(self, user: User) -> bool:
         return user.is_active
 
-    @display(description="Доступ")
+    @display(description=ACCESS)
     def access_state(self, user: User) -> str:
-        return "Включён" if user.is_active else "Отключён"
+        return ACCESS_ON if user.is_active else ACCESS_OFF
 
     @display(description="Двухфакторный вход", boolean=True)
     def two_factor_state(self, user: User) -> bool:

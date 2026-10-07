@@ -13,7 +13,7 @@ from unfold.decorators import display
 
 from catalog.formatting import format_price, unbreakable
 from catalog.models import FaqItem, Module, Program, ProgramFile, ProgramTeacher, Review, Source, Sphere, Teacher
-from catalog.publishing import follows_hse, remember_visibility, set_manual
+from catalog.publishing import FOLLOWS_HSE, follows_hse, remember_visibility, set_manual
 from catalog.sync.fields import SYNCED_FIELDS
 from catalog.sync.state import CATALOG, TEACHERS
 from catalog.sync_admin import SyncLine
@@ -39,6 +39,7 @@ STEPS = {
         "Программа снова обновляется с hse.ru.",
     ),
 }
+UPDATES_FROM_HSE = "Обновляется с hse.ru"
 TABS = (("main", "Главное"), ("terms", "Условия и цена"), ("text", "Описание"), ("content", "Содержание"))
 
 
@@ -83,6 +84,21 @@ class ReviewInline(FollowsHseInline, TabularInline):
     fields = ["text", "author", "position"]
 
 
+class FollowsHseFilter(admin.SimpleListFilter):
+    title = UPDATES_FROM_HSE
+    parameter_name = "updates"
+
+    def lookups(self, request: HttpRequest, model_admin: Any) -> list[tuple[str, str]]:
+        return [("yes", "Да"), ("no", "Нет")]
+
+    def queryset(self, request: HttpRequest, queryset: QuerySet[Program]) -> QuerySet[Program]:
+        if self.value() == "yes":
+            return queryset.filter(FOLLOWS_HSE)
+        if self.value() == "no":
+            return queryset.exclude(FOLLOWS_HSE)
+        return queryset
+
+
 @admin.register(Program)
 class ProgramAdmin(SyncLine, ModelAdmin):
     sync_kind = CATALOG
@@ -94,10 +110,10 @@ class ProgramAdmin(SyncLine, ModelAdmin):
         "study_format",
         "start_date",
         "display_price",
-        "locked",
+        "updates_from_hse",
         "is_published",
     ]
-    list_filter = ["sphere", "type_short", "study_format", "locked", "is_published", "source"]
+    list_filter = ["sphere", "type_short", "study_format", FollowsHseFilter, "is_published", "source"]
     search_fields = ["title", "hse_id", "tagline"]
     list_select_related = ["sphere"]
     inlines = [ModuleInline, ProgramTeacherInline, ProgramFileInline, FaqInline, ReviewInline]
@@ -191,6 +207,10 @@ class ProgramAdmin(SyncLine, ModelAdmin):
     def follow_view(self, request: HttpRequest, object_id: str) -> HttpResponse:
         return self.toggle(request, object_id, "follow", False)
 
+    @display(description=UPDATES_FROM_HSE, boolean=True)
+    def updates_from_hse(self, program: Program) -> bool:
+        return follows_hse(program)
+
     @display(description="Цена", ordering="price")
     def display_price(self, program: Program) -> str:
         return unbreakable(format_price(program.price)) if program.price else "—"
@@ -216,8 +236,8 @@ class SphereAdmin(ModelAdmin):
 class TeacherAdmin(SyncLine, ModelAdmin):
     sync_kind = TEACHERS
     sync_button = "Обновить преподавателей"
-    list_display = ["name", "page_url", "has_photo", "hidden_on_landing"]
-    list_filter = ["hidden_on_landing"]
+    list_display = ["name", "page_url", "has_photo", "show_on_landing"]
+    list_filter = ["show_on_landing"]
     search_fields = ["name"]
 
     class Media:

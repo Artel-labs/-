@@ -83,7 +83,7 @@ def absorb(person: Person, name: str, tokens: frozenset[str], about: str, taught
     page = teacher_page(teacher)
     if not person.page and page:
         person.page = page
-    person.hidden = person.hidden or teacher.hidden_on_landing
+    person.hidden = person.hidden or not teacher.show_on_landing
 
 
 def teacher_page(teacher: Teacher) -> str:
@@ -109,7 +109,7 @@ def merge(programs: list[Program]) -> list[Person]:
                         [taught],
                         link.teacher if has_photo(link.teacher) else None,
                         teacher_page(link.teacher),
-                        link.teacher.hidden_on_landing,
+                        not link.teacher.show_on_landing,
                     )
                 )
             else:

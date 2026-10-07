@@ -11,7 +11,8 @@ from django.db import transaction
 from catalog.hse.client import HseClient, HseError
 from catalog.hse.details import ProgramDetails, parse_details
 from catalog.hse.listing import ListedProgram, fetch_listing
-from catalog.models import Program, ProgramFile, Source, Sphere, Teacher
+from catalog.models import Program, ProgramFile, Sphere, Teacher
+from catalog.publishing import FOLLOWS_HSE
 from catalog.spheres import ensure_spheres
 from catalog.sync.fields import apply_details, apply_listing
 from catalog.sync.media import ensure_cover, ensure_teacher_photo, refresh_document
@@ -100,7 +101,7 @@ def sync_program(client: HseClient, report: SyncReport, item: ListedProgram, sph
 
 
 def hide_missing(report: SyncReport, listed: list[ListedProgram]) -> None:
-    missing = Program.objects.filter(source=Source.HSE, locked=False, is_published=True).exclude(
+    missing = Program.objects.filter(FOLLOWS_HSE, is_published=True).exclude(
         hse_id__in=[item.hse_id for item in listed]
     )
     report.hidden = list(missing.values_list("title", flat=True))

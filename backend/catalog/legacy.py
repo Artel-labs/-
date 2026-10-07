@@ -44,7 +44,7 @@ def import_teachers(data: Record, root: Path) -> dict[str, Teacher]:
         teacher = Teacher(
             name=name,
             page_url=(data.get("teacherPages") or {}).get(name, ""),
-            hidden_on_landing=name in (data.get("teachersHiddenOnLanding") or []),
+            show_on_landing=name not in (data.get("teachersHiddenOnLanding") or []),
         )
         attach(teacher.photo, root, (data.get("teacherPhotos") or {}).get(name))
         teacher.save()

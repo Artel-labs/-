@@ -1,4 +1,8 @@
+from django.db.models import Q
+
 from catalog.models import Program, Source
+
+FOLLOWS_HSE = Q(source=Source.HSE, locked=False)
 
 
 def follows_hse(program: Program | None) -> bool:

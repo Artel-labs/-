@@ -121,12 +121,12 @@ def test_hidden_teacher_stays_on_program_page(page):
 
 
 def test_seed_marks_hidden_teacher(page):
-    assert list(Teacher.objects.filter(hidden_on_landing=True).values_list("name", flat=True)) == [HIDDEN_TEACHER]
+    assert list(Teacher.objects.filter(show_on_landing=False).values_list("name", flat=True)) == [HIDDEN_TEACHER]
 
 
 def test_flag_hides_any_teacher_from_landing(page):
     shown = json.loads(page.teachers[0].payload)["name"]
-    Teacher.objects.filter(name=shown).update(hidden_on_landing=True)
+    Teacher.objects.filter(name=shown).update(show_on_landing=False)
     names = [card.name for card in landing_page(Program.objects.filter(is_published=True), LEGACY_DAY).teachers]
     assert shown not in names
     assert len(names) == len(page.teachers) - 1

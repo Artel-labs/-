@@ -195,10 +195,10 @@ def test_teacher_sync_keeps_landing_flag(hse, sync_settings):
     english = followed(ENGLISH_ID)
     sync_teachers()
     hidden = english.program_teachers.select_related("teacher")[0].teacher
-    Teacher.objects.filter(pk=hidden.pk).update(hidden_on_landing=True)
+    Teacher.objects.filter(pk=hidden.pk).update(show_on_landing=False)
     sync_teachers()
     assert english.program_teachers.filter(teacher=hidden).exists()
-    assert Teacher.objects.get(pk=hidden.pk).hidden_on_landing
+    assert not Teacher.objects.get(pk=hidden.pk).show_on_landing
 
 
 def test_teacher_sync_skips_programs_edited_by_hand(hse, sync_settings):

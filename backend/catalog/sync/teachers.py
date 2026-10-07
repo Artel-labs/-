@@ -7,7 +7,8 @@ from django.db import transaction
 
 from catalog.hse.client import HseClient
 from catalog.hse.details import ProgramDetails, parse_details
-from catalog.models import Program, Source
+from catalog.models import Program
+from catalog.publishing import FOLLOWS_HSE
 from catalog.sync.related import replace_teachers
 from catalog.sync.runner import NETWORK_ERRORS, PROBLEMS_LABEL, download_teacher_photos
 from catalog.typesetting import typeset_record
@@ -31,9 +32,7 @@ class TeacherReport:
 
 
 def followed_programs() -> list[Program]:
-    return list(
-        Program.objects.filter(source=Source.HSE, locked=False).exclude(hse_url="").order_by("catalog_position")
-    )
+    return list(Program.objects.filter(FOLLOWS_HSE).exclude(hse_url="").order_by("catalog_position"))
 
 
 @transaction.atomic
