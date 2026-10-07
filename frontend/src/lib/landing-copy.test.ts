@@ -186,3 +186,8 @@ test("spheres lead no longer promises expertise as an advantage", () => {
   assert.match(text, /Право — это сложная система специализированных областей\. Мы собрали программы/);
   assert.doesNotMatch(text, /глубина экспертизы/);
 });
+
+test("sphere cards show no numbers", () => {
+  assert.doesNotMatch(visibleText("landing/SphereCards.astro"), /dpo-sphere-index|card\.index/);
+  assert.doesNotMatch(readFileSync(new URL("../styles/landing.css", import.meta.url), "utf8"), /dpo-sphere-index/);
+});

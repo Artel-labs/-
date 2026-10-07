@@ -718,14 +718,6 @@
       transition: transform .32s var(--dpo-ease), box-shadow .35s var(--dpo-ease);
     }
     .dpo-sphere > * { position: relative; z-index: 1; }
-    .dpo-sphere-index {
-      font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.12em;
-      opacity: 0.7; font-variant-numeric: tabular-nums;
-    }
-    .dpo-sphere-index::after {
-      content: ''; display: inline-block; vertical-align: middle;
-      width: 28px; height: 1px; margin-left: 10px; background: currentColor; opacity: 0.6;
-    }
     .dpo-sphere-title {
       font-family: var(--font-slab);
       font-size: clamp(1.5rem, 2.1vw, 1.9375rem);

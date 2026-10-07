@@ -8,7 +8,6 @@ export interface Link {
 export interface SphereCard {
   slug: string;
   href: string;
-  index: string;
   title: string;
   lead: string;
   facts: string[];

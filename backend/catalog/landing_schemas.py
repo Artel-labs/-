@@ -4,7 +4,6 @@ from ninja import Schema
 class SphereCardOut(Schema):
     slug: str
     href: str
-    index: str
     title: str
     lead: str
     facts: list[str]

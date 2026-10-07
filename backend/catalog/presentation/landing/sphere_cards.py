@@ -32,12 +32,11 @@ def facts(programs: list[Program], today: date) -> list[str]:
     return [summary, f"Ближайший старт — {nearest}"] if nearest else [summary]
 
 
-def sphere_card(group: SphereGroup, index: int, today: date) -> SphereCardOut:
+def sphere_card(group: SphereGroup, today: date) -> SphereCardOut:
     slug = group.sphere.slug
     return SphereCardOut(
         slug=slug,
         href=catalog_url(sphere=slug) + FILTERS_ANCHOR,
-        index=f"{index:02d}",
         title=group.sphere.title,
         lead=SPHERE_LEADS.get(slug, ""),
         facts=facts(group.programs, today),
@@ -45,4 +44,4 @@ def sphere_card(group: SphereGroup, index: int, today: date) -> SphereCardOut:
 
 
 def sphere_cards(grouped: Grouped, today: date) -> list[SphereCardOut]:
-    return [sphere_card(group, index, today) for index, group in enumerate(grouped.spheres, start=1)]
+    return [sphere_card(group, today) for group in grouped.spheres]

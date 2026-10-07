@@ -27,7 +27,6 @@ const { cards } = Astro.props;
   {
     cards.map((card) => (
       <a class="dpo-sphere" data-sphere={card.slug} href={card.href}>
-        <span class="dpo-sphere-index">{card.index}</span>
         <h3 class="dpo-sphere-title">{card.title}</h3>
         {card.lead && <p class="dpo-sphere-lead">{card.lead}</p>}
         <ul class="dpo-sphere-facts">

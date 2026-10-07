@@ -25,6 +25,7 @@ LEGACY_CATALOG = "Каталог программ.html"
 LEGACY_IMAGES = "images/"
 MEDIA_URL = "/media/"
 TILE_FIELDS_REMOVED = ("rank", "tagline", "price")
+SPHERE_FIELDS_REMOVED = ("index",)
 STEP_COLORS = {
     1: "--step-bg:#1658DA;--step-ink:#FFFFFF;--step-soft:rgba(255,255,255,.86)",
     2: "--step-bg:#0B2A69;--step-ink:#FFFFFF;--step-soft:rgba(255,255,255,.86)",
@@ -54,9 +55,18 @@ def test_landing_has_no_spheres_dropdown_menu(page):
     assert "menu" not in page.model_dump()
 
 
-def test_sphere_cards_match_previous_site(page):
+def legacy_sphere(card: dict[str, Any]) -> dict[str, Any]:
+    kept = {key: value for key, value in card.items() if key not in SPHERE_FIELDS_REMOVED}
+    return {**kept, "href": site_href(card["href"])}
+
+
+def test_sphere_cards_match_previous_site_without_numbers(page):
     cards = [card.dict() for card in page.spheres]
-    assert untypeset(cards) == untypeset([{**card, "href": site_href(card["href"])} for card in LEGACY["spheres"]])
+    assert untypeset(cards) == untypeset([legacy_sphere(card) for card in LEGACY["spheres"]])
+
+
+def test_sphere_cards_have_no_numbers(page):
+    assert all(field not in card.dict() for card in page.spheres for field in SPHERE_FIELDS_REMOVED)
 
 
 def format_record(row: Any) -> dict[str, Any]:
