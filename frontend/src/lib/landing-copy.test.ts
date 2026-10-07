@@ -26,19 +26,23 @@ test("documents card keeps the link without the academic school paragraph", () =
 
 test("documents card title speaks of a document, not a diploma", () => {
   const text = visibleText("landing/AboutSection.astro");
-  assert.match(text, /about-card-title">Документ НИУ ВШЭ, а преподают практикующие юристы</);
+  assert.match(text, /about-card-title">Документ НИУ ВШЭ</);
+  assert.doesNotMatch(text, /преподают практикующие юристы/);
   assert.doesNotMatch(text, /Диплом НИУ ВШЭ и преподаватели/);
 });
 
-test("hero lead names corporate lawyers instead of in-house counsel", () => {
+test("hero lead speaks to a wide range of lawyers taught by practitioners", () => {
   const text = visibleText("landing/HeroSection.astro");
-  assert.match(text, /практикующих и корпоративных юристов, руководителей правовых департаментов/);
+  assert.match(
+    text,
+    /hero-lead">Дополнительное профессиональное образование для широкого круга юристов: корпоративных, судебных, комплаенс-специалистов, руководителей правовых служб\. Преподаватели — действующие практики\.</,
+  );
   assert.doesNotMatch(text, /in-house/);
 });
 
 test("practitioners card ends with the list of roles", () => {
   const text = visibleText("landing/WhyUsSection.astro");
-  assert.match(text, /ординарные профессора и заслуженные деятели науки\.<\/p>/);
+  assert.match(text, /Партнёры ведущих юридических фирм, действующие эксперты, судьи в отставке, ординарные профессора и заслуженные деятели науки\.<\/p>/);
   assert.doesNotMatch(text, /формирует правовой ландшафт/);
 });
 
@@ -175,4 +179,10 @@ test("formats section opens with the new introduction", () => {
   assert.match(text, /В наших программах сочетаются фундаментальная теория с актуальной практикой\./);
   assert.doesNotMatch(text, /высшей лиге/);
   assert.match(visibleText("landing/FormatCard.astro"), /format\.tagline && <p class="dpo-format-tagline">/);
+});
+
+test("spheres lead no longer promises expertise as an advantage", () => {
+  const text = visibleText("landing/SpheresSection.astro");
+  assert.match(text, /Право — это сложная система специализированных областей\. Мы собрали программы/);
+  assert.doesNotMatch(text, /глубина экспертизы/);
 });
