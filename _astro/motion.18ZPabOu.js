@@ -1,0 +1,1 @@
+function e(){return window.matchMedia(`(prefers-reduced-motion: reduce)`).matches}function t(e){let t=0;return()=>{t||=window.requestAnimationFrame(()=>{t=0,e()})}}export{e as n,t};

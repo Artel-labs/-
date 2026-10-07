@@ -679,7 +679,7 @@
     <div id="content-main">
         
 
-        <div class="flex -mx-4 module" id="changelist" x-data="{ changeListWidth: 0 }">
+        <div class="flex -mx-4 module filtered" id="changelist" x-data="{ changeListWidth: 0 }">
             <div class="result-list-wrapper changelist-form-container flex flex-row grow gap-4 min-w-0 px-4">
                 <div class="grow min-w-0" x-resize="changeListWidth = $width">
                     
@@ -723,7 +723,10 @@
                        id="searchbar"
                        placeholder="Поиск" /><kbd class="bg-base-50 border border-base-200 font-sans text-xs text-font-subtle-light rounded-xs px-1 whitespace-nowrap dark:bg-white/[.04] dark:border-base-700 dark:text-font-subtle-dark">
     /
-</kbd></div></form></div><button type="button" class="dpo-select-toggle" data-select-toggle aria-pressed="false"><span class="material-symbols-outlined" aria-hidden="true">checklist</span><span data-select-label>Выбрать</span></button></div>
+</kbd></div></form></div><button type="button" class="dpo-select-toggle" data-select-toggle aria-pressed="false"><span class="material-symbols-outlined" aria-hidden="true">checklist</span><span data-select-label>Выбрать</span></button><a class="bg-white border-base-200 hover:text-primary-600 dark:bg-base-900 dark:border-base-700 dark:hover:text-primary-500 border cursor-pointer flex font-medium gap-2 group items-center px-3 py-2 rounded-default shadow-xs text-sm lg:ml-auto md:mt-0 " x-on:click="filterOpen = true" x-on:keydown.escape.window="filterOpen = false">
+                                        Фильтры
+
+                                        <span class="material-symbols-outlined md-18 ml-auto">filter_list</span></a></div>
 
                     <form id="changelist-form" class="group" method="post" novalidate>
                         <input type="hidden" name="csrfmiddlewaretoken" value="">
@@ -875,6 +878,22 @@
                 </div>
             </th>
         
+            <th class="align-middle font-semibold py-2 text-left text-font-important-light dark:text-font-important-dark whitespace-nowrap sortable column-show_on_landing hidden px-3 lg:table-cell" scope="col">
+                <div class="flex items-center">
+                    <div class="text">
+                        
+                            <a href="#" data-demo-off>
+                                Показывать на главной
+                            </a>
+                        
+                    </div>
+
+                    
+                        
+                    
+                </div>
+            </th>
+        
     </tr>
 </thead>
 
@@ -896,6 +915,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">https://www.hse.ru/org/persons/459791573/</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -946,6 +978,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -972,6 +1017,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -1022,6 +1080,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -1048,6 +1119,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -1098,6 +1182,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -1124,6 +1221,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -1174,6 +1284,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -1200,6 +1323,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">https://www.hse.ru/org/persons/14248249/</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -1250,6 +1386,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -1276,6 +1425,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">https://www.hse.ru/org/persons/18923059/</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -1326,6 +1488,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -1352,6 +1527,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -1402,6 +1590,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -1428,6 +1629,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -1478,6 +1692,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -1504,6 +1731,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">https://www.hse.ru/org/persons/495190468</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -1554,6 +1794,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -1580,6 +1833,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -1630,6 +1896,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -1656,6 +1935,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -1706,6 +1998,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -1744,6 +2049,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-400"
+     title="Нет">
+
+    <span class="material-symbols-outlined">
+        
+            close_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -1770,6 +2088,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -1820,6 +2151,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -1846,6 +2190,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -1896,6 +2253,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -1922,6 +2292,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">https://www.hse.ru/org/persons/821965622/</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -1972,6 +2355,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -1998,6 +2394,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -2048,6 +2457,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -2074,6 +2496,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">https://www.hse.ru/org/persons/218356175</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -2124,6 +2559,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -2150,6 +2598,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">https://www.hse.ru/org/persons/227892037/</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -2200,6 +2661,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -2226,6 +2700,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -2276,6 +2763,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -2302,6 +2802,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">https://www.hse.ru/org/persons/885876923/</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -2352,6 +2865,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -2378,6 +2904,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -2428,6 +2967,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -2454,6 +3006,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -2504,6 +3069,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -2530,6 +3108,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">https://www.hse.ru/staff/maksimov/</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -2580,6 +3171,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -2606,6 +3210,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -2656,6 +3273,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -2682,6 +3312,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -2732,6 +3375,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -2758,6 +3414,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">https://www.hse.ru/org/persons/218123782</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -2808,6 +3477,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -2834,6 +3516,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">https://www.hse.ru/org/persons/790789889/</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -2884,6 +3579,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -2910,6 +3618,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -2960,6 +3681,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -2986,6 +3720,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">https://www.hse.ru/org/persons/225426396</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -3036,6 +3783,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -3062,6 +3822,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">https://www.hse.ru/org/persons/889478134/</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -3112,6 +3885,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -3138,6 +3924,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -3188,6 +3987,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -3214,6 +4026,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -3264,6 +4089,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -3290,6 +4128,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -3340,6 +4191,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -3366,6 +4230,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -3416,6 +4293,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -3442,6 +4332,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -3492,6 +4395,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -3518,6 +4434,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">https://www.hse.ru/org/persons/856269009/</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -3568,6 +4497,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -3594,6 +4536,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -3644,6 +4599,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -3670,6 +4638,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -3720,6 +4701,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -3746,6 +4740,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -3796,6 +4803,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -3822,6 +4842,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -3872,6 +4905,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -3898,6 +4944,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -3948,6 +5007,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -3974,6 +5046,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -4024,6 +5109,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -4050,6 +5148,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -4100,6 +5211,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -4126,6 +5250,19 @@
                             <td class="field-page_url align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Страница на hse.ru">-</td>
                         
                             <td class="field-has_photo align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Фото">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
 
 <div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
      title="Да">
@@ -4176,6 +5313,19 @@
 </div>
 </td>
                         
+                            <td class="field-show_on_landing align-middle flex border-t border-base-200 font-normal gap-4 items-center min-w-0 overflow-hidden px-3 py-1.5 h-[45px] text-left before:flex before:capitalize before:content-[attr(data-label)] before:items-center before:font-semibold before:text-font-important-light before:mr-auto first:border-t-0 lg:before:hidden lg:first:border-t lg:table-cell dark:border-base-800 dark:before:text-font-important-dark" data-label="Показывать на главной">
+
+<div class="inline-flex font-semibold items-center justify-center leading-normal h-6 w-6 !rounded-full uppercase whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400"
+     title="Да">
+
+    <span class="material-symbols-outlined">
+        
+            check_small
+        
+    </span>
+</div>
+</td>
+                        
 
                         
 
@@ -4195,6 +5345,106 @@
 
                     
                 </div>
+
+                
+                    
+
+<div id="changelist-filter" class="backdrop-blur-xs bg-base-900/20 flex inset-0 z-60 dark:bg-base-900/80 fixed " hx-preserve x-show="filterOpen">
+    <div id="changelist-filter-close" class="grow " x-on:click="filterOpen = false"></div>
+
+    <div class="bg-white flex m-4 overflow-hidden rounded-default shadow-xs w-80 dark:bg-base-800 ">
+        <div class="grow h-full overflow-auto relative ">
+            <div class="flex flex-col h-full ">
+            
+
+            <div class="flex flex-col grow gap-4 overflow-auto *:mb-0" data-simplebar data-simplebar-direction="rtl">
+                <div class="flex flex-col gap-4 px-3 py-2.5  *:mb-0">
+                    
+                        
+
+<div>
+    <h3 class="font-semibold mb-2 text-font-important-light dark:text-font-important-dark">
+        Показывать на главной
+    </h3>
+
+    
+        
+    
+        
+    
+        
+    
+
+    
+        <ul class="dark:bg-base-900 border border-base-200 flex min-w-20 rounded-default shadow-xs text-font-default-light dark:border-base-700 dark:text-font-default-dark w-full">
+            
+                <li class="basis-1/3 border-r border-base-200 grow truncate last:border-r-0 dark:border-base-700 font-semibold text-primary-600 dark:text-primary-500 ">
+                    <a href="#" data-demo-off title="Все" class="block py-2 text-center hover:text-primary-600 dark:hover:text-primary-500">
+                        Все
+                    </a>
+                </li>
+            
+                <li class="basis-1/3 border-r border-base-200 grow truncate last:border-r-0 dark:border-base-700 hover:text-base-700 dark:hover:text-base-200">
+                    <a href="#" data-demo-off title="Да" class="block py-2 text-center hover:text-primary-600 dark:hover:text-primary-500">
+                        Да
+                    </a>
+                </li>
+            
+                <li class="basis-1/3 border-r border-base-200 grow truncate last:border-r-0 dark:border-base-700 hover:text-base-700 dark:hover:text-base-200">
+                    <a href="#" data-demo-off title="Нет" class="block py-2 text-center hover:text-primary-600 dark:hover:text-primary-500">
+                        Нет
+                    </a>
+                </li>
+            
+        </ul>
+    
+</div>
+
+                    
+                </div>
+            </div>
+
+            
+
+
+    <div class="bg-white border-t border-base-200 flex flex-col gap-2 px-3 py-2.5 dark:bg-base-800 dark:border-base-700 ">
+        
+
+        
+            <span id="changelist-filter-extra-actions" class="flex flex-row flex-wrap gap-2 items-center">
+                
+                    
+                        <a href="#" data-demo-off      
+
+class="font-medium inline-flex group items-center gap-1 relative rounded-default justify-center whitespace-nowrap cursor-pointer
+
+    px-3 py-2
+
+
+    border border-base-200 bg-white shadow-xs text-important dark:border-base-700 dark:bg-transparent hover:bg-base-100/80 dark:hover:bg-base-800/80
+
+ viewlink grow" 
+ >
+
+
+
+                            Показать счётчики
+                        
+</a>
+
+                    
+                
+
+                
+            </span>
+        
+    </div>
+
+
+        </div>
+    </div>
+</div>
+</div>
 
                 
             </div>

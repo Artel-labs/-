@@ -645,7 +645,7 @@ class="font-medium inline-flex group items-center gap-1 relative rounded-default
                 
 
                 
-                    <li class="max-lg:last:rounded-b-default dark:hover:text-primary-500 hover:text-primary-600 min-lg:first:rounded-l-default select-none border max-lg:-mt-px border-base-200 min-lg:last:rounded-r-default min-lg:-ml-px dark:border-base-700 max-lg:first:rounded-t-default" ><a href="#" data-demo-offclass="cursor-pointer flex grow items-center gap-2 px-3 py-2 text-left whitespace-nowrap"  
+                    <li class="border-base-200 min-lg:last:rounded-r-default dark:border-base-700 select-none max-lg:first:rounded-t-default max-lg:last:rounded-b-default min-lg:-ml-px hover:text-primary-600 dark:hover:text-primary-500 min-lg:first:rounded-l-default max-lg:-mt-px border" ><a href="#" data-demo-offclass="cursor-pointer flex grow items-center gap-2 px-3 py-2 text-left whitespace-nowrap"  
 
        
 
@@ -742,14 +742,14 @@ class="font-medium inline-flex group items-center gap-1 relative rounded-default
 
     
 
-    <div class="form-rows border shadow-xs border-base-200 dark:border-base-800 rounded-default aligned">
+    <div class="border-base-200 shadow-xs aligned dark:border-base-800 rounded-default form-rows border">
         
             
 
-<div class="form-row field-row group/row ">
+<div class="group/row field-row form-row ">
     
         
-            <div class="py-2.5 lg:border-l flex-col lg:items-center grow field-line min-h-[59px] border-b field-name flex border-base-200 group px-3 lg:flex-row group-[.last]/row:border-b-0 dark:border-base-800 group/line border-dashed lg:first:border-l-0" >
+            <div class="lg:first:border-l-0 min-h-[59px] dark:border-base-800 lg:border-l group/line grow border-base-200 lg:flex-row lg:items-center px-3 flex field-line border-b flex-col group py-2.5 border-dashed group-[.last]/row:border-b-0 field-name" >
                 
                     
                         <div class="lg:min-w-56 lg:w-56 lg:h-[38px] lg:flex lg:items-center lg:self-start lg:leading-[38px] lg:*:m-0">
@@ -787,10 +787,10 @@ class="font-medium inline-flex group items-center gap-1 relative rounded-default
         
             
 
-<div class="form-row field-row group/row ">
+<div class="group/row field-row form-row ">
     
         
-            <div class="py-2.5 lg:border-l flex-col lg:items-center grow field-line min-h-[59px] border-b flex border-base-200 group px-3 lg:flex-row field-photo group-[.last]/row:border-b-0 dark:border-base-800 group/line border-dashed lg:first:border-l-0" >
+            <div class="lg:first:border-l-0 min-h-[59px] dark:border-base-800 lg:border-l group/line grow border-base-200 lg:flex-row lg:items-center px-3 flex field-line border-b flex-col group py-2.5 border-dashed group-[.last]/row:border-b-0 field-photo" >
                 
                     
                         <div class="lg:min-w-56 lg:w-56 lg:h-[38px] lg:flex lg:items-center lg:self-start lg:leading-[38px] lg:*:m-0">
@@ -857,10 +857,10 @@ class="font-medium inline-flex group items-center gap-1 relative rounded-default
         
             
 
-<div class="form-row field-row group/row last">
+<div class="group/row field-row form-row ">
     
         
-            <div class="py-2.5 lg:border-l flex-col lg:items-center grow field-line min-h-[59px] border-b flex border-base-200 group px-3 field-page_url lg:flex-row group-[.last]/row:border-b-0 dark:border-base-800 group/line border-dashed lg:first:border-l-0" >
+            <div class="lg:first:border-l-0 min-h-[59px] dark:border-base-800 lg:border-l group/line grow border-base-200 lg:flex-row lg:items-center field-page_url px-3 flex field-line border-b flex-col group py-2.5 border-dashed group-[.last]/row:border-b-0" >
                 
                     
                         <div class="lg:min-w-56 lg:w-56 lg:h-[38px] lg:flex lg:items-center lg:self-start lg:leading-[38px] lg:*:m-0">
@@ -881,6 +881,49 @@ class="font-medium inline-flex group items-center gap-1 relative rounded-default
 
     
 </div>
+
+                    
+                
+            </div>
+        
+    
+</div>
+
+        
+            
+
+<div class="group/row field-row form-row last">
+    
+        
+            <div class="lg:first:border-l-0 min-h-[59px] dark:border-base-800 lg:border-l group/line grow border-base-200 lg:flex-row lg:items-center px-3 flex field-line border-b flex-col group py-2.5 field-show_on_landing border-dashed group-[.last]/row:border-b-0" >
+                
+                    
+                        
+    <div class="flex flex-col gap-2 py-2 lg:flex-row">
+        <div class="font-medium flex items-start -ml-2 min-w-32 w-32 lg:min-w-56 lg:w-56">
+            <label class="font-semibold ml-2 text-sm text-font-important-light dark:text-font-important-dark" for="id_show_on_landing">Показывать на главной</label>
+        </div>
+
+        <div class="grow">
+            <div class="flex flex-col lg:flex-row">
+                <input type="checkbox" name="show_on_landing" class="appearance-none bg-base-300 block cursor-pointer h-5 relative rounded-full w-8 min-w-8 disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none after:absolute after:bg-white after:content-[&#x27;&#x27;] after:bg-red-300 after:h-3 after:rounded-full after:shadow-xs after:transition-all after:left-1 after:top-1 after:w-3 checked:bg-green-500 checked:after:left-4 dark:bg-base-600 dark:checked:bg-green-700 " aria-describedby="id_show_on_landing_helptext" id="id_show_on_landing">
+
+                
+                    <div class="lg:-mt-2 lg:ml-2">
+                        
+    <div class="leading-relaxed mt-2 text-xs">
+        Если выключить, преподаватель пропадёт из блока «Преподаватели» на главной странице. На страницах программ, в сравнении и в Telegram он остаётся. Обновление с hse.ru эту настройку не сбрасывает.
+    </div>
+
+
+                    </div>
+                
+            </div>
+
+            
+        </div>
+    </div>
+
 
                     
                 
