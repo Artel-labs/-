@@ -74,8 +74,6 @@ def test_valid_application_is_saved_and_mail_queued(client, seeded, mailing, dja
     assert response.status_code == 200
     saved = Application.objects.get(pk=response.json()["id"])
     assert saved.program_title == "Английское контрактное право"
-    assert saved.sources == ["search", "other"]
-    assert saved.source_other == "друзья"
     assert saved.comment == "Первая строка\n\nВторая"
     assert saved.status == Status.NEW
     assert saved.mail_status == MailStatus.QUEUED
@@ -141,7 +139,8 @@ def test_letter_lists_applicant_and_program(client, seeded, settings):
     assert subject(application) == "Заявка ДПО: Петров Иван — Английское контрактное право"
     body = letter(application)
     assert "Имя и фамилия: Петров Иван" in body
-    assert "Узнал(а) о нас: поисковые системы, другое: друзья" in body
+    assert "Узнал" not in body
+    assert "друзья" not in body
     assert "Страница программы: https://example.com/programs/angliyskoe-kontraktnoe-pravo-856421092.html" in body
     assert f"Заявка № {application.pk}" in body
 
@@ -353,3 +352,8 @@ def test_position_is_not_collected(client, mailing):
     assert "position" not in {field.name for field in Application._meta.get_fields()}
     assert "Должность" not in letter(saved)
     assert "Юрист" not in letter(saved)
+
+
+def test_sources_are_not_collected():
+    names = {field.name for field in Application._meta.get_fields()}
+    assert not {"sources", "source_other"} & names

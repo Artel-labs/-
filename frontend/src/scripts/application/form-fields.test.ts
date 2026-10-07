@@ -11,3 +11,9 @@ test("application form does not ask for a job title", () => {
     assert.doesNotMatch(source(name), /position|Должность/i, name);
   }
 });
+
+test("application form does not ask how the applicant found the centre", () => {
+  for (const name of ["form.ts", "submit.ts", "constants.ts"]) {
+    assert.doesNotMatch(source(name), /sources|sourceOther|узнали/i, name);
+  }
+});

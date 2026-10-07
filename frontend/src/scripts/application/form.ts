@@ -1,5 +1,5 @@
 import { element } from "../dialog";
-import { CORPORATE, OTHER_SOURCE, PERSONAL, SOURCES, SUBMIT_LABEL, TOPICS } from "./constants";
+import { CORPORATE, PERSONAL, SUBMIT_LABEL, TOPICS } from "./constants";
 import { errorBox, inputField, row, selectField } from "./fields";
 import { PRIVACY_POLICY_URL } from "../../lib/brand";
 
@@ -47,23 +47,6 @@ function programField(): HTMLDivElement {
   return wrapper;
 }
 
-function sourcesBlock(): HTMLElement[] {
-  const { wrapper, select } = selectField("dpo-app-sources", "sources", "Как вы узнали о нас?", [["", "Не выбрано"], ...SOURCES]);
-  const other = inputField({ name: "sourceOther", text: "Уточните, откуда узнали", type: "text" });
-  other.id = "dpo-app-other-wrap";
-  other.hidden = true;
-  other.querySelector(".dpo-app-err")?.remove();
-  other.querySelector("input")?.removeAttribute("aria-describedby");
-  select.addEventListener("change", () => {
-    const isOther = select.value === OTHER_SOURCE;
-    other.hidden = !isOther;
-    if (isOther) {
-      other.querySelector("input")?.focus();
-    }
-  });
-  return [wrapper, other];
-}
-
 function checkbox(name: string, text: string): HTMLLabelElement {
   const label = element("label", "dpo-app-check");
   const input = element("input");
@@ -78,10 +61,9 @@ function moreDetails(): HTMLDetailsElement {
   const body = element("div", "dpo-app-more-body");
   body.append(
     inputField({ name: "company", text: "Место работы", type: "text", autocomplete: "organization" }),
-    ...sourcesBlock(),
     checkbox("noAnnouncements", "Не присылать анонсы новых программ и мероприятий Центра ДПО факультета права"),
   );
-  details.append(element("summary", "", "Ещё о себе: место работы, откуда узнали"), body);
+  details.append(element("summary", "", "Ещё о себе: место работы"), body);
   return details;
 }
 

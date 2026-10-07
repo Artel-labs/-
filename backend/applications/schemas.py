@@ -13,8 +13,6 @@ class ApplicationIn(Schema):
     phone: Any = None
     email: Any = None
     company: Any = None
-    sources: Any = None
-    source_other: Any = Field(None, alias="sourceOther")
     comment: Any = None
     no_announcements: Any = Field(None, alias="noAnnouncements")
     consent: Any = None

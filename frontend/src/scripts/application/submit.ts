@@ -39,8 +39,6 @@ export function collect(form: HTMLFormElement, program: ChosenProgram): Record<s
     phone: text(data, "phone"),
     email: text(data, "email"),
     company: text(data, "company"),
-    sources: data.getAll("sources").filter((value) => typeof value === "string" && value),
-    sourceOther: text(data, "sourceOther"),
     comment: text(data, "comment"),
     noAnnouncements: data.has("noAnnouncements"),
     consent: data.has("consent"),

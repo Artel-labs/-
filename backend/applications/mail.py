@@ -5,7 +5,7 @@ from django.core.mail import EmailMessage
 from django.utils import timezone
 
 from applications.delivery import schedule_retry
-from applications.models import ApplicantType, Application, MailStatus, Source, Topic
+from applications.models import ApplicantType, Application, MailStatus, Topic
 from applications.recipients import all_recipients, recipients_for
 
 SUBJECT_TOPICS = {
@@ -50,15 +50,6 @@ def subject(application: Application) -> str:
     return f"{topic}{corporate}: {application.full_name}"
 
 
-def source_label(source: str, other: str) -> str:
-    label = Source(source).label
-    return f"{label}: {other}" if source == Source.OTHER and other else label
-
-
-def source_labels(application: Application) -> list[str]:
-    return [source_label(source, application.source_other) for source in application.sources]
-
-
 def applicant_field() -> str:
     return str(Application._meta.get_field("applicant_type").verbose_name)
 
@@ -91,9 +82,6 @@ def letter(application: Application) -> str:
     if application.company:
         lines.append(f"Место работы:  {application.company}")
     lines += [*corporate_lines(application), ""]
-    sources = source_labels(application)
-    if sources:
-        lines.append(f"Узнал(а) о нас: {', '.join(sources)}")
     lines.append(
         "Анонсы новых программ получать ОТКАЗАЛСЯ(ЛАСЬ)."
         if application.no_announcements

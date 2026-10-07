@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 from functools import partial
 from typing import Any
 
-from applications.models import ApplicantType, Source, Topic
+from applications.models import ApplicantType, Topic
 from applications.rules import EMAIL_TYPO, email_looks_valid, phone_problem
 from applications.schemas import ApplicationIn
 from applications.topics import TopicRule, rule_for
@@ -14,7 +14,6 @@ LIMITS = {
     "phone": 40,
     "email": 160,
     "company": 160,
-    "source_other": 200,
     "comment": 1000,
     "program_id": 40,
     "program_title": 300,
@@ -44,8 +43,6 @@ class Cleaned:
     phone: str
     email: str
     company: str
-    sources: list[str]
-    source_other: str
     comment: str
     no_announcements: bool
     program_id: str
@@ -80,13 +77,6 @@ def flag(value: Any) -> bool:
 
 def choice(value: Any, choices: type[Topic] | type[ApplicantType], default: str) -> str:
     return value if isinstance(value, str) and value in choices.values else default
-
-
-def sources(value: Any) -> list[str]:
-    if not isinstance(value, list):
-        return []
-    known = [str(item) for item in value if str(item) in Source.values]
-    return list(dict.fromkeys(known))
 
 
 MISSING = {
@@ -153,13 +143,10 @@ def parse(data: ApplicationIn) -> Parsed:
         errors.append(FieldError("consent", "Без согласия на обработку персональных данных заявку принять нельзя."))
     if errors:
         return Parsed(errors=errors)
-    chosen_sources = sources(data.sources)
     return Parsed(
         Cleaned(
             topic=topic,
             **contacts,
-            sources=chosen_sources,
-            source_other=line(data.source_other, "source_other") if Source.OTHER in chosen_sources else "",
             comment=paragraph(data.comment, "comment"),
             no_announcements=flag(data.no_announcements),
             **topic_fields(data, rule),

@@ -30,18 +30,6 @@ class MailStatus(models.TextChoices):
     SKIPPED = "skipped", "Почта не настроена"
 
 
-class Source(models.TextChoices):
-    HSE_SITE = "hse-site", "сайт НИУ ВШЭ"
-    TELEGRAM = "telegram", "телеграм-канал"
-    SEARCH = "search", "поисковые системы"
-    AD = "ad", "рекламное объявление или баннер"
-    SOCIAL = "social", "социальные сети"
-    MAILING = "mailing", "почтовая рассылка"
-    BOARD = "board", "стенд объявлений"
-    RECOMMENDATION = "recommendation", "по рекомендации"
-    OTHER = "other", "другое"
-
-
 class Application(models.Model):
     received_at = models.DateTimeField("Получена", default=timezone.now, db_index=True)
     topic = models.CharField("Тема", max_length=20, choices=Topic.choices, default=Topic.PROGRAM)
@@ -60,8 +48,6 @@ class Application(models.Model):
     phone = models.CharField("Телефон", max_length=40)
     email = models.EmailField("Почта", max_length=160)
     company = models.CharField("Место работы", max_length=160, blank=True)
-    sources = models.JSONField("Откуда узнали", default=list, blank=True)
-    source_other = models.CharField("Откуда узнали: другое", max_length=200, blank=True)
     comment = models.TextField("Комментарий", max_length=1000, blank=True)
     no_announcements = models.BooleanField("Отказ от анонсов", default=False)
     program = models.ForeignKey(
