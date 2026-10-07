@@ -26,14 +26,11 @@ def by_start(program: Program, today: date) -> tuple[date, SortKey]:
 
 
 def picked(programs: list[Program], today: date) -> list[Program]:
-    pinned = sorted(
-        (program for program in programs if program.top_position),
+    rated = sorted(
+        (program for program in programs if program.high_rating),
         key=lambda program: (program.top_position, *by_start(program, today)),
     )
-    rest = sorted(
-        (program for program in programs if not program.top_position), key=lambda program: by_start(program, today)
-    )
-    return (pinned + rest)[:TOP_PLACES]
+    return rated[:TOP_PLACES]
 
 
 def tile(program: Program, today: date) -> TopProgramOut:

@@ -538,13 +538,11 @@
     }
     .dpo-section-head { margin-bottom: 48px; }
 
-    .dpo-top5-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-    @media (min-width: 640px)  { .dpo-top5-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (min-width: 1200px) { .dpo-top5-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+    .dpo-top-track { scrollbar-color: rgb(var(--accent) / 0.35) transparent; }
+    .dpo-top-track::-webkit-scrollbar-track { background: rgb(var(--accent) / 0.08); }
+    .dpo-top-track::-webkit-scrollbar-thumb { background: rgb(var(--accent) / 0.35); }
+    .dpo-top-track > .dpo-tile { flex: 0 0 clamp(264px, 78vw, 296px); scroll-snap-align: start; }
+    .dpo-tile .dpo-tile-rating { position: absolute; top: 12px; left: 12px; }
 
     .dpo-top5-nav { display: flex; gap: 10px; justify-content: flex-end; margin-bottom: 16px; }
 
@@ -975,9 +973,11 @@
       flex-wrap: wrap;
     }
     .dpo-reviews-nav { display: flex; gap: 10px; align-items: center; margin-bottom: 34px; }
-    .dpo-reviews-nav .dpo-carousel-btn { border-color: rgb(var(--accent) / 0.7); color: rgb(var(--accent)); }
+    .dpo-reviews-nav .dpo-carousel-btn,
+    .dpo-top5-nav .dpo-carousel-btn { border-color: rgb(var(--accent) / 0.7); color: rgb(var(--accent)); }
     @media (hover: hover) and (pointer: fine) {
-      .dpo-reviews-nav .dpo-carousel-btn:hover:not(:disabled) { border-color: rgb(var(--accent)); background: rgb(var(--accent) / 0.06); }
+      .dpo-reviews-nav .dpo-carousel-btn:hover:not(:disabled),
+      .dpo-top5-nav .dpo-carousel-btn:hover:not(:disabled) { border-color: rgb(var(--accent)); background: rgb(var(--accent) / 0.06); }
     }
     .dpo-reviews-toggle {
       font: inherit;
@@ -1033,6 +1033,7 @@
       margin: 0 0 6px !important;
     }
     html.vi-mode .dpo-tile-cover::after { display: none !important; }
+    html.vi-mode .dpo-tile-rating { position: static; align-self: flex-start; }
     html.vi-mode .dpo-tile-start {
       position: static !important;
       color: rgb(var(--accent)) !important;

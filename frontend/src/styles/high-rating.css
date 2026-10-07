@@ -1,0 +1,58 @@
+@layer widgets {
+  .high-rating {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 9px 6px;
+    border-radius: 999px;
+    background: rgb(var(--night) / 0.62);
+    color: rgb(var(--ochre));
+    font: 600 0.875rem/1 var(--font-sans);
+    letter-spacing: 0.08em;
+    text-shadow: 0 1px 2px rgb(var(--night) / 0.5);
+    cursor: help;
+  }
+  .high-rating::after {
+    content: attr(data-tip);
+    position: absolute;
+    left: 0;
+    top: calc(100% + 8px);
+    width: max-content;
+    max-width: 220px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: rgb(var(--night-ink));
+    color: #fff;
+    font: 500 0.75rem/1.35 var(--font-sans);
+    letter-spacing: 0;
+    text-shadow: none;
+    white-space: normal;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.16s ease, visibility 0.16s ease;
+  }
+  .high-rating:hover::after,
+  .high-rating:focus::after {
+    opacity: 1;
+    visibility: visible;
+  }
+  .high-rating:focus-visible {
+    outline: 2px solid rgb(var(--ochre));
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .high-rating::after { transition: none; }
+  }
+  html.vi-mode .high-rating {
+    background: #fff !important;
+    color: #000 !important;
+    border: 2px solid #000 !important;
+    text-shadow: none !important;
+  }
+  html.vi-mode .high-rating::after {
+    background: #000 !important;
+    color: #fff !important;
+  }
+}

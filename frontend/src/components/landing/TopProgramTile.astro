@@ -1,5 +1,6 @@
 ---
 import type { TopProgram } from "../../lib/landing";
+import HighRatingBadge from "../HighRatingBadge.astro";
 
 interface Props {
   program: TopProgram;
@@ -9,6 +10,7 @@ const { program } = Astro.props;
 ---
 
 <div class="dpo-tile" role="listitem">
+  <HighRatingBadge class="dpo-tile-rating" />
   <span class="dpo-tile-cover tile-cover" data-dpo-cover={program.image || undefined} data-dpo-cover-webp={program.image_webp || undefined}
     >{program.start && <span class="dpo-tile-start">{program.start}</span>}</span
   >

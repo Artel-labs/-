@@ -39,6 +39,7 @@ export interface Card {
   start: string;
   price: string;
   compare: Compare;
+  high_rating: boolean;
 }
 
 export interface Chip {

@@ -3,11 +3,11 @@
 import django.core.validators
 from django.db import migrations, models
 
-from catalog.top_picks import pin_initial_top
+from catalog.top_picks import pin_high_rating
 
 
 def pin_existing(apps, schema_editor):
-    pin_initial_top(apps.get_model("catalog", "Program").objects)
+    pin_high_rating(apps.get_model("catalog", "Program").objects)
 
 
 class Migration(migrations.Migration):

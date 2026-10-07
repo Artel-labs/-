@@ -176,4 +176,5 @@ def program_page(program: Program, today: date) -> ProgramPageOut:
         pay_url=links.pay_url(program.hse_id),
         hse_url=links.safe_hse_url(program.hse_url),
         credential=credential(program),
+        high_rating=program.high_rating,
     )

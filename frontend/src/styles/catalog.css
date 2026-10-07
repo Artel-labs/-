@@ -350,6 +350,7 @@ main{ padding: clamp(28px, 5vw, 48px) clamp(20px, 5vw, 56px) clamp(64px, 8vw, 96
   margin: -24px -24px 0; overflow: hidden;
   border-radius: calc(var(--radius-md) - 1px) calc(var(--radius-md) - 1px) 0 0;
 }
+.card .card-rating{ position: absolute; top: 32px; left: 32px; }
 .card-thumb{ display: block; width: 100%; height: 100%; object-fit: cover; }
 .card-media::after{
   content: ''; position: absolute; inset: 0;
@@ -462,6 +463,7 @@ html.vi-mode body{ background: rgb(var(--surface)) !important; }
 html.vi-mode a{ text-decoration: underline !important; }
 html.vi-mode svg{ display: none !important; }
 html.vi-mode .card-media{ display: none !important; }
+html.vi-mode .card-rating{ position: static; align-self: flex-start; }
 html.vi-mode .card, html.vi-mode .contact-card{ border: 2px solid #000 !important; }
 html.vi-mode .card .tag{ border: 1px solid #000 !important; }
 html.vi-mode .card-apply{ border: 2px solid #000 !important; }

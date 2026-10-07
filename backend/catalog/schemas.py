@@ -115,6 +115,7 @@ class ProgramPageOut(Schema):
     pay_url: str
     hse_url: str
     credential: CredentialOut | None
+    high_rating: bool
 
 
 class ThumbOut(Schema):
@@ -156,6 +157,7 @@ class CardOut(Schema):
     start: str
     price: str
     compare: CompareOut
+    high_rating: bool
 
 
 class ChipOut(Schema):

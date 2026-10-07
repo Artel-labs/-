@@ -88,4 +88,5 @@ def card(program: Program, today: date) -> CardOut:
         start=start,
         price=price_label(program),
         compare=compare(program, start),
+        high_rating=program.high_rating,
     )

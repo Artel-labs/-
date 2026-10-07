@@ -3,7 +3,8 @@ from django.db import models
 
 from catalog.slugs import program_path
 
-TOP_PLACES = 12
+TOP_PLACES = 7
+HIGH_RATING_BLOCK = "«Программы с высоким рейтингом»"
 
 
 class Source(models.TextChoices):
@@ -58,11 +59,11 @@ class Program(models.Model):
     )
     position = models.PositiveSmallIntegerField("Порядок в направлении", default=0)
     top_position = models.PositiveSmallIntegerField(
-        "Место в «Выборе слушателей»",
+        f"Высокий рейтинг: место на главной (1–{TOP_PLACES})",
         null=True,
         blank=True,
         validators=[MinValueValidator(1), MaxValueValidator(TOP_PLACES)],
-        help_text=f"От 1 до {TOP_PLACES}. Пусто — программа попадает в блок по ближайшему старту",
+        help_text=f"Программа попадает в блок {HIGH_RATING_BLOCK} и получает значок ★★★. Пусто — нет",
     )
     catalog_position = models.PositiveIntegerField(
         "Порядок в каталоге", default=0, help_text="Как в списке на hse.ru; программы, добавленные вручную, идут после"
@@ -108,6 +109,10 @@ class Program(models.Model):
 
     def __str__(self) -> str:
         return self.title
+
+    @property
+    def high_rating(self) -> bool:
+        return self.top_position is not None
 
     @property
     def path(self) -> str:

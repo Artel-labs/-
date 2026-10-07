@@ -58,9 +58,10 @@ test("training results block states only who issues the documents", () => {
   assert.doesNotMatch(text, /высоко ценятся работодателями/);
 });
 
-test("top programs block is titled by listeners choice without intro and legend", () => {
+test("top programs block is titled by high rating without intro and legend", () => {
   const text = visibleText("landing/TopProgramsSection.astro");
-  assert.match(text, /<h2 class="dpo-h2">Выбор слушателей<\/h2>/);
+  assert.match(text, /<h2 class="dpo-h2">Программы с высоким рейтингом<\/h2>/);
+  assert.doesNotMatch(text, /Выбор слушателей/);
   assert.doesNotMatch(text, /dpo-eyebrow/);
   assert.doesNotMatch(text, /Популярные программы повышения квалификации/);
   assert.doesNotMatch(text, /Право меняется быстрее/);
@@ -74,10 +75,16 @@ test("top program tile shows the start over the cover without rank, price and de
   assert.match(tile, /Подать заявку/);
 });
 
-test("top programs are laid out as a grid, not a carousel", () => {
+test("top programs are laid out as a single-row carousel with arrows", () => {
   const section = visibleText("landing/TopProgramsSection.astro");
-  assert.match(section, /class="dpo-top5-grid"/);
-  assert.doesNotMatch(section, /data-dpo-scroll/);
+  assert.match(section, /id="topTrack" class="dpo-track dpo-top-track"/);
+  assert.match(section, /aria-controls="topTrack"[^>]*data-dpo-scroll="prev"/);
+  assert.match(section, /aria-controls="topTrack"[^>]*data-dpo-scroll="next"/);
+  assert.doesNotMatch(section, /dpo-top5-grid/);
+});
+
+test("top programs block hides when no program has a high rating", () => {
+  assert.match(visibleText("landing/TopProgramsSection.astro"), /programs\.length > 0 && \(/);
 });
 
 test("sphere tiles are colored as a checkerboard by position, not by sphere", () => {

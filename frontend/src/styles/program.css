@@ -56,6 +56,7 @@ html.vi-mode header::after{display:none !important}
 .crumbs a{text-decoration:underline;padding:13px 0;margin:-13px 0;position:relative}
 .hero h1{font-weight:600;font-size: clamp(1.75rem,3.2vw,2.625rem);line-height:1.15;letter-spacing:-0.01em;max-width:20ch;
   max-width:900px;text-wrap:balance}
+.hero .hero-rating{margin-bottom:14px}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
 .chips span{font-size:0.8125rem;background:rgb(var(--surface) / .14);border-radius:999px;padding:8px 16px}
 

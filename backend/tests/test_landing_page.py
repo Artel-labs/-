@@ -8,9 +8,10 @@ import pytest
 from django.core.management import call_command
 
 from catalog.landing_schemas import LandingOut
-from catalog.models import TOP_PLACES, Program, Teacher
+from catalog.models import Program, Teacher
 from catalog.presentation.landing.page import landing_page
 from catalog.presentation.page import program_page
+from catalog.top_picks import HIGH_RATING
 from tests.media import unversioned
 from tests.typography import untypeset
 
@@ -210,16 +211,22 @@ def top_record(item: Any) -> dict[str, str]:
     return {key: value for key, value in record.items() if value or key not in ("image", "imageWebp")}
 
 
-def test_top_programs_match_previous_site(page):
-    legacy = [
-        {
-            key: site_href(value) if key in ("image", "imageWebp", "href") else value
-            for key, value in item.items()
-            if key not in TILE_FIELDS_REMOVED
-        }
-        for item in LEGACY["top"][:TOP_PLACES]
-    ]
-    assert untypeset(unversioned([top_record(item) for item in page.top])) == untypeset(legacy)
+def legacy_tile(item: dict[str, str]) -> dict[str, str]:
+    return {
+        key: site_href(value) if key in ("image", "imageWebp", "href") else value
+        for key, value in item.items()
+        if key not in TILE_FIELDS_REMOVED
+    }
+
+
+def test_top_block_shows_high_rating_programs_in_their_order(page):
+    assert [item.id for item in page.top] == list(HIGH_RATING)
+
+
+def test_top_tiles_keep_previous_site_look(page):
+    legacy = {item["id"]: legacy_tile(item) for item in LEGACY["top"]}
+    shown = [top_record(item) for item in page.top if item.id in legacy]
+    assert untypeset(unversioned(shown)) == untypeset([legacy[record["id"]] for record in shown])
 
 
 def test_landing_endpoint(client, page):

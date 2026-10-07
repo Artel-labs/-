@@ -1,0 +1,14 @@
+---
+import "../styles/high-rating.css";
+
+interface Props {
+  class?: string;
+}
+
+const LABEL = "Программа с высоким рейтингом";
+const { class: placement } = Astro.props;
+---
+
+<span class:list={["high-rating", placement]} role="img" aria-label={LABEL} data-tip={LABEL} tabindex="0"
+  ><span aria-hidden="true">★★★</span></span
+>

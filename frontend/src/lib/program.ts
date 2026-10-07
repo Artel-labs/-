@@ -107,6 +107,7 @@ export interface ProgramPage {
   pay_url: string;
   hse_url: string;
   credential: Credential | null;
+  high_rating: boolean;
 }
 
 const PAGE_PATTERN = /(?:^|-)(\d+)(?:\.html)?$/;

@@ -1,5 +1,6 @@
 ---
 import type { ProgramPage } from "../../lib/program";
+import HighRatingBadge from "../HighRatingBadge.astro";
 
 interface Props {
   program: ProgramPage;
@@ -34,6 +35,7 @@ const { cover } = program;
     <span aria-hidden="true">/</span>
     <span>{program.crumb}</span>
   </nav>
+  {program.high_rating && <HighRatingBadge class="hero-rating" />}
   <h1>{program.title}</h1>
   <div class="chips">{program.chips.map((chip) => <span>{chip}</span>)}</div>
 </section>

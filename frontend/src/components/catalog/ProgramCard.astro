@@ -1,6 +1,7 @@
 ---
 import type { Card } from "../../lib/catalog";
 import Icon from "../Icon.astro";
+import HighRatingBadge from "../HighRatingBadge.astro";
 import { sitePath } from "../../lib/program";
 
 interface Props {
@@ -32,6 +33,7 @@ const href = sitePath(card.path);
   <button type="button" class="card-compare" data-compare-toggle aria-pressed="false" aria-label={`Сравнить: ${card.title}`}
     ><span class="card-compare-box" aria-hidden="true"></span>Сравнить</button
   >
+  {card.high_rating && <HighRatingBadge class="card-rating" />}
   <a href={href} class="card-link">
     {
       card.thumb ? (
