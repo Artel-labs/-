@@ -42,6 +42,7 @@
 .formats-section { padding: clamp(48px, 7vw, 96px) clamp(20px, 6vw, 64px) clamp(64px, 9vw, 120px); background: rgb(var(--bg-tint)); }
 .formats-title { font-family: var(--font-slab); font-weight: 600; font-size: clamp(1.75rem, 3.2vw, 2.625rem); margin: 0px 0px 18px; }
 .formats-lead { font-size: 1.0938rem; line-height: 1.65; color: rgb(var(--ink-soft)); margin: 0px 0px 40px; max-width: 62ch; }
+.formats-lead:not(:last-of-type) { margin-bottom: 12px; }
 .format-step-1 { --step-bg: rgb(var(--accent)); --step-ink: #FFFFFF; --step-soft: rgba(255,255,255,.86); }
 .format-step-2 { --step-bg: rgb(var(--deep)); --step-ink: #FFFFFF; --step-soft: rgba(255,255,255,.86); }
 .format-step-3 { --step-bg: rgb(var(--hse-blue-4)); --step-ink: rgb(var(--hse-blue)); --step-soft: rgb(var(--hse-blue)); }

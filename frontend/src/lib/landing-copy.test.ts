@@ -165,3 +165,14 @@ test("top bar links keep their full hit area when scrolled and while pressed", (
   const header = visibleText("landing/LandingHeader.astro");
   assert.equal((header.match(/<span class="dpo-capsule-label">/g) ?? []).length, 5);
 });
+
+test("formats section opens with the new introduction", () => {
+  const text = visibleText("landing/FormatsSection.astro");
+  assert.match(
+    text,
+    /Право — это динамичная сфера, требующая постоянного обновления знаний\. Мы открываем доступ к качественному юридическому образованию для действующих профессионалов и всех, кто стремится развивать свои компетенции в юриспруденции\./,
+  );
+  assert.match(text, /В наших программах сочетаются фундаментальная теория с актуальной практикой\./);
+  assert.doesNotMatch(text, /высшей лиге/);
+  assert.match(visibleText("landing/FormatCard.astro"), /format\.tagline && <p class="dpo-format-tagline">/);
+});

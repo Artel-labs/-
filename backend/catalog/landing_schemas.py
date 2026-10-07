@@ -33,6 +33,7 @@ class FormatOut(Schema):
     step: int
     index: str
     title: str
+    tagline: str
     desc: str
     document: str
     doc: FormatDocOut | None

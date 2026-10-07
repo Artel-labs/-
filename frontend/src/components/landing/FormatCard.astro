@@ -37,6 +37,7 @@ const { doc, cta } = format;
     <h3 class="dpo-format-title">{format.title}</h3>
   </div>
   <div class="dpo-format-body">
+    {format.tagline && <p class="dpo-format-tagline">{format.tagline}</p>}
     <p class="dpo-format-desc">{format.desc}</p>
     <p class="dpo-format-facts"><span>{format.document}</span></p>
     {

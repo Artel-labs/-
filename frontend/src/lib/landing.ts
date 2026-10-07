@@ -37,6 +37,7 @@ export interface Format {
   step: number;
   index: string;
   title: string;
+  tagline: string;
   desc: string;
   document: string;
   doc: FormatDoc | null;
