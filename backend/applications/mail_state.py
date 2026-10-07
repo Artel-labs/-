@@ -4,7 +4,8 @@ from django.conf import settings
 from django.utils import timezone
 
 from applications.models import Application, MailStatus
-from applications.recipients import all_recipients
+from applications.recipient_domain import ALLOWED_RECIPIENT_DOMAIN
+from applications.recipients import all_recipients, outside_domain
 
 NOT_SET = "не задан"
 NO_ENCRYPTION_SET = "не задано"
@@ -16,6 +17,10 @@ STARTTLS = "STARTTLS"
 PLAIN = "без шифрования"
 NO_SERVER = "Почта не настроена — письма по заявкам не уходят."
 NO_RECIPIENTS = "Письма по заявкам не уходят: нет активных получателей. Добавьте их в «Заявки» → «Получатели писем»."
+OUTSIDE_DOMAIN_IGNORED = (
+    f"Эти адреса не получают писем, потому что они не @{ALLOWED_RECIPIENT_DOMAIN}: {{emails}}. "
+    "Исправьте их в «Заявки» → «Получатели писем»."
+)
 LAST_FAILED = "Последнее письмо по заявке не ушло — подробности ниже."
 READY = "Почта настроена."
 
@@ -89,6 +94,8 @@ def headline(configured: bool, sent: Event | None, problem: Event | None) -> tup
         return False, NO_SERVER
     if not all_recipients():
         return False, NO_RECIPIENTS
+    if ignored := outside_domain():
+        return False, OUTSIDE_DOMAIN_IGNORED.format(emails=", ".join(ignored))
     if failed_last(sent, problem):
         return False, LAST_FAILED
     return True, READY

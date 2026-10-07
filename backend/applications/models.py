@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
+from applications.recipient_domain import DOMAIN_HINT, validate_recipient_domain
 from catalog.models import Program
 
 ANONYMOUS = "Анонимно"
@@ -94,7 +95,9 @@ def all_topics() -> list[str]:
 
 
 class MailRecipient(models.Model):
-    email = models.EmailField("Адрес", max_length=160, unique=True)
+    email = models.EmailField(
+        "Адрес", max_length=160, unique=True, validators=[validate_recipient_domain], help_text=DOMAIN_HINT
+    )
     topics = models.JSONField("Темы заявок", default=all_topics)
     is_active = models.BooleanField("Получает письма", default=True)
     note = models.CharField("Кто это", max_length=120, blank=True)

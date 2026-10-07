@@ -129,7 +129,7 @@ def test_resend_from_card_explains_why_not_sent(admin_client, settings, applicat
 
 def test_mail_line_is_ok_when_ready(admin_client, settings):
     settings.EMAIL_HOST = "smtp.example.ru"
-    MailRecipient.objects.create(email="office@example.ru")
+    MailRecipient.objects.create(email="office@hse.ru")
     html = admin_client.get(CHANGELIST).content.decode()
     assert "Почта настроена." in html
 

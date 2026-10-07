@@ -52,7 +52,7 @@ VALID = {
 @pytest.fixture
 def mailing(settings):
     settings.EMAIL_HOST = "smtp.example.ru"
-    MailRecipient.objects.create(email="office@example.ru")
+    MailRecipient.objects.create(email="office@hse.ru")
     settings.EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
 
 
@@ -158,7 +158,7 @@ def test_mail_is_sent_and_marked(client, mailing):
     send_application_mail(application.pk)
     application.refresh_from_db()
     assert application.mail_status == MailStatus.SENT
-    assert mail.outbox[0].to == ["office@example.ru"]
+    assert mail.outbox[0].to == ["office@hse.ru"]
     assert mail.outbox[0].reply_to == ["ivan@example.ru"]
 
 
@@ -249,19 +249,19 @@ def test_retry_after_failure_sends_mail(client, mailing):
 
 
 def test_recipients_receive_only_their_topics(client, mailing):
-    MailRecipient.objects.create(email="teachers@example.ru", topics=[Topic.TEACHING])
-    MailRecipient.objects.create(email="off@example.ru", is_active=False)
+    MailRecipient.objects.create(email="teachers@hse.ru", topics=[Topic.TEACHING])
+    MailRecipient.objects.create(email="off@hse.ru", is_active=False)
     application_id = post(client, VALID).json()["id"]
     send_application_mail(application_id)
-    assert mail.outbox[0].to == ["office@example.ru"]
+    assert mail.outbox[0].to == ["office@hse.ru"]
     teaching_id = post(client, {**VALID, "topic": "teaching", "email": "t@example.ru"}).json()["id"]
     send_application_mail(teaching_id)
-    assert sorted(mail.outbox[1].to) == ["office@example.ru", "teachers@example.ru"]
+    assert sorted(mail.outbox[1].to) == ["office@hse.ru", "teachers@hse.ru"]
 
 
 def test_topic_without_recipients_is_skipped(client, settings):
     settings.EMAIL_HOST = "smtp.example.ru"
-    MailRecipient.objects.create(email="teachers@example.ru", topics=[Topic.TEACHING])
+    MailRecipient.objects.create(email="teachers@hse.ru", topics=[Topic.TEACHING])
     saved = Application.objects.get(pk=post(client, VALID).json()["id"])
     assert saved.mail_status == MailStatus.SKIPPED
     assert "Получатели писем" in saved.mail_error
@@ -292,8 +292,8 @@ def test_admin_warns_without_recipients(client, settings):
 def test_admin_check_mail_uses_recipients(client, mailing):
     client.force_login(make_admin())
     response = client.post(f"{CHANGELIST}check-mail/", follow=True)
-    assert "office@example.ru" in response.content.decode()
-    assert mail.outbox[0].to == ["office@example.ru"]
+    assert "office@hse.ru" in response.content.decode()
+    assert mail.outbox[0].to == ["office@hse.ru"]
 
 
 def test_admin_recipient_form_offers_topics(client):
