@@ -34,3 +34,12 @@ class AcceptedOut(Schema):
 class RejectedOut(Schema):
     error: str
     fields: list[FieldErrorOut] = []
+
+
+class ConsentOut(Schema):
+    title: str
+    version: str
+    source: str
+    paragraphs: list[str]
+    withdraw_text: str
+    withdraw_url: str

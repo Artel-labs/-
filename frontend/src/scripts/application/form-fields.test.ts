@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
 
-import { ANONYMOUS_TOPICS } from "./constants.ts";
+import { ANONYMOUS_TOPICS, CONSENT_CHECK, CONSENT_URL } from "./constants.ts";
 
 function source(name: string): string {
   return readFileSync(new URL(name, import.meta.url), "utf8");
@@ -47,4 +47,16 @@ test("comment field warns against special categories of data", () => {
   assert.match(form, /element\("p", "dpo-app-hint", SENSITIVE_HINT\)/);
   assert.match(form, /aria-describedby", "dpo-app-comment-note /);
   assert.match(source("constants.ts"), /SENSITIVE_HINT = "Не\\u00a0указывайте сведения о\\u00a0здоровье/);
+});
+
+test("consent checkbox repeats the HSE survey wording word for word", () => {
+  assert.equal(
+    Object.values(CONSENT_CHECK).join(""),
+    "Я подтверждаю, что лично ознакомился с Положением об обработке персональных данных НИУ ВШЭ, вправе предоставлять свои персональные данные и давать согласие на их обработку.",
+  );
+  assert.equal(CONSENT_URL, "/consent");
+  const form = source("form.ts");
+  assert.match(form, /newTabLink\(CONSENT_CHECK\.regulation, PRIVACY_POLICY_URL\)/);
+  assert.match(form, /newTabLink\(CONSENT_CHECK\.consent, CONSENT_URL\)/);
+  assert.doesNotMatch(form, /input\.checked = true/);
 });

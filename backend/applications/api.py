@@ -1,8 +1,16 @@
 from django.http import HttpRequest
 from ninja import Router, Status
 
+from applications.consent import (
+    CONSENT_PARAGRAPHS,
+    CONSENT_SOURCE,
+    CONSENT_TITLE,
+    CONSENT_VERSION,
+    WITHDRAW_LINK_TEXT,
+    WITHDRAW_URL,
+)
 from applications.parsing import parse
-from applications.schemas import AcceptedOut, ApplicationIn, FieldErrorOut, RejectedOut
+from applications.schemas import AcceptedOut, ApplicationIn, ConsentOut, FieldErrorOut, RejectedOut
 from applications.service import accept
 from core.origin import same_origin
 
@@ -25,3 +33,15 @@ def submit(request: HttpRequest, data: ApplicationIn) -> Status[AcceptedOut | Re
         return Status(BAD_REQUEST, RejectedOut(error="validation", fields=fields))
     accepted = accept(parsed.cleaned)
     return Status(OK, AcceptedOut(ok=True, id=accepted.id))
+
+
+@router.get("/consent", response=ConsentOut)
+def consent(request: HttpRequest) -> ConsentOut:
+    return ConsentOut(
+        title=CONSENT_TITLE,
+        version=CONSENT_VERSION,
+        source=CONSENT_SOURCE,
+        paragraphs=list(CONSENT_PARAGRAPHS),
+        withdraw_text=WITHDRAW_LINK_TEXT,
+        withdraw_url=WITHDRAW_URL,
+    )

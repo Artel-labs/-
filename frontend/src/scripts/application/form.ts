@@ -1,5 +1,5 @@
 import { element } from "../dialog";
-import { ANONYMOUS_HINT, CORPORATE, PERSONAL, PERSONAL_CLASS, SENSITIVE_HINT, SUBMIT_LABEL, TOPICS } from "./constants";
+import { ANONYMOUS_HINT, CONSENT_CHECK, CONSENT_URL, CORPORATE, PERSONAL, PERSONAL_CLASS, SENSITIVE_HINT, SUBMIT_LABEL, TOPICS } from "./constants";
 import { errorBox, inputField, row, selectField } from "./fields";
 import { PRIVACY_POLICY_URL } from "../../lib/brand";
 
@@ -84,6 +84,14 @@ function commentField(): HTMLDivElement {
   return wrapper;
 }
 
+function newTabLink(text: string, href: string): HTMLAnchorElement {
+  const link = element("a", "", text);
+  link.href = href;
+  link.target = "_blank";
+  link.rel = "noopener";
+  return link;
+}
+
 function consentField(): HTMLElement[] {
   const label = element("label", "dpo-app-consent");
   const input = element("input");
@@ -91,15 +99,14 @@ function consentField(): HTMLElement[] {
   input.name = "consent";
   input.id = "dpo-app-consent";
   input.setAttribute("aria-describedby", "dpo-app-consent-err");
-  const privacy = element("a", "", "Политикой обработки персональных данных");
-  privacy.href = PRIVACY_POLICY_URL;
-  privacy.target = "_blank";
-  privacy.rel = "noopener";
   const text = element("span");
   text.append(
-    "Я подтверждаю, что ознакомился с ",
-    privacy,
-    ", и даю согласие на обработку моих персональных данных для рассмотрения заявки. ",
+    CONSENT_CHECK.before,
+    newTabLink(CONSENT_CHECK.regulation, PRIVACY_POLICY_URL),
+    CONSENT_CHECK.middle,
+    newTabLink(CONSENT_CHECK.consent, CONSENT_URL),
+    CONSENT_CHECK.after,
+    " ",
     element("span", "req", "*"),
   );
   label.append(input, text);

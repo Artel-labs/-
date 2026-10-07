@@ -1,0 +1,16 @@
+---
+import ConsentText from "../components/consent/ConsentText.astro";
+import DocumentPage from "../layouts/DocumentPage.astro";
+import { fetchConsent } from "../lib/consent";
+import { fetchSite } from "../lib/site";
+import "../styles/privacy.css";
+
+const TITLE = "Согласие на обработку персональных данных · Центр ДПО НИУ ВШЭ";
+const DESCRIPTION = "Текст согласия на обработку персональных данных для заявок Центра ДПО факультета права НИУ ВШЭ.";
+
+const [site, consent] = await Promise.all([fetchSite(), fetchConsent()]);
+---
+
+<DocumentPage site={site} path="/consent" title={TITLE} description={DESCRIPTION} shareDescription={DESCRIPTION}>
+  <ConsentText consent={consent} />
+</DocumentPage>

@@ -1,6 +1,14 @@
 export const ENDPOINT = "/api/applications";
 export const PROGRAMS_ENDPOINT = "/api/catalog/program-options";
 export const CATALOG_URL = "/catalog";
+export const CONSENT_URL = "/consent";
+export const CONSENT_CHECK = {
+  before: "Я подтверждаю, что лично ознакомился с ",
+  regulation: "Положением об обработке персональных данных НИУ ВШЭ",
+  middle: ", вправе предоставлять свои персональные данные и давать ",
+  consent: "согласие",
+  after: " на их обработку.",
+} as const;
 export const FALLBACK_PHONE = "+7 (495) 772-95-90";
 export const PROGRAM_TOPIC = "program";
 export const ANONYMOUS_TOPICS: readonly string[] = ["course-idea", "feedback"];

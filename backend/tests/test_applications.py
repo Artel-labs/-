@@ -443,3 +443,14 @@ def test_migration_forgets_contacts_of_anonymous_topics(client):
     program = Application.objects.get(topic=Topic.PROGRAM)
     assert (feedback.first_name, feedback.email, feedback.full_name) == ("", "", "Анонимно")
     assert program.email == "ivan@example.ru"
+
+
+def test_consent_text_matches_hse_original(client):
+    reference = (FIXTURES / "hse_consent.txt").read_text(encoding="utf-8").splitlines()
+    consent = client.get(f"{URL}/consent").json()
+    assert consent["paragraphs"] == reference
+    assert consent["title"] == "Согласие на обработку персональных данных"
+    assert consent["source"] == "https://www.hse.ru/consent"
+    assert consent["withdraw_text"] in reference[2]
+    assert consent["withdraw_url"] == "https://www.hse.ru/appeal/polls/575012041.html"
+    assert consent["version"]
