@@ -19,7 +19,7 @@ main() {
 install_timer() {
     cat > "/etc/systemd/system/$UNIT.service" <<UNIT_FILE
 [Unit]
-Description=Резервная копия базы сайта Центра ДПО и очистка истёкших сессий
+Description=Резервная копия базы сайта Центра ДПО, очистка истёкших сессий и старых журналов
 After=docker.service
 Requires=docker.service
 
@@ -27,6 +27,7 @@ Requires=docker.service
 Type=oneshot
 ExecStart=$1/scripts/backup.sh
 ExecStart=-$1/scripts/clean-sessions.sh
+ExecStart=-$1/scripts/rotate-logs.sh
 PrivateTmp=true
 NoNewPrivileges=true
 UNIT_FILE
