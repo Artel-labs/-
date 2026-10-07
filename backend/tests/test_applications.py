@@ -9,6 +9,9 @@ from unittest.mock import patch
 
 import pytest
 from django.apps import apps as django_apps
+from django.contrib.admin.models import CHANGE, LogEntry
+from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from django.core import mail
 from django.core.management import call_command
 from django.utils import timezone
@@ -540,3 +543,41 @@ def test_ads_consent_text_matches_hse_original(client):
     consent = client.get(f"{URL}/ads-consent").json()
     assert consent["paragraphs"] == reference
     assert (consent["title"], consent["source"]) == ("Согласие на получение рассылок", "https://www.hse.ru/ads")
+
+
+def log_for(application: Application, repr_text: str, days_ago: int = 0) -> LogEntry:
+    entry = LogEntry.objects.create(
+        user=User.objects.first() or make_admin(),
+        content_type=ContentType.objects.get_for_model(Application),
+        object_id=str(application.pk),
+        object_repr=repr_text,
+        action_flag=CHANGE,
+    )
+    LogEntry.objects.filter(pk=entry.pk).update(action_time=timezone.now() - timedelta(days=days_ago))
+    return entry
+
+
+def test_application_title_has_no_name(client):
+    application = Application.objects.get(pk=post(client, VALID).json()["id"])
+    assert str(application) == f"Заявка № {application.pk}"
+    assert "Петров" not in str(application)
+
+
+def test_migration_removes_names_from_history(client):
+    application = Application.objects.get(pk=post(client, VALID).json()["id"])
+    entry = log_for(application, f"№ {application.pk} · Петров Иван")
+    import_module("applications.migrations.0013_history_without_names").history_without_names(django_apps, None)
+    entry.refresh_from_db()
+    assert entry.object_repr == f"Заявка № {application.pk}"
+
+
+def test_purge_deletes_history_of_removed_applications(client, settings):
+    settings.APPLICATION_MAX_RETENTION_DAYS = 365
+    old = Application.objects.get(pk=post(client, VALID).json()["id"])
+    kept = Application.objects.get(pk=post(client, {**VALID, "email": "kept@example.ru"}).json()["id"])
+    log_for(old, str(old))
+    log_for(kept, str(kept))
+    log_for(kept, "Заявка № 999", days_ago=400)
+    age(old.pk, received_at=366)
+    purge_expired()
+    assert list(LogEntry.objects.values_list("object_id", flat=True)) == [str(kept.pk)]

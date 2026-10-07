@@ -82,7 +82,7 @@ class Application(models.Model):
         verbose_name_plural = "Заявки"
 
     def __str__(self) -> str:
-        return f"№ {self.pk} · {self.full_name}"
+        return f"Заявка № {self.pk}"
 
     @property
     def full_name(self) -> str:

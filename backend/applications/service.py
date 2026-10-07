@@ -10,6 +10,7 @@ from django.utils import timezone
 
 from applications.consent import ADS_CONSENT_VERSION, CONSENT_VERSION
 from applications.delivery import queue_mail
+from applications.history import forget_history
 from applications.mail import skip_reason
 from applications.models import CLOSED_STATUSES, Application, MailStatus, Status
 from applications.parsing import Cleaned
@@ -135,7 +136,10 @@ def expired_applications() -> QuerySet[Application]:
 
 
 def purge_expired() -> str:
-    removed, _ = expired_applications().delete()
+    expired = expired_applications()
+    expired_ids = list(expired.values_list("pk", flat=True))
+    removed, _ = expired.delete()
+    forget_history(expired_ids, timezone.now() - timedelta(days=settings.APPLICATION_MAX_RETENTION_DAYS))
     return (
         f"Удалено заявок: {removed} (рассмотренные — через {settings.APPLICATION_CLOSED_RETENTION_DAYS} дн. "
         f"после итога, остальные — через {settings.APPLICATION_MAX_RETENTION_DAYS} дн. после получения)"
