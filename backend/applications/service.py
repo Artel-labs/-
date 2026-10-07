@@ -8,6 +8,7 @@ from django.db import transaction
 from django.db.models import QuerySet
 from django.utils import timezone
 
+from applications.consent import CONSENT_VERSION
 from applications.delivery import queue_mail
 from applications.mail import skip_reason
 from applications.models import Application, MailStatus, Status
@@ -38,12 +39,19 @@ def program_for(program_id: str) -> Program | None:
     return Program.objects.filter(hse_id=program_id).first() if program_id else None
 
 
+def consent_fields(topic: str) -> dict[str, object]:
+    if is_anonymous(topic):
+        return {}
+    return {"consent_at": timezone.now(), "consent_version": CONSENT_VERSION}
+
+
 def create(cleaned: Cleaned, key: str) -> Application:
     program = program_for(cleaned.program_id)
     reason = skip_reason(cleaned.topic)
     fields = {name: value for name, value in cleaned.__dict__.items() if name not in ("program_id", "program_title")}
     return Application.objects.create(
         **fields,
+        **consent_fields(cleaned.topic),
         program=program,
         program_title=program.title if program else cleaned.program_title,
         mail_status=MailStatus.SKIPPED if reason else MailStatus.QUEUED,

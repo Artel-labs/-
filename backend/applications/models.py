@@ -54,6 +54,8 @@ class Application(models.Model):
     )
     comment = models.TextField("Комментарий", max_length=1000, blank=True)
     no_announcements = models.BooleanField("Отказ от анонсов", default=False)
+    consent_at = models.DateTimeField("Согласие на обработку ПДн дано", null=True, blank=True, editable=False)
+    consent_version = models.CharField("Версия текста согласия", max_length=40, blank=True, editable=False)
     program = models.ForeignKey(
         Program, verbose_name="Программа", null=True, blank=True, on_delete=models.SET_NULL, related_name="applications"
     )

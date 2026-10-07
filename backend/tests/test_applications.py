@@ -14,6 +14,7 @@ from django.core.management import call_command
 from django.utils import timezone
 from django_q.models import Schedule
 
+from applications.consent import CONSENT_VERSION
 from applications.mail import letter, send_application_mail, subject
 from applications.models import Application, MailRecipient, MailStatus, Status, Topic
 from applications.rules import EMAIL_TYPO, PHONE_BAD_LENGTH, email_looks_valid, phone_problem
@@ -454,3 +455,26 @@ def test_consent_text_matches_hse_original(client):
     assert consent["withdraw_text"] in reference[2]
     assert consent["withdraw_url"] == "https://www.hse.ru/appeal/polls/575012041.html"
     assert consent["version"]
+
+
+def test_consent_is_recorded_with_time_and_version(client):
+    saved = Application.objects.get(pk=post(client, VALID).json()["id"])
+    assert saved.consent_version == CONSENT_VERSION
+    assert saved.consent_at is not None
+    assert abs(saved.consent_at - saved.received_at) < timedelta(seconds=5)
+    body = letter(saved)
+    assert f"текст «{CONSENT_VERSION}»" in body
+    assert "получено вместе с заявкой" not in body
+
+
+def test_anonymous_topic_records_no_consent(client):
+    saved = Application.objects.get(pk=post(client, {"topic": Topic.FEEDBACK, "comment": "Отзыв"}).json()["id"])
+    assert (saved.consent_at, saved.consent_version) == (None, "")
+    assert "Согласие" not in letter(saved)
+
+
+def test_old_application_says_consent_was_not_recorded(client):
+    saved = Application.objects.get(pk=post(client, VALID).json()["id"])
+    Application.objects.filter(pk=saved.pk).update(consent_at=None, consent_version="")
+    saved.refresh_from_db()
+    assert "не записано" in letter(saved)

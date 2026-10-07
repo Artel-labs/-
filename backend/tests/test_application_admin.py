@@ -146,3 +146,12 @@ def test_anonymous_card_has_no_contacts(admin_client):
     assert "tel:" not in html
     assert "mailto:" not in html
     assert "Анонсы" not in html
+
+
+def test_card_shows_consent_record(admin_client, application):
+    application.consent_at = application.received_at
+    application.consent_version = "hse-consent-test"
+    application.save()
+    html = card(admin_client, application)
+    assert "Согласие на обработку ПДн" in html
+    assert "текст «hse-consent-test»" in html

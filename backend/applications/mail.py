@@ -1,4 +1,5 @@
 import smtplib
+from datetime import datetime
 
 from django.conf import settings
 from django.core.mail import EmailMessage
@@ -18,6 +19,7 @@ SUBJECT_TOPICS = {
 ANONYMOUS_SUBJECTS = {Topic.COURSE_IDEA: "Идея курса", Topic.FEEDBACK: "Отзыв"}
 ANONYMOUS_LINE = "Обращение анонимное: контактов заявителя нет."
 AUTO_SENT = "Письмо отправлено сайтом Центра ДПО факультета права автоматически, отвечать на него не нужно"
+NO_CONSENT_RECORD = "не записано — заявка получена до того, как сайт начал сохранять согласие"
 MAX_ERROR_LENGTH = 500
 TEST_SUBJECT = "Проверка почты · Центр ДПО факультета права"
 NO_SMTP = "Почтовый сервер не настроен: укажите SMTP_HOST в файле .env на сервере."
@@ -40,8 +42,18 @@ def test_mail_problem() -> str:
     return "" if all_recipients() else f"Нет активных получателей писем: {RECIPIENTS_PLACE}"
 
 
+def moscow(moment: datetime) -> str:
+    return timezone.localtime(moment).strftime("%d.%m.%Y, %H:%M:%S")
+
+
 def moscow_time(application: Application) -> str:
-    return timezone.localtime(application.received_at).strftime("%d.%m.%Y, %H:%M:%S")
+    return moscow(application.received_at)
+
+
+def consent_state(application: Application) -> str:
+    if application.consent_at is None:
+        return NO_CONSENT_RECORD
+    return f"дано {moscow(application.consent_at)} (Москва), текст «{application.consent_version}»"
 
 
 def subject(application: Application) -> str:
@@ -102,7 +114,7 @@ def footer_lines(application: Application) -> list[str]:
     if is_anonymous(application.topic):
         return [f"{AUTO_SENT}."]
     return [
-        "Согласие на обработку персональных данных получено вместе с заявкой.",
+        f"Согласие на обработку персональных данных: {consent_state(application)}.",
         f"{AUTO_SENT} —",
         "чтобы ответить заявителю, пишите на адрес из поля «Почта».",
     ]

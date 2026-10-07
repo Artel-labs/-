@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from django.urls import reverse
 
-from applications.mail import ANONYMOUS_LINE, applicant_field, company_field
+from applications.mail import ANONYMOUS_LINE, applicant_field, company_field, consent_state
 from applications.models import ApplicantType, Application, MailStatus, Status
 from applications.topics import is_anonymous
 
@@ -38,6 +38,7 @@ def facts(application: Application) -> list[Fact]:
         Fact("Желаемые сроки", application.timeframe),
         Fact(company_field(), application.company),
         Fact("Анонсы новых программ", announcements(application)),
+        Fact("Согласие на обработку ПДн", "" if is_anonymous(application.topic) else consent_state(application)),
     ]
     return [fact for fact in candidates if fact.value]
 
