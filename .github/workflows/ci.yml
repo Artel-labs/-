@@ -198,12 +198,21 @@ jobs:
       - run: sudo ./scripts/backup.sh
       - name: Копия старше 30 дней удалена
         run: test -z "$(sudo find /var/backups/dpo -name 'dpo-20000101-*')"
+      - name: Копия зашифрована открытым ключом и без закрытого не читается
+        run: |
+          latest="$(sudo find /var/backups/dpo -name 'dpo-*.sql.gz*' -printf '%T@ %p\n' | sort -rn | head -n 1 | cut -d' ' -f2-)"
+          case "$latest" in *.sql.gz.enc) ;; *) exit 1 ;; esac
+          if sudo gzip -t "$latest" 2>/dev/null; then exit 1; fi
+          if sudo grep -aq "CREATE TABLE" "$latest"; then exit 1; fi
+          sudo openssl cms -cmsout -inform DER -in "$latest" -noout
+          if sudo ./scripts/restore.sh "$latest" --yes > no-key.log 2>&1; then exit 1; fi
+          grep -q "Копия зашифрована. Укажите закрытый ключ" no-key.log
       - run: sudo ./scripts/rotate-logs.sh --now | grep -q "пересозданы"
       - run: test -z "$(sudo ./scripts/rotate-logs.sh)"
       - name: Восстановление из последней копии
         run: |
-          latest="$(sudo find /var/backups/dpo -name 'dpo-*.sql.gz' -printf '%T@ %p\n' | sort -rn | head -n 1 | cut -d' ' -f2-)"
-          sudo ./scripts/restore.sh "$latest" --yes
+          latest="$(sudo find /var/backups/dpo -name 'dpo-*.sql.gz*' -printf '%T@ %p\n' | sort -rn | head -n 1 | cut -d' ' -f2-)"
+          sudo ./scripts/restore.sh "$latest" --yes --key /etc/dpo/backup-key/private-key-move-off-server.pem
       - name: Восстановление не возвращает заявку с истёкшим сроком
         run: |
           count="$(sudo docker compose exec -T app python manage.py shell -c 'from applications.models import Application; print(Application.objects.filter(comment="ci-expired").count())' | tail -n 1)"

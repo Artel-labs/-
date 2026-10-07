@@ -5,6 +5,8 @@ source "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
 CONFIRM_WORD=ВОССТАНОВИТЬ
 WORK_FILE=""
 WORK_MEDIA=""
+ASSUME_YES=""
+PRIVATE_KEY=""
 
 main() {
     local root file
@@ -16,14 +18,15 @@ main() {
         show_usage
         exit 1
     fi
+    shift
+    read_options "$@"
     [[ -f "$file" ]] || { echo "Файл не найден: $file" >&2; exit 1; }
-    gzip -t "$file" || { echo "Файл повреждён: $file" >&2; exit 1; }
-    confirm "${2:-}"
     WORK_FILE="$(mktemp)"
     WORK_MEDIA="$(mktemp)"
     trap 'rm -f "$WORK_FILE" "$WORK_MEDIA"' EXIT
-    cp "$file" "$WORK_FILE"
+    unpack "$file" "$WORK_FILE" || { echo "Файл повреждён или ключ не подходит: $file" >&2; exit 1; }
     copy_media_archive "$file"
+    confirm
     echo "[1/5] Сохраняем текущую базу на всякий случай"
     "$root/scripts/backup.sh"
     echo "[2/5] Останавливаем приложение"
@@ -43,12 +46,39 @@ main() {
     echo "Готово: база восстановлена из $(basename "$file")."
 }
 
+read_options() {
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --yes) ASSUME_YES=1 ;;
+            --key) PRIVATE_KEY="${2:-}"; shift ;;
+            *) echo "Неизвестный параметр: $1" >&2; show_usage; exit 1 ;;
+        esac
+        shift
+    done
+}
+
+unpack() {
+    if is_encrypted "$1"; then
+        require_private_key
+        decrypt_to "$PRIVATE_KEY" "$1" "$2" 2>/dev/null || return 1
+    else
+        cp "$1" "$2"
+    fi
+    gzip -t "$2"
+}
+
+require_private_key() {
+    if [[ -z "$PRIVATE_KEY" || ! -f "$PRIVATE_KEY" ]]; then
+        echo "Копия зашифрована. Укажите закрытый ключ: sudo ./scripts/restore.sh <файл копии> --key <файл ключа>" >&2
+        exit 1
+    fi
+}
+
 copy_media_archive() {
     local archive
     archive="$(media_archive "$1")"
     if [[ -f "$archive" ]]; then
-        gzip -t "$archive" || { echo "Архив файлов повреждён: $archive" >&2; exit 1; }
-        cp "$archive" "$WORK_MEDIA"
+        unpack "$archive" "$WORK_MEDIA" || { echo "Архив файлов повреждён или ключ не подходит: $archive" >&2; exit 1; }
     else
         echo "Архива файлов сайта рядом с копией нет — восстанавливаем только базу."
         : > "$WORK_MEDIA"
@@ -63,9 +93,9 @@ restore_media() {
 }
 
 show_usage() {
-    echo "Использование: sudo ./scripts/restore.sh <файл копии> [--yes]"
+    echo "Использование: sudo ./scripts/restore.sh <файл копии> --key <закрытый ключ> [--yes]"
     echo "Доступные копии (новые сверху):"
-    find "$BACKUP_DIR" -maxdepth 1 -name 'dpo-*.sql.gz' -printf '%T@ %p\n' 2>/dev/null \
+    find "$BACKUP_DIR" -maxdepth 1 -name "$DB_BACKUP_PATTERN" -printf '%T@ %p\n' 2>/dev/null \
         | sort -rn | head -n 10 | cut -d' ' -f2- | sed 's/^/  /'
 }
 
@@ -84,7 +114,7 @@ on_failure() {
 
 confirm() {
     local answer
-    if [[ "$1" == "--yes" ]]; then
+    if [[ -n "$ASSUME_YES" ]]; then
         return
     fi
     echo "Текущие данные сайта будут заменены данными из копии."

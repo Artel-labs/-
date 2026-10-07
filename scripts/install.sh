@@ -24,6 +24,7 @@ main() {
     prepare_env "$root" "$owner" "$@"
     load_env "$root"
     upgrade_env "$root"
+    ensure_backup_key
     step "4/7" "Собираем и запускаем сайт на портах ${HTTP_PORT} (HTTP) и ${HTTPS_PORT} (HTTPS)"
     start_site "$root"
     step "5/7" "Создаём администратора"

@@ -5,6 +5,10 @@ HEALTH_DELAY_SECONDS=2
 DEFAULT_HTTP_PORT=80
 DEFAULT_HTTPS_PORT=443
 DEFAULT_BACKUP_MAX_AGE_DAYS=30
+BACKUP_KEY_BITS=4096
+BACKUP_CERT_DAYS=36500
+ENCRYPTED_SUFFIX=".enc"
+DB_BACKUP_PATTERN="dpo-*.sql.gz*"
 SITE_MODE_PRODUCTION="production"
 SITE_MODE_TEST="test"
 SECRET_BYTES=24
@@ -54,8 +58,11 @@ load_env() {
     BACKUP_DIR="$(env_value "$file" BACKUP_DIR /var/backups/dpo)"
     BACKUP_KEEP="$(env_value "$file" BACKUP_KEEP 30)"
     BACKUP_MAX_AGE_DAYS="$(env_value "$file" BACKUP_MAX_AGE_DAYS "$DEFAULT_BACKUP_MAX_AGE_DAYS")"
+    BACKUP_KEY_DIR="$(env_value "$file" BACKUP_KEY_DIR /etc/dpo/backup-key)"
+    BACKUP_CERT="$BACKUP_KEY_DIR/backup.crt"
+    BACKUP_PRIVATE_KEY="$BACKUP_KEY_DIR/private-key-move-off-server.pem"
     COOKIE_SECURE="$(env_value "$file" COOKIE_SECURE 0)"
-    export HTTP_PORT HTTPS_PORT TLS_DIR BACKUP_DIR BACKUP_KEEP BACKUP_MAX_AGE_DAYS COOKIE_SECURE
+    export HTTP_PORT HTTPS_PORT TLS_DIR BACKUP_DIR BACKUP_KEEP BACKUP_MAX_AGE_DAYS BACKUP_KEY_DIR BACKUP_CERT BACKUP_PRIVATE_KEY COOKIE_SECURE
 }
 
 new_secret() {
@@ -206,10 +213,47 @@ db_shell() {
 }
 
 media_archive() {
-    echo "${1%.sql.gz}.media.tar.gz"
+    echo "${1/.sql.gz/.media.tar.gz}"
 }
 
 latest_backup() {
-    find "${BACKUP_DIR:-/var/backups/dpo}" -maxdepth 1 -name 'dpo-*.sql.gz' -printf '%T@ %p\n' 2>/dev/null \
+    find "${BACKUP_DIR:-/var/backups/dpo}" -maxdepth 1 -name "$DB_BACKUP_PATTERN" -printf '%T@ %p\n' 2>/dev/null \
         | sort -rn | head -n 1 | cut -d' ' -f2-
+}
+
+is_encrypted() {
+    [[ "$1" == *"$ENCRYPTED_SUFFIX" ]]
+}
+
+encrypt_stream() {
+    openssl cms -encrypt -binary -stream -outform DER -aes256 -recip "$BACKUP_CERT"
+}
+
+check_encrypted() {
+    openssl cms -cmsout -inform DER -in "$1" -noout 2>/dev/null
+}
+
+decrypt_to() {
+    openssl cms -decrypt -binary -inform DER -inkey "$1" -in "$2" -out "$3"
+}
+
+ensure_backup_key() {
+    if [[ -s "$BACKUP_CERT" ]]; then
+        return
+    fi
+    mkdir -p "$BACKUP_KEY_DIR"
+    chmod 700 "$BACKUP_KEY_DIR"
+    openssl req -x509 -newkey "rsa:$BACKUP_KEY_BITS" -nodes -days "$BACKUP_CERT_DAYS" -subj "/CN=dpo-backup" \
+        -keyout "$BACKUP_PRIVATE_KEY" -out "$BACKUP_CERT" 2>/dev/null
+    chmod 600 "$BACKUP_PRIVATE_KEY"
+    echo "Созданы ключи шифрования резервных копий: открытый $BACKUP_CERT остаётся на сервере."
+    warn_private_key_left
+}
+
+warn_private_key_left() {
+    if [[ -e "$BACKUP_PRIVATE_KEY" ]]; then
+        echo "ВНИМАНИЕ: закрытый ключ резервных копий ещё лежит на сервере: $BACKUP_PRIVATE_KEY" >&2
+        echo "Скопируйте его в надёжное место вне сервера и удалите: sudo shred -u $BACKUP_PRIVATE_KEY" >&2
+        echo "Без этого ключа копии не восстановить, поэтому храните две копии ключа в разных местах." >&2
+    fi
 }

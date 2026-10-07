@@ -57,7 +57,7 @@ roll_back() {
     docker compose up -d --build --remove-orphans || true
     wait_for_site || true
     echo "Прошлая версия запущена. Если миграции успели примениться и сайт работает с ошибками," >&2
-    echo "восстановите базу из копии, сделанной перед миграциями: sudo ./scripts/restore.sh $(latest_backup)" >&2
+    echo "восстановите базу из копии, сделанной перед миграциями: sudo ./scripts/restore.sh $(latest_backup) --key <закрытый ключ копий>" >&2
     exit 1
 }
 
@@ -65,7 +65,7 @@ archive_failed() {
     trap - ERR
     echo >&2
     echo "Ошибка развёртывания. Верните прошлую папку сайта (с файлом .env) и запустите deploy.sh в ней." >&2
-    echo "Если миграции успели примениться, восстановите базу: sudo ./scripts/restore.sh $(latest_backup)" >&2
+    echo "Если миграции успели примениться, восстановите базу: sudo ./scripts/restore.sh $(latest_backup) --key <закрытый ключ копий>" >&2
     exit 1
 }
 
