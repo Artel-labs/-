@@ -173,10 +173,26 @@ jobs:
       - run: sudo ./scripts/create-admin.sh | grep -q "уже есть"
       - run: sudo ./scripts/disable-two-factor.sh admin | grep -q "не был включён"
       - run: 'sudo ./scripts/reset-admin-password.sh | grep -q "^Логин:  admin$"'
+      - name: В копию попадает заявка с истёкшим сроком хранения
+        run: |
+          sudo docker compose exec -T app python manage.py shell -c 'from datetime import timedelta; from django.utils import timezone; from applications.models import Application; a = Application.objects.create(topic="feedback", comment="ci-expired"); Application.objects.filter(pk=a.pk).update(received_at=timezone.now() - timedelta(days=400))'
+      - name: Копия старше 30 дней лежит в папке копий
+        run: |
+          sudo mkdir -p /var/backups/dpo
+          sudo touch -d '31 days ago' /var/backups/dpo/dpo-20000101-000000.sql.gz /var/backups/dpo/dpo-20000101-000000.media.tar.gz
       - run: sudo ./scripts/backup.sh
+      - name: Копия старше 30 дней удалена
+        run: test -z "$(sudo find /var/backups/dpo -name 'dpo-20000101-*')"
       - run: sudo ./scripts/rotate-logs.sh --now | grep -q "пересозданы"
       - run: test -z "$(sudo ./scripts/rotate-logs.sh)"
-      - run: sudo ./scripts/restore.sh "$(sudo find /var/backups/dpo -name 'dpo-*.sql.gz' | head -n 1)" --yes
+      - name: Восстановление из последней копии
+        run: |
+          latest="$(sudo find /var/backups/dpo -name 'dpo-*.sql.gz' -printf '%T@ %p\n' | sort -rn | head -n 1 | cut -d' ' -f2-)"
+          sudo ./scripts/restore.sh "$latest" --yes
+      - name: Восстановление не возвращает заявку с истёкшим сроком
+        run: |
+          count="$(sudo docker compose exec -T app python manage.py shell -c 'from applications.models import Application; print(Application.objects.filter(comment="ci-expired").count())' | tail -n 1)"
+          test "$count" = "0"
       - run: curl -fsSk https://127.0.0.1:8443/api/health
       - name: Пароль root не попадает в лог базы
         run: |

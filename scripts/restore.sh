@@ -24,18 +24,20 @@ main() {
     trap 'rm -f "$WORK_FILE" "$WORK_MEDIA"' EXIT
     cp "$file" "$WORK_FILE"
     copy_media_archive "$file"
-    echo "[1/4] Сохраняем текущую базу на всякий случай"
+    echo "[1/5] Сохраняем текущую базу на всякий случай"
     "$root/scripts/backup.sh"
-    echo "[2/4] Останавливаем приложение"
+    echo "[2/5] Останавливаем приложение"
     docker compose stop app
     trap 'on_failure' ERR
-    echo "[3/4] Восстанавливаем базу из $file"
+    echo "[3/5] Восстанавливаем базу из $file"
     drop_tables
     gunzip -c "$WORK_FILE" | db_shell mariadb
     restore_media
     trap - ERR
-    echo "[4/4] Запускаем приложение и применяем миграции"
+    echo "[4/5] Применяем миграции"
     docker compose run --rm app python manage.py migrate --noinput
+    echo "[5/5] Удаляем данные с истёкшим сроком хранения и запускаем приложение"
+    docker compose run --rm app python manage.py purge_expired
     docker compose start app
     wait_for_site
     echo "Готово: база восстановлена из $(basename "$file")."

@@ -2,6 +2,8 @@
 set -Eeuo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
 
+MINUTES_IN_DAY=1440
+
 main() {
     local root base
     root="$(project_root)"
@@ -39,6 +41,7 @@ pack_media() {
 }
 
 prune() {
+    find "$BACKUP_DIR" -maxdepth 1 -name "$1" -mmin +"$((BACKUP_MAX_AGE_DAYS * MINUTES_IN_DAY))" -delete
     find "$BACKUP_DIR" -maxdepth 1 -name "$1" -printf '%T@ %p\n' \
         | sort -rn | tail -n +"$((BACKUP_KEEP + 1))" | cut -d' ' -f2- | xargs -r rm -f --
 }
