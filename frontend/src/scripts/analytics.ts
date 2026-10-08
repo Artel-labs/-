@@ -176,7 +176,8 @@ function trackLink(link: HTMLAnchorElement): void {
 
 function trackChip(chip: HTMLElement): void {
   const value = chip.dataset.value;
-  if (!value) {
+  const unchecked = chip instanceof HTMLInputElement && !chip.checked;
+  if (!value || unchecked) {
     return;
   }
   const group = chip.closest<HTMLElement>("[data-group]")?.dataset.group ?? "filter";

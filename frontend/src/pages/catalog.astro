@@ -10,7 +10,7 @@ import SupportBot from "../components/SupportBot.astro";
 import CatalogHead from "../components/catalog/CatalogHead.astro";
 import CatalogHeader from "../components/catalog/CatalogHeader.astro";
 import CatalogHero from "../components/catalog/CatalogHero.astro";
-import FilterRow from "../components/catalog/FilterRow.astro";
+import FilterBar from "../components/catalog/FilterBar.astro";
 import ProgramCard from "../components/catalog/ProgramCard.astro";
 import StartsBoard from "../components/catalog/StartsBoard.astro";
 import Toolbar from "../components/catalog/Toolbar.astro";
@@ -33,10 +33,7 @@ const description = `Каталог программ ДПО факультета
   <CatalogHeader />
   <CatalogHero />
   <StartsBoard starts={catalog.starts} />
-  <FilterRow id="filters" group="type" chips={filters.type} />
-  <FilterRow id="filtersFormat" group="format" chips={filters.format} />
-  <FilterRow id="filtersSphere" group="sphere" chips={filters.sphere} label="Фильтр по направлению" />
-  <FilterRow id="filtersDuration" group="duration" chips={filters.duration} label="Фильтр по длительности" />
+  <FilterBar filters={filters} />
   <Toolbar totalLabel={catalog.total_label} />
   <div class="crow-walk-row"><div class="crow-walk-slot" data-crow-walk></div></div>
   <main id="main">

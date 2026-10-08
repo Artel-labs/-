@@ -162,6 +162,8 @@ class CardOut(Schema):
 
 class ChipOut(Schema):
     label: str
+    name: str
+    count: int
     value: str
     active: bool
 

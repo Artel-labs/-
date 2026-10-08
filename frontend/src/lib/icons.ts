@@ -3,6 +3,7 @@ export const ICON_PATHS = {
   "arrow-left": "M13 8H3M7 4L3 8l4 4",
   "arrow-up-right": "M5 11l6-6M6 5h5v5",
   check: "M3 8.5l3 3 7-7",
+  "chevron-down": "M4 6l4 4 4-4",
   search: "M7 12A5 5 0 1 0 7 2a5 5 0 0 0 0 10ZM10.7 10.7 14 14",
 } as const;
 

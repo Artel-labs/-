@@ -166,44 +166,6 @@ html.vi-mode header::after{ display: none !important; }
 html.vi-mode .starts{ border: 2px solid #000 !important; }
 html.vi-mode .tl-card, html.vi-mode .starts-chip{ border: 2px solid #000 !important; }
 
-.filters{
-  display: flex; flex-wrap: wrap; gap: 8px;
-  padding: 14px clamp(20px, 5vw, 56px) 0;
-  background: rgb(var(--bg));
-}
-.filters:first-of-type{
-  position: sticky; top: var(--header-h); z-index: 15;
-  padding-top: 16px; padding-bottom: 14px;
-}
-.filters:first-of-type::after{
-  content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 14px;
-  background: linear-gradient(rgb(var(--ink) / 0.08), transparent);
-  pointer-events: none;
-}
-html.vi-mode .filters:first-of-type{ border-bottom: 1px solid #000 !important; }
-html.vi-mode .filters:first-of-type::after{ display: none !important; }
-@media (prefers-contrast: more){
-  .filters:first-of-type{ border-bottom: 1px solid rgb(var(--ink)); }
-  .filters:first-of-type::after{ display: none; }
-}
-.chip{
-  font: inherit; font-size: 0.8438rem; font-weight: 600; color: rgb(var(--accent-dark));
-  background: rgb(var(--surface)); border: 1px solid var(--line); border-radius: var(--radius-sm);
-  padding: 8px 16px; cursor: pointer;
-  min-height: 44px;
-  transition:
-    background .28s ease,
-    color .28s ease,
-    border-color .28s ease,
-    transform .14s cubic-bezier(.22,1,.36,1);
-}
-.chip:active{ transform: scale(0.97); }
-.card-apply:active{ transform: scale(0.97); }
-.chip.active{
-  background: rgb(var(--accent)); border-color: rgb(var(--accent)); color: rgb(var(--surface));
-}
-#filtersFormat .chip{ font-size: 0.8125rem; padding: 7px 14px; }
-
 .crow-walk-row{ display: flex; justify-content: flex-end; padding: 6px clamp(20px, 5vw, 56px) 0; }
 .crow-walk-slot{ width: 160px; height: 167px; }
 @media (max-width: 1023px) { .crow-walk-slot{ width: 96px; height: 100px; } }
@@ -279,22 +241,6 @@ html.vi-mode .filters:first-of-type::after{ display: none !important; }
   body{ padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px)); }
   .mobile-cta{ display: flex; }
   html.vi-mode .mobile-cta{ display: none !important; }
-
-  .filters{
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scrollbar-width: none;
-    padding-right: clamp(20px, 5vw, 56px);
-    scroll-padding-left: clamp(20px, 5vw, 56px);
-    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 44px), rgba(0,0,0,0));
-    mask-image: linear-gradient(to right, #000 calc(100% - 44px), rgba(0,0,0,0));
-  }
-  .filters::-webkit-scrollbar{ display: none; }
-  .filters .chip{ flex: 0 0 auto; }
-  html.vi-mode .filters{
-    flex-wrap: wrap; overflow-x: visible;
-    -webkit-mask-image: none; mask-image: none;
-  }
 }
 
 main{ padding: clamp(28px, 5vw, 48px) clamp(20px, 5vw, 56px) clamp(64px, 8vw, 96px); }
@@ -441,8 +387,8 @@ main{ padding: clamp(28px, 5vw, 48px) clamp(20px, 5vw, 56px) clamp(64px, 8vw, 96
 .empty-text{ margin: 0 0 18px; }
 
 @media (prefers-reduced-motion: reduce){
-  .chip, .card, .empty, .card .go, .card .tag[data-tip]::after{ transition: none !important; animation: none !important; }
-  .chip:active, .card-apply:active, .toolbar .reset:active{ transform: none; }
+  .card, .empty, .card .go, .card .tag[data-tip]::after{ transition: none !important; animation: none !important; }
+  .card-apply:active, .toolbar .reset:active{ transform: none; }
   .card .tag[data-tip]::after{ transform: none; }
   .card.is-leaving, .card.is-entering{ filter: none; transform: none; }
 }
@@ -467,8 +413,7 @@ html.vi-mode .card-rating{ position: static; align-self: flex-start; }
 html.vi-mode .card, html.vi-mode .contact-card{ border: 2px solid #000 !important; }
 html.vi-mode .card .tag{ border: 1px solid #000 !important; }
 html.vi-mode .card-apply{ border: 2px solid #000 !important; }
-html.vi-mode .chip, html.vi-mode .vi-btn, html.vi-mode button{ border: 2px solid #000 !important; }
-html.vi-mode .chip.active{ background: #000 !important; color: rgb(var(--surface)) !important; }
+html.vi-mode .vi-btn, html.vi-mode button{ border: 2px solid #000 !important; }
 
 footer{
   padding: 28px clamp(20px, 5vw, 56px); border-top: 1px solid var(--line);
@@ -482,7 +427,7 @@ footer{
   box-shadow:0 4px 18px rgba(0,0,0,.22);text-decoration:underline}
 .skip-link:focus{left:0}
 
-.chip:focus-visible, .search-wrap input:focus-visible, .sort-select:focus-visible,
+.search-wrap input:focus-visible, .sort-select:focus-visible,
 .toolbar .reset:focus-visible, .vi-btn:focus-visible, .card:focus-visible,
 .card-apply:focus-visible,
 header a:focus-visible, footer a:focus-visible, .mobile-cta a:focus-visible{

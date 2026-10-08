@@ -1,0 +1,43 @@
+---
+import type { Chip } from "../../lib/catalog";
+import Icon from "../Icon.astro";
+
+interface Props {
+  group: string;
+  title: string;
+  chips: Chip[];
+}
+
+const ALL = "all";
+const { group, title, chips } = Astro.props;
+const options = chips.filter((chip) => chip.value !== ALL);
+const toggleId = `filterToggle-${group}`;
+const panelId = `filterPanel-${group}`;
+---
+
+<div class="fd" data-filter data-group={group}>
+  <button type="button" class="fd-toggle" id={toggleId} aria-expanded="false" aria-controls={panelId} data-filter-toggle>
+    <span>{title}</span>
+    <span class="fd-count" data-filter-count hidden><span class="visually-hidden">выбрано: </span><span data-filter-count-value></span></span>
+    <span class="fd-caret"><Icon name="chevron-down" /></span>
+  </button>
+  <div class="fd-panel" id={panelId} role="group" aria-labelledby={toggleId} data-filter-panel hidden>
+    <ul class="fd-options">
+      {
+        options.map((chip) => (
+          <li>
+            <label class="fd-option">
+              <input type="checkbox" name={group} value={chip.value} data-value={chip.value} data-name={chip.name} />
+              <span class="fd-option-name">{chip.name}</span>
+              <span class="fd-option-count">{chip.count}</span>
+            </label>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="fd-actions">
+      <button type="button" class="fd-clear" data-filter-clear>Очистить</button>
+      <button type="button" class="fd-apply" data-filter-apply>Применить</button>
+    </div>
+  </div>
+</div>

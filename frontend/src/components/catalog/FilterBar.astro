@@ -1,0 +1,22 @@
+---
+import "../../styles/catalog-filters.css";
+import type { Filters } from "../../lib/catalog";
+import FilterDropdown from "./FilterDropdown.astro";
+
+interface Props {
+  filters: Filters;
+}
+
+const GROUPS = [
+  ["type", "Тип программы"],
+  ["format", "Формат"],
+  ["sphere", "Направление"],
+  ["duration", "Длительность"],
+] as const;
+const { filters } = Astro.props;
+---
+
+<div class="filter-bar" id="filters" role="group" aria-label="Фильтры программ">
+  {GROUPS.map(([group, title]) => <FilterDropdown group={group} title={title} chips={filters[group]} />)}
+</div>
+<div class="filter-tags" id="filterTags" role="group" aria-label="Выбранные фильтры" hidden></div>

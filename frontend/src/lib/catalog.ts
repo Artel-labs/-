@@ -44,6 +44,8 @@ export interface Card {
 
 export interface Chip {
   label: string;
+  name: string;
+  count: number;
   value: string;
   active: boolean;
 }

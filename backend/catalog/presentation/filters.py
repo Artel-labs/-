@@ -17,7 +17,7 @@ TYPE_CHIP_LABELS = {"ПК": "ПК · Повышение квалификаци�
 
 
 def chip(label: str, value: str, count: int, active: bool = False) -> ChipOut:
-    return ChipOut(label=f"{label} ({count})", value=value, active=active)
+    return ChipOut(label=f"{label} ({count})", name=label, count=count, value=value, active=active)
 
 
 def group(all_label: str, total: int, options: Iterable[tuple[str, str, int]]) -> list[ChipOut]:

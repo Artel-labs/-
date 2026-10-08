@@ -1,0 +1,87 @@
+.filter-bar{
+  display: flex; flex-wrap: wrap; gap: 8px;
+  padding: 18px clamp(20px, 5vw, 56px) 0;
+  background: rgb(var(--bg));
+}
+.fd{ position: relative; }
+.fd-toggle{
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 44px; padding: 8px 14px 8px 18px;
+  font: inherit; font-size: 0.8438rem; font-weight: 600; color: rgb(var(--accent-dark));
+  background: rgb(var(--surface)); border: 1px solid var(--line); border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color .2s ease, background .2s ease, color .2s ease;
+}
+.fd-toggle.is-active{ border-color: rgb(var(--accent)); color: rgb(var(--accent)); background: rgb(var(--bg-tint) / .45); }
+.fd-count{
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 22px; height: 22px; padding: 0 6px; border-radius: 999px;
+  background: rgb(var(--accent)); color: rgb(var(--surface));
+  font-size: 0.75rem; font-variant-numeric: tabular-nums;
+}
+.fd-count[hidden]{ display: none; }
+.fd-caret{ display: inline-flex; transition: transform .2s ease; }
+.fd-toggle[aria-expanded="true"] .fd-caret{ transform: rotate(180deg); }
+.fd-panel{
+  position: absolute; z-index: 30; top: calc(100% + 8px); left: 0;
+  width: max-content; min-width: 280px; max-width: min(400px, calc(100vw - 32px));
+  padding: 8px;
+  background: rgb(var(--surface)); border: 1px solid var(--line); border-radius: var(--radius-md);
+  box-shadow: 0 16px 40px rgb(var(--ink) / .14);
+}
+.fd-panel.is-end{ left: auto; right: 0; }
+.fd-options{ list-style: none; margin: 0; padding: 0; max-height: min(50vh, 360px); overflow-y: auto; }
+.fd-option{
+  display: flex; align-items: center; gap: 12px;
+  min-height: 44px; padding: 8px 10px; border-radius: 10px;
+  font-size: 0.875rem; color: rgb(var(--ink)); cursor: pointer;
+}
+.fd-option input{ flex: none; width: 18px; height: 18px; margin: 0; accent-color: rgb(var(--accent)); cursor: pointer; }
+.fd-option-name{ flex: 1; }
+.fd-option-count{ color: rgb(var(--ink-mute)); font-variant-numeric: tabular-nums; }
+.fd-actions{
+  display: flex; justify-content: flex-end; gap: 8px;
+  margin-top: 6px; padding: 10px 4px 2px; border-top: 1px solid var(--line);
+}
+.fd-clear, .fd-apply{
+  min-height: 40px; padding: 8px 16px; border-radius: var(--radius-sm);
+  font: inherit; font-size: 0.8438rem; font-weight: 600; cursor: pointer;
+}
+.fd-clear{ background: transparent; border: 1px solid var(--line); color: rgb(var(--accent-dark)); }
+.fd-apply{ background: rgb(var(--accent)); border: 1px solid rgb(var(--accent)); color: rgb(var(--surface)); }
+.filter-tags{
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  padding: 12px clamp(20px, 5vw, 56px) 0;
+  background: rgb(var(--bg));
+}
+.filter-tags[hidden]{ display: none; }
+.filter-tag{
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 36px; padding: 6px 12px 6px 14px; border-radius: var(--radius-sm);
+  font: inherit; font-size: 0.8125rem; font-weight: 600; color: rgb(var(--accent-dark));
+  background: rgb(var(--bg-tint)); border: 1px solid transparent; cursor: pointer;
+}
+.filter-tag-cross{ font-size: 0.75rem; color: rgb(var(--ink-mute)); }
+.filter-tags-reset{
+  min-height: 36px; padding: 6px 8px;
+  font: inherit; font-size: 0.8125rem; font-weight: 600; color: rgb(var(--accent));
+  background: none; border: 0; text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
+}
+.fd-toggle:focus-visible, .fd-clear:focus-visible, .fd-apply:focus-visible,
+.filter-tag:focus-visible, .filter-tags-reset:focus-visible{
+  outline: 3px solid rgb(var(--accent)); outline-offset: 2px;
+}
+.fd-option:focus-within{ outline: 2px solid rgb(var(--accent)); outline-offset: -2px; }
+@media (hover: hover) and (pointer: fine){
+  .fd-toggle:hover{ border-color: rgb(var(--accent)); }
+  .fd-option:hover{ background: rgb(var(--bg-tint) / .6); }
+  .fd-clear:hover{ border-color: rgb(var(--accent)); }
+  .filter-tag:hover{ border-color: rgb(var(--accent)); }
+}
+@media (prefers-reduced-motion: reduce){
+  .fd-toggle, .fd-caret{ transition: none; }
+}
+html.vi-mode .fd-toggle, html.vi-mode .fd-panel, html.vi-mode .filter-tag,
+html.vi-mode .fd-clear, html.vi-mode .fd-apply{ border: 2px solid #000 !important; box-shadow: none !important; }
+html.vi-mode .fd-toggle.is-active, html.vi-mode .fd-apply, html.vi-mode .fd-count{ background: #000 !important; color: #fff !important; }
+html.vi-mode .filter-tag{ background: #fff !important; color: #000 !important; }

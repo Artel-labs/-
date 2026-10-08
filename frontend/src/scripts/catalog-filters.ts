@@ -1,7 +1,9 @@
+import { findDropdowns, nameOf, setupDropdowns, showSelection, valuesOf, type Dropdown } from "./catalog-dropdowns";
+import { parseValues, passes, without } from "./catalog-selection";
+import { renderTags, type FilterTag } from "./catalog-tags";
 import { emptyCrowToggle } from "./crow/inline";
 
 const GROUPS = ["type", "format", "sphere", "duration"] as const;
-const ALL = "all";
 const DEFAULT_SORT = "default";
 const SEARCH_DELAY_MS = 160;
 const LEAVE_MS = 280;
@@ -17,11 +19,13 @@ interface Elements {
   reset: HTMLButtonElement;
   count: HTMLElement;
   sort: HTMLSelectElement;
+  tags: HTMLElement;
+  dropdowns: Dropdown[];
   syncEmptyCrow: (isEmpty: boolean) => void;
 }
 
 interface State {
-  active: Record<Group, string>;
+  active: Record<Group, string[]>;
   sortBy: string;
   query: string;
 }
@@ -39,13 +43,13 @@ function cardsOf(elements: Elements): HTMLElement[] {
 }
 
 function matches(state: State, card: HTMLElement): boolean {
-  const passes = GROUPS.every((group) => state.active[group] === ALL || card.dataset[group] === state.active[group]);
+  const fits = GROUPS.every((group) => passes(state.active[group], card.dataset[group]));
   const query = state.query.trim().toLowerCase();
-  return passes && (!query || (card.dataset.search ?? "").toLowerCase().includes(query));
+  return fits && (!query || (card.dataset.search ?? "").toLowerCase().includes(query));
 }
 
 function isDirty(state: State): boolean {
-  return GROUPS.some((group) => state.active[group] !== ALL) || state.query.trim() !== "" || state.sortBy !== DEFAULT_SORT;
+  return GROUPS.some((group) => state.active[group].length > 0) || state.query.trim() !== "" || state.sortBy !== DEFAULT_SORT;
 }
 
 function numberOf(card: HTMLElement, key: string): number {
@@ -136,46 +140,43 @@ function applyFilters(elements: Elements, state: State): void {
   }
 }
 
-function activate(row: HTMLElement, target: HTMLElement): void {
-  row.querySelectorAll<HTMLElement>(".chip").forEach((chip) => {
-    const on = chip === target;
-    chip.classList.toggle("active", on);
-    chip.setAttribute("aria-pressed", String(on));
+function tagsOf(elements: Elements, state: State): FilterTag[] {
+  return elements.dropdowns.flatMap((dropdown) =>
+    isGroup(dropdown.group)
+      ? state.active[dropdown.group].map((value) => ({ group: dropdown.group, value, name: nameOf(dropdown, value) }))
+      : [],
+  );
+}
+
+function refresh(elements: Elements, state: State): void {
+  elements.dropdowns.forEach((dropdown) => {
+    if (isGroup(dropdown.group)) {
+      showSelection(dropdown, state.active[dropdown.group]);
+    }
   });
-}
-
-function allChip(row: HTMLElement): HTMLElement | null {
-  return row.querySelector<HTMLElement>(`.chip[data-value="${ALL}"]`);
-}
-
-function onChipClick(elements: Elements, state: State, row: HTMLElement, chip: HTMLElement): void {
-  const group = row.dataset.group;
-  const isAll = chip.dataset.value === ALL;
-  const wasActive = chip.classList.contains("active");
-  if (!isGroup(group) || (wasActive && isAll)) {
-    return;
-  }
-  const target = wasActive ? allChip(row) : chip;
-  if (!target) {
-    return;
-  }
-  activate(row, target);
-  state.active[group] = target.dataset.value ?? ALL;
+  renderTags(elements.tags, tagsOf(elements, state), {
+    remove: (tag) => {
+      if (isGroup(tag.group)) {
+        state.active[tag.group] = without(state.active[tag.group], tag.value);
+        refresh(elements, state);
+      }
+    },
+    reset: () => {
+      resetAll(elements, state);
+    },
+  });
   applyFilters(elements, state);
 }
 
-function filterRows(): HTMLElement[] {
-  return [...document.querySelectorAll<HTMLElement>(".filters[data-group]")];
-}
-
-function bindChips(elements: Elements, state: State): void {
-  filterRows().forEach((row) => {
-    row.addEventListener("click", (event) => {
-      const chip = event.target instanceof Element ? event.target.closest<HTMLElement>(".chip") : null;
-      if (chip) {
-        onChipClick(elements, state, row, chip);
+function bindDropdowns(elements: Elements, state: State): void {
+  setupDropdowns(elements.dropdowns, {
+    applied: (group) => (isGroup(group) ? state.active[group] : []),
+    apply: (group, values) => {
+      if (isGroup(group)) {
+        state.active[group] = values;
+        refresh(elements, state);
       }
-    });
+    },
   });
 }
 
@@ -192,39 +193,27 @@ function bindSearch(elements: Elements, state: State): void {
 
 function resetAll(elements: Elements, state: State): void {
   GROUPS.forEach((group) => {
-    state.active[group] = ALL;
+    state.active[group] = [];
   });
   state.sortBy = DEFAULT_SORT;
   state.query = "";
   elements.sort.value = DEFAULT_SORT;
   elements.search.value = "";
-  filterRows().forEach((row) => {
-    const first = row.querySelector<HTMLElement>(".chip");
-    if (first) {
-      activate(row, first);
-    }
-  });
-  applyFilters(elements, state);
+  refresh(elements, state);
   elements.search.focus();
 }
 
-function applyGroupFromUrl(params: URLSearchParams, state: State, row: HTMLElement): boolean {
-  const group = row.dataset.group;
-  const wanted = isGroup(group) ? params.get(group) : null;
-  const chip = [...row.querySelectorAll<HTMLElement>(".chip")].find((item) => item.dataset.value === wanted);
-  if (!isGroup(group) || !wanted || !chip) {
+function applyGroupFromUrl(params: URLSearchParams, state: State, dropdown: Dropdown): boolean {
+  if (!isGroup(dropdown.group)) {
     return false;
   }
-  activate(row, chip);
-  state.active[group] = wanted;
-  return true;
+  state.active[dropdown.group] = parseValues(params.get(dropdown.group), valuesOf(dropdown));
+  return state.active[dropdown.group].length > 0;
 }
 
 function applyStateFromUrl(elements: Elements, state: State): boolean {
   const params = new URLSearchParams(window.location.search);
-  let touched = filterRows()
-    .map((row) => applyGroupFromUrl(params, state, row))
-    .some(Boolean);
+  let touched = elements.dropdowns.map((dropdown) => applyGroupFromUrl(params, state, dropdown)).some(Boolean);
   const query = params.get("q");
   if (query) {
     state.query = query;
@@ -247,8 +236,10 @@ function findElements(): Elements | null {
   const reset = document.getElementById("resetFilters");
   const count = document.getElementById("resultCount");
   const sort = document.getElementById("sortSelect");
+  const tags = document.getElementById("filterTags");
   if (
     !grid ||
+    !tags ||
     !empty ||
     !count ||
     !(search instanceof HTMLInputElement) ||
@@ -257,7 +248,7 @@ function findElements(): Elements | null {
   ) {
     return null;
   }
-  return { grid, empty, search, reset, count, sort, syncEmptyCrow: emptyCrowToggle(empty) };
+  return { grid, empty, search, reset, count, sort, tags, dropdowns: findDropdowns(), syncEmptyCrow: emptyCrowToggle(empty) };
 }
 
 export function setupCatalogFilters(): void {
@@ -265,8 +256,8 @@ export function setupCatalogFilters(): void {
   if (!elements) {
     return;
   }
-  const state: State = { active: { type: ALL, format: ALL, sphere: ALL, duration: ALL }, sortBy: DEFAULT_SORT, query: "" };
-  bindChips(elements, state);
+  const state: State = { active: { type: [], format: [], sphere: [], duration: [] }, sortBy: DEFAULT_SORT, query: "" };
+  bindDropdowns(elements, state);
   bindSearch(elements, state);
   elements.sort.addEventListener("change", () => {
     state.sortBy = elements.sort.value;
@@ -276,7 +267,7 @@ export function setupCatalogFilters(): void {
     resetAll(elements, state);
   });
   if (applyStateFromUrl(elements, state)) {
-    applyFilters(elements, state);
+    refresh(elements, state);
   } else {
     updateChrome(elements, state, cardsOf(elements).length);
   }

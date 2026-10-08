@@ -93,6 +93,13 @@ def test_filters_match_previous_site(page):
     assert untypeset(chips) == untypeset(LEGACY["filters"])
 
 
+def test_filter_options_carry_name_and_count_apart(page):
+    online = next(chip for chip in page.filters.format if chip.value == "online")
+    assert online.label == f"{online.name} ({online.count})"
+    assert online.name == "Онлайн"
+    assert online.count > 0
+
+
 def test_starts_keep_previous_site_cards_in_date_order(page):
     assert page.starts is not None
     cards = [
