@@ -17,6 +17,10 @@ const { filters } = Astro.props;
 ---
 
 <div class="filter-bar" id="filters" role="group" aria-label="Фильтры программ">
+  <button type="button" class="fd-toggle filter-sheet-open" data-filter-sheet-open>
+    <span>Фильтры</span>
+    <span class="fd-count" data-sheet-count hidden><span class="visually-hidden">выбрано: </span><span data-sheet-count-value></span></span>
+  </button>
   {GROUPS.map(([group, title]) => <FilterDropdown group={group} title={title} chips={filters[group]} />)}
 </div>
 <div class="filter-tags" id="filterTags" role="group" aria-label="Выбранные фильтры" hidden></div>

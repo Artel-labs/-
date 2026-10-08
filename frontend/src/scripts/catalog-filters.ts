@@ -1,5 +1,6 @@
 import { findDropdowns, nameOf, setupDropdowns, showSelection, valuesOf, type Dropdown } from "./catalog-dropdowns";
 import { parseValues, passes, without } from "./catalog-selection";
+import { setupFilterSheet, showSheetTotal, type Selection } from "./catalog-sheet";
 import { renderTags, type FilterTag } from "./catalog-tags";
 import { emptyCrowToggle } from "./crow/inline";
 
@@ -154,6 +155,7 @@ function refresh(elements: Elements, state: State): void {
       showSelection(dropdown, state.active[dropdown.group]);
     }
   });
+  showSheetTotal(GROUPS.reduce((total, group) => total + state.active[group].length, 0));
   renderTags(elements.tags, tagsOf(elements, state), {
     remove: (tag) => {
       if (isGroup(tag.group)) {
@@ -166,6 +168,28 @@ function refresh(elements: Elements, state: State): void {
     },
   });
   applyFilters(elements, state);
+}
+
+function draftOf(state: State, selection: Selection): State {
+  const active = { ...state.active };
+  GROUPS.forEach((group) => {
+    active[group] = selection[group] ?? active[group];
+  });
+  return { ...state, active };
+}
+
+function bindSheet(elements: Elements, state: State): void {
+  setupFilterSheet(elements.dropdowns, {
+    applied: (group) => (isGroup(group) ? state.active[group] : []),
+    preview: (selection) => {
+      const draft = draftOf(state, selection);
+      return cardsOf(elements).filter((card) => matches(draft, card)).length;
+    },
+    apply: (selection) => {
+      state.active = draftOf(state, selection).active;
+      refresh(elements, state);
+    },
+  });
 }
 
 function bindDropdowns(elements: Elements, state: State): void {
@@ -258,6 +282,7 @@ export function setupCatalogFilters(): void {
   }
   const state: State = { active: { type: [], format: [], sphere: [], duration: [] }, sortBy: DEFAULT_SORT, query: "" };
   bindDropdowns(elements, state);
+  bindSheet(elements, state);
   bindSearch(elements, state);
   elements.sort.addEventListener("change", () => {
     state.sortBy = elements.sort.value;

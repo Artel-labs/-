@@ -15,7 +15,7 @@ const toggleId = `filterToggle-${group}`;
 const panelId = `filterPanel-${group}`;
 ---
 
-<div class="fd" data-filter data-group={group}>
+<div class="fd" data-filter data-group={group} data-title={title}>
   <button type="button" class="fd-toggle" id={toggleId} aria-expanded="false" aria-controls={panelId} data-filter-toggle>
     <span>{title}</span>
     <span class="fd-count" data-filter-count hidden><span class="visually-hidden">выбрано: </span><span data-filter-count-value></span></span>

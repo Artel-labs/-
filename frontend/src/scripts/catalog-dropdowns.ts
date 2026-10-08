@@ -4,6 +4,7 @@ const EDGE_GAP_PX = 8;
 
 export interface Dropdown {
   group: string;
+  title: string;
   root: HTMLElement;
   toggle: HTMLButtonElement;
   panel: HTMLElement;
@@ -23,7 +24,7 @@ function dropdownOf(root: HTMLElement): Dropdown | null {
     return null;
   }
   const boxes = [...panel.querySelectorAll<HTMLInputElement>("input[type=checkbox]")];
-  return { group, root, toggle, panel, boxes };
+  return { group, title: root.dataset.title ?? group, root, toggle, panel, boxes };
 }
 
 export function findDropdowns(): Dropdown[] {
