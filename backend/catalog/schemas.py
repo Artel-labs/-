@@ -176,7 +176,6 @@ class FiltersOut(Schema):
 
 
 class StartOut(Schema):
-    side: str
     path: str
     hint: str
     when: str
@@ -198,6 +197,11 @@ class StartsOut(Schema):
     legend: list[SphereOut]
 
 
+class AnnouncementsPageOut(Schema):
+    canonical_url: str
+    starts: StartsOut | None
+
+
 class CatalogPageOut(Schema):
     total: int
     total_label: str
@@ -205,7 +209,6 @@ class CatalogPageOut(Schema):
     image_url: str
     filters: FiltersOut
     cards: list[CardOut]
-    starts: StartsOut | None
     structured_data: str
 
 

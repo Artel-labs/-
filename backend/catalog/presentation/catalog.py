@@ -8,7 +8,6 @@ from catalog.presentation.cards import card
 from catalog.presentation.filters import filters
 from catalog.presentation.item_list import item_list
 from catalog.presentation.text import plural_programs
-from catalog.presentation.timeline import starts_board
 from catalog.schemas import CatalogPageOut
 from core.site import SHARE_IMAGE_PATH, absolute_url
 
@@ -34,6 +33,5 @@ def catalog_page(programs: QuerySet[Program], today: date) -> CatalogPageOut:
         image_url=absolute_url(SHARE_IMAGE_PATH),
         filters=filters(ordered, list(Sphere.objects.all())),
         cards=[card(program, today) for program in ordered],
-        starts=starts_board(ordered, today),
         structured_data=item_list(ordered, settings.SITE_URL),
     )

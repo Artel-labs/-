@@ -12,8 +12,10 @@ pytestmark = pytest.mark.django_db
 LEGACY = json.loads((Path(__file__).parent / "fixtures" / "legacy_sitemap.json").read_text(encoding="utf-8"))
 LEGACY_SITE = "https://example.com"
 REMOVED_PAGES = frozenset({f"{LEGACY_SITE}/privacy"})
-CURRENT = [entry for entry in LEGACY if entry["loc"] not in REMOVED_PAGES]
-STATIC_PAGES = 3
+ANNOUNCEMENTS = {"loc": f"{LEGACY_SITE}/announcements", "changefreq": "weekly", "priority": "0.8"}
+KEPT = [entry for entry in LEGACY if entry["loc"] not in REMOVED_PAGES]
+CURRENT = [*KEPT[:2], ANNOUNCEMENTS, *KEPT[2:]]
+STATIC_PAGES = 4
 
 
 @pytest.fixture

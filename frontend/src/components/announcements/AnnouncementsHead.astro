@@ -1,0 +1,21 @@
+---
+import type { AnnouncementsPage } from "../../lib/announcements";
+
+interface Props {
+  page: AnnouncementsPage;
+  title: string;
+  description: string;
+}
+
+const SITE_NAME = "Центр ДПО · Факультет права НИУ ВШЭ";
+const { page, title, description } = Astro.props;
+---
+
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href={page.canonical_url} />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:site_name" content={SITE_NAME} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={page.canonical_url} />

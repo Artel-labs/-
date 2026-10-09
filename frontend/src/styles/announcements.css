@@ -1,0 +1,63 @@
+.starts{ padding: 0 0 clamp(20px, 3vw, 32px); }
+.starts-months{ display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
+.starts-chip{
+  font: inherit; font-size: 0.875rem; font-weight: 600; cursor: pointer;
+  padding: 9px 14px; min-height: 44px; border-radius: 999px;
+  border: 1px solid var(--line); background: rgb(var(--surface)); color: rgb(var(--accent-dark));
+  transition: background .15s, color .15s, border-color .15s;
+}
+.starts-chip[aria-pressed="true"]{ background: rgb(var(--accent)); color: rgb(var(--surface)); border-color: rgb(var(--accent)); }
+.starts-legend{ display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0 0 24px; padding: 0; list-style: none;
+  font-size: 0.8125rem; color: rgb(var(--ink-mute)); }
+.starts-legend li{ display: inline-flex; align-items: center; }
+.an{
+  --an-axis: 9px; --an-gap: 40px;
+  position: relative; padding: 4px 0 40px var(--an-gap);
+}
+.an::before{ content: ''; position: absolute; top: 10px; bottom: 16px; left: var(--an-axis); width: 2px; margin-left: -1px; background: rgb(var(--accent)); }
+.an::after{
+  content: ''; position: absolute; bottom: 0; left: var(--an-axis); margin-left: -8px;
+  border-top: 18px solid rgb(var(--accent)); border-left: 8px solid transparent; border-right: 8px solid transparent;
+}
+.an-month{ scroll-margin-top: calc(var(--header-h) + 8px); padding-bottom: 28px; }
+.an-month-label{
+  position: relative; margin: 0 0 14px;
+  font-family: var(--font-sans); font-size: 1.0625rem; font-weight: 600; line-height: 1.3; color: rgb(var(--accent));
+}
+.an-month-label::before{
+  content: ''; position: absolute; top: 50%; left: calc(var(--an-axis) - var(--an-gap)); width: 12px; height: 12px;
+  margin: -6px 0 0 -6px; border-radius: 999px; background: rgb(var(--accent)); box-shadow: 0 0 0 4px rgb(var(--bg));
+}
+.an-items{ list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 640px){ .an-items{ grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1200px){ .an-items{ grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.an-empty{ margin: clamp(24px, 4vw, 40px) 0; font-size: 1rem; color: rgb(var(--ink-soft)); }
+.an-empty a{ color: rgb(var(--accent)); }
+.tl-card{
+  height: 100%; min-height: 136px; box-sizing: border-box;
+  display: flex; flex-direction: column; gap: 3px; overflow: hidden;
+  background: rgb(var(--surface)); border: 1px solid var(--line); border-radius: 14px;
+  padding: 9px 12px 8px; text-decoration: none; color: inherit;
+  transition: border-color .15s, transform .32s cubic-bezier(.22,1,.36,1), box-shadow .35s cubic-bezier(.22,1,.36,1);
+}
+.tl-when{ font-size: 0.75rem; font-weight: 700; color: rgb(var(--accent)); font-variant-numeric: tabular-nums; }
+.tl-name{
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  font-size: 0.8125rem; font-weight: 600; line-height: 1.35; color: rgb(var(--ink));
+}
+.tl-meta{ font-size: 0.7188rem; line-height: 1.3; color: rgb(var(--ink-mute)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tl-price{ flex: none; margin-top: auto; font-size: 0.8125rem; line-height: 1.25; color: rgb(var(--ink)); white-space: nowrap; }
+.tl-dot{ display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; background: rgb(var(--ink-faint)); }
+.tl-dot[data-sphere="corporate"]{ background: rgb(var(--hse-blue-2)); }
+.tl-dot[data-sphere="digital"]{ background: rgb(var(--hse-blue-3)); }
+.tl-dot[data-sphere="international"]{ background: rgb(var(--hse-blue)); }
+.tl-dot[data-sphere="finance"]{ background: rgb(var(--hse-yellow)); }
+.tl-dot[data-sphere="language"]{ background: rgb(var(--hse-grey)); }
+.tl-dot[data-sphere="practice"]{ background: rgb(var(--hse-blue-4)); box-shadow: inset 0 0 0 1px rgb(var(--hse-blue)); }
+.tl-card:focus-visible, .starts-chip:focus-visible{ outline: 3px solid rgb(var(--accent)); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine){
+  .tl-card:hover{ border-color: rgb(var(--accent)); transform: translateY(-3px); box-shadow: 0 12px 28px rgb(var(--ink) / .1); z-index: 2; }
+  .starts-chip:hover:not([aria-pressed="true"]){ text-decoration: underline; }
+}
+html.vi-mode .tl-card, html.vi-mode .starts-chip{ border: 2px solid #000 !important; }
+html.vi-mode .an-month-label::before{ background: #000 !important; }

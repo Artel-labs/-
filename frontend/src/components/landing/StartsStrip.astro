@@ -1,5 +1,6 @@
 ---
 import type { StartStrip } from "../../lib/landing";
+import { ANNOUNCEMENTS_PATH } from "../../lib/nav";
 import StartLink from "./StartLink.astro";
 
 interface Props {
@@ -15,7 +16,7 @@ const { starts } = Astro.props;
       <div class="dpo-container">
         <div class="dpo-starts-head">
           <h2 class="dpo-starts-title">Ближайшие старты программ</h2>
-          <a class="dpo-starts-all" href="/catalog?sort=start">
+          <a class="dpo-starts-all" href={ANNOUNCEMENTS_PATH}>
             Все даты стартов
           </a>
         </div>

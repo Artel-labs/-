@@ -62,29 +62,6 @@ export interface LegendEntry {
   title: string;
 }
 
-export interface Start {
-  side: "left" | "right";
-  path: string;
-  hint: string;
-  when: string;
-  title: string;
-  sphere: string;
-  meta: string;
-  price: string;
-}
-
-export interface StartMonth {
-  anchor: string;
-  label: string;
-  caption: string;
-  items: Start[];
-}
-
-export interface Starts {
-  months: StartMonth[];
-  legend: LegendEntry[];
-}
-
 export interface CatalogPage {
   total: number;
   total_label: string;
@@ -92,7 +69,6 @@ export interface CatalogPage {
   image_url: string;
   filters: Filters;
   cards: Card[];
-  starts: Starts | null;
   structured_data: string;
 }
 

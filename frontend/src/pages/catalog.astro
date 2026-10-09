@@ -12,7 +12,6 @@ import CatalogHeader from "../components/catalog/CatalogHeader.astro";
 import CatalogHero from "../components/catalog/CatalogHero.astro";
 import FilterBar from "../components/catalog/FilterBar.astro";
 import ProgramCard from "../components/catalog/ProgramCard.astro";
-import StartsBoard from "../components/catalog/StartsBoard.astro";
 import Toolbar from "../components/catalog/Toolbar.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { fetchCatalogPage } from "../lib/catalog";
@@ -32,7 +31,6 @@ const description = `Каталог программ ДПО факультета
   <SkipLink />
   <CatalogHeader />
   <CatalogHero />
-  <StartsBoard starts={catalog.starts} />
   <FilterBar filters={filters} />
   <Toolbar totalLabel={catalog.total_label} />
   <div class="crow-walk-row"><div class="crow-walk-slot" data-crow-walk></div></div>

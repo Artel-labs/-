@@ -5,6 +5,7 @@ from ninja import Router
 
 from catalog.landing_schemas import LandingOut
 from catalog.models import Program
+from catalog.presentation.announcements import announcements_page
 from catalog.presentation.bot import bot_catalog
 from catalog.presentation.catalog import catalog_page
 from catalog.presentation.dates import moscow_today
@@ -14,6 +15,7 @@ from catalog.presentation.page import program_page
 from catalog.presentation.sitemap import sitemap
 from catalog.presentation.tg import tg_catalog
 from catalog.schemas import (
+    AnnouncementsPageOut,
     BotProgramOut,
     CatalogPageOut,
     ProgramOptionOut,
@@ -37,6 +39,11 @@ def program_detail(request: HttpRequest, hse_id: str) -> ProgramPageOut:
 @router.get("/programs", response=CatalogPageOut)
 def program_list(request: HttpRequest) -> CatalogPageOut:
     return catalog_page(published(), moscow_today())
+
+
+@router.get("/announcements", response=AnnouncementsPageOut)
+def announcements(request: HttpRequest) -> AnnouncementsPageOut:
+    return announcements_page(published(), moscow_today())
 
 
 @router.get("/landing", response=LandingOut)

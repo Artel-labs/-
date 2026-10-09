@@ -10,7 +10,6 @@ from catalog.presentation.labels import price_label
 from catalog.presentation.text import plural
 from catalog.schemas import SphereOut, StartMonthOut, StartOut, StartsOut
 
-SIDES = ("left", "right")
 CAPTION_SEPARATOR = " · "
 META_SEPARATOR = " · "
 ANCHOR_PREFIX = "starts"
@@ -38,12 +37,11 @@ def when(item: Dated) -> tuple[str, str]:
     return day_and_month(item.start), format_start(item.start, month_only=False)
 
 
-def start_item(item: Dated, index: int) -> StartOut:
+def start_item(item: Dated) -> StartOut:
     program = item.program
     short, full = when(item)
     title = program.title
     return StartOut(
-        side=SIDES[index % len(SIDES)],
         path=program.path,
         hint=f"{title} — старт: {full}",
         when=short,
@@ -78,7 +76,7 @@ def starts_board(programs: list[Program], today: date) -> StartsOut | None:
     items = upcoming(programs, today)
     if not items:
         return None
-    placed = list(zip(items, (start_item(item, index) for index, item in enumerate(items)), strict=True))
+    placed = [(item, start_item(item)) for item in items]
     months = [
         month_out(year, month, [out for _, out in group])
         for (year, month), group in groupby(placed, key=lambda pair: month_key(pair[0]))

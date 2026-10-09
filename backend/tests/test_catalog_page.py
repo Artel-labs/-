@@ -10,8 +10,7 @@ from django.core.management import call_command
 from catalog.models import Program, Source
 from catalog.presentation.cards import LIST_SEPARATOR
 from catalog.presentation.catalog import catalog_page
-from catalog.presentation.timeline import SIDES
-from catalog.schemas import CardOut, CatalogPageOut, StartOut, StartsOut
+from catalog.schemas import CardOut, CatalogPageOut
 from tests.media import unversioned
 from tests.typography import untypeset
 
@@ -75,10 +74,6 @@ def legacy_card(record: dict[str, Any]) -> dict[str, Any]:
     return {**record, "thumb": thumb}
 
 
-def start_items(starts: StartsOut) -> list[StartOut]:
-    return [item for month in starts.months for item in month.items]
-
-
 def test_cards_match_previous_site(page):
     assert untypeset(unversioned([card_record(card) for card in page.cards])) == untypeset(
         [legacy_card(record) for record in LEGACY["cards"]]
@@ -100,39 +95,6 @@ def test_filter_options_carry_name_and_count_apart(page):
     assert online.count > 0
 
 
-def test_starts_keep_previous_site_cards_in_date_order(page):
-    assert page.starts is not None
-    cards = [
-        [item.path, item.hint, item.when, item.title, item.sphere, item.meta, item.price]
-        for item in start_items(page.starts)
-    ]
-    assert untypeset(cards) == untypeset([item[3:] for item in LEGACY["starts"]["items"]])
-
-
-def test_starts_are_grouped_by_month_with_anchors(page):
-    assert page.starts is not None
-    months = [(month.anchor, month.label, month.caption, len(month.items)) for month in page.starts.months]
-    assert months == [
-        ("starts-2026-10", "Октябрь", "Октябрь · 10 стартов", 10),
-        ("starts-2026-11", "Ноябрь", "Ноябрь · 12 стартов", 12),
-    ]
-
-
-def test_starts_alternate_sides_across_months(page):
-    assert page.starts is not None
-    sides = [item.side for item in start_items(page.starts)]
-    assert sides == [SIDES[index % 2] for index in range(len(sides))]
-
-
-def test_starts_legend_lists_spheres_on_board(page):
-    assert page.starts is not None
-    shown = {item.sphere for item in start_items(page.starts) if item.sphere}
-    slugs = [sphere.slug for sphere in page.starts.legend]
-    assert set(slugs) == shown
-    assert len(slugs) == len(set(slugs))
-    assert all(sphere.title for sphere in page.starts.legend)
-
-
 def test_structured_data_matches_previous_site(page):
     assert untypeset(json.loads(page.structured_data)) == untypeset(LEGACY["structured_data"])
 
@@ -143,8 +105,8 @@ def test_manual_programs_follow_hse_order(seeded):
     assert page.cards[-1].hse_id == "816497962"
 
 
-def test_no_upcoming_starts_hides_board(seeded):
-    assert catalog_page(Program.objects.all(), date(2030, 1, 1)).starts is None
+def test_catalog_api_no_longer_carries_the_starts_board(client, seeded):
+    assert "starts" not in client.get("/api/catalog/programs").json()
 
 
 def test_catalog_endpoint_lists_published_programs(client, seeded):

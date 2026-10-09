@@ -1,7 +1,7 @@
 ---
 import HseLockup from "./HseLockup.astro";
 import ViToggle from "./ViToggle.astro";
-import { CATALOG_LINK_LABEL } from "../lib/nav";
+import { ANNOUNCEMENTS_LINK_LABEL, ANNOUNCEMENTS_PATH, CATALOG_LINK_LABEL } from "../lib/nav";
 ---
 
 <header>
@@ -9,6 +9,7 @@ import { CATALOG_LINK_LABEL } from "../lib/nav";
   <span class="header-side">
     <nav class="header-nav" aria-label="Разделы сайта">
       <a class="nav-link" href="/catalog">{CATALOG_LINK_LABEL}</a>
+      <a class="nav-link" href={ANNOUNCEMENTS_PATH}>{ANNOUNCEMENTS_LINK_LABEL}</a>
     </nav>
     <ViToggle />
   </span>

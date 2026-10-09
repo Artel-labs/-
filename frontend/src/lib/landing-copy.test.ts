@@ -174,7 +174,7 @@ test("top bar links keep their full hit area when scrolled and while pressed", (
   assert.match(css, /html\.dpo-scrolled \.dpo-capsule > a\[href\]:active \{ transform: translateY\(calc\(var\(--hdr-shift\) \/ -2\)\); \}/);
   assert.match(css, /\.dpo-capsule > a:active \.dpo-capsule-label \{ transform: scale\(0\.97\); \}/);
   const header = visibleText("landing/LandingHeader.astro");
-  assert.equal((header.match(/<span class="dpo-capsule-label">/g) ?? []).length, 5);
+  assert.equal((header.match(/<span class="dpo-capsule-label">/g) ?? []).length, 6);
 });
 
 test("formats section opens with the new introduction", () => {
