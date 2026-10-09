@@ -7,6 +7,7 @@ from catalog.landing_schemas import TeacherCardOut, TeacherPhotoOut
 from catalog.models import Program, Teacher
 from catalog.presentation.images import Photo, photo_with_webp
 from catalog.presentation.landing.collation import sort_key
+from catalog.presentation.landing.names import PersonName, parse_name
 from catalog.presentation.text import plural_programs
 
 MAX_ALT_LENGTH = 125
@@ -114,16 +115,7 @@ def merge(programs: list[Program]) -> list[Person]:
                 )
             else:
                 absorb(person, name, tokens, about, taught, link.teacher)
-    return sorted(people, key=lambda person: (-len(person.programs), sort_key(person.name)))
-
-
-def initials(name: str) -> str:
-    words = name.split()
-    if len(words) >= 3:
-        return (words[1][0] + words[0][0]).upper()
-    if len(words) == 2:
-        return (words[0][0] + words[1][0]).upper()
-    return words[0][0].upper() if words else ""
+    return sorted(people, key=lambda person: (-len(person.programs), sort_key(parse_name(person.name).short)))
 
 
 def about_text(person: Person) -> str:
@@ -137,16 +129,16 @@ def photo_alt(name: str, about: str) -> str:
     return full if len(full) <= MAX_ALT_LENGTH else name
 
 
-def photo(person: Person, about: str) -> TeacherPhotoOut | None:
+def photo(person: Person, name: PersonName, about: str) -> TeacherPhotoOut | None:
     found: Photo | None = photo_with_webp(person.teacher.photo) if person.teacher else None
     if found is None:
         return None
-    return TeacherPhotoOut(src=found.src, webp=found.webp, alt=photo_alt(person.name, about))
+    return TeacherPhotoOut(src=found.src, webp=found.webp, alt=photo_alt(name.full, about))
 
 
-def payload(person: Person, about: str) -> str:
+def payload(person: Person, name: PersonName, about: str) -> str:
     data = {
-        "name": person.name,
+        "name": name.full,
         "about": about,
         "programs": [{"t": item.title, "h": item.path} for item in person.programs],
         "url": person.page,
@@ -156,13 +148,14 @@ def payload(person: Person, about: str) -> str:
 
 def card(person: Person) -> TeacherCardOut:
     about = about_text(person)
+    name = parse_name(person.name)
     return TeacherCardOut(
-        payload=payload(person, about),
-        initials=initials(person.name),
-        photo=photo(person, about),
-        name=person.name,
+        payload=payload(person, name, about),
+        initials=name.initials,
+        photo=photo(person, name, about),
+        name=name.short,
         page=person.page,
-        more_label=f"Подробнее: {person.name}",
+        more_label=f"Подробнее: {name.short}",
         count=plural_programs(len(person.programs)),
         about=about,
     )

@@ -9,6 +9,8 @@ from django.core.management import call_command
 
 from catalog.landing_schemas import LandingOut
 from catalog.models import Program, Teacher
+from catalog.presentation.landing.collation import sort_key
+from catalog.presentation.landing.names import parse_name
 from catalog.presentation.landing.page import landing_page
 from catalog.presentation.page import program_page
 from catalog.top_picks import HIGH_RATING
@@ -129,15 +131,29 @@ def test_formats_match_previous_site_with_new_texts(page):
     assert untypeset([format_record(row) for row in page.formats]) == untypeset(legacy)
 
 
+def legacy_alt(alt: str, raw: str, full: str) -> str:
+    return full + alt.removeprefix(raw) if alt.startswith(raw) else alt
+
+
 def legacy_teacher(record: dict[str, Any]) -> dict[str, Any]:
     payload = record["payload"]
     programs = [{"t": item["t"], "h": site_href(item["h"])} for item in payload["programs"]]
     photo = record["photo"]
+    name = parse_name(payload["name"])
     return {
         **record,
-        "payload": {**payload, "programs": programs},
-        "photo": None if photo is None else [site_href(photo[0]), site_href(photo[1]), photo[2]],
+        "payload": {**payload, "name": name.full, "programs": programs},
+        "initials": name.initials,
+        "name": name.short,
+        "more": [f"Подробнее: {name.short}", record["more"][1]],
+        "photo": None
+        if photo is None
+        else [site_href(photo[0]), site_href(photo[1]), legacy_alt(photo[2], payload["name"], name.full)],
     }
+
+
+def by_name(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return sorted(records, key=lambda record: record["name"])
 
 
 def teacher_record(card: Any) -> dict[str, Any]:
@@ -153,10 +169,18 @@ def teacher_record(card: Any) -> dict[str, Any]:
     }
 
 
-def test_teachers_match_previous_site(page):
-    assert untypeset(unversioned([teacher_record(card) for card in page.teachers])) == untypeset(
-        [legacy_teacher(record) for record in LEGACY["teachers"] if record["name"] not in HIDDEN_ON_LANDING]
+def test_teachers_match_previous_site_with_surname_first(page):
+    assert untypeset(unversioned(by_name([teacher_record(card) for card in page.teachers]))) == untypeset(
+        by_name([legacy_teacher(record) for record in LEGACY["teachers"] if record["name"] not in HIDDEN_ON_LANDING])
     )
+
+
+def test_teachers_with_equal_programs_go_by_surname(page):
+    counts = [len(json.loads(card.payload)["programs"]) for card in page.teachers]
+    assert counts == sorted(counts, reverse=True)
+    for count in set(counts):
+        names = [card.name for card, programs in zip(page.teachers, counts, strict=True) if programs == count]
+        assert names == sorted(names, key=sort_key)
 
 
 def test_hidden_teacher_is_not_on_landing(page):
