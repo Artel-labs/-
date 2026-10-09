@@ -1,0 +1,63 @@
+---
+import "../styles/main-header.css";
+import { APPLY_SECTION, LANDING_PATH, MAIN_NAV, isCurrent, navHref, sectionHref } from "../lib/nav";
+import HseLockup from "./HseLockup.astro";
+import ViModeButton from "./landing/ViModeButton.astro";
+
+interface Props {
+  current: string;
+}
+
+const { current } = Astro.props;
+const home = current === LANDING_PATH ? "#top" : LANDING_PATH;
+const apply = sectionHref(APPLY_SECTION, current);
+const items = MAIN_NAV.map((item) => ({
+  label: item.label,
+  href: navHref(item, current),
+  page: isCurrent(item, current) ? ("page" as const) : undefined,
+}));
+---
+
+<header data-screen-label="Header" class="dpo-header">
+  <div class="dpo-header-bar">
+    <span class="dpo-brand">
+      <HseLockup home={home} />
+    </span>
+    <nav aria-label="Основная навигация" class="dpo-capsule">
+      {
+        items.map((item) => (
+          <a href={item.href} class:list={{ "is-active": item.page }} aria-current={item.page}>
+            <span class="dpo-capsule-label">{item.label}</span>
+          </a>
+        ))
+      }
+    </nav>
+    <span class="dpo-header-actions">
+      <ViModeButton />
+      <button aria-controls="mobileMenuPanel" aria-expanded="false" aria-label="Меню" class="dpo-burger" id="mobileMenuBtn" type="button">
+        <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+      </button>
+      <a class="dpo-nav-cta" data-application="" href={apply}>Подать заявку</a>
+    </span>
+  </div>
+  <div class="dpo-menu-panel dpo-mobile-panel" id="mobileMenuPanel" role="group" aria-label="Меню">
+    <nav aria-label="Меню" class="dpo-mobile-nav">
+      {
+        items.map((item) => (
+          <a href={item.href} aria-current={item.page}>
+            {item.label}
+          </a>
+        ))
+      }
+      <a class="dpo-mobile-apply" data-application="" href={apply}>Подать заявку</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  import { setupHeaderState } from "../scripts/landing/header-state";
+  import { setupNavMenu } from "../scripts/landing/nav-menu";
+
+  setupHeaderState();
+  setupNavMenu();
+</script>

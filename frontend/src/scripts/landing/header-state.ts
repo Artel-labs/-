@@ -11,7 +11,7 @@ export function headerShift(): number {
 }
 
 export function syncHeaderHeight(): void {
-  const header = document.querySelector("header");
+  const header = document.querySelector(".dpo-header");
   if (!header) {
     return;
   }

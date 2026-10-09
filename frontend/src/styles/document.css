@@ -19,7 +19,7 @@ a:hover {
   text-decoration: underline;
 }
 
-header {
+.doc-header {
   position: sticky;
   top: 0;
   z-index: 20;
@@ -33,7 +33,7 @@ header {
   flex-wrap: wrap;
 }
 
-header::after {
+.doc-header::after {
   content: "";
   position: absolute;
   left: 0;
@@ -56,29 +56,29 @@ header::after {
   }
 }
 
-html.vi-mode header {
+html.vi-mode .doc-header {
   border-bottom: 1px solid #000 !important;
 }
 
-html.vi-mode header::after {
+html.vi-mode .doc-header::after {
   display: none !important;
 }
 
 @media (prefers-reduced-transparency: reduce) {
-  header {
+  .doc-header {
     background: rgb(var(--surface));
     backdrop-filter: none;
   }
 }
 
 @media (prefers-contrast: more) {
-  header {
+  .doc-header {
     background: rgb(var(--surface));
     backdrop-filter: none;
     border-bottom: 1px solid rgb(var(--ink));
   }
 
-  header::after {
+  .doc-header::after {
     display: none;
   }
 }
@@ -195,7 +195,7 @@ html.vi-mode :focus-visible {
 }
 
 @media (max-width: 360px) {
-  header {
+  .doc-header {
     padding: 0 16px;
     gap: 12px;
   }

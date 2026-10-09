@@ -15,7 +15,6 @@ import FormatsSection from "../components/landing/FormatsSection.astro";
 import HeroSection from "../components/landing/HeroSection.astro";
 import LandingFooter from "../components/landing/LandingFooter.astro";
 import LandingHead from "../components/landing/LandingHead.astro";
-import LandingHeader from "../components/landing/LandingHeader.astro";
 import ReviewsSection from "../components/landing/ReviewsSection.astro";
 import SpheresSection from "../components/landing/SpheresSection.astro";
 import StartsStrip from "../components/landing/StartsStrip.astro";
@@ -24,11 +23,12 @@ import TopProgramsSection from "../components/landing/TopProgramsSection.astro";
 import WhyUsSection from "../components/landing/WhyUsSection.astro";
 import CookieBanner from "../components/CookieBanner.astro";
 import CrowLauncher from "../components/CrowLauncher.astro";
+import MainHeader from "../components/MainHeader.astro";
 import SkipLink from "../components/SkipLink.astro";
 import SupportBot from "../components/SupportBot.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { fetchLanding } from "../lib/landing";
-import { CATALOG_LINK_LABEL } from "../lib/nav";
+import { CATALOG_LINK_LABEL, LANDING_PATH } from "../lib/nav";
 
 const TITLE = "Повышение квалификации юристов — Центр ДПО НИУ ВШЭ";
 const DESCRIPTION =
@@ -44,7 +44,7 @@ if (!landing) {
   <LandingHead slot="head" landing={landing} />
   <SkipLink />
   <div class="dpo-scope scope-theme">
-    <LandingHeader />
+    <MainHeader current={LANDING_PATH} />
     <main id="main">
       <HeroSection />
       <SpheresSection cards={landing.spheres} branches={landing.branches} />
@@ -83,19 +83,15 @@ if (!landing) {
   import { setupDocumentTabs } from "../scripts/landing/document-tabs";
   import { revealEmails } from "../scripts/email-protect";
   import { setupGridFly } from "../scripts/landing/grid-fly";
-  import { setupHeaderState } from "../scripts/landing/header-state";
-  import { setupNavMenu } from "../scripts/landing/nav-menu";
   import { setupQuiz } from "../scripts/landing/quiz";
   import { setupReveal } from "../scripts/landing/reveal";
   import { setupTeamDialog } from "../scripts/landing/team-dialog";
 
-  setupHeaderState();
   setupAnchors();
   setupReveal();
   setupActiveNav();
   setupCovers();
   setupGridFly();
-  setupNavMenu();
   setupCarousels();
   setupTeamDialog();
   setupDocPreview();

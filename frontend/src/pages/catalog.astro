@@ -4,11 +4,11 @@ import "../styles/compare.css";
 import ApplicationForm from "../components/ApplicationForm.astro";
 import CookieBanner from "../components/CookieBanner.astro";
 import CrowLauncher from "../components/CrowLauncher.astro";
+import MainHeader from "../components/MainHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import SkipLink from "../components/SkipLink.astro";
 import SupportBot from "../components/SupportBot.astro";
 import CatalogHead from "../components/catalog/CatalogHead.astro";
-import CatalogHeader from "../components/catalog/CatalogHeader.astro";
 import CatalogHero from "../components/catalog/CatalogHero.astro";
 import FilterBar from "../components/catalog/FilterBar.astro";
 import ProgramCard from "../components/catalog/ProgramCard.astro";
@@ -16,6 +16,7 @@ import Toolbar from "../components/catalog/Toolbar.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { fetchCatalogPage } from "../lib/catalog";
 import { CATALOG_TITLE } from "../lib/catalog-meta";
+import { CATALOG_PATH } from "../lib/nav";
 
 
 const catalog = await fetchCatalogPage();
@@ -29,7 +30,7 @@ const description = `Каталог программ ДПО факультета
 <BaseLayout title={CATALOG_TITLE} description={description}>
   <CatalogHead slot="head" catalog={catalog} />
   <SkipLink />
-  <CatalogHeader />
+  <MainHeader current={CATALOG_PATH} />
   <CatalogHero />
   <FilterBar filters={filters} />
   <Toolbar totalLabel={catalog.total_label} />

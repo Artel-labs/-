@@ -4,15 +4,16 @@ import "../styles/announcements.css";
 import ApplicationForm from "../components/ApplicationForm.astro";
 import CookieBanner from "../components/CookieBanner.astro";
 import CrowLauncher from "../components/CrowLauncher.astro";
+import MainHeader from "../components/MainHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import SkipLink from "../components/SkipLink.astro";
 import SupportBot from "../components/SupportBot.astro";
 import AnnouncementsBoard from "../components/announcements/AnnouncementsBoard.astro";
 import AnnouncementsHead from "../components/announcements/AnnouncementsHead.astro";
 import AnnouncementsHero from "../components/announcements/AnnouncementsHero.astro";
-import CatalogHeader from "../components/catalog/CatalogHeader.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { fetchAnnouncementsPage } from "../lib/announcements";
+import { ANNOUNCEMENTS_PATH } from "../lib/nav";
 
 const TITLE = "Анонсы программ ДПО · Факультет права НИУ ВШЭ";
 const DESCRIPTION =
@@ -27,7 +28,7 @@ if (!page) {
 <BaseLayout title={TITLE} description={DESCRIPTION}>
   <AnnouncementsHead slot="head" page={page} title={TITLE} description={DESCRIPTION} />
   <SkipLink />
-  <CatalogHeader />
+  <MainHeader current={ANNOUNCEMENTS_PATH} />
   <AnnouncementsHero />
   <main id="main">
     <AnnouncementsBoard starts={page.starts} />

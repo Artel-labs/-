@@ -19,7 +19,7 @@
   content: ''; position: absolute; bottom: 0; left: var(--an-axis); margin-left: -8px;
   border-top: 18px solid rgb(var(--accent)); border-left: 8px solid transparent; border-right: 8px solid transparent;
 }
-.an-month{ scroll-margin-top: calc(var(--header-h) + 8px); padding-bottom: 28px; }
+.an-month{ scroll-margin-top: calc(var(--dpo-header-h, 110px) + 8px); padding-bottom: 28px; }
 .an-month-label{
   position: relative; margin: 0 0 14px;
   font-family: var(--font-sans); font-size: 1.0625rem; font-weight: 600; line-height: 1.3; color: rgb(var(--accent));

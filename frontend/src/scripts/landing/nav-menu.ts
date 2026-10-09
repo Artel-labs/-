@@ -1,7 +1,7 @@
 import { syncHeaderHeight } from "./header-state";
 import { attachPanelSwipe } from "./panel-swipe";
 
-const TRIGGER = "[aria-controls][aria-expanded]";
+const TRIGGER = ".dpo-header [aria-controls][aria-expanded]";
 const OPEN_CLASS = "is-open";
 const HIDE_DELAY_MS = 170;
 const MOBILE_PANEL_ID = "mobileMenuPanel";

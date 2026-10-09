@@ -145,9 +145,11 @@ test("application form asks who will study with the new option names", () => {
 });
 
 test("every catalog link in navigation is called the programme portfolio", async () => {
-  const { CATALOG_LINK_LABEL } = await import("./nav.ts");
+  const { CATALOG_LINK_LABEL, CATALOG_PATH, MAIN_NAV } = await import("./nav.ts");
   assert.equal(CATALOG_LINK_LABEL, "Портфель программ");
-  const sources = ["landing/LandingHeader.astro", "SiteHeader.astro", "../pages/index.astro"];
+  assert.deepEqual(MAIN_NAV[0], { label: CATALOG_LINK_LABEL, path: CATALOG_PATH });
+  assert.equal(CATALOG_PATH, "/catalog");
+  const sources = ["SiteHeader.astro", "../pages/index.astro"];
   for (const source of sources) {
     const text = visibleText(source);
     assert.doesNotMatch(text, /href="\/catalog">Программы</, source);
@@ -161,20 +163,21 @@ test("mobile action bar centres button labels when one of them wraps", () => {
 });
 
 test("top bar has no spheres dropdown on desktop or in the burger", () => {
-  const header = visibleText("landing/LandingHeader.astro");
+  const header = visibleText("MainHeader.astro");
   assert.doesNotMatch(header, /Сферы права|navProgramsPanel|mobileDirsList|MenuGrid/);
   assert.doesNotMatch(readFileSync(new URL("../scripts/landing/nav-menu.ts", import.meta.url), "utf8"), /dpo-nav-trigger|fillMobileDirs|pointerover/);
 });
 
-test("top bar links keep their full hit area when scrolled and while pressed", () => {
-  const css = readFileSync(new URL("../styles/landing.css", import.meta.url), "utf8");
+test("top bar links keep their full hit area when scrolled and while pressed", async () => {
+  const css = readFileSync(new URL("../styles/main-header.css", import.meta.url), "utf8");
   assert.match(css, /html\.dpo-scrolled \.dpo-capsule > a \{ padding: 8px 11px;/);
   assert.doesNotMatch(css, /html\.dpo-scrolled \.dpo-capsule > a \{ padding: 0;/);
   assert.match(css, /\.dpo-capsule > a\[href\]:active \{ transform: none; \}/);
   assert.match(css, /html\.dpo-scrolled \.dpo-capsule > a\[href\]:active \{ transform: translateY\(calc\(var\(--hdr-shift\) \/ -2\)\); \}/);
   assert.match(css, /\.dpo-capsule > a:active \.dpo-capsule-label \{ transform: scale\(0\.97\); \}/);
-  const header = visibleText("landing/LandingHeader.astro");
-  assert.equal((header.match(/<span class="dpo-capsule-label">/g) ?? []).length, 6);
+  const { MAIN_NAV } = await import("./nav.ts");
+  assert.equal(MAIN_NAV.length, 6);
+  assert.match(visibleText("MainHeader.astro"), /<span class="dpo-capsule-label">\{item\.label\}<\/span>/);
 });
 
 test("formats section opens with the new introduction", () => {

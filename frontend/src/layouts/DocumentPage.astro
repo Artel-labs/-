@@ -23,10 +23,11 @@ const { site, path, title, description, shareDescription, privacyLink = false } 
 <BaseLayout title={title} description={description}>
   <DocumentHead slot="head" site={site} path={path} title={title} shareDescription={shareDescription} />
   <SkipLink />
-  <DocumentHeader />
+  <slot name="header"><DocumentHeader /></slot>
   <main id="main">
     <slot />
   </main>
   <DocumentFooter privacyLink={privacyLink} />
   <CookieBanner />
+  <slot name="overlays" />
 </BaseLayout>

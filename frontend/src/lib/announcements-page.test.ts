@@ -53,10 +53,9 @@ test("announcements grid shows one, two and four cards per row", () => {
   assert.doesNotMatch(css, /\.vt-/);
 });
 
-test("announcements follow the catalog in every menu", () => {
-  const link = /href="\/catalog">(<span class="dpo-capsule-label">)?\{CATALOG_LINK_LABEL\}(<\/span>)?<\/a> <a href=\{ANNOUNCEMENTS_PATH\}>/;
-  const landing = visibleText("components/landing/LandingHeader.astro");
-  assert.equal(landing.match(new RegExp(link, "g"))?.length, 2);
+test("announcements follow the catalog in every menu", async () => {
+  const { MAIN_NAV } = await import("./nav.ts");
+  assert.deepEqual(MAIN_NAV[1], { label: ANNOUNCEMENTS_LINK_LABEL, path: ANNOUNCEMENTS_PATH });
   assert.match(
     visibleText("components/SiteHeader.astro"),
     /href="\/catalog">\{CATALOG_LINK_LABEL\}<\/a> <a class="nav-link" href=\{ANNOUNCEMENTS_PATH\}>\{ANNOUNCEMENTS_LINK_LABEL\}<\/a>/,
