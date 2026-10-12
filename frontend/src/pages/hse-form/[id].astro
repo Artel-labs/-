@@ -1,0 +1,25 @@
+---
+import "../../styles/hse-form.css";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { isFormId, widgetSrc } from "../../lib/hse-forms";
+
+const TITLE = "Форма НИУ ВШЭ";
+const id = Astro.params.id ?? "";
+if (!isFormId(id)) {
+  return new Response(null, { status: 404 });
+}
+const src = widgetSrc(Number(id));
+---
+
+<BaseLayout title={TITLE} description={TITLE} bodyClass="hse-form-page">
+  <meta slot="head" name="robots" content="noindex, nofollow" />
+  <main class="hse-form">
+    <script is:inline src={src}></script>
+  </main>
+</BaseLayout>
+
+<script>
+  import { reportFormSize } from "../../scripts/hse-form-frame";
+
+  reportFormSize();
+</script>

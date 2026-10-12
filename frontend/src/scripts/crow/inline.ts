@@ -1,8 +1,6 @@
 import type { AnimationName } from "./animations";
 import { CrowMascot } from "./mascot";
 
-const DONE_WIDTH = 140;
-const ERROR_WIDTH = 72;
 const EMPTY_WIDTH = 160;
 const VISIBLE_CLASS = "visible";
 
@@ -20,14 +18,6 @@ function mountInlineCrow(anchor: HTMLElement, { width, solo, animation }: Inline
   const crow = quietCrow(anchor, width, solo);
   crow.play(animation);
   return crow;
-}
-
-export function mountErrorCrow(anchor: HTMLElement): CrowMascot {
-  return quietCrow(anchor, ERROR_WIDTH, true);
-}
-
-export function mountDoneCrow(anchor: HTMLElement): CrowMascot {
-  return mountInlineCrow(anchor, { width: DONE_WIDTH, solo: true, animation: "jump" });
 }
 
 export function emptyCrowToggle(empty: HTMLElement): (isEmpty: boolean) => void {

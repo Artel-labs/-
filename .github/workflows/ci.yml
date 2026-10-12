@@ -136,6 +136,14 @@ jobs:
           curl -sSkI https://127.0.0.1:8443/privacy.html | grep -qi "^location: /privacy"
           test "$(curl -sSk -o /dev/null -w '%{http_code}' https://127.0.0.1:8443/no-such-page)" = "404"
           curl -sSk https://127.0.0.1:8443/no-such-page | grep -q "Такой страницы нет"
+      - name: Формы ВШЭ открываются на отдельной странице со своей политикой
+        run: |
+          form="https://127.0.0.1:8443/hse-form/856420964"
+          curl -sSkI "$form" | grep -qi "^content-security-policy: .*script-src 'self' 'unsafe-eval' https://www.hse.ru/n/"
+          curl -sSkI "$form" | grep -qi "^x-frame-options: SAMEORIGIN"
+          curl -fsSk "$form" | grep -q 'widgetPassExpressPoll/856420964.js'
+          test "$(curl -sSk -o /dev/null -w '%{http_code}' https://127.0.0.1:8443/hse-form/abc)" = "404"
+          ! curl -sSkI https://127.0.0.1:8443/ | grep -qi "unsafe-eval"
       - name: Знак ВШЭ в шапке каждой страницы
         run: |
           for page in / /catalog /announcements /programs/angliyskoe-kontraktnoe-pravo-856421092.html /ratings; do

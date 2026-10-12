@@ -11,7 +11,6 @@ const LINK_SOURCES = [
   "components/document/DocumentFooter.astro",
   "components/landing/LandingFooter.astro",
   "pages/404.astro",
-  "scripts/application/form.ts",
   "scripts/tg/form-screen.ts",
 ];
 

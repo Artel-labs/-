@@ -99,6 +99,12 @@ class Program(models.Model):
     notice_date = models.CharField("Объявление: дата", max_length=20, blank=True)
     notice_text = models.TextField("Объявление: текст", blank=True)
     notice_url = models.URLField("Объявление: ссылка", max_length=500, blank=True)
+    application_form_id = models.PositiveBigIntegerField(
+        "Форма заявки на hse.ru",
+        null=True,
+        blank=True,
+        help_text="Номер формы ВШЭ из окна «Подать заявку» на странице программы на hse.ru",
+    )
     created_at = models.DateTimeField("Создана", auto_now_add=True)
     updated_at = models.DateTimeField("Изменена", auto_now=True)
 

@@ -1,0 +1,22 @@
+html,body.hse-form-page{margin:0;background:rgb(var(--bg));overflow:hidden}
+.hse-form-page{font-family:var(--font-sans);color:rgb(var(--ink))}
+.hse-form{padding:2px 4px 8px}
+.hse-form .ep-preloader{min-height:40px}
+.hse-form .pass-express-poll{font-family:var(--font-sans);font-size:0.9375rem;line-height:1.45;color:rgb(var(--ink))}
+.hse-form .pass-express-poll__h1{display:none}
+.hse-form .pass-express-poll h2,.hse-form .pass-express-poll h3,.hse-form .pass-express-poll .h4{font-family:var(--font-sans);font-size:0.8125rem;font-weight:600;letter-spacing:.01em;line-height:1.4;margin:14px 0 6px;color:rgb(var(--ink))}
+.hse-form .pass-express-poll__top-indent-large{margin-top:0}
+.hse-form .pass-express-poll .el-input__inner,.hse-form .pass-express-poll .el-textarea__inner,.hse-form .pass-express-poll input[type=text],.hse-form .pass-express-poll input[type=tel],.hse-form .pass-express-poll input[type=email],.hse-form .pass-express-poll textarea{font:inherit;font-size:0.9375rem;height:auto;line-height:1.4;color:rgb(var(--ink));background:rgb(var(--surface));border:1px solid rgb(var(--ink) / .5);border-radius:10px;padding:11px 13px;width:100%;box-sizing:border-box;-webkit-appearance:none;appearance:none;box-shadow:none}
+.hse-form .pass-express-poll textarea{min-height:110px;resize:vertical}
+.hse-form .pass-express-poll .el-input__inner:focus,.hse-form .pass-express-poll textarea:focus{outline:none;border-color:rgb(var(--accent));box-shadow:0 0 0 3px rgb(var(--accent) / .18)}
+.hse-form .pass-express-poll .el-checkbox{display:flex;align-items:flex-start;gap:9px;margin:0;padding:4px 0;font-size:0.9375rem;line-height:1.4;white-space:normal;color:rgb(var(--ink));cursor:pointer}
+.hse-form .pass-express-poll .el-checkbox__label{padding:0;font-size:inherit;line-height:inherit;color:inherit;white-space:normal}
+.hse-form .pass-express-poll input[type=checkbox]{accent-color:rgb(var(--accent));width:17px;height:17px;margin:2px 0 0;flex:none}
+.hse-form .pass-express-poll__agree{font-size:0.8125rem;line-height:1.5;color:rgb(var(--ink-soft))}
+.hse-form .pass-express-poll a{color:rgb(var(--accent))}
+.hse-form .pass-express-poll__error{font-size:0.8125rem;line-height:1.4;color:rgb(var(--error))}
+.hse-form .pass-express-poll .el-button{margin-top:18px;width:100%;font:inherit;font-size:0.9375rem;font-weight:600;color:rgb(var(--surface));background:rgb(var(--accent));border:0;border-radius:999px;padding:14px 20px;cursor:pointer;transition:background .15s}
+.hse-form .pass-express-poll .el-button:hover{background:rgb(var(--accent-dark))}
+.hse-form .pass-express-poll .el-button:focus-visible{outline:3px solid rgb(var(--accent));outline-offset:2px}
+
+@media (prefers-reduced-motion:reduce){.hse-form .pass-express-poll .el-button{transition:none}}

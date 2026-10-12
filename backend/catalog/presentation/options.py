@@ -9,7 +9,14 @@ OTHER_PROGRAMS = "Другие программы"
 
 
 def option(program: Program, sphere: str) -> ProgramOptionOut:
-    return ProgramOptionOut(id=program.hse_id, title=program.title, url=f"/{program.path}", sphere=sphere)
+    return ProgramOptionOut(
+        id=program.hse_id,
+        title=program.title,
+        url=f"/{program.path}",
+        sphere=sphere,
+        form=program.application_form_id,
+        hse_url=program.hse_url,
+    )
 
 
 def application_options(programs: QuerySet[Program]) -> list[ProgramOptionOut]:

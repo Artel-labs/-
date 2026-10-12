@@ -217,6 +217,8 @@ class ProgramOptionOut(Schema):
     title: str
     url: str
     sphere: str
+    form: int | None
+    hse_url: str
 
 
 class SitemapEntryOut(Schema):

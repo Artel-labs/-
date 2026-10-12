@@ -29,6 +29,7 @@ SYNCED_FIELDS = (
     "notice_date",
     "notice_text",
     "notice_url",
+    "application_form_id",
 )
 
 
@@ -85,3 +86,4 @@ def apply_details(program: Program, details: ProgramDetails) -> None:
     program.notice_date = notice.date if notice else ""
     program.notice_text = notice.text if notice else ""
     program.notice_url = notice.url if notice else ""
+    program.application_form_id = details.application_form_id or program.application_form_id

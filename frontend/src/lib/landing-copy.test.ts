@@ -137,13 +137,6 @@ test("director card has no duties line", () => {
   assert.match(contacts, /Щеголькова Елена Олеговна/);
 });
 
-test("application form asks who will study with the new option names", () => {
-  const form = readFileSync(new URL("../scripts/application/form.ts", import.meta.url), "utf8");
-  assert.match(form, /"applicantType", "Кто будет обучаться"/);
-  assert.match(form, /\[PERSONAL, "Частное лицо"\]/);
-  assert.match(form, /\[CORPORATE, "Сотрудник организации"\]/);
-});
-
 test("every catalog link in navigation is called the programme portfolio", async () => {
   const { CATALOG_LINK_LABEL, CATALOG_PATH, MAIN_NAV } = await import("./nav.ts");
   assert.equal(CATALOG_LINK_LABEL, "Портфель программ");

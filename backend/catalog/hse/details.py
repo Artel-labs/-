@@ -22,6 +22,8 @@ ADMISSION_HEADING = re.compile(r"Документы для (?:приёма|об�
 CONTACT_NOISE = re.compile(r"@|телефон|адрес|переулок", re.I)
 DISCOUNT = re.compile(r"скидк", re.I)
 DISCOUNT_SENTENCE = re.compile(r"^\s*Скидк.{10,300}$", re.S)
+APPLICATION_FORM_SCRIPT = "#modal-application-content script[src]"
+FORM_NUMBER = re.compile(r"/widgetPassExpressPoll/(\d+)\.js")
 
 
 @dataclass(frozen=True)
@@ -86,6 +88,7 @@ class ProgramDetails:
     teachers: list[TeacherData] = field(default_factory=list)
     reviews: list[ReviewData] = field(default_factory=list)
     image_url: str = ""
+    application_form_id: int | None = None
 
 
 def text_of(node: Tag | None) -> str:
@@ -334,6 +337,12 @@ def lead(soup: BeautifulSoup) -> str:
     return text if len(text) > MIN_DESCRIPTION_LENGTH else ""
 
 
+def application_form_id(soup: BeautifulSoup) -> int | None:
+    script = soup.select_one(APPLICATION_FORM_SCRIPT)
+    found = FORM_NUMBER.search(str(script.get("src") or "")) if script else None
+    return int(found.group(1)) if found else None
+
+
 def parse_details(html: str) -> ProgramDetails:
     soup = BeautifulSoup(html.replace(MDASH_ENTITY, EN_DASH), "html.parser")
     intro, audience_items = audience(soup)
@@ -359,4 +368,5 @@ def parse_details(html: str) -> ProgramDetails:
         teachers=teachers(soup),
         reviews=reviews(soup),
         image_url=meta_content(soup, "og:image"),
+        application_form_id=application_form_id(soup),
     )

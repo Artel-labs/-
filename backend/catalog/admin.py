@@ -126,7 +126,10 @@ class ProgramAdmin(SyncLine, ModelAdmin):
                 "fields": ["title", "sphere", "position", "top_position", "is_published", "image"],
             },
         ),
-        ("Служебное", {"classes": ["dpo-tab-main", "dpo-service"], "fields": ["hse_url", *SERVICE_FIELDS]}),
+        (
+            "Служебное",
+            {"classes": ["dpo-tab-main", "dpo-service"], "fields": ["hse_url", "application_form_id", *SERVICE_FIELDS]},
+        ),
         (
             "Условия и цена",
             {
